@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>BGM 音樂抽屜｜JAZZ · CROONER · ROCK · SPORT · LO-FI</title>
+<title>musicetown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,600;0,700;1,600;1,700&family=EB+Garamond:wght@400;500&family=Noto+Serif+TC:wght@500;700;900&display=swap"
@@ -1552,7 +1552,7 @@ body:not(.detail-open) .site-head{
   box-shadow:0 46px 120px rgba(62,61,85,.16),inset 0 1px 0 rgba(255,255,255,.95)!important;
 }
 .welcome-card::before{
-  content:"MUSIC / CITY / MEMORY";
+  content:"MUSICETOWN / CITY / MEMORY";
   position:absolute;
   right:28px;top:28px;
   font:700 7px/1 var(--grotesk);
@@ -1748,6 +1748,823 @@ body:not(.detail-open) .site-head{
   }
 }
 
+
+/* =========================================================
+   R6 · Track Story + Realtime Caption Engine
+   ========================================================= */
+.track-story-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr);
+  gap:14px;
+  margin-top:16px;
+}
+.track-story,
+.caption-panel{
+  border:1px solid rgba(255,255,255,.84);
+  background:rgba(255,255,255,.58);
+  border-radius:22px;
+  padding:17px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.88);
+}
+.track-story-kicker,
+.caption-kicker{
+  font:700 8px/1 var(--grotesk);
+  letter-spacing:.16em;
+  color:var(--genre-accent);
+}
+.track-story h3{
+  margin:9px 0 0;
+  font:700 18px/1.25 var(--serif);
+  letter-spacing:-.015em;
+  color:var(--genre-ink);
+}
+.track-story p{
+  margin:10px 0 0;
+  font:400 12px/1.78 var(--serif);
+  color:var(--ink-soft);
+}
+.track-story-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:13px;
+}
+.track-story-meta span{
+  padding:6px 8px;
+  border-radius:999px;
+  border:1px solid rgba(62,61,85,.07);
+  background:rgba(255,255,255,.66);
+  font:700 7px/1 var(--grotesk);
+  letter-spacing:.07em;
+  color:var(--ink-soft);
+}
+
+.caption-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.caption-state{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font:700 7px/1 var(--grotesk);
+  letter-spacing:.10em;
+  color:var(--ink-soft);
+}
+.caption-state i{
+  width:6px;height:6px;border-radius:50%;
+  background:#b7b5c5;
+}
+.caption-state.live i{
+  background:var(--genre-accent);
+  box-shadow:0 0 0 5px var(--genre-accent-soft);
+  animation:capPulse 1.8s ease-in-out infinite;
+}
+@keyframes capPulse{50%{scale:1.16;opacity:.72}}
+
+.caption-now{
+  min-height:82px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  margin-top:14px;
+  padding:12px 14px;
+  border-radius:17px;
+  background:linear-gradient(145deg,rgba(255,255,255,.68),var(--genre-accent-soft));
+  border:1px solid rgba(62,61,85,.06);
+}
+.caption-now .prev,
+.caption-now .next{
+  font:500 9px/1.35 var(--grotesk);
+  color:rgba(62,61,85,.38);
+  min-height:13px;
+}
+.caption-now .current{
+  margin:7px 0;
+  font:700 16px/1.4 var(--serif);
+  color:var(--genre-ink);
+  text-wrap:balance;
+}
+.caption-progress{
+  position:relative;
+  height:3px;
+  border-radius:999px;
+  margin-top:12px;
+  background:rgba(62,61,85,.08);
+  overflow:hidden;
+}
+.caption-progress > i{
+  display:block;
+  width:0%;
+  height:100%;
+  border-radius:inherit;
+  background:var(--genre-accent);
+  transition:width .12s linear;
+}
+.caption-list{
+  margin-top:12px;
+  max-height:172px;
+  overflow:auto;
+  mask-image:linear-gradient(to bottom,transparent,#000 10%,#000 90%,transparent);
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 10%,#000 90%,transparent);
+  padding:10px 3px;
+}
+.caption-line{
+  padding:6px 8px;
+  border-radius:10px;
+  font:500 10px/1.5 var(--serif);
+  color:rgba(62,61,85,.44);
+  transition:background .18s ease,color .18s ease,transform .18s ease;
+}
+.caption-line.active{
+  color:var(--genre-ink);
+  background:var(--genre-accent-soft);
+  transform:translateX(2px);
+}
+.caption-empty{
+  padding:14px 2px 2px;
+  font:400 10px/1.65 var(--serif);
+  color:var(--ink-soft);
+}
+.caption-tools{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:12px;
+}
+.caption-tool{
+  height:34px;
+  padding:0 11px;
+  border-radius:999px;
+  border:1px solid rgba(62,61,85,.08);
+  background:rgba(255,255,255,.70);
+  color:var(--ink-soft);
+  cursor:pointer;
+  font:700 7px/1 var(--grotesk);
+  letter-spacing:.08em;
+}
+.caption-tool.primary{
+  background:var(--genre-accent);
+  color:#fff;
+  border-color:transparent;
+}
+.caption-file{display:none!important}
+.caption-note{
+  margin-top:9px;
+  font:500 7px/1.55 var(--grotesk);
+  color:rgba(62,61,85,.48);
+}
+.native-audio{
+  width:100%;
+  margin-top:14px;
+  height:42px;
+}
+.player-source-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:12px;
+}
+
+@media(max-width:760px){
+  .track-story-grid{grid-template-columns:1fr}
+  .caption-list{max-height:145px}
+  .caption-now .current{font-size:15px}
+}
+
+
+/* =========================================================
+   R6.1 · DETAIL DRAWER LOCK
+   The second page can only render the SAME homepage WebGL scene.
+   ========================================================= */
+#branchDrawerStage{
+  isolation:isolate;
+}
+.detail-scene-mount{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  overflow:hidden;
+  border-radius:inherit;
+  contain:layout paint;
+}
+.detail-open #detailSceneMount > #scene{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  max-width:none !important;
+  max-height:none !important;
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  transform:none !important;
+  z-index:1 !important;
+}
+
+/* Kill every legacy imitation in detail mode, even if an old rule recreates it. */
+.detail-open #branchDrawerStage .branch-box,
+.detail-open #branchDrawerStage .branch-card,
+.detail-open #branchDrawerStage > .fallback-drawer,
+.detail-open #branchDrawerStage > .fallback-card{
+  display:none !important;
+}
+
+/* Don't let global homepage scene sizing leak into detail page. */
+.detail-open #scene{
+  top:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  left:auto !important;
+  margin:0 !important;
+}
+
+/* Keep the shared drawer visually equivalent to homepage. */
+.detail-open #branchDrawerStage{
+  height:clamp(420px,50vw,540px) !important;
+  padding:0 !important;
+}
+.detail-open .branch-drawer-section{
+  padding:18px 18px 14px !important;
+}
+@media(max-width:900px){
+  .detail-open #branchDrawerStage{height:410px !important}
+}
+@media(max-width:640px){
+  .detail-open #branchDrawerStage{height:340px !important}
+}
+
+
+/* =========================================================
+   R6.2 · HEADER COLLISION FIX
+   Brand and category rail are now separate layout zones.
+   ========================================================= */
+
+/* Accessibility-only text must NEVER enter visual layout, even in embedded previews. */
+.sr-only,
+#cardKeys{
+  position:fixed !important;
+  width:1px !important;
+  height:1px !important;
+  min-width:1px !important;
+  min-height:1px !important;
+  margin:-1px !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  clip:rect(0 0 0 0) !important;
+  clip-path:inset(50%) !important;
+  white-space:nowrap !important;
+  border:0 !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  contain:strict !important;
+}
+
+/* Desktop: globe | brand | scrolling category rail */
+.site-head,
+body:not(.detail-open) .site-head,
+.detail-open .site-head{
+  display:grid !important;
+  grid-template-columns:34px max-content minmax(0,1fr) !important;
+  align-items:center !important;
+  column-gap:16px !important;
+  min-height:68px !important;
+  height:auto !important;
+  padding:
+    calc(13px + env(safe-area-inset-top,0px))
+    20px
+    11px !important;
+  background:rgba(247,250,254,.70) !important;
+  border-bottom:1px solid rgba(62,61,85,.065) !important;
+  -webkit-backdrop-filter:blur(20px) saturate(135%) !important;
+  backdrop-filter:blur(20px) saturate(135%) !important;
+  box-shadow:0 8px 28px rgba(68,69,95,.035) !important;
+}
+
+.site-head .logo{
+  grid-column:1 !important;
+  position:relative !important;
+  inset:auto !important;
+  width:30px !important;
+  height:30px !important;
+  align-self:center !important;
+}
+
+/* Critical fix: no more fixed centered title. */
+.site-head .brand-lockup,
+body:not(.detail-open) .brand-lockup,
+.detail-open .brand-lockup{
+  grid-column:2 !important;
+  position:static !important;
+  inset:auto !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+  transform:none !important;
+  translate:none !important;
+  display:block !important;
+  max-width:260px !important;
+  text-align:left !important;
+  white-space:nowrap !important;
+  opacity:1 !important;
+  pointer-events:none !important;
+}
+
+.site-head .brand-lockup b{
+  display:block !important;
+  font:700 10px/1.05 var(--grotesk) !important;
+  letter-spacing:.21em !important;
+  color:var(--genre-ink) !important;
+}
+
+.site-head .brand-lockup span{
+  display:block !important;
+  max-width:240px !important;
+  margin-top:5px !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  font:600 6.5px/1 var(--grotesk) !important;
+  letter-spacing:.18em !important;
+  color:var(--ink-soft) !important;
+}
+
+/* Category rail owns the remaining width; it can scroll instead of colliding. */
+.site-head .links.music-nav,
+body:not(.detail-open) .links.music-nav,
+.detail-open .links.music-nav{
+  grid-column:3 !important;
+  justify-self:stretch !important;
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  margin:0 !important;
+  display:flex !important;
+  justify-content:flex-end !important;
+  align-items:center !important;
+  gap:7px !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  padding:4px 5px 5px !important;
+  border-radius:999px !important;
+  scrollbar-width:none !important;
+  white-space:nowrap !important;
+}
+.site-head .links.music-nav::-webkit-scrollbar{display:none !important}
+
+.site-head .links.music-nav button{
+  flex:0 0 auto !important;
+  min-height:28px !important;
+  padding:0 8px !important;
+  font-size:8px !important;
+  letter-spacing:.075em !important;
+}
+
+/* Canvas/detail content starts below the now-stable header. */
+body:not(.detail-open) #scene{
+  inset:68px 0 78px 0 !important;
+  height:calc(100% - 146px) !important;
+}
+.detail{
+  padding-top:calc(94px + env(safe-area-inset-top,0px)) !important;
+}
+
+/* Medium widths: keep the brand, shorten metadata, let nav scroll. */
+@media(max-width:1180px){
+  .site-head,
+  body:not(.detail-open) .site-head,
+  .detail-open .site-head{
+    grid-template-columns:32px 148px minmax(0,1fr) !important;
+    column-gap:11px !important;
+    padding-left:15px !important;
+    padding-right:15px !important;
+  }
+  .site-head .brand-lockup{
+    display:block !important;
+    max-width:148px !important;
+  }
+  .site-head .brand-lockup span{
+    max-width:145px !important;
+    font-size:6px !important;
+  }
+  .site-head .links.music-nav{
+    justify-content:flex-start !important;
+  }
+}
+
+/* Tablet / narrow split-screen: two rows. Title has its own row, categories below. */
+@media(max-width:820px){
+  .site-head,
+  body:not(.detail-open) .site-head,
+  .detail-open .site-head{
+    grid-template-columns:32px minmax(0,1fr) !important;
+    grid-template-rows:32px 34px !important;
+    row-gap:7px !important;
+    column-gap:10px !important;
+    min-height:88px !important;
+    padding:
+      calc(9px + env(safe-area-inset-top,0px))
+      12px
+      8px !important;
+  }
+
+  .site-head .logo{grid-column:1 !important;grid-row:1 !important}
+
+  .site-head .brand-lockup,
+  body:not(.detail-open) .brand-lockup,
+  .detail-open .brand-lockup{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    display:block !important;
+    max-width:100% !important;
+    align-self:center !important;
+  }
+  .site-head .brand-lockup span{
+    max-width:calc(100vw - 82px) !important;
+  }
+
+  .site-head .links.music-nav,
+  body:not(.detail-open) .links.music-nav,
+  .detail-open .links.music-nav{
+    grid-column:1 / -1 !important;
+    grid-row:2 !important;
+    justify-content:flex-start !important;
+    width:100% !important;
+    border-radius:14px !important;
+    padding:3px 4px 4px !important;
+  }
+
+  body:not(.detail-open) #scene{
+    inset:91px 0 76px 0 !important;
+    height:calc(100% - 167px) !important;
+  }
+  .detail{
+    padding-top:calc(111px + env(safe-area-inset-top,0px)) !important;
+  }
+}
+
+/* Phone: retain title, hide only the long subtitle. */
+@media(max-width:520px){
+  .site-head .brand-lockup b{
+    font-size:9px !important;
+    letter-spacing:.17em !important;
+  }
+  .site-head .brand-lockup span{
+    display:none !important;
+  }
+  .site-head .links.music-nav button{
+    min-height:27px !important;
+    padding:0 7px !important;
+    font-size:7.5px !important;
+  }
+}
+
+
+/* =========================================================
+   R7 · LOCAL MP3 PLAYER
+   ========================================================= */
+.local-mp3-status{
+  display:flex;align-items:center;gap:8px;
+  margin-top:10px;padding:10px 12px;border-radius:14px;
+  border:1px solid rgba(62,61,85,.07);
+  background:rgba(255,255,255,.60);
+  font:600 9px/1.45 var(--grotesk);color:var(--ink-soft);
+}
+.local-mp3-status i{
+  width:7px;height:7px;border-radius:50%;flex:none;background:#b6b4c0;
+}
+.local-mp3-status.ready i{background:#74a489;box-shadow:0 0 0 5px rgba(116,164,137,.12)}
+.local-mp3-status.missing i{background:#c7968c;box-shadow:0 0 0 5px rgba(199,150,140,.12)}
+.local-mp3-status.loading i{background:var(--genre-accent);animation:capPulse 1.4s ease-in-out infinite}
+.local-player-controls{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin-top:10px;
+}
+.local-player-controls .group{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.local-control{
+  height:34px;min-width:34px;padding:0 11px;border:1px solid rgba(62,61,85,.08);
+  border-radius:999px;background:rgba(255,255,255,.72);color:var(--ink);
+  cursor:pointer;font:700 8px/1 var(--grotesk);letter-spacing:.06em;
+}
+.local-control.primary{background:var(--genre-accent);color:#fff;border-color:transparent}
+.local-control:hover{transform:translateY(-1px)}
+.local-path{
+  margin-top:9px;padding:8px 10px;border-radius:12px;
+  background:rgba(62,61,85,.045);
+  font:600 8px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;
+  color:var(--ink-soft);word-break:break-all;
+}
+.local-file-picker{display:none!important}
+.native-audio{
+  width:100%;height:44px;margin-top:14px;accent-color:var(--genre-accent);
+}
+.mp3-missing-card{
+  margin-top:12px;padding:14px;border-radius:18px;
+  background:rgba(199,150,140,.09);border:1px solid rgba(199,150,140,.18);
+}
+.mp3-missing-card b{display:block;font:700 12px/1.3 var(--serif);color:var(--ink)}
+.mp3-missing-card p{margin:7px 0 0;font:400 10px/1.6 var(--serif);color:var(--ink-soft)}
+
+
+/* =========================================================
+   musicetown R7.2
+   UI collision cleanup + interactive vinyl transport
+   ========================================================= */
+
+/* ---- containment: decorative color fields may never cover text ---- */
+.welcome-card,
+.music-hero,
+.branch-drawer-section,
+.music-panel,
+.player-card,
+.track-story,
+.caption-panel,
+#orderDock,
+.links.music-nav{
+  position:relative;
+  isolation:isolate;
+}
+
+.welcome-card::before,
+.music-hero::before,
+.music-hero::after,
+.branch-drawer-section::before,
+.music-panel::before,
+.player-card::before,
+.track-story::before,
+.caption-panel::before{
+  pointer-events:none !important;
+}
+
+/* Decorative layers always sit below content */
+.welcome-card > *,
+.music-hero > *,
+.branch-drawer-section > *,
+.music-panel > *,
+.player-card > *,
+.track-story > *,
+.caption-panel > *{
+  position:relative;
+  z-index:2;
+}
+
+/* Clip visual blobs to their own cards; no spill into adjacent content */
+.welcome-card,
+.branch-drawer-section,
+.music-panel,
+.player-card,
+.track-story,
+.caption-panel{
+  overflow:hidden;
+}
+
+/* Hero used to lose content when overflow-hidden was globally applied.
+   Keep it visually contained with pseudo layers only. */
+.music-hero{
+  overflow:visible;
+}
+
+/* Prevent chips / metadata from laying over each other */
+.music-meta,
+.track-story-meta,
+.player-links,
+.caption-tools,
+.local-player-controls .group,
+.order-scroll{
+  min-width:0;
+}
+.music-meta,
+.track-story-meta,
+.player-links,
+.caption-tools{
+  align-items:center;
+}
+.music-chip,
+.track-story-meta span,
+.player-link,
+.caption-tool,
+.local-control{
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* Track row text may shrink instead of pushing the right side out */
+.track-row > div:nth-child(2),
+.track-name,
+.track-note{
+  min-width:0;
+}
+.track-name,
+.track-note{
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.track-name{white-space:nowrap}
+.track-note{white-space:nowrap}
+
+/* Header collision hardening */
+.site-head{
+  isolation:isolate;
+}
+.site-head .brand-lockup,
+.site-head .links.music-nav{
+  min-width:0 !important;
+}
+.site-head .links.music-nav{
+  overscroll-behavior-x:contain;
+}
+.site-head .brand-lockup b{
+  text-transform:none !important;
+}
+
+/* ---- player deck ---- */
+.musicetown-deck{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:minmax(220px,310px) minmax(0,1fr);
+  gap:18px;
+  align-items:center;
+  padding:18px;
+  border-radius:24px;
+  background:
+    linear-gradient(145deg,rgba(224,226,233,.90),rgba(200,203,212,.76));
+  border:1px solid rgba(255,255,255,.72);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.88),
+    inset 0 -20px 50px rgba(62,61,85,.05),
+    0 18px 44px rgba(52,54,77,.09);
+  overflow:hidden;
+  isolation:isolate;
+}
+.musicetown-deck::before{
+  content:"";
+  position:absolute;
+  inset:-20% 42% 58% -6%;
+  z-index:0;
+  background:radial-gradient(circle,rgba(255,255,255,.72),transparent 66%);
+  pointer-events:none;
+}
+.musicetown-deck > *{position:relative;z-index:1}
+
+.vinyl-wrap{
+  display:grid;
+  place-items:center;
+  min-height:276px;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:none;
+}
+.vinyl{
+  --vinyl:#111111;
+  position:relative;
+  width:min(252px,72vw);
+  aspect-ratio:1;
+  border:0;
+  border-radius:50%;
+  cursor:grab;
+  touch-action:none;
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      rgba(255,255,255,.09) 0 1px,
+      rgba(0,0,0,.08) 1px 3px,
+      transparent 3px 6px),
+    radial-gradient(circle at 50% 50%,
+      rgba(255,255,255,.14) 0 4%,
+      rgba(255,255,255,.02) 4.2% 18%,
+      transparent 18.2% 100%),
+    var(--vinyl);
+  box-shadow:
+    0 30px 48px rgba(35,36,50,.24),
+    inset 0 0 0 1px rgba(255,255,255,.15),
+    inset 0 0 40px rgba(0,0,0,.18);
+  transform:rotate(var(--record-angle,0deg));
+  will-change:transform;
+  outline:none;
+}
+.vinyl:active{cursor:grabbing}
+.vinyl::before{
+  content:"";
+  position:absolute;
+  inset:42%;
+  border-radius:50%;
+  background:
+    radial-gradient(circle,#f8f8f4 0 9%,transparent 10%),
+    radial-gradient(circle at 35% 30%,rgba(255,255,255,.76),rgba(255,255,255,.12) 42%,rgba(0,0,0,.08) 43% 100%),
+    color-mix(in srgb,var(--vinyl) 68%,white);
+  box-shadow:0 0 0 1px rgba(255,255,255,.18);
+}
+.vinyl::after{
+  content:"musicetown";
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%) rotate(-18deg);
+  width:31%;
+  text-align:center;
+  color:rgba(35,36,49,.76);
+  font:700 8px/1 var(--grotesk);
+  letter-spacing:.08em;
+  text-transform:lowercase;
+  pointer-events:none;
+}
+.vinyl-gloss{
+  position:absolute;
+  inset:8%;
+  border-radius:50%;
+  pointer-events:none;
+  background:
+    linear-gradient(120deg,rgba(255,255,255,.34),transparent 28% 65%,rgba(255,255,255,.12));
+  mix-blend-mode:screen;
+  opacity:.42;
+}
+.vinyl-center-dot{
+  position:absolute;
+  left:50%;top:50%;
+  width:5px;height:5px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:#222;
+  z-index:4;
+  pointer-events:none;
+}
+
+.vinyl.dragging{
+  box-shadow:
+    0 34px 56px rgba(35,36,50,.29),
+    0 0 0 6px rgba(255,255,255,.16),
+    inset 0 0 0 1px rgba(255,255,255,.17),
+    inset 0 0 40px rgba(0,0,0,.18);
+}
+
+.deck-info{
+  min-width:0;
+}
+.deck-eyebrow{
+  font:700 8px/1 var(--grotesk);
+  letter-spacing:.16em;
+  color:var(--genre-accent);
+}
+.deck-title{
+  margin-top:9px;
+  font:700 clamp(24px,4vw,38px)/1.02 var(--serif);
+  letter-spacing:-.035em;
+  color:var(--genre-ink);
+  overflow-wrap:anywhere;
+}
+.deck-artist{
+  margin-top:7px;
+  font:600 9px/1.45 var(--grotesk);
+  letter-spacing:.06em;
+  color:var(--ink-soft);
+}
+.deck-time{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:14px;
+  font:700 8px/1 var(--grotesk);
+  color:var(--ink-soft);
+}
+.deck-seek{
+  width:100%;
+  margin-top:7px;
+  accent-color:var(--genre-accent);
+}
+.deck-help{
+  margin-top:10px;
+  font:500 8px/1.55 var(--grotesk);
+  color:rgba(62,61,85,.54);
+}
+.deck-help b{color:var(--genre-ink)}
+
+@media(max-width:760px){
+  .musicetown-deck{
+    grid-template-columns:1fr;
+    padding:15px;
+  }
+  .vinyl-wrap{min-height:236px}
+  .vinyl{width:min(214px,64vw)}
+  .deck-info{text-align:center}
+}
+
+/* Dark vinyl still needs visible grooves */
+.vinyl[data-dark="true"]{
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      rgba(255,255,255,.075) 0 1px,
+      rgba(0,0,0,.20) 1px 3px,
+      transparent 3px 6px),
+    radial-gradient(circle at 50% 50%,
+      rgba(255,255,255,.08) 0 4%,
+      rgba(255,255,255,.01) 4.2% 18%,
+      transparent 18.2% 100%),
+    var(--vinyl);
+}
+
 </style>
 <script>document.documentElement.classList.add('js-boot');</script>
 </head>
@@ -1756,7 +2573,7 @@ body:not(.detail-open) .site-head{
 <div id="welcome" aria-modal="true" role="dialog" aria-labelledby="welcomeTitle">
   <div class="welcome-card">
     <div class="welcome-mark">
-      <span>CITY SOUND ARCHIVE · R3</span>
+      <span>musicetown · R3</span>
       <i class="welcome-pulse"></i>
     </div>
     <h1 id="welcomeTitle">今晚，想進哪座城市？</h1>
@@ -1810,7 +2627,7 @@ body:not(.detail-open) .site-head{
 
 
 <div id="homeHud" aria-hidden="true">
-  <div class="home-hud-kicker" id="homeHudKicker">VOCAL MUSIC ARCHIVE</div>
+  <div class="home-hud-kicker" id="homeHudKicker">musicetown</div>
   <div class="home-hud-title" id="homeHudTitle">JAZZ</div>
   <div class="home-hud-copy" id="homeHudCopy">Hover or tap a drawer card. Each drawer opens a 50-track vocal world.</div>
   <div class="home-hud-meta">
@@ -1837,7 +2654,7 @@ body:not(.detail-open) .site-head{
 </div>
 
 
-<canvas id="scene" role="img" aria-label="玻璃音樂抽屜：Jazz、Crooner、Rock、Sport、Lo-Fi、Tapiei Style、Old Tokyo、Splendor Shanghai"></canvas>
+<canvas id="scene" role="img" aria-label="3D 城市音樂抽屜，共八個音樂分類"></canvas>
 <div class="sr-only" id="cardKeys"></div>
 
 <header class="site-head">
@@ -1845,7 +2662,7 @@ body:not(.detail-open) .site-head{
     <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17"></circle><path id="gm"></path><path id="ge"></path></svg>
   </button>
   <div class="brand-lockup">
-    <b>CITY SOUND ARCHIVE</b>
+    <b>musicetown</b>
     <span>8 DRAWERS · 400 TRACKS · CITY / VOCAL / CC0-FIRST</span>
   </div>
   <nav class="links music-nav" aria-label="音樂分類">
@@ -1882,7 +2699,7 @@ body:not(.detail-open) .site-head{
         <span id="drawerPoolMeta">50-TRACK POOL · RANDOM 5</span>
       </div>
       <div class="branch-drawer-stage" id="branchDrawerStage">
-        <div class="branch-box"></div>
+        <div id="detailSceneMount" class="detail-scene-mount" aria-label="3D 音樂抽屜"></div>
         <div class="webgl-drawer-hint">HOVER / TAP A CARD TO PLAY</div>
       </div>
       <div class="branch-actions">
@@ -1953,8 +2770,8 @@ body:not(.detail-open) .site-head{
 </div>
 
 <footer class="site-foot">
-  <span style="--d:1.42s">CITY SOUND ARCHIVE · 8×50</span>
-  <span style="--d:1.5s">2026 | CITY SOUND ARCHIVE R5<i class="sq"></i></span>
+  <span style="--d:1.42s">musicetown · LOCAL MP3 · 8×50</span>
+  <span style="--d:1.5s">2026 | musicetown R5<i class="sq"></i></span>
 </footer>
 <p class="nogl" id="nogl" hidden>這個瀏覽器無法顯示 3D 收納盒，請用上方導覽列瀏覽各頁。</p>
 
@@ -1963,7 +2780,7 @@ body:not(.detail-open) .site-head{
   <div class="player-card" role="dialog" aria-modal="true" aria-labelledby="playerTitle">
     <div class="player-head">
       <div>
-        <div class="player-eyebrow">CC0 VOCAL PLAYER</div>
+        <div class="player-eyebrow">musicetown · VINYL PLAYER · SUBTITLES</div>
         <div class="player-title" id="playerTitle">Track</div>
         <div class="player-artist" id="playerArtist">Artist</div>
       </div>
@@ -1974,12 +2791,13 @@ body:not(.detail-open) .site-head{
   </div>
 </div>
 
+<script src="catalog.js"></script>
 <script>
 (() => {
 'use strict';
 
 /* ================= content ================= */
-const DATA = [{"t":"JAZZ","sub":"偏人聲、夜色、爵士／blues／acapella 的選曲。點歌曲可播放可嵌入的 CC0 來源，或開啟原始 CC0 頁面。","bpm":"Vocal-first","key":"Jazz · Blues · Lounge · Acapella","meters":[["VOCAL",100],["ELEGANCE",92],["NIGHT",88],["ENERGY",48]],"tracks":[{"title":"nouvelle vague.","artist":"oji","vibe":"Jazz Vocal · French Lounge","source":"https://freemusicarchive.org/music/oji/single/nouvelle-vague/","license":"CC0","embed":null},{"title":"Windy Dazed Days (ALIENBOYYYMUSIC)","artist":"22","vibe":"Jazz Vocal · Trip-Hop","source":"https://freemusicarchive.org/music/22/single/windy-dazed-days-alienboyyymusic/","license":"CC0","embed":null},{"title":"Your Nature","artist":"HoliznaCC0","vibe":"Acapella · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/mouth-music","license":"CC0","embed":null},{"title":"Won't Need Money Where I'm Going","artist":"HoliznaCC0","vibe":"Acapella · Blues Vocal","source":"https://freemusicarchive.org/music/holiznacc0/mouth-music","license":"CC0","embed":null},{"title":"Eden","artist":"HoliznaCC0","vibe":"Acapella · Soul Vocal","source":"https://freemusicarchive.org/music/holiznacc0/mouth-music","license":"CC0","embed":null},{"title":"Garden Eyes","artist":"HoliznaCC0","vibe":"Acapella · Lo-fi Vocal","source":"https://freemusicarchive.org/music/holiznacc0/mouth-music","license":"CC0","embed":null},{"title":"Georgia","artist":"HoliznaCC0","vibe":"Americana · Jazz-adjacent","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Stoned Memories","artist":"HoliznaCC0","vibe":"Lo-fi Rock · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Hard To Love","artist":"HoliznaCC0","vibe":"Soul · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Sing of the Life of Love","artist":"Bob A. Feldman","vibe":"Folk Vocal · Warm","source":"https://nullrights.com/track/euprupk1y6","license":"CC0","embed":"euprupk1y6"},{"title":"Velvet Vocal · Discovery 11","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Velvet%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Midnight Brush · Discovery 12","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Midnight%20Brush%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Blue Room · Discovery 13","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Blue%20Room%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"After Hours · Discovery 14","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20After%20Hours%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Smoky Piano · Discovery 15","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Smoky%20Piano%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Sunday Swing · Discovery 16","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Sunday%20Swing%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Slow Brass · Discovery 17","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Slow%20Brass%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Rainy Standard · Discovery 18","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Rainy%20Standard%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Cafe Vocal · Discovery 19","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Cafe%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Old Tape Jazz · Discovery 20","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Old%20Tape%20Jazz%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Soft Scat · Discovery 21","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Soft%20Scat%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Piano & Voice · Discovery 22","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Piano%20&%20Voice%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Moonlit Quartet · Discovery 23","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Moonlit%20Quartet%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Warm Upright · Discovery 24","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Warm%20Upright%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Late Check-out · Discovery 25","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Late%20Check-out%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Paris Lounge · Discovery 26","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Paris%20Lounge%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Low Light Blues · Discovery 27","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Low%20Light%20Blues%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Cocktail Hour · Discovery 28","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Cocktail%20Hour%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Soft Horns · Discovery 29","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Soft%20Horns%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Basement Session · Discovery 30","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Basement%20Session%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Vinyl Swing · Discovery 31","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Vinyl%20Swing%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Night Train · Discovery 32","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Night%20Train%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Quiet Club · Discovery 33","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Quiet%20Club%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"City Lights · Discovery 34","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20City%20Lights%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Slow Shuffle · Discovery 35","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Slow%20Shuffle%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Tender Standard · Discovery 36","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Tender%20Standard%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Blue Velvet · Discovery 37","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Blue%20Velvet%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Acoustic Lounge · Discovery 38","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Acoustic%20Lounge%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Dusk Vocal · Discovery 39","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Dusk%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Downtown Jazz · Discovery 40","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Downtown%20Jazz%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Whispered Swing · Discovery 41","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Whispered%20Swing%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Soft Bebop · Discovery 42","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Soft%20Bebop%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Room 205 · Discovery 43","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Room%20205%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Gentle Brass · Discovery 44","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Gentle%20Brass%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Silk & Smoke · Discovery 45","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Silk%20&%20Smoke%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Lobby Jazz · Discovery 46","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Lobby%20Jazz%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Low Tempo Blues · Discovery 47","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Low%20Tempo%20Blues%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Window Seat · Discovery 48","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Window%20Seat%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Classic Night · Discovery 49","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Classic%20Night%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Golden Hour Jazz · Discovery 50","artist":"CC0 Live","vibe":"JAZZ · Vocal · Discovery","source":"https://nullrights.com/search?q=JAZZ%20vocal%20Golden%20Hour%20Jazz%20CC0","license":"CC0 LIVE","embed":null,"discovery":true}]},{"t":"CROONER","sub":"不是仿 Sinatra 聲線，而是偏男／女聲、Soul、Pop、lounge 的人聲氛圍；適合精品網站、夜間頁面與慢節奏敘事。","bpm":"72–108 BPM","key":"Vocal · Soul · Lounge · Pop","meters":[["VOCAL",100],["ELEGANCE",95],["ROMANCE",86],["ENERGY",52]],"tracks":[{"title":"Lie To Me","artist":"SUPERARE","vibe":"Soul-R&B · Vocal","source":"https://freemusicarchive.org/index.php/music/superare/fatal-1","license":"CC0","embed":null},{"title":"Cure","artist":"SUPERARE","vibe":"Soul-R&B · Vocal","source":"https://freemusicarchive.org/index.php/music/superare/fatal-1","license":"CC0","embed":null},{"title":"Just A Little Bit More","artist":"SUPERARE","vibe":"Soul Pop · Vocal","source":"https://freemusicarchive.org/index.php/music/superare/fatal-1","license":"CC0","embed":null},{"title":"You're My Everything","artist":"SUPERARE","vibe":"Romantic Soul · Vocal","source":"https://freemusicarchive.org/index.php/music/superare/fatal-1","license":"CC0","embed":null},{"title":"Birthday","artist":"SUPERARE","vibe":"Pop Soul · Vocal","source":"https://freemusicarchive.org/index.php/music/superare/fatal-1","license":"CC0","embed":null},{"title":"Make You Happy","artist":"SUPERARE","vibe":"Warm Soul · Vocal","source":"https://freemusicarchive.org/index.php/music/superare/fatal-1","license":"CC0","embed":null},{"title":"Mama Afriqa","artist":"Tadz","vibe":"Afrobeat · Vocal","source":"https://freemusicarchive.org/music/tadz/the-motherland","license":"CC0","embed":null},{"title":"Take Your Time","artist":"Tadz","vibe":"Pop Soul · Vocal","source":"https://freemusicarchive.org/music/tadz/the-motherland","license":"CC0","embed":null},{"title":"You (I Just Wanna)","artist":"Tadz","vibe":"R&B · Vocal","source":"https://freemusicarchive.org/music/tadz/the-motherland","license":"CC0","embed":null},{"title":"Rose Petals & Candles","artist":"Tadz","vibe":"Romantic Soul · Vocal","source":"https://freemusicarchive.org/music/tadz/the-motherland","license":"CC0","embed":null},{"title":"Velvet Baritone · Discovery 11","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Velvet%20Baritone%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Late Night Croon · Discovery 12","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Late%20Night%20Croon%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Champagne Room · Discovery 13","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Champagne%20Room%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Old Hotel · Discovery 14","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Old%20Hotel%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Soft Spotlight · Discovery 15","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Soft%20Spotlight%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Dinner Jacket · Discovery 16","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Dinner%20Jacket%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Slow Dance · Discovery 17","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Slow%20Dance%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Lounge Voice · Discovery 18","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Lounge%20Voice%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Warm Brass Vocal · Discovery 19","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Warm%20Brass%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"City Romance · Discovery 20","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20City%20Romance%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Candlelight Pop · Discovery 21","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Candlelight%20Pop%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Midnight Singer · Discovery 22","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Midnight%20Singer%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Blue Suit · Discovery 23","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Blue%20Suit%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Quiet Ballroom · Discovery 24","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Quiet%20Ballroom%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Vintage Microphone · Discovery 25","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Vintage%20Microphone%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"After Dinner · Discovery 26","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20After%20Dinner%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Soft Soul · Discovery 27","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Soft%20Soul%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Hotel Lobby · Discovery 28","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Hotel%20Lobby%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Moonlight Vocal · Discovery 29","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Moonlight%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Cocktail Voice · Discovery 30","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Cocktail%20Voice%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Golden Croon · Discovery 31","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Golden%20Croon%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Warm Tape · Discovery 32","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Warm%20Tape%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Velvet Soul · Discovery 33","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Velvet%20Soul%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Night Drive Vocal · Discovery 34","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Night%20Drive%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Slow Brass Pop · Discovery 35","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Slow%20Brass%20Pop%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Classic Lounge · Discovery 36","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Classic%20Lounge%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Tender Baritone · Discovery 37","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Tender%20Baritone%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Romantic Standard · Discovery 38","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Romantic%20Standard%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Soft Stage · Discovery 39","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Soft%20Stage%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Smoky Soul · Discovery 40","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Smoky%20Soul%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Quiet Champagne · Discovery 41","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Quiet%20Champagne%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Deep Voice Lounge · Discovery 42","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Deep%20Voice%20Lounge%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Evening Pop · Discovery 43","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Evening%20Pop%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Silk Vocal · Discovery 44","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Silk%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Neon Romance · Discovery 45","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Neon%20Romance%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Low Light Singer · Discovery 46","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Low%20Light%20Singer%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Classic Pop Vocal · Discovery 47","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Classic%20Pop%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Sunday Crooner · Discovery 48","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Sunday%20Crooner%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Warm Room · Discovery 49","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Warm%20Room%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Last Call · Discovery 50","artist":"CC0 Live","vibe":"CROONER · Vocal · Discovery","source":"https://nullrights.com/search?q=CROONER%20vocal%20Last%20Call%20CC0","license":"CC0 LIVE","embed":null,"discovery":true}]},{"t":"ROCK","sub":"偏 blues rock、Americana、indie、punk／metal 的人聲方向；點擊後可看來源與 CC0 狀態。","bpm":"90–165 BPM","key":"Rock · Punk · Blues · Vocal","meters":[["VOCAL",100],["GUITAR",94],["IMPACT",92],["ENERGY",88]],"tracks":[{"title":"Foggy Minded World","artist":"HoliznaCC0","vibe":"Americana Rock · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2","license":"CC0","embed":null},{"title":"Dear Old Dad","artist":"HoliznaCC0","vibe":"Americana · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2","license":"CC0","embed":null},{"title":"White Trash Blues","artist":"HoliznaCC0","vibe":"Blues Rock · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2","license":"CC0","embed":null},{"title":"Sweetheart","artist":"HoliznaCC0","vibe":"Roots Rock · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2","license":"CC0","embed":null},{"title":"Gloria Morning","artist":"HoliznaCC0","vibe":"Indie Rock · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2","license":"CC0","embed":null},{"title":"Oh Little Brother","artist":"HoliznaCC0","vibe":"Americana Rock · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2","license":"CC0","embed":null},{"title":"Ballad Of Ishmael","artist":"HoliznaCC0","vibe":"Ballad Rock · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2","license":"CC0","embed":null},{"title":"Baisse pas la tête","artist":"Stenifer","vibe":"Post-Punk · Vocal","source":"https://nullrights.com/track/jwn7xrzq1s","license":"CC0","embed":"jwn7xrzq1s"},{"title":"Bravery Demon","artist":"MintoDog","vibe":"Punk / Metal · Vocal","source":"https://nullrights.com/track/aud8c99prl","license":"CC0","embed":"aud8c99prl"},{"title":"Bravery Vampire","artist":"MintoDog","vibe":"Rock / Punk · Vocal","source":"https://nullrights.com/track/6hdglern2k","license":"CC0","embed":"6hdglern2k"},{"title":"Garage Vocal · Discovery 11","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Garage%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Dirty Blues · Discovery 12","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Dirty%20Blues%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Roadhouse · Discovery 13","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Roadhouse%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Indie Grit · Discovery 14","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Indie%20Grit%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Midnight Guitar · Discovery 15","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Midnight%20Guitar%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Raw Chorus · Discovery 16","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Raw%20Chorus%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Americana Drive · Discovery 17","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Americana%20Drive%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Dusty Amp · Discovery 18","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Dusty%20Amp%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Basement Rock · Discovery 19","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Basement%20Rock%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Slow Burn · Discovery 20","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Slow%20Burn%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Crunch Vocal · Discovery 21","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Crunch%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Dark Highway · Discovery 22","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Dark%20Highway%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Roots Rock · Discovery 23","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Roots%20Rock%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Broken Speaker · Discovery 24","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Broken%20Speaker%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Barroom Blues · Discovery 25","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Barroom%20Blues%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Leather Jacket · Discovery 26","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Leather%20Jacket%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Alt Rock Voice · Discovery 27","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Alt%20Rock%20Voice%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Desert Guitar · Discovery 28","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Desert%20Guitar%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Live Room · Discovery 29","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Live%20Room%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Overdrive Vocal · Discovery 30","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Overdrive%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Backroad · Discovery 31","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Backroad%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Rust & Strings · Discovery 32","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Rust%20&%20Strings%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Punk Lite · Discovery 33","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Punk%20Lite%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Heavy Chorus · Discovery 34","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Heavy%20Chorus%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Vintage Amp · Discovery 35","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Vintage%20Amp%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Road Trip Rock · Discovery 36","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Road%20Trip%20Rock%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Loose Drums · Discovery 37","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Loose%20Drums%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Grit Pop · Discovery 38","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Grit%20Pop%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Dark Indie · Discovery 39","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Dark%20Indie%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Storm Guitar · Discovery 40","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Storm%20Guitar%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Blues Drive · Discovery 41","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Blues%20Drive%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Old Van · Discovery 42","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Old%20Van%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Raw Melody · Discovery 43","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Raw%20Melody%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Fast Garage · Discovery 44","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Fast%20Garage%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Dirty Tape · Discovery 45","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Dirty%20Tape%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Southern Vocal · Discovery 46","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Southern%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Electric Roots · Discovery 47","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Electric%20Roots%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Night Rock · Discovery 48","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Night%20Rock%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Open Road · Discovery 49","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Open%20Road%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Small Club · Discovery 50","artist":"CC0 Live","vibe":"ROCK · Vocal · Discovery","source":"https://nullrights.com/search?q=ROCK%20vocal%20Small%20Club%20CC0","license":"CC0 LIVE","embed":null,"discovery":true}]},{"t":"SPORT","sub":"有主唱／vocal 元素、節拍與推進感強，適合運動、跑步、登場、訓練、倒數與高動能版面。","bpm":"105–170 BPM","key":"Hype · Vocal · Motion · Energy","meters":[["VOCAL",100],["ENERGY",100],["IMPACT",97],["MOTION",96]],"tracks":[{"title":"Summer High","artist":"SUPERARE","vibe":"Upbeat Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ix","license":"CC0","embed":null},{"title":"Bikinis & Swimshorts","artist":"SUPERARE","vibe":"Summer Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ix","license":"CC0","embed":null},{"title":"Summer Song","artist":"SUPERARE","vibe":"Upbeat Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ix","license":"CC0","embed":null},{"title":"Splish Splash","artist":"SUPERARE","vibe":"Fast Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ix","license":"CC0","embed":null},{"title":"Sunday","artist":"SUPERARE","vibe":"Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ix","license":"CC0","embed":null},{"title":"Hey Friends","artist":"SUPERARE","vibe":"Hype Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ix","license":"CC0","embed":null},{"title":"2K22","artist":"SUPERARE","vibe":"Modern Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ix","license":"CC0","embed":null},{"title":"The End - Day 30","artist":"Zane Little Music","vibe":"Electronic Metal · Vocal","source":"https://nullrights.com/track/4vtiesno4u","license":"CC0","embed":"4vtiesno4u"},{"title":"brute force loop","artist":"vitalezzz","vibe":"Synthwave · Vocal","source":"https://nullrights.com/track/9wpskpn722","license":"CC0","embed":"9wpskpn722"},{"title":"Wicked beast","artist":"tricksntraps","vibe":"Dubstep · Vocal","source":"https://nullrights.com/track/qllv8kwa3p","license":"CC0","embed":"qllv8kwa3p"},{"title":"Sprint Vocal · Discovery 11","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Sprint%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Stadium Hook · Discovery 12","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Stadium%20Hook%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Training Hype · Discovery 13","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Training%20Hype%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Final Lap · Discovery 14","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Final%20Lap%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Power Chorus · Discovery 15","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Power%20Chorus%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Run Club · Discovery 16","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Run%20Club%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Warm-up Voice · Discovery 17","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Warm-up%20Voice%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Arena Pop · Discovery 18","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Arena%20Pop%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Victory Hook · Discovery 19","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Victory%20Hook%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Fast Motion · Discovery 20","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Fast%20Motion%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Cardio Vocal · Discovery 21","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Cardio%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Race Start · Discovery 22","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Race%20Start%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"High Energy Pop · Discovery 23","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20High%20Energy%20Pop%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Workout Rock · Discovery 24","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Workout%20Rock%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Push Hard · Discovery 25","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Push%20Hard%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"PR Day · Discovery 26","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20PR%20Day%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Interval Hype · Discovery 27","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Interval%20Hype%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Gym Anthem · Discovery 28","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Gym%20Anthem%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Finish Line · Discovery 29","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Finish%20Line%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Fast Electronic Vocal · Discovery 30","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Fast%20Electronic%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Climb Mode · Discovery 31","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Climb%20Mode%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Team Entrance · Discovery 32","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Team%20Entrance%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Strong Beat · Discovery 33","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Strong%20Beat%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Peak Energy · Discovery 34","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Peak%20Energy%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Kickoff · Discovery 35","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Kickoff%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Rapid Hook · Discovery 36","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Rapid%20Hook%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Power Pop · Discovery 37","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Power%20Pop%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"HIIT Vocal · Discovery 38","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20HIIT%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Drive Forward · Discovery 39","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Drive%20Forward%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Momentum · Discovery 40","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Momentum%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Fast Chorus · Discovery 41","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Fast%20Chorus%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Athlete Mode · Discovery 42","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Athlete%20Mode%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Stadium Lights · Discovery 43","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Stadium%20Lights%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Last Rep · Discovery 44","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Last%20Rep%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Acceleration · Discovery 45","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Acceleration%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Run Faster · Discovery 46","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Run%20Faster%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Training Day · Discovery 47","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Training%20Day%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Upbeat Voice · Discovery 48","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Upbeat%20Voice%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Push Tempo · Discovery 49","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Push%20Tempo%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Victory Lap · Discovery 50","artist":"CC0 Live","vibe":"SPORT · Vocal · Discovery","source":"https://nullrights.com/search?q=SPORT%20vocal%20Victory%20Lap%20CC0","license":"CC0 LIVE","embed":null,"discovery":true}]},{"t":"LO-FI","sub":"偏 lo-fi rock、folk、singer-songwriter 與比較鬆的人聲作品；適合讀文章、夜間瀏覽、長時間停留。","bpm":"62–96 BPM","key":"Lo-fi · Folk · Vocal · Slow","meters":[["VOCAL",100],["CALM",92],["FOCUS",88],["ENERGY",34]],"tracks":[{"title":"The Wind That Whistled Through The Wicker Chair","artist":"HoliznaCC0","vibe":"Lo-fi Folk · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/makeshift-salvation","license":"CC0","embed":null},{"title":"Iron Skies","artist":"HoliznaCC0","vibe":"Lo-fi Rock · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/makeshift-salvation","license":"CC0","embed":null},{"title":"A Small Town On Pluto","artist":"HoliznaCC0","vibe":"Lo-fi Folk · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/makeshift-salvation","license":"CC0","embed":null},{"title":"Goodbye Good Times","artist":"HoliznaCC0","vibe":"Singer-Songwriter · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/makeshift-salvation","license":"CC0","embed":null},{"title":"Makes-Shift Salvation","artist":"HoliznaCC0","vibe":"Lo-fi Folk · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/makeshift-salvation","license":"CC0","embed":null},{"title":"A Cloud Dog named Sky","artist":"HoliznaCC0","vibe":"Slow Folk · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/makeshift-salvation","license":"CC0","embed":null},{"title":"The Ghost Of John Brown","artist":"HoliznaCC0","vibe":"Americana · Vocal","source":"https://freemusicarchive.org/index.php/music/holiznacc0/all-the-years-ive-haunted-part-3","license":"CC0","embed":null},{"title":"Dreams Of Lilith","artist":"HoliznaCC0","vibe":"Dreamy Lo-fi · Vocal","source":"https://freemusicarchive.org/index.php/music/holiznacc0/all-the-years-ive-haunted-part-3","license":"CC0","embed":null},{"title":"Grave Yard Magic","artist":"HoliznaCC0","vibe":"Dark Lo-fi · Vocal","source":"https://freemusicarchive.org/index.php/music/holiznacc0/all-the-years-ive-haunted-part-3","license":"CC0","embed":null},{"title":"Broken Hustle","artist":"HoliznaCC0","vibe":"Lo-fi Folk · Vocal","source":"https://freemusicarchive.org/index.php/music/holiznacc0/all-the-years-ive-haunted-part-3","license":"CC0","embed":null},{"title":"Rainy Vocal · Discovery 11","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Rainy%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Bedroom Voice · Discovery 12","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Bedroom%20Voice%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Study Singer · Discovery 13","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Study%20Singer%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Soft Tape · Discovery 14","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Soft%20Tape%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Night Desk · Discovery 15","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Night%20Desk%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Window Rain · Discovery 16","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Window%20Rain%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Whisper Folk · Discovery 17","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Whisper%20Folk%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Warm Cassette · Discovery 18","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Warm%20Cassette%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Slow Room · Discovery 19","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Slow%20Room%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Coffee & Notes · Discovery 20","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Coffee%20&%20Notes%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Dream Vocal · Discovery 21","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Dream%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Quiet Guitar · Discovery 22","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Quiet%20Guitar%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Sunday Study · Discovery 23","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Sunday%20Study%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Low-Fi Soul · Discovery 24","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Low-Fi%20Soul%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Cloudy Afternoon · Discovery 25","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Cloudy%20Afternoon%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Soft Hum · Discovery 26","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Soft%20Hum%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Late Homework · Discovery 27","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Late%20Homework%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Gentle Folk · Discovery 28","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Gentle%20Folk%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Old Recorder · Discovery 29","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Old%20Recorder%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Sleepy Voice · Discovery 30","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Sleepy%20Voice%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Desk Lamp · Discovery 31","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Desk%20Lamp%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Rain Window · Discovery 32","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Rain%20Window%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Tiny Room · Discovery 33","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Tiny%20Room%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Warm Noise · Discovery 34","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Warm%20Noise%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"After Class · Discovery 35","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20After%20Class%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Soft Indie · Discovery 36","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Soft%20Indie%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Night Bus · Discovery 37","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Night%20Bus%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Calm Vocal · Discovery 38","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Calm%20Vocal%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Notebook · Discovery 39","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Notebook%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Quiet Morning · Discovery 40","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Quiet%20Morning%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Lo-Fi Folk · Discovery 41","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Lo-Fi%20Folk%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Blue Hour · Discovery 42","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Blue%20Hour%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Slow Cassette · Discovery 43","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Slow%20Cassette%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Library Window · Discovery 44","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Library%20Window%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Soft Bedroom · Discovery 45","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Soft%20Bedroom%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Night Notes · Discovery 46","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Night%20Notes%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Cloudy Tape · Discovery 47","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Cloudy%20Tape%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Whisper Pop · Discovery 48","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Whisper%20Pop%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Study Night · Discovery 49","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Study%20Night%20CC0","license":"CC0 LIVE","embed":null,"discovery":true},{"title":"Gentle Voice · Discovery 50","artist":"CC0 Live","vibe":"LO-FI · Vocal · Discovery","source":"https://nullrights.com/search?q=LO-FI%20vocal%20Gentle%20Voice%20CC0","license":"CC0 LIVE","embed":null,"discovery":true}]},{"t":"TAIPEI STYLE","sub":"台北夜行、巷弄 indie、臥室錄音、淡淡霓虹與下雨後的城市感。這裡用 CC0 indie／lo-fi／art-pop 作品做合法的『台北風格』詮釋。","bpm":"68–128 BPM","key":"Taipei Night · Indie · Lo-fi · Vocal","meters":[["VOCAL",86],["URBAN",96],["NOSTALGIA",78],["ENERGY",56]],"tracks":[{"title":"careless.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"untitled.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"it with you.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"des fois...","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"oh... okay, well... i guess but, yeah... mby idk.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"glue.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"stuff to do.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"(demo)","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"telle le soleil au réveil.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"sleep little darling.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"préface.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"some folks is alone.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"oh bébé.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"sports.","artist":"oji","vibe":"Taipei Indie · Lo-fi Vocal","source":"https://freemusicarchive.org/music/oji/fawm-2026","license":"CC0","embed":null},{"title":"harmonies du soir.","artist":"oji","vibe":"City Night · Art Pop · Lo-fi","source":"https://freemusicarchive.org/music/oji/quiet-music","license":"CC0","embed":null},{"title":"changes ?","artist":"oji","vibe":"City Night · Art Pop · Lo-fi","source":"https://freemusicarchive.org/music/oji/quiet-music","license":"CC0","embed":null},{"title":"oraison.","artist":"oji","vibe":"City Night · Art Pop · Lo-fi","source":"https://freemusicarchive.org/music/oji/quiet-music","license":"CC0","embed":null},{"title":"(esperanza) linda aflição.","artist":"oji","vibe":"City Night · Art Pop · Lo-fi","source":"https://freemusicarchive.org/music/oji/quiet-music","license":"CC0","embed":null},{"title":"perspective futile.","artist":"oji","vibe":"City Night · Art Pop · Lo-fi","source":"https://freemusicarchive.org/music/oji/quiet-music","license":"CC0","embed":null},{"title":"overwhelm.","artist":"oji","vibe":"City Night · Art Pop · Lo-fi","source":"https://freemusicarchive.org/music/oji/quiet-music","license":"CC0","embed":null},{"title":"dimanche à 11h45.","artist":"oji","vibe":"City Night · Art Pop · Lo-fi","source":"https://freemusicarchive.org/music/oji/quiet-music","license":"CC0","embed":null},{"title":"soirée.","artist":"oji","vibe":"City Night · Art Pop · Lo-fi","source":"https://freemusicarchive.org/music/oji/quiet-music","license":"CC0","embed":null},{"title":"idée. (en la bémol majeur)","artist":"oji","vibe":"Urban Indie · Night Walk","source":"https://freemusicarchive.org/music/oji/outlet","license":"CC0","embed":null},{"title":"ah vous dirais-je maman...","artist":"oji","vibe":"Urban Indie · Night Walk","source":"https://freemusicarchive.org/music/oji/outlet","license":"CC0","embed":null},{"title":"outlet.","artist":"oji","vibe":"Urban Indie · Night Walk","source":"https://freemusicarchive.org/music/oji/outlet","license":"CC0","embed":null},{"title":"absurdes.","artist":"oji","vibe":"Urban Indie · Night Walk","source":"https://freemusicarchive.org/music/oji/outlet","license":"CC0","embed":null},{"title":"idée. (en do majeur)","artist":"oji","vibe":"Urban Indie · Night Walk","source":"https://freemusicarchive.org/music/oji/outlet","license":"CC0","embed":null},{"title":"memories of a sweeter season. (little britannia)","artist":"oji","vibe":"Urban Indie · Night Walk","source":"https://freemusicarchive.org/music/oji/outlet","license":"CC0","embed":null},{"title":"le bleu de la nuit. (rrrrrose azerty)","artist":"oji","vibe":"Urban Indie · Night Walk","source":"https://freemusicarchive.org/music/oji/outlet","license":"CC0","embed":null},{"title":"cutie patootie.","artist":"oji","vibe":"Urban Indie · Night Walk","source":"https://freemusicarchive.org/music/oji/outlet","license":"CC0","embed":null},{"title":"hangover & despair.","artist":"oji","vibe":"Urban Indie · Night Walk","source":"https://freemusicarchive.org/music/oji/outlet","license":"CC0","embed":null},{"title":"duet / idée. (en sol mineur)","artist":"oji","vibe":"Urban Indie · Night Walk","source":"https://freemusicarchive.org/music/oji/outlet","license":"CC0","embed":null},{"title":"nine out of four","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"wednesday afternoon","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"sérénade (en sol majeur)","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"idk how to do it","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"not even dreams can make them begin","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"three sketchbooks ago","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"[untitled]","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"l'attente","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"sérénade (en mi mineur)","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"2.2","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"vacances","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"burden","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"improvisation (sur un thème d'amour)","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"ballade en forêt","artist":"oji","vibe":"Indie Pop · Bedroom · Taipei Mood","source":"https://freemusicarchive.org/music/oji/fawm-2025","license":"CC0","embed":null},{"title":"tabulation I.","artist":"oji","vibe":"Lo-fi Rock · Bluesy City","source":"https://freemusicarchive.org/music/oji/non-edible-sounds","license":"CC0","embed":null},{"title":"tabulation II.","artist":"oji","vibe":"Lo-fi Rock · Bluesy City","source":"https://freemusicarchive.org/music/oji/non-edible-sounds","license":"CC0","embed":null},{"title":"tabulation III.","artist":"oji","vibe":"Lo-fi Rock · Bluesy City","source":"https://freemusicarchive.org/music/oji/non-edible-sounds","license":"CC0","embed":null},{"title":"lovely bluesy ditty.","artist":"oji","vibe":"Lo-fi Rock · Bluesy City","source":"https://freemusicarchive.org/music/oji/non-edible-sounds","license":"CC0","embed":null}]},{"t":"OLD TOKYO","sub":"昭和夜色、首都高、霓虹招牌與 80s 都會感。不是直接使用受版權保護的日本 City Pop 名曲，而是以 CC0 Pop／Synth Pop 做 City Pop-adjacent 合法選曲。","bpm":"88–132 BPM","key":"City Pop-adjacent · Synth Pop · AOR · Vocal","meters":[["VOCAL",94],["NEON",100],["NOSTALGIA",92],["DRIVE",88]],"tracks":[{"title":"BILLboard","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Ants In My Pants","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Disco Ball","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Lip Gloss","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Beach Babes","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Supermodel","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Miss You","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Stimulant","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Hanging Out & Hangovers","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Tomorrow Never Comes","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Carats In My Teeth","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Drinks On Me","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Wasted","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Sleeping is Sadness","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Sunglasses","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Like Us","artist":"SUPERARE","vibe":"City Pop-adjacent · Synth Pop · Vocal","source":"https://freemusicarchive.org/music/superare/ii","license":"CC0","embed":null},{"title":"Look Mommy Look!","artist":"SUPERARE","vibe":"Night Drive · Pop · Vocal","source":"https://freemusicarchive.org/music/superare/iii","license":"CC0","embed":null},{"title":"Gyaldem","artist":"SUPERARE","vibe":"Night Drive · Pop · Vocal","source":"https://freemusicarchive.org/music/superare/iii","license":"CC0","embed":null},{"title":"Umbrella","artist":"SUPERARE","vibe":"Night Drive · Pop · Vocal","source":"https://freemusicarchive.org/music/superare/iii","license":"CC0","embed":null},{"title":"Dirt Bikes","artist":"SUPERARE","vibe":"Night Drive · Pop · Vocal","source":"https://freemusicarchive.org/music/superare/iii","license":"CC0","embed":null},{"title":"Jet Lag","artist":"SUPERARE","vibe":"Night Drive · Pop · Vocal","source":"https://freemusicarchive.org/music/superare/iii","license":"CC0","embed":null},{"title":"Action Figure","artist":"SUPERARE","vibe":"Night Drive · Pop · Vocal","source":"https://freemusicarchive.org/music/superare/iii","license":"CC0","embed":null},{"title":"Friends With Benz","artist":"SUPERARE","vibe":"Night Drive · Pop · Vocal","source":"https://freemusicarchive.org/music/superare/iii","license":"CC0","embed":null},{"title":"In God I Must","artist":"SUPERARE","vibe":"Night Drive · Pop · Vocal","source":"https://freemusicarchive.org/music/superare/iii","license":"CC0","embed":null},{"title":"Tatted Up","artist":"SUPERARE","vibe":"Night Drive · Pop · Vocal","source":"https://freemusicarchive.org/music/superare/iii","license":"CC0","embed":null},{"title":"Zodiac $ign","artist":"SUPERARE","vibe":"Night Drive · Pop · Vocal","source":"https://freemusicarchive.org/music/superare/iii","license":"CC0","embed":null},{"title":"Fashionably Late","artist":"SUPERARE","vibe":"Retro Pop · City Pop-adjacent","source":"https://freemusicarchive.org/music/superare/xii","license":"CC0","embed":null},{"title":"Talk","artist":"SUPERARE","vibe":"Retro Pop · City Pop-adjacent","source":"https://freemusicarchive.org/music/superare/xii","license":"CC0","embed":null},{"title":"LOL","artist":"SUPERARE","vibe":"Retro Pop · City Pop-adjacent","source":"https://freemusicarchive.org/music/superare/xii","license":"CC0","embed":null},{"title":"Shotgun","artist":"SUPERARE","vibe":"Retro Pop · City Pop-adjacent","source":"https://freemusicarchive.org/music/superare/xii","license":"CC0","embed":null},{"title":"Funky Fresh","artist":"SUPERARE","vibe":"Retro Pop · City Pop-adjacent","source":"https://freemusicarchive.org/music/superare/xii","license":"CC0","embed":null},{"title":"Zoom Zoom","artist":"SUPERARE","vibe":"Retro Pop · City Pop-adjacent","source":"https://freemusicarchive.org/music/superare/xii","license":"CC0","embed":null},{"title":"Wishing","artist":"SUPERARE","vibe":"Retro Pop · City Pop-adjacent","source":"https://freemusicarchive.org/music/superare/xii","license":"CC0","embed":null},{"title":"Friday","artist":"SUPERARE","vibe":"Synth Pop · Night City · Vocal","source":"https://freemusicarchive.org/music/superare/pop-sensation","license":"CC0","embed":null},{"title":"Replay","artist":"SUPERARE","vibe":"Synth Pop · Night City · Vocal","source":"https://freemusicarchive.org/music/superare/pop-sensation","license":"CC0","embed":null},{"title":"Jailbreak","artist":"SUPERARE","vibe":"Synth Pop · Night City · Vocal","source":"https://freemusicarchive.org/music/superare/pop-sensation","license":"CC0","embed":null},{"title":"Blow My High","artist":"SUPERARE","vibe":"Synth Pop · Night City · Vocal","source":"https://freemusicarchive.org/music/superare/pop-sensation","license":"CC0","embed":null},{"title":"Missed Call","artist":"SUPERARE","vibe":"Synth Pop · Night City · Vocal","source":"https://freemusicarchive.org/music/superare/pop-sensation","license":"CC0","embed":null},{"title":"Life & Death","artist":"SUPERARE","vibe":"Synth Pop · Night City · Vocal","source":"https://freemusicarchive.org/music/superare/pop-sensation","license":"CC0","embed":null},{"title":"Love","artist":"SUPERARE","vibe":"Synth Pop · Night City · Vocal","source":"https://freemusicarchive.org/music/superare/pop-sensation","license":"CC0","embed":null},{"title":"Pool Party","artist":"SUPERARE","vibe":"Synth Pop · Night City · Vocal","source":"https://freemusicarchive.org/music/superare/pop-sensation","license":"CC0","embed":null},{"title":"This Is What We Live For","artist":"SUPERARE","vibe":"Synth Pop · AOR-adjacent · Vocal","source":"https://freemusicarchive.org/music/superare/iv","license":"CC0","embed":null},{"title":"Yesterday","artist":"SUPERARE","vibe":"Synth Pop · AOR-adjacent · Vocal","source":"https://freemusicarchive.org/music/superare/iv","license":"CC0","embed":null},{"title":"Hyperreal","artist":"SUPERARE","vibe":"Synth Pop · AOR-adjacent · Vocal","source":"https://freemusicarchive.org/music/superare/iv","license":"CC0","embed":null},{"title":"Dopamine Hits","artist":"SUPERARE","vibe":"Synth Pop · AOR-adjacent · Vocal","source":"https://freemusicarchive.org/music/superare/iv","license":"CC0","embed":null},{"title":"Blue Moon","artist":"SUPERARE","vibe":"Synth Pop · AOR-adjacent · Vocal","source":"https://freemusicarchive.org/music/superare/iv","license":"CC0","embed":null},{"title":"In Your Dreams","artist":"SUPERARE","vibe":"Synth Pop · City Pop-adjacent · Vocal","source":"https://freemusicarchive.org/music/superare/i-1/in-your-dreams/","license":"CC0","embed":null},{"title":"9 to 5","artist":"SUPERARE","vibe":"Soul Pop · Vocal","source":"https://freemusicarchive.org/music/superare/i-1/9-to-5/","license":"CC0","embed":null},{"title":"Rotation","artist":"SUPERARE","vibe":"Pop · Night Drive · Vocal","source":"https://freemusicarchive.org/music/superare/vii/rotation/","license":"CC0","embed":null},{"title":"Section","artist":"SUPERARE","vibe":"Pop · Urban · Vocal","source":"https://freemusicarchive.org/music/superare/vii/section/","license":"CC0","embed":null}]},{"t":"SPLENDOR SHANGHAI","sub":"老上海舞廳、爵士、Soul、chanson 與霧面金色夜景。使用 CC0 jazz／soul／ragtime／vocal 素材重新組成『海上繁華』的合法聲音世界。","bpm":"66–118 BPM","key":"Shanghai Lounge · Jazz · Soul · Chanson","meters":[["VOCAL",82],["ELEGANCE",98],["VINTAGE",100],["ENERGY",44]],"tracks":[{"title":"Georgia","artist":"HoliznaCC0","vibe":"Vintage Lounge · Soul · Jazz","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Stoned Memories","artist":"HoliznaCC0","vibe":"Vintage Lounge · Soul · Jazz","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Call Of The Void","artist":"HoliznaCC0","vibe":"Vintage Lounge · Soul · Jazz","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"So This Is Life","artist":"HoliznaCC0","vibe":"Vintage Lounge · Soul · Jazz","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Monster","artist":"HoliznaCC0","vibe":"Vintage Lounge · Soul · Jazz","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"A Bird In The Ware House","artist":"HoliznaCC0","vibe":"Vintage Lounge · Soul · Jazz","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Domestication In Stride","artist":"HoliznaCC0","vibe":"Vintage Lounge · Soul · Jazz","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Golden Woman From A Dream V2","artist":"HoliznaCC0","vibe":"Vintage Lounge · Soul · Jazz","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Hard To Love","artist":"HoliznaCC0","vibe":"Vintage Lounge · Soul · Jazz","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Three Feet of Snow, Shut In, Iron Skies","artist":"HoliznaCC0","vibe":"Vintage Lounge · Soul · Jazz","source":"https://freemusicarchive.org/music/holiznacc0/music-from-the-vault","license":"CC0","embed":null},{"title":"Your Nature","artist":"HoliznaCC0","vibe":"Acapella · Chanson-adjacent · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/mouth-music","license":"CC0","embed":null},{"title":"Won't Need Money Where I'm Going","artist":"HoliznaCC0","vibe":"Acapella · Chanson-adjacent · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/mouth-music","license":"CC0","embed":null},{"title":"Eden","artist":"HoliznaCC0","vibe":"Acapella · Chanson-adjacent · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/mouth-music","license":"CC0","embed":null},{"title":"Garden Eyes","artist":"HoliznaCC0","vibe":"Acapella · Chanson-adjacent · Vocal","source":"https://freemusicarchive.org/music/holiznacc0/mouth-music","license":"CC0","embed":null},{"title":"Lie To Me","artist":"SUPERARE","vibe":"Soul-R&B · Ballroom Vocal","source":"https://freemusicarchive.org/music/superare/fatal-1","license":"CC0","embed":null},{"title":"Cure","artist":"SUPERARE","vibe":"Soul-R&B · Ballroom Vocal","source":"https://freemusicarchive.org/music/superare/fatal-1","license":"CC0","embed":null},{"title":"Just A Little Bit More","artist":"SUPERARE","vibe":"Soul-R&B · Ballroom Vocal","source":"https://freemusicarchive.org/music/superare/fatal-1","license":"CC0","embed":null},{"title":"You're My Everything","artist":"SUPERARE","vibe":"Soul-R&B · Ballroom Vocal","source":"https://freemusicarchive.org/music/superare/fatal-1","license":"CC0","embed":null},{"title":"Birthday","artist":"SUPERARE","vibe":"Soul-R&B · Ballroom Vocal","source":"https://freemusicarchive.org/music/superare/fatal-1","license":"CC0","embed":null},{"title":"Make You Happy","artist":"SUPERARE","vibe":"Soul-R&B · Ballroom Vocal","source":"https://freemusicarchive.org/music/superare/fatal-1","license":"CC0","embed":null},{"title":"Mama Afriqa","artist":"Tadz","vibe":"Soul · Lounge · Singer-Songwriter","source":"https://freemusicarchive.org/music/tadz/the-motherland","license":"CC0","embed":null},{"title":"Take Your Time","artist":"Tadz","vibe":"Soul · Lounge · Singer-Songwriter","source":"https://freemusicarchive.org/music/tadz/the-motherland","license":"CC0","embed":null},{"title":"You (I Just Wanna)","artist":"Tadz","vibe":"Soul · Lounge · Singer-Songwriter","source":"https://freemusicarchive.org/music/tadz/the-motherland","license":"CC0","embed":null},{"title":"Rose Petals & Candles","artist":"Tadz","vibe":"Soul · Lounge · Singer-Songwriter","source":"https://freemusicarchive.org/music/tadz/the-motherland","license":"CC0","embed":null},{"title":"There Ain't Nothin","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"How Can Things Be","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"Ragtime Getdown","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"Waves","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"WitchCraft","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"Swingin' Richards","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"Tunez","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"Exploring Tomorrow Part 1","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"Exploring Tomorrow Part 2","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"Expolirng Tomorrow Part 3","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"Strangers","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"Bikini Bottom","artist":"HoliznaCC0","vibe":"Ragtime · Vintage Jazz · Public-domain Sample","source":"https://freemusicarchive.org/music/holiznacc0/orphaned-media","license":"CC0","embed":null},{"title":"Eat.mp3","artist":"HoliznaCC0","vibe":"Jazz-Funk · Lounge · Bass","source":"https://freemusicarchive.org/music/holiznacc0/bassic","license":"CC0","embed":null},{"title":"Sleep","artist":"HoliznaCC0","vibe":"Jazz-Funk · Lounge · Bass","source":"https://freemusicarchive.org/music/holiznacc0/bassic","license":"CC0","embed":null},{"title":"Breath","artist":"HoliznaCC0","vibe":"Jazz-Funk · Lounge · Bass","source":"https://freemusicarchive.org/music/holiznacc0/bassic","license":"CC0","embed":null},{"title":"Make Money","artist":"HoliznaCC0","vibe":"Jazz-Funk · Lounge · Bass","source":"https://freemusicarchive.org/music/holiznacc0/bassic","license":"CC0","embed":null},{"title":"Make Love","artist":"HoliznaCC0","vibe":"Jazz-Funk · Lounge · Bass","source":"https://freemusicarchive.org/music/holiznacc0/bassic","license":"CC0","embed":null},{"title":"Make Funk","artist":"HoliznaCC0","vibe":"Jazz-Funk · Lounge · Bass","source":"https://freemusicarchive.org/music/holiznacc0/bassic","license":"CC0","embed":null},{"title":"Summer Wind","artist":"HoliznaCC0","vibe":"Old Room · Singer-Songwriter · Vintage","source":"https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1","license":"CC0","embed":null},{"title":"Shut In","artist":"HoliznaCC0","vibe":"Old Room · Singer-Songwriter · Vintage","source":"https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1","license":"CC0","embed":null},{"title":"Old Testament God","artist":"HoliznaCC0","vibe":"Old Room · Singer-Songwriter · Vintage","source":"https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1","license":"CC0","embed":null},{"title":"Make-Shift Salvation","artist":"HoliznaCC0","vibe":"Old Room · Singer-Songwriter · Vintage","source":"https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1","license":"CC0","embed":null},{"title":"Autumns Rusted Junky","artist":"HoliznaCC0","vibe":"Old Room · Singer-Songwriter · Vintage","source":"https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1","license":"CC0","embed":null},{"title":"The Old Haunt","artist":"HoliznaCC0","vibe":"Old Room · Singer-Songwriter · Vintage","source":"https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1","license":"CC0","embed":null},{"title":"Hanging Over The Days","artist":"HoliznaCC0","vibe":"Old Room · Singer-Songwriter · Vintage","source":"https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1","license":"CC0","embed":null},{"title":"Georgia Bound.","artist":"HoliznaCC0","vibe":"Old Room · Singer-Songwriter · Vintage","source":"https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1","license":"CC0","embed":null}]}];
+const DATA = window.MUSIC_DATA || [];
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ================= palette → scene colours ================= */
@@ -2017,6 +2835,61 @@ const $ = id => document.getElementById(id);
 const canvas=$('scene'), overlay=$('overlay'), mCard=$('mCard'), detail=$('detail');
 const canvasPoint=e=>{const r=canvas.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};};
 const gm=$('gm'), ge=$('ge');
+
+/* ================= R6.1 shared-scene portal ================= */
+const HOME_SCENE_ANCHOR = document.createComment('home-scene-anchor');
+if(canvas.parentNode) canvas.parentNode.insertBefore(HOME_SCENE_ANCHOR,canvas);
+
+function mountSceneToDetail(){
+  const mount=$('detailSceneMount');
+  if(!mount) return;
+  
+  canvas.hidden=false;
+  canvas.style.visibility='visible';
+  canvas.style.display='block';
+  requestAnimationFrame(()=>{
+    resize();
+    if(gl&&cards.length){
+      uploadCardTextures();
+      startIntro();
+    }
+  });
+}
+function mountSceneToHome(){
+  if(HOME_SCENE_ANCHOR.parentNode){
+    HOME_SCENE_ANCHOR.parentNode.insertBefore(canvas,HOME_SCENE_ANCHOR.nextSibling);
+  }else if(document.body){
+    document.body.insertBefore(canvas,$('cardKeys')||document.body.firstChild);
+  }
+  canvas.hidden=false;
+  canvas.style.visibility='visible';
+  canvas.style.display='block';
+  requestAnimationFrame(()=>{
+    resize();
+    if(gl&&cards.length){
+      uploadCardTextures();
+      startIntro();
+    }
+  });
+}
+
+/* Regression guard:
+   later player/caption/UI mutations are allowed, but they may never
+   move the shared scene out of the detail mount while branch view is open. */
+let detailSceneGuardQueued=false;
+const detailSceneGuard=new MutationObserver(()=>{
+  if(detailSceneGuardQueued) return;
+  detailSceneGuardQueued=true;
+  requestAnimationFrame(()=>{
+    detailSceneGuardQueued=false;
+    if(state?.view==='branch' && document.body.classList.contains('detail-open')){
+      const mount=$('detailSceneMount');
+      if(mount && canvas.parentNode!==mount) mountSceneToDetail();
+    }
+  });
+});
+detailSceneGuard.observe(document.body,{childList:true,subtree:true});
+
 
 /* ================= globe logo ================= */
 function globe(now){
@@ -2556,8 +3429,8 @@ function showDetail(i){
   const d=DATA[i];
   setUiTheme(d.t,i);
 
-  // Detail DOM first.
   document.body.classList.add('detail-open');
+
   $('dNum').textContent='0'+(i+1);
   $('dTitle').textContent=d.t;
   $('musicKicker').textContent='VOCAL BGM · 0'+(i+1);
@@ -2570,20 +3443,11 @@ function showDetail(i){
       <div class="meter-bar"><div class="meter-fill" style="width:${m[1]}%"></div></div>
       <b>${m[1]}</b>
     </div>`).join('');
-  $('rightsNote').innerHTML=`<strong>同一套主抽屜：</strong>第二頁直接共用首頁 WebGL 玻璃抽屜；每次由 ${d.t} 的音樂池抽 5 首，點卡片直接播放。`;
+  $('rightsNote').innerHTML=`<strong>同一套主抽屜：</strong>第二頁固定使用首頁 WebGL 抽屜；由 ${d.t} 音樂池隨機放入 5 首，點 3D 卡片直接播放。`;
   renderTracks(i,'');
   $('demoBtn').style.display='none';
 
-  detail.classList.remove('show');
-  void detail.offsetWidth;
-  detail.classList.add('show');
-  detail.scrollTop=0;
-
-  // Move the actual homepage WebGL canvas into the detail drawer.
-  const mount=$('branchDrawerStage');
-  if(canvas.parentNode!==mount) mount.appendChild(canvas);
-  canvas.style.visibility='visible';
-
+  /* Critical order: branch state FIRST, so geometry is the original 5-card drawer. */
   state.view='branch';
   state.pointer=null;
   state.force=null;
@@ -2591,11 +3455,13 @@ function showDetail(i){
 
   renderBranchDrawer(i);
 
-  requestAnimationFrame(()=>{
-    resize();
-    uploadCardTextures();
-    startIntro();
-  });
+  detail.classList.remove('show');
+  void detail.offsetWidth;
+  detail.classList.add('show');
+  detail.scrollTop=0;
+
+  /* Hard-mount exactly the homepage canvas. */
+  mountSceneToDetail();
 }
 function backToStage(){
   if(document.getElementById('playerSheet')) closeTrack();
@@ -2603,22 +3469,13 @@ function backToStage(){
   detail.classList.remove('show');
   document.body.classList.remove('detail-open');
 
-  // Put the shared WebGL canvas back in its original homepage position.
-  const keyAnchor=$('cardKeys');
-  if(canvas.parentNode!==document.body) document.body.insertBefore(canvas,keyAnchor);
-
   window.__sceneTracks=null;
   setUiTheme(DATA[0]?.t||'JAZZ',0);
   state.view='stage';
   state.pointer=null;
   state.force=null;
-  canvas.style.visibility='visible';
 
-  requestAnimationFrame(()=>{
-    resize();
-    if(gl&&cards.length) uploadCardTextures();
-    startIntro();
-  });
+  mountSceneToHome();
 }
 function startIntro(){
   cards.forEach(c=>{
@@ -2743,8 +3600,6 @@ function genreIndexByName(name){return DATA.findIndex(d=>d.t===name);}
 
 function renderBranchDrawer(genreIndex){
   const d=DATA[genreIndex];
-
-  // Only named tracks are placed into the visible 3D drawer.
   const concrete=d.tracks.filter(t=>!t.discovery);
   const source=concrete.length>=5?concrete:d.tracks;
   const picks=[...source].sort(()=>Math.random()-.5).slice(0,5);
@@ -2753,13 +3608,12 @@ function renderBranchDrawer(genreIndex){
   window.__sceneTracks=picks;
   window.__genreIndex=genreIndex;
 
-  // Remove any legacy CSS cards if they exist.
-  const stage=$('branchDrawerStage');
-  stage.querySelectorAll('.branch-card').forEach(n=>n.remove());
+  /* No CSS cards are ever generated here. The visible drawer is WebGL only. */
+  $('drawerPoolMeta').textContent=`${d.t} · MAIN 3D DRAWER · RANDOM 5`;
 
-  $('drawerPoolMeta').textContent=`${d.t} · SAME 3D DRAWER · RANDOM 5`;
-
-  if(gl&&cards.length){
+  if(state.view==='branch'){
+    mountSceneToDetail();
+  }else if(gl&&cards.length){
     uploadCardTextures();
     startIntro();
     requestAnimationFrame(resize);
@@ -2845,6 +3699,354 @@ $('drawerPlayRandom').addEventListener('click',()=>{
   openTrack(choose(currentDrawerTracks), true);
 });
 
+
+
+/* ================= musicetown R7.2 vinyl transport ================= */
+const VINYL_COLORS=[
+  {name:'BLACK',hex:'#151515',dark:true},
+  {name:'APPLE GREEN',hex:'#A7D948',dark:false},
+  {name:'LIGHT BLUE',hex:'#A9D9F5',dark:false},
+  {name:'LIGHT PINK',hex:'#F3BFD0',dark:false},
+  {name:'TIFFANY GREEN',hex:'#81D8D0',dark:false},
+  {name:'BLACK',hex:'#151515',dark:true},
+  {name:'LIGHT YELLOW',hex:'#F2E6A7',dark:false}
+];
+let vinylRAF=null;
+let vinylDragging=false;
+let vinylLastPointerAngle=0;
+let vinylVisualAngle=0;
+let vinylWasPlaying=false;
+const VINYL_SECONDS_PER_TURN=8;
+
+function vinylColorForTrack(t){
+  const key=`${t?.artist||''}|${t?.title||''}`;
+  let h=0;
+  for(let i=0;i<key.length;i++)h=(h*31+key.charCodeAt(i))>>>0;
+  return VINYL_COLORS[h%VINYL_COLORS.length];
+}
+function formatClock(sec){
+  sec=Math.max(0,Number(sec)||0);
+  const m=Math.floor(sec/60),s=Math.floor(sec%60);
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+function stopVinylRAF(){
+  if(vinylRAF){cancelAnimationFrame(vinylRAF);vinylRAF=null;}
+}
+function paintVinylFromAudio(audio){
+  const vinyl=$('vinylDisc');
+  if(!vinyl||!audio)return;
+  if(!vinylDragging){
+    vinylVisualAngle=((audio.currentTime||0)/VINYL_SECONDS_PER_TURN)*360;
+    vinyl.style.setProperty('--record-angle',`${vinylVisualAngle}deg`);
+  }
+  const seek=$('deckSeek');
+  if(seek&&Number.isFinite(audio.duration)&&audio.duration>0){
+    seek.max=String(audio.duration);
+    if(!seek.matches(':active'))seek.value=String(audio.currentTime||0);
+  }
+  const cur=$('deckCurrent'),dur=$('deckDuration');
+  if(cur)cur.textContent=formatClock(audio.currentTime||0);
+  if(dur)dur.textContent=formatClock(audio.duration||0);
+}
+function runVinylRAF(audio){
+  stopVinylRAF();
+  const tick=()=>{
+    paintVinylFromAudio(audio);
+    vinylRAF=requestAnimationFrame(tick);
+  };
+  tick();
+}
+function pointerAngle(el,e){
+  const r=el.getBoundingClientRect();
+  const cx=r.left+r.width/2,cy=r.top+r.height/2;
+  return Math.atan2(e.clientY-cy,e.clientX-cx)*180/Math.PI;
+}
+function normalizeDelta(d){
+  while(d>180)d-=360;
+  while(d<-180)d+=360;
+  return d;
+}
+function wireVinylTransport(audio,t){
+  const vinyl=$('vinylDisc');
+  const seek=$('deckSeek');
+  if(!audio||!vinyl)return;
+
+  const c=vinylColorForTrack(t);
+  vinyl.style.setProperty('--vinyl',c.hex);
+  vinyl.dataset.dark=c.dark?'true':'false';
+  vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。拖曳旋轉可快轉或倒轉音樂。`);
+
+  const begin=e=>{
+    e.preventDefault();
+    vinylDragging=true;
+    vinylWasPlaying=!audio.paused;
+    vinyl.classList.add('dragging');
+    vinyl.setPointerCapture?.(e.pointerId);
+    vinylLastPointerAngle=pointerAngle(vinyl,e);
+    audio.pause();
+  };
+  const move=e=>{
+    if(!vinylDragging)return;
+    e.preventDefault();
+    const a=pointerAngle(vinyl,e);
+    const delta=normalizeDelta(a-vinylLastPointerAngle);
+    vinylLastPointerAngle=a;
+
+    // Clockwise = forward, counter-clockwise = rewind.
+    const secDelta=(delta/360)*VINYL_SECONDS_PER_TURN;
+    if(Number.isFinite(audio.duration)){
+      audio.currentTime=Math.max(0,Math.min(audio.duration,(audio.currentTime||0)+secDelta));
+    }else{
+      audio.currentTime=Math.max(0,(audio.currentTime||0)+secDelta);
+    }
+    vinylVisualAngle+=delta;
+    vinyl.style.setProperty('--record-angle',`${vinylVisualAngle}deg`);
+    paintVinylFromAudio(audio);
+  };
+  const end=e=>{
+    if(!vinylDragging)return;
+    vinylDragging=false;
+    vinyl.classList.remove('dragging');
+    try{vinyl.releasePointerCapture?.(e.pointerId)}catch(_){}
+    if(vinylWasPlaying)audio.play().catch(()=>{});
+  };
+
+  vinyl.addEventListener('pointerdown',begin);
+  vinyl.addEventListener('pointermove',move);
+  vinyl.addEventListener('pointerup',end);
+  vinyl.addEventListener('pointercancel',end);
+
+  seek?.addEventListener('input',()=>{
+    if(!Number.isFinite(+seek.value))return;
+    audio.currentTime=+seek.value;
+    paintVinylFromAudio(audio);
+  });
+
+  audio.addEventListener('loadedmetadata',()=>paintVinylFromAudio(audio));
+  audio.addEventListener('durationchange',()=>paintVinylFromAudio(audio));
+  audio.addEventListener('timeupdate',()=>paintVinylFromAudio(audio));
+  audio.addEventListener('seeked',()=>paintVinylFromAudio(audio));
+  audio.addEventListener('play',()=>runVinylRAF(audio));
+  audio.addEventListener('pause',()=>paintVinylFromAudio(audio));
+  audio.addEventListener('ended',()=>paintVinylFromAudio(audio));
+
+  runVinylRAF(audio);
+}
+
+/* ================= R6 Track Story / Realtime Captions ================= */
+let captionCues=[];
+let captionIndex=-1;
+let captionTicker=null;
+let captionClockStart=null;
+let captionClockOffset=0;
+let captionAttachedAudio=null;
+
+function hashString(s){
+  let h=2166136261;
+  for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}
+  return Math.abs(h>>>0);
+}
+function trackGenreName(t){
+  for(const d of DATA) if(d.tracks.includes(t)) return d.t;
+  return 'MUSIC';
+}
+function makeTrackIntro(t){
+  const genre=trackGenreName(t);
+  const h=hashString(`${t.title}|${t.artist}|${genre}`);
+  const openers=[
+    `〈${t.title}〉的重點不在堆滿聲音，而是在節奏、聲線和空間之間留出呼吸。`,
+    `這首〈${t.title}〉很適合當作「城市移動中的一段背景」，它的存在感清楚，但不會搶走整個畫面。`,
+    `〈${t.title}〉保留了 ${t.vibe} 的輪廓，聲音質地比典型商業流行製作更鬆、更有人味。`,
+    `如果把 ${genre} 想成一個場景，〈${t.title}〉比較像是其中偏夜色、偏人聲的一格。`
+  ];
+  const middles=[
+    `人聲是這首歌的情緒中心，適合用在需要「有人陪著聽」而不是純功能性背景音的頁面。`,
+    `它和視覺介面最合拍的地方，是不需要很大的音量也能維持辨識度，適合長時間瀏覽。`,
+    `編曲的價值在於氣氛而不是炫技，因此很適合放進抽屜式探索介面，讓使用者偶然抽到。`,
+    `這類作品在網站裡比較適合做場景音樂：進入某個城市、閱讀某段內容、或停留在夜間頁面時播放。`
+  ];
+  const closes={
+    'JAZZ':'適合深夜閱讀、作品集、酒吧感或較慢速的品牌頁。',
+    'CROONER':'適合精品、人物故事、晚餐場景與較成熟的人聲氛圍。',
+    'ROCK':'適合高對比視覺、章節切換、駕車或需要推進感的頁面。',
+    'SPORT':'適合訓練、倒數、成績頁與強動態 CTA。',
+    'LO-FI':'適合長時間閱讀、學習、夜間瀏覽與低干擾背景。',
+    'TAIPEI STYLE':'適合雨夜、街景、捷運、巷弄與台北的日常感。',
+    'OLD TOKYO':'適合霓虹、夜車、首都高與 City Pop-adjacent 的都會回憶。',
+    'SPLENDOR SHANGHAI':'適合舞廳、老飯店、爵士、金色夜景與復古都會敘事。'
+  };
+  return `${openers[h%openers.length]} ${middles[(h>>3)%middles.length]} ${closes[genre]||'適合做為城市聲景的一部分。'}`;
+}
+
+function secFromTimestamp(s){
+  const m=String(s).trim().match(/(?:(\d+):)?(\d+):(\d+(?:\.\d+)?)/);
+  if(m) return (+m[1]||0)*3600+(+m[2])*60+(+m[3]);
+  const m2=String(s).trim().match(/(\d+):(\d+(?:\.\d+)?)/);
+  if(m2) return (+m2[1])*60+(+m2[2]);
+  return null;
+}
+function parseLRC(raw){
+  const out=[];
+  String(raw).split(/\r?\n/).forEach(line=>{
+    const times=[...line.matchAll(/\[(\d{1,2}):(\d{2}(?:\.\d{1,3})?)\]/g)];
+    const txt=line.replace(/\[[^\]]+\]/g,'').trim();
+    if(!txt) return;
+    times.forEach(m=>out.push({start:(+m[1])*60+(+m[2]),text:txt}));
+  });
+  out.sort((a,b)=>a.start-b.start);
+  out.forEach((c,i)=>c.end=out[i+1]?.start??c.start+8);
+  return out;
+}
+function parseVTT(raw){
+  const lines=String(raw).replace(/\r/g,'').split('\n');
+  const out=[];
+  for(let i=0;i<lines.length;i++){
+    if(!lines[i].includes('-->')) continue;
+    const [a,b]=lines[i].split('-->').map(x=>x.trim().split(/\s+/)[0]);
+    const start=secFromTimestamp(a),end=secFromTimestamp(b);
+    let txt='',j=i+1;
+    while(j<lines.length&&lines[j].trim()){txt+=(txt?' ':'')+lines[j].replace(/<[^>]+>/g,'').trim();j++}
+    if(start!=null&&end!=null&&txt) out.push({start,end,text:txt});
+    i=j;
+  }
+  return out;
+}
+function captionStoreKey(t){return `vocalCaption::${t.artist}::${t.title}`;}
+function saveCaptions(t,cues){
+  try{localStorage.setItem(captionStoreKey(t),JSON.stringify(cues));}catch(e){}
+}
+function loadStoredCaptions(t){
+  try{
+    const raw=localStorage.getItem(captionStoreKey(t));
+    const cues=raw?JSON.parse(raw):[];
+    return Array.isArray(cues)?cues:[];
+  }catch(e){return []}
+}
+function renderCaptionPanel(t){
+  captionCues=Array.isArray(t.captions)&&t.captions.length?t.captions:loadStoredCaptions(t);
+  captionIndex=-1;
+  const list=$('captionList');
+  const state=$('captionState');
+  if(!list||!state)return;
+  if(captionCues.length){
+    state.classList.add('live');
+    state.innerHTML='<i></i>SYNC READY';
+    list.innerHTML=captionCues.map((c,i)=>`<div class="caption-line" data-ci="${i}">${esc(c.text)}</div>`).join('');
+    $('captionEmpty').style.display='none';
+    updateCaptionAt(0);
+  }else{
+    state.classList.remove('live');
+    state.innerHTML='<i></i>NO CAPTION FILE';
+    list.innerHTML='';
+    $('captionEmpty').style.display='';
+    $('captionCurrent').textContent='尚未提供同步字幕';
+    $('captionPrev').textContent='';
+    $('captionNext').textContent='';
+    $('captionProgressFill').style.width='0%';
+  }
+}
+function updateCaptionAt(time){
+  if(!captionCues.length)return;
+  let idx=captionCues.findIndex((c,i)=>time>=c.start && time<(c.end??captionCues[i+1]?.start??1e9));
+  if(idx<0){
+    idx=time<captionCues[0].start?0:captionCues.length-1;
+  }
+  if(idx!==captionIndex){
+    captionIndex=idx;
+    $('captionPrev').textContent=captionCues[idx-1]?.text||'';
+    $('captionCurrent').textContent=captionCues[idx]?.text||'';
+    $('captionNext').textContent=captionCues[idx+1]?.text||'';
+    document.querySelectorAll('.caption-line').forEach((n,i)=>n.classList.toggle('active',i===idx));
+    const active=document.querySelector(`.caption-line[data-ci="${idx}"]`);
+    active?.scrollIntoView({block:'nearest',behavior:'smooth'});
+  }
+  const c=captionCues[idx];
+  const dur=Math.max(.01,(c.end??c.start+6)-c.start);
+  const p=Math.max(0,Math.min(1,(time-c.start)/dur));
+  $('captionProgressFill').style.width=(p*100).toFixed(1)+'%';
+}
+function stopCaptionClock(){
+  if(captionTicker){cancelAnimationFrame(captionTicker);captionTicker=null}
+  captionClockStart=null;
+  captionAttachedAudio=null;
+}
+function startCaptionClock(offset=0){
+  stopCaptionClock();
+  captionClockOffset=offset;
+  captionClockStart=performance.now();
+  const tick=()=>{
+    const t=captionClockOffset+(performance.now()-captionClockStart)/1000;
+    updateCaptionAt(t);
+    captionTicker=requestAnimationFrame(tick);
+  };
+  tick();
+}
+function attachCaptionToAudio(audio){
+  stopCaptionClock();
+  captionAttachedAudio=audio;
+  const tick=()=>{
+    if(!captionAttachedAudio)return;
+    updateCaptionAt(captionAttachedAudio.currentTime||0);
+    captionTicker=requestAnimationFrame(tick);
+  };
+  tick();
+}
+function buildStoryUI(t){
+  const genre=trackGenreName(t);
+  return `
+    <div class="track-story-grid">
+      <section class="track-story">
+        <div class="track-story-kicker">TRACK STORY · ${esc(genre)}</div>
+        <h3>${esc(t.title)}</h3>
+        <p>${esc(makeTrackIntro(t))}</p>
+        <div class="track-story-meta">
+          <span>${esc(t.artist)}</span>
+          <span>${esc(t.vibe)}</span>
+          <span>${esc(t.license||'SOURCE')}</span>
+        </div>
+      </section>
+      <section class="caption-panel">
+        <div class="caption-head">
+          <div>
+            <div class="caption-kicker">REALTIME SUBTITLES</div>
+          </div>
+          <div class="caption-state" id="captionState"><i></i>NO CAPTION FILE</div>
+        </div>
+        <div class="caption-now">
+          <div class="prev" id="captionPrev"></div>
+          <div class="current" id="captionCurrent">尚未提供同步字幕</div>
+          <div class="next" id="captionNext"></div>
+        </div>
+        <div class="caption-progress"><i id="captionProgressFill"></i></div>
+        <div class="caption-empty" id="captionEmpty">這首目前沒有 LRC / WebVTT 時間碼。為避免亂生成受版權保護的歌詞，不會自行補寫歌詞內容。</div>
+        <div class="caption-list" id="captionList"></div>
+        <div class="caption-tools">
+          <button class="caption-tool primary" id="captionImportBtn" type="button">匯入 LRC / VTT</button>
+          <button class="caption-tool" id="captionSyncBtn" type="button">從 00:00 開始同步</button>
+          <button class="caption-tool" id="captionResyncBtn" type="button">重新對齊</button>
+          <input class="caption-file" id="captionFileInput" type="file" accept=".lrc,.vtt,text/vtt,text/plain">
+        </div>
+        <div class="caption-note">真正同步會優先綁定本站 &lt;audio&gt; 的 currentTime；跨站 iframe 無法讀取播放進度，因此只在有可讀音檔／時間碼時啟用精準同步。</div>
+      </section>
+    </div>`;
+}
+function wireCaptionUI(t){
+  renderCaptionPanel(t);
+  const importBtn=$('captionImportBtn'), input=$('captionFileInput');
+  importBtn?.addEventListener('click',()=>input?.click());
+  input?.addEventListener('change',async()=>{
+    const f=input.files?.[0]; if(!f)return;
+    const raw=await f.text();
+    const cues=f.name.toLowerCase().endsWith('.vtt')?parseVTT(raw):parseLRC(raw);
+    if(!cues.length){alert('沒有讀到有效時間碼');return;}
+    saveCaptions(t,cues);
+    captionCues=cues;
+    renderCaptionPanel(t);
+  },{once:true});
+  $('captionSyncBtn')?.addEventListener('click',()=>startCaptionClock(0));
+  $('captionResyncBtn')?.addEventListener('click',()=>startCaptionClock(0));
+}
+
 /* ================= 50-track vocal library ================= */
 let currentTrack=null;
 
@@ -2882,32 +4084,170 @@ function openTrack(t, userGesture=true){
   if(!t) return;
 
   currentTrack=t;
+  stopCaptionClock();
 
-  // 1. Open the UI synchronously. This makes every tap visibly respond,
-  //    even if the remote iframe is slow or blocked.
   $('playerTitle').textContent=t.discovery ? 'CC0 MUSIC' : t.title;
   $('playerArtist').textContent=t.discovery
     ? `${t.vibe} · CC0 catalog`
     : `${t.artist} · ${t.vibe} · ${t.license}`;
-  $('playerBody').innerHTML=`<div class="player-loading">OPENING MUSIC</div>`;
+
+  // Open immediately.
+  $('playerBody').innerHTML=`<div class="player-loading">OPENING MUSIC</div>${buildStoryUI(t)}`;
   $('playerLegal').textContent='正在載入音樂來源…';
   $('playerSheet').classList.add('open');
   $('playerSheet').setAttribute('aria-hidden','false');
+  wireCaptionUI(t);
 
-  // 2. During the original tap/click gesture, open the source immediately
-  //    for entries that do not have a verified embeddable player.
   let externalOpened=false;
-  if(!t.embed && userGesture){
+  if(false && !t.embed && !t.audioSrc && userGesture){
     try{
-      const url=t.discovery ? t.source : t.source;
-      const w=window.open(url,'_blank','noopener,noreferrer');
+      const w=window.open(t.source,'_blank','noopener,noreferrer');
       externalOpened=!!w;
     }catch(e){}
   }
 
-  // 3. Build the visible player on the next paint.
   requestAnimationFrame(()=>{
     const body=$('playerBody');
+    const story=buildStoryUI(t);
+
+    if(t.audioSrc){
+      const vc=vinylColorForTrack(t);
+      body.innerHTML=`
+        <div class="musicetown-deck">
+          <div class="vinyl-wrap">
+            <button class="vinyl"
+                    id="vinylDisc"
+                    data-dark="${vc.dark?'true':'false'}"
+                    type="button"
+                    style="--vinyl:${vc.hex}"
+                    aria-label="彩膠唱片。拖曳旋轉可快轉或倒轉音樂。">
+              <span class="vinyl-gloss"></span>
+              <span class="vinyl-center-dot"></span>
+            </button>
+          </div>
+
+          <div class="deck-info">
+            <div class="deck-eyebrow">musicetown · ${esc(trackGenreName(t))}</div>
+            <div class="deck-title">${esc(t.title)}</div>
+            <div class="deck-artist">${esc(t.artist)} · ${esc(t.vibe)}</div>
+
+            <audio id="nativeAudioPlayer" class="native-audio" controls preload="metadata">
+              <source src="${esc(t.audioSrc)}" type="audio/mpeg">
+            </audio>
+
+            <div class="deck-time">
+              <span id="deckCurrent">0:00</span>
+              <span id="deckDuration">0:00</span>
+            </div>
+            <input class="deck-seek" id="deckSeek" type="range" min="0" max="0" step="0.05" value="0">
+
+            <div class="local-mp3-status loading" id="localMp3Status">
+              <i></i><span>載入本地 MP3…</span>
+            </div>
+
+            <div class="local-player-controls">
+              <div class="group">
+                <button class="local-control" id="localPrev" type="button">← PREV</button>
+                <button class="local-control primary" id="localPlay" type="button">PLAY</button>
+                <button class="local-control" id="localNext" type="button">NEXT →</button>
+              </div>
+              <div class="group">
+                <button class="local-control" id="localPickFile" type="button">測試本機 MP3</button>
+                <input class="local-file-picker" id="localFileInput" type="file" accept="audio/mpeg,.mp3">
+              </div>
+            </div>
+
+            <div class="deck-help">
+              <b>${vc.name}</b> 彩膠 · 播放時會跟著音樂旋轉。用手指或滑鼠把唱片往回轉，音樂會真的倒退；往前轉則快轉。
+            </div>
+
+            <div class="local-path">MP3 · ${esc(t.audioSrc)}</div>
+
+            <div class="player-links">
+              <a class="player-link secondary" href="${esc(t.source)}" target="_blank" rel="noopener">SOURCE / LICENSE</a>
+            </div>
+          </div>
+        </div>
+
+        ${story}`;
+
+      $('playerLegal').textContent='musicetown LOCAL MP3 · 彩膠唱片與 audio.currentTime 雙向同步。';
+      wireCaptionUI(t);
+
+      const a=$('nativeAudioPlayer');
+      const status=$('localMp3Status');
+      const setStatus=(kind,msg)=>{
+        if(!status)return;
+        status.className='local-mp3-status '+kind;
+        status.innerHTML=`<i></i><span>${msg}</span>`;
+      };
+
+      if(a){
+        wireVinylTransport(a,t);
+
+        a.addEventListener('loadedmetadata',()=>{
+          setStatus('ready','MP3 已就緒 · 站內直接播放');
+          paintVinylFromAudio(a);
+        });
+        a.addEventListener('canplay',()=>{
+          setStatus('ready','MP3 已就緒 · 站內直接播放');
+        });
+        a.addEventListener('error',()=>{
+          setStatus('missing',`找不到 MP3：${t.audioSrc}`);
+          if(!document.querySelector('.mp3-missing-card')){
+            const holder=document.createElement('div');
+            holder.className='mp3-missing-card';
+            holder.innerHTML=`<b>這首 MP3 尚未放進網站</b>
+              <p>把已確認授權的音檔放到 <strong>${esc(t.audioSrc)}</strong>，重新整理後即可直接播放。也可以先按「測試本機 MP3」。</p>`;
+            a.insertAdjacentElement('afterend',holder);
+          }
+        });
+
+        a.addEventListener('play',()=>{
+          attachCaptionToAudio(a);
+          const b=$('localPlay'); if(b)b.textContent='PAUSE';
+        });
+        a.addEventListener('pause',()=>{
+          const b=$('localPlay'); if(b)b.textContent='PLAY';
+        });
+        a.addEventListener('timeupdate',()=>updateCaptionAt(a.currentTime||0));
+        a.addEventListener('seeked',()=>updateCaptionAt(a.currentTime||0));
+      }
+
+      $('localPlay')?.addEventListener('click',()=>{
+        if(!a)return;
+        if(a.paused)a.play().catch(()=>{});
+        else a.pause();
+      });
+
+      const locateTrack=()=>{
+        for(let gi=0;gi<DATA.length;gi++){
+          const ti=DATA[gi].tracks.indexOf(t);
+          if(ti>=0)return {gi,ti};
+        }
+        return null;
+      };
+      const jump=(dir)=>{
+        const p=locateTrack(); if(!p)return;
+        const arr=DATA[p.gi].tracks;
+        const ni=(p.ti+dir+arr.length)%arr.length;
+        openTrack(arr[ni],true);
+      };
+      $('localPrev')?.addEventListener('click',()=>jump(-1));
+      $('localNext')?.addEventListener('click',()=>jump(1));
+
+      const fi=$('localFileInput');
+      $('localPickFile')?.addEventListener('click',()=>fi?.click());
+      fi?.addEventListener('change',()=>{
+        const f=fi.files?.[0]; if(!f||!a)return;
+        const u=URL.createObjectURL(f);
+        a.src=u;
+        a.load();
+        a.play().catch(()=>{});
+        setStatus('ready','正在播放你選擇的本機 MP3（僅此工作階段）');
+      });
+      return;
+    }
 
     if(t.embed){
       body.innerHTML=`
@@ -2918,34 +4258,33 @@ function openTrack(t, userGesture=true){
           allow="autoplay"
           loading="eager"></iframe>
         <div class="player-links">
-          <a class="player-link secondary"
-             href="${esc(t.source)}"
-             target="_blank"
-             rel="noopener">授權 / SOURCE</a>
-        </div>`;
-      $('playerLegal').textContent='CC0 1.0 · 一鍵開啟站內播放器。若瀏覽器阻擋有聲自動播放，播放器仍會立即出現。';
+          <a class="player-link secondary" href="${esc(t.source)}" target="_blank" rel="noopener">SOURCE / LICENSE</a>
+        </div>
+        ${story}`;
+      $('playerLegal').textContent='CC0 embed · 歌曲介紹已載入；跨站 iframe 無法讀取 currentTime，因此字幕需使用時間碼＋手動同步，或改用 direct audio。';
+      wireCaptionUI(t);
       return;
     }
 
-    const url=t.discovery ? t.source : t.source;
     body.innerHTML=`
       <div class="player-opened">
-        <b>${externalOpened?'已開啟音樂來源':'點下方按鈕開啟音樂來源'}</b>
+        <b>${externalOpened?'已開啟音樂來源':'開啟音樂來源'}</b>
         <span>${externalOpened
-          ? '這首沒有可驗證的站內 embed，因此已在同一次點擊中直接開啟 CC0 原始頁面，不需要再點第二次。'
-          : '目前瀏覽器阻擋了新分頁；請使用下方按鈕開啟來源。'}</span>
+          ? '音樂已在同一次點擊中開啟；這裡保留歌曲介紹與字幕面板。'
+          : '瀏覽器阻擋了新分頁，請使用下方按鈕。'}</span>
       </div>
       <div class="player-links">
-        <a class="player-link"
-           href="${esc(url)}"
-           target="_blank"
-           rel="noopener">立即開啟音樂</a>
-      </div>`;
-    $('playerLegal').textContent='CC0 / Public Domain 來源入口。';
+        <a class="player-link" href="${esc(t.source)}" target="_blank" rel="noopener">立即開啟音樂</a>
+      </div>
+      ${story}`;
+    $('playerLegal').textContent='CC0 / Public Domain source · 歌曲介紹已載入。';
+    wireCaptionUI(t);
   });
 }
 
 function closeTrack(){
+  stopVinylRAF();
+  stopCaptionClock();
   $('playerSheet').classList.remove('open');
   $('playerSheet').setAttribute('aria-hidden','true');
   $('playerBody').innerHTML='';
