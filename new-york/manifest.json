@@ -1,0 +1,402 @@
+[
+  {
+    "slot": 1,
+    "target": "new-york/001.mp3",
+    "title": "Ants In My Pants",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 2,
+    "target": "new-york/002.mp3",
+    "title": "Zodiac $ign",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 3,
+    "target": "new-york/003.mp3",
+    "title": "Blow My High",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 4,
+    "target": "new-york/004.mp3",
+    "title": "Just A Little Bit More",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 5,
+    "target": "new-york/005.mp3",
+    "title": "Take Your Time",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 6,
+    "target": "new-york/006.mp3",
+    "title": "Eat.mp3",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 7,
+    "target": "new-york/007.mp3",
+    "title": "Tunez",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 8,
+    "target": "new-york/008.mp3",
+    "title": "Shotgun",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 9,
+    "target": "new-york/009.mp3",
+    "title": "Summer Song",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 10,
+    "target": "new-york/010.mp3",
+    "title": "brute force loop",
+    "artist": "vitalezzz",
+    "source": "https://nullrights.com/track/9wpskpn722",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 11,
+    "target": "new-york/011.mp3",
+    "title": "Golden Woman From A Dream V2",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 12,
+    "target": "new-york/012.mp3",
+    "title": "Like Us",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 13,
+    "target": "new-york/013.mp3",
+    "title": "Action Figure",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 14,
+    "target": "new-york/014.mp3",
+    "title": "Jailbreak",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 15,
+    "target": "new-york/015.mp3",
+    "title": "Cure",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 16,
+    "target": "new-york/016.mp3",
+    "title": "Mama Afriqa",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 17,
+    "target": "new-york/017.mp3",
+    "title": "Breath",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 18,
+    "target": "new-york/018.mp3",
+    "title": "Expolirng Tomorrow Part 3",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 19,
+    "target": "new-york/019.mp3",
+    "title": "Talk",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 20,
+    "target": "new-york/020.mp3",
+    "title": "Summer High",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 21,
+    "target": "new-york/021.mp3",
+    "title": "Georgia",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 22,
+    "target": "new-york/022.mp3",
+    "title": "Drinks On Me",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 23,
+    "target": "new-york/023.mp3",
+    "title": "Friends With Benz",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 24,
+    "target": "new-york/024.mp3",
+    "title": "Life & Death",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 25,
+    "target": "new-york/025.mp3",
+    "title": "Make You Happy",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 26,
+    "target": "new-york/026.mp3",
+    "title": "You (I Just Wanna)",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 27,
+    "target": "new-york/027.mp3",
+    "title": "Sleep",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 28,
+    "target": "new-york/028.mp3",
+    "title": "Swingin' Richards",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 29,
+    "target": "new-york/029.mp3",
+    "title": "Fashionably Late",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 30,
+    "target": "new-york/030.mp3",
+    "title": "Bikinis & Swimshorts",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 31,
+    "target": "new-york/031.mp3",
+    "title": "Call Of The Void",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 32,
+    "target": "new-york/032.mp3",
+    "title": "Lip Gloss",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 33,
+    "target": "new-york/033.mp3",
+    "title": "Umbrella",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 34,
+    "target": "new-york/034.mp3",
+    "title": "Missed Call",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 35,
+    "target": "new-york/035.mp3",
+    "title": "Lie To Me",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 36,
+    "target": "new-york/036.mp3",
+    "title": "Rose Petals & Candles",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 37,
+    "target": "new-york/037.mp3",
+    "title": "Make Love",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 38,
+    "target": "new-york/038.mp3",
+    "title": "Waves",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 39,
+    "target": "new-york/039.mp3",
+    "title": "LOL",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 40,
+    "target": "new-york/040.mp3",
+    "title": "2K22",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 41,
+    "target": "new-york/041.mp3",
+    "title": "So This Is Life",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 42,
+    "target": "new-york/042.mp3",
+    "title": "Miss You",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 43,
+    "target": "new-york/043.mp3",
+    "title": "Dirt Bikes",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 44,
+    "target": "new-york/044.mp3",
+    "title": "Friday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 45,
+    "target": "new-york/045.mp3",
+    "title": "Birthday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 46,
+    "target": "new-york/046.mp3",
+    "title": "Make Money",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 47,
+    "target": "new-york/047.mp3",
+    "title": "Exploring Tomorrow Part 1",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 48,
+    "target": "new-york/048.mp3",
+    "title": "Wishing",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 49,
+    "target": "new-york/049.mp3",
+    "title": "Sunday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 50,
+    "target": "new-york/050.mp3",
+    "title": "Hard To Love",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  }
+]

@@ -1,0 +1,402 @@
+[
+  {
+    "slot": 1,
+    "target": "taipei-style/001.mp3",
+    "title": "soirée.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 2,
+    "target": "taipei-style/002.mp3",
+    "title": "memories of a sweeter season. (little britannia)",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 3,
+    "target": "taipei-style/003.mp3",
+    "title": "lovely bluesy ditty.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 4,
+    "target": "taipei-style/004.mp3",
+    "title": "Blow My High",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 5,
+    "target": "taipei-style/005.mp3",
+    "title": "Dopamine Hits",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iv",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 6,
+    "target": "taipei-style/006.mp3",
+    "title": "Garden Eyes",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 7,
+    "target": "taipei-style/007.mp3",
+    "title": "Autumns Rusted Junky",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 8,
+    "target": "taipei-style/008.mp3",
+    "title": "Summer Song",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 9,
+    "target": "taipei-style/009.mp3",
+    "title": "Just A Little Bit More",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 10,
+    "target": "taipei-style/010.mp3",
+    "title": "Golden Woman From A Dream V2",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 11,
+    "target": "taipei-style/011.mp3",
+    "title": "harmonies du soir.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 12,
+    "target": "taipei-style/012.mp3",
+    "title": "cutie patootie.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 13,
+    "target": "taipei-style/013.mp3",
+    "title": "tabulation III.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 14,
+    "target": "taipei-style/014.mp3",
+    "title": "Jailbreak",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 15,
+    "target": "taipei-style/015.mp3",
+    "title": "This Is What We Live For",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iv",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 16,
+    "target": "taipei-style/016.mp3",
+    "title": "Eden",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 17,
+    "target": "taipei-style/017.mp3",
+    "title": "Hanging Over The Days",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 18,
+    "target": "taipei-style/018.mp3",
+    "title": "Summer High",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 19,
+    "target": "taipei-style/019.mp3",
+    "title": "Cure",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 20,
+    "target": "taipei-style/020.mp3",
+    "title": "Georgia",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 21,
+    "target": "taipei-style/021.mp3",
+    "title": "dimanche à 11h45.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 22,
+    "target": "taipei-style/022.mp3",
+    "title": "absurdes.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 23,
+    "target": "taipei-style/023.mp3",
+    "title": "tabulation II.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 24,
+    "target": "taipei-style/024.mp3",
+    "title": "Life & Death",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 25,
+    "target": "taipei-style/025.mp3",
+    "title": "Hyperreal",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iv",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 26,
+    "target": "taipei-style/026.mp3",
+    "title": "Your Nature",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 27,
+    "target": "taipei-style/027.mp3",
+    "title": "Make-Shift Salvation",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 28,
+    "target": "taipei-style/028.mp3",
+    "title": "Bikinis & Swimshorts",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 29,
+    "target": "taipei-style/029.mp3",
+    "title": "Make You Happy",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 30,
+    "target": "taipei-style/030.mp3",
+    "title": "Call Of The Void",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 31,
+    "target": "taipei-style/031.mp3",
+    "title": "(esperanza) linda aflição.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 32,
+    "target": "taipei-style/032.mp3",
+    "title": "hangover & despair.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 33,
+    "target": "taipei-style/033.mp3",
+    "title": "tabulation I.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 34,
+    "target": "taipei-style/034.mp3",
+    "title": "Missed Call",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 35,
+    "target": "taipei-style/035.mp3",
+    "title": "Won't Need Money Where I'm Going",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 36,
+    "target": "taipei-style/036.mp3",
+    "title": "Georgia Bound.",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 37,
+    "target": "taipei-style/037.mp3",
+    "title": "2K22",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 38,
+    "target": "taipei-style/038.mp3",
+    "title": "Lie To Me",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 39,
+    "target": "taipei-style/039.mp3",
+    "title": "So This Is Life",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 40,
+    "target": "taipei-style/040.mp3",
+    "title": "overwhelm.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 41,
+    "target": "taipei-style/041.mp3",
+    "title": "duet / idée. (en sol mineur)",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 42,
+    "target": "taipei-style/042.mp3",
+    "title": "Friday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 43,
+    "target": "taipei-style/043.mp3",
+    "title": "Shut In",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 44,
+    "target": "taipei-style/044.mp3",
+    "title": "Sunday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 45,
+    "target": "taipei-style/045.mp3",
+    "title": "Birthday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 46,
+    "target": "taipei-style/046.mp3",
+    "title": "Hard To Love",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 47,
+    "target": "taipei-style/047.mp3",
+    "title": "changes ?",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 48,
+    "target": "taipei-style/048.mp3",
+    "title": "ah vous dirais-je maman...",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 49,
+    "target": "taipei-style/049.mp3",
+    "title": "Pool Party",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 50,
+    "target": "taipei-style/050.mp3",
+    "title": "Old Testament God",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  }
+]

@@ -1,0 +1,402 @@
+[
+  {
+    "slot": 1,
+    "target": "jazz/001.mp3",
+    "title": "Tunez",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 2,
+    "target": "jazz/002.mp3",
+    "title": "Eat.mp3",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 3,
+    "target": "jazz/003.mp3",
+    "title": "Golden Woman From A Dream V2",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 4,
+    "target": "jazz/004.mp3",
+    "title": "Take Your Time",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 5,
+    "target": "jazz/005.mp3",
+    "title": "Just A Little Bit More",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 6,
+    "target": "jazz/006.mp3",
+    "title": "Garden Eyes",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 7,
+    "target": "jazz/007.mp3",
+    "title": "soirée.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 8,
+    "target": "jazz/008.mp3",
+    "title": "Sing of the Life of Love",
+    "artist": "Bob A. Feldman",
+    "source": "https://nullrights.com/track/euprupk1y6",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 9,
+    "target": "jazz/009.mp3",
+    "title": "Autumns Rusted Junky",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 10,
+    "target": "jazz/010.mp3",
+    "title": "memories of a sweeter season. (little britannia)",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 11,
+    "target": "jazz/011.mp3",
+    "title": "Gloria Morning",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 12,
+    "target": "jazz/012.mp3",
+    "title": "Expolirng Tomorrow Part 3",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 13,
+    "target": "jazz/013.mp3",
+    "title": "Breath",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 14,
+    "target": "jazz/014.mp3",
+    "title": "Georgia",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 15,
+    "target": "jazz/015.mp3",
+    "title": "Mama Afriqa",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 16,
+    "target": "jazz/016.mp3",
+    "title": "Cure",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 17,
+    "target": "jazz/017.mp3",
+    "title": "Eden",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 18,
+    "target": "jazz/018.mp3",
+    "title": "harmonies du soir.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 19,
+    "target": "jazz/019.mp3",
+    "title": "Hanging Over The Days",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 20,
+    "target": "jazz/020.mp3",
+    "title": "cutie patootie.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 21,
+    "target": "jazz/021.mp3",
+    "title": "Dear Old Dad",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 22,
+    "target": "jazz/022.mp3",
+    "title": "Swingin' Richards",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 23,
+    "target": "jazz/023.mp3",
+    "title": "Sleep",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 24,
+    "target": "jazz/024.mp3",
+    "title": "Call Of The Void",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 25,
+    "target": "jazz/025.mp3",
+    "title": "You (I Just Wanna)",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 26,
+    "target": "jazz/026.mp3",
+    "title": "Make You Happy",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 27,
+    "target": "jazz/027.mp3",
+    "title": "Your Nature",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 28,
+    "target": "jazz/028.mp3",
+    "title": "dimanche à 11h45.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 29,
+    "target": "jazz/029.mp3",
+    "title": "Make-Shift Salvation",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 30,
+    "target": "jazz/030.mp3",
+    "title": "absurdes.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 31,
+    "target": "jazz/031.mp3",
+    "title": "Foggy Minded World",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 32,
+    "target": "jazz/032.mp3",
+    "title": "Waves",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 33,
+    "target": "jazz/033.mp3",
+    "title": "Make Love",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 34,
+    "target": "jazz/034.mp3",
+    "title": "So This Is Life",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 35,
+    "target": "jazz/035.mp3",
+    "title": "Rose Petals & Candles",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 36,
+    "target": "jazz/036.mp3",
+    "title": "Lie To Me",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 37,
+    "target": "jazz/037.mp3",
+    "title": "Won't Need Money Where I'm Going",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 38,
+    "target": "jazz/038.mp3",
+    "title": "(esperanza) linda aflição.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 39,
+    "target": "jazz/039.mp3",
+    "title": "Georgia Bound.",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 40,
+    "target": "jazz/040.mp3",
+    "title": "hangover & despair.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 41,
+    "target": "jazz/041.mp3",
+    "title": "White Trash Blues",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 42,
+    "target": "jazz/042.mp3",
+    "title": "Exploring Tomorrow Part 1",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 43,
+    "target": "jazz/043.mp3",
+    "title": "Make Money",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 44,
+    "target": "jazz/044.mp3",
+    "title": "Hard To Love",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 45,
+    "target": "jazz/045.mp3",
+    "title": "Birthday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 46,
+    "target": "jazz/046.mp3",
+    "title": "overwhelm.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 47,
+    "target": "jazz/047.mp3",
+    "title": "Shut In",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 48,
+    "target": "jazz/048.mp3",
+    "title": "duet / idée. (en sol mineur)",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 49,
+    "target": "jazz/049.mp3",
+    "title": "Sweetheart",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 50,
+    "target": "jazz/050.mp3",
+    "title": "How Can Things Be",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  }
+]

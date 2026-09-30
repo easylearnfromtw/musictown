@@ -1,0 +1,402 @@
+[
+  {
+    "slot": 1,
+    "target": "crooner/001.mp3",
+    "title": "Just A Little Bit More",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 2,
+    "target": "crooner/002.mp3",
+    "title": "Take Your Time",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 3,
+    "target": "crooner/003.mp3",
+    "title": "Garden Eyes",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 4,
+    "target": "crooner/004.mp3",
+    "title": "Golden Woman From A Dream V2",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 5,
+    "target": "crooner/005.mp3",
+    "title": "Dopamine Hits",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iv",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 6,
+    "target": "crooner/006.mp3",
+    "title": "Ants In My Pants",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 7,
+    "target": "crooner/007.mp3",
+    "title": "Sing of the Life of Love",
+    "artist": "Bob A. Feldman",
+    "source": "https://nullrights.com/track/euprupk1y6",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 8,
+    "target": "crooner/008.mp3",
+    "title": "soirée.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 9,
+    "target": "crooner/009.mp3",
+    "title": "Autumns Rusted Junky",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 10,
+    "target": "crooner/010.mp3",
+    "title": "memories of a sweeter season. (little britannia)",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 11,
+    "target": "crooner/011.mp3",
+    "title": "Summer Song",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 12,
+    "target": "crooner/012.mp3",
+    "title": "Cure",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 13,
+    "target": "crooner/013.mp3",
+    "title": "Mama Afriqa",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 14,
+    "target": "crooner/014.mp3",
+    "title": "Eden",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 15,
+    "target": "crooner/015.mp3",
+    "title": "Georgia",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 16,
+    "target": "crooner/016.mp3",
+    "title": "This Is What We Live For",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iv",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 17,
+    "target": "crooner/017.mp3",
+    "title": "Like Us",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 18,
+    "target": "crooner/018.mp3",
+    "title": "harmonies du soir.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 19,
+    "target": "crooner/019.mp3",
+    "title": "Hanging Over The Days",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 20,
+    "target": "crooner/020.mp3",
+    "title": "cutie patootie.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 21,
+    "target": "crooner/021.mp3",
+    "title": "Summer High",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 22,
+    "target": "crooner/022.mp3",
+    "title": "Make You Happy",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 23,
+    "target": "crooner/023.mp3",
+    "title": "You (I Just Wanna)",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 24,
+    "target": "crooner/024.mp3",
+    "title": "Your Nature",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 25,
+    "target": "crooner/025.mp3",
+    "title": "Call Of The Void",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 26,
+    "target": "crooner/026.mp3",
+    "title": "Hyperreal",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iv",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 27,
+    "target": "crooner/027.mp3",
+    "title": "Drinks On Me",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 28,
+    "target": "crooner/028.mp3",
+    "title": "dimanche à 11h45.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 29,
+    "target": "crooner/029.mp3",
+    "title": "Make-Shift Salvation",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 30,
+    "target": "crooner/030.mp3",
+    "title": "absurdes.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 31,
+    "target": "crooner/031.mp3",
+    "title": "Bikinis & Swimshorts",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 32,
+    "target": "crooner/032.mp3",
+    "title": "Lie To Me",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 33,
+    "target": "crooner/033.mp3",
+    "title": "Rose Petals & Candles",
+    "artist": "Tadz",
+    "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 34,
+    "target": "crooner/034.mp3",
+    "title": "Won't Need Money Where I'm Going",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 35,
+    "target": "crooner/035.mp3",
+    "title": "So This Is Life",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 36,
+    "target": "crooner/036.mp3",
+    "title": "Lip Gloss",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 37,
+    "target": "crooner/037.mp3",
+    "title": "(esperanza) linda aflição.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 38,
+    "target": "crooner/038.mp3",
+    "title": "Georgia Bound.",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 39,
+    "target": "crooner/039.mp3",
+    "title": "hangover & despair.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 40,
+    "target": "crooner/040.mp3",
+    "title": "2K22",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 41,
+    "target": "crooner/041.mp3",
+    "title": "Birthday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 42,
+    "target": "crooner/042.mp3",
+    "title": "Hard To Love",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 43,
+    "target": "crooner/043.mp3",
+    "title": "Miss You",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 44,
+    "target": "crooner/044.mp3",
+    "title": "overwhelm.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 45,
+    "target": "crooner/045.mp3",
+    "title": "Shut In",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 46,
+    "target": "crooner/046.mp3",
+    "title": "duet / idée. (en sol mineur)",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 47,
+    "target": "crooner/047.mp3",
+    "title": "Sunday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 48,
+    "target": "crooner/048.mp3",
+    "title": "You're My Everything",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 49,
+    "target": "crooner/049.mp3",
+    "title": "Monster",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 50,
+    "target": "crooner/050.mp3",
+    "title": "Supermodel",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  }
+]

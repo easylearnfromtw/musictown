@@ -1,0 +1,402 @@
+[
+  {
+    "slot": 1,
+    "target": "sport/001.mp3",
+    "title": "Summer Song",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 2,
+    "target": "sport/002.mp3",
+    "title": "Ants In My Pants",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 3,
+    "target": "sport/003.mp3",
+    "title": "Zodiac $ign",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 4,
+    "target": "sport/004.mp3",
+    "title": "Blow My High",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 5,
+    "target": "sport/005.mp3",
+    "title": "Shotgun",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 6,
+    "target": "sport/006.mp3",
+    "title": "Bravery Demon",
+    "artist": "MintoDog",
+    "source": "https://nullrights.com/track/aud8c99prl",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 7,
+    "target": "sport/007.mp3",
+    "title": "Bravery Vampire",
+    "artist": "MintoDog",
+    "source": "https://nullrights.com/track/6hdglern2k",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 8,
+    "target": "sport/008.mp3",
+    "title": "The End - Day 30",
+    "artist": "Zane Little Music",
+    "source": "https://nullrights.com/track/4vtiesno4u",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 9,
+    "target": "sport/009.mp3",
+    "title": "brute force loop",
+    "artist": "vitalezzz",
+    "source": "https://nullrights.com/track/9wpskpn722",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 10,
+    "target": "sport/010.mp3",
+    "title": "Wicked beast",
+    "artist": "tricksntraps",
+    "source": "https://nullrights.com/track/qllv8kwa3p",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 11,
+    "target": "sport/011.mp3",
+    "title": "Just A Little Bit More",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 12,
+    "target": "sport/012.mp3",
+    "title": "Eat.mp3",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 13,
+    "target": "sport/013.mp3",
+    "title": "Summer High",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 14,
+    "target": "sport/014.mp3",
+    "title": "Like Us",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 15,
+    "target": "sport/015.mp3",
+    "title": "Action Figure",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 16,
+    "target": "sport/016.mp3",
+    "title": "Jailbreak",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 17,
+    "target": "sport/017.mp3",
+    "title": "Talk",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 18,
+    "target": "sport/018.mp3",
+    "title": "Cure",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 19,
+    "target": "sport/019.mp3",
+    "title": "Breath",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 20,
+    "target": "sport/020.mp3",
+    "title": "Bikinis & Swimshorts",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 21,
+    "target": "sport/021.mp3",
+    "title": "Drinks On Me",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 22,
+    "target": "sport/022.mp3",
+    "title": "Friends With Benz",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 23,
+    "target": "sport/023.mp3",
+    "title": "Life & Death",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 24,
+    "target": "sport/024.mp3",
+    "title": "Fashionably Late",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 25,
+    "target": "sport/025.mp3",
+    "title": "Make You Happy",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 26,
+    "target": "sport/026.mp3",
+    "title": "Sleep",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 27,
+    "target": "sport/027.mp3",
+    "title": "2K22",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 28,
+    "target": "sport/028.mp3",
+    "title": "Lip Gloss",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 29,
+    "target": "sport/029.mp3",
+    "title": "Umbrella",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 30,
+    "target": "sport/030.mp3",
+    "title": "Missed Call",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 31,
+    "target": "sport/031.mp3",
+    "title": "LOL",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 32,
+    "target": "sport/032.mp3",
+    "title": "Lie To Me",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 33,
+    "target": "sport/033.mp3",
+    "title": "Make Love",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 34,
+    "target": "sport/034.mp3",
+    "title": "Sunday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 35,
+    "target": "sport/035.mp3",
+    "title": "Miss You",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 36,
+    "target": "sport/036.mp3",
+    "title": "Dirt Bikes",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 37,
+    "target": "sport/037.mp3",
+    "title": "Friday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 38,
+    "target": "sport/038.mp3",
+    "title": "Wishing",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 39,
+    "target": "sport/039.mp3",
+    "title": "Birthday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 40,
+    "target": "sport/040.mp3",
+    "title": "Make Money",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 41,
+    "target": "sport/041.mp3",
+    "title": "Hey Friends",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 42,
+    "target": "sport/042.mp3",
+    "title": "Supermodel",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 43,
+    "target": "sport/043.mp3",
+    "title": "In God I Must",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 44,
+    "target": "sport/044.mp3",
+    "title": "Pool Party",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 45,
+    "target": "sport/045.mp3",
+    "title": "Zoom Zoom",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/xii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 46,
+    "target": "sport/046.mp3",
+    "title": "You're My Everything",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 47,
+    "target": "sport/047.mp3",
+    "title": "Make Funk",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 48,
+    "target": "sport/048.mp3",
+    "title": "Splish Splash",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 49,
+    "target": "sport/049.mp3",
+    "title": "Stimulant",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ii",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 50,
+    "target": "sport/050.mp3",
+    "title": "Jet Lag",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/iii",
+    "license": "CC0 1.0 Universal"
+  }
+]

@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 ROOT=Path(__file__).resolve().parent
 MANIFEST=json.loads((ROOT/"verified_audio_manifest.json").read_text(encoding="utf-8"))
-CACHE=ROOT/"music"/"_master"
+CACHE=ROOT/"_master_audio"
 CACHE.mkdir(parents=True,exist_ok=True)
 S=requests.Session()
 S.headers.update({"User-Agent":"musicetown-verified-cc0-builder/8.1"})

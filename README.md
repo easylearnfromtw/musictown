@@ -1,31 +1,24 @@
-# musicetown R8.1 — GitHub Pages / verified audio folders
+# musicetown R8.4
 
-## Changes
-- MY LIBRARY stays open when you click/play inside it.
-- Added playlist sharing (Web Share API + copy-link fallback).
-- Rebuilt all 11×50 slots from a source-verified CC0 master pool.
-- Removed synthetic/search-placeholder songs from production.
-- Every drawer now has its own physical audio folder:
-  `music/jazz/`, `music/london/`, `music/new-york/`, etc.
-- `verified_audio_manifest.json` records every slot, source, licence evidence and target file.
+## Share Atelier
+- Share button opens a branded preview instead of immediately throwing a system share sheet.
+- Theme-colored glass playlist cover.
+- Transparent vinyl + circular type + musicetown globe mark.
+- Native share / Copy Link / Copy Tracklist / Preview recipient page.
+- Received playlists have a matching designed player/library surface.
+- Mobile uses a bottom-sheet treatment.
 
-## Audio folders
-Each category expects:
-`001.mp3` ... `050.mp3`
+## Vinyl
+- Vinyl colors are substantially more translucent.
+- Center label uses circular typography.
+- Existing musicetown globe mark is integrated into the record label.
+- Rotation now happens on a dedicated `.vinyl-rotor`, so button press/hover transforms cannot override record rotation.
+- Local audio rotation follows `audio.currentTime`.
+- Online fallback mode gets a slow visual rotation because cross-origin iframe playback time is inaccessible.
+- Scratch/seek still changes real local audio currentTime.
 
-The HTML points directly to those category-specific files.
-
-## Why MP3 binaries are not bundled here
-The ChatGPT build container cannot fetch third-party audio binaries directly.
-Run `fetch_verified_audio.py` on your Mac/PC. It re-checks source-page CC0 text,
-downloads each unique master once, converts to MP3 with ffmpeg, then copies the
-result into every required category folder.
-
-This gives you the expanded physical-folder layout you requested without the
-build pretending missing audio files already exist.
-
-## GitHub size warning
-11 × 50 full MP3 copies can make the repository very large. GitHub rejects
-individual files over 100 MB and large repositories become slow. For a public
-production deployment, consider putting `music/` on object storage/CDN while
-keeping this GitHub Pages frontend unchanged.
+All R8.3 fixes remain:
+- shared WebGL drawer on the second page
+- thick-border playing state
+- locked MY LIBRARY modal
+- hybrid playback fallback

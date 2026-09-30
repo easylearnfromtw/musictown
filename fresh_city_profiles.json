@@ -1,0 +1,180 @@
+{
+  "TAIPEI STYLE": {
+    "slug": "taipei-style",
+    "label": "Taipei Night · Indie / Bedroom / Rain",
+    "queries": [
+      "indie vocal",
+      "bedroom pop vocal",
+      "lofi vocal",
+      "folk vocal mellow",
+      "dream pop vocal",
+      "soft pop vocal"
+    ],
+    "genres": [
+      "Pop",
+      "Folk",
+      "Chill-out",
+      "Experimental Pop"
+    ],
+    "keywords": [
+      "indie",
+      "bedroom",
+      "lofi",
+      "lo-fi",
+      "dream",
+      "soft",
+      "mellow",
+      "rain",
+      "night",
+      "folk",
+      "pop",
+      "chill"
+    ]
+  },
+  "OLD TOKYO": {
+    "slug": "old-tokyo",
+    "label": "Neon Tokyo · Synth / Retro Pop / Disco",
+    "queries": [
+      "synth pop vocal",
+      "retro pop vocal",
+      "disco vocal",
+      "funk pop vocal",
+      "synthwave vocal",
+      "electronic pop vocal"
+    ],
+    "genres": [
+      "Pop",
+      "Electronic",
+      "Funk / Soul"
+    ],
+    "keywords": [
+      "synth",
+      "retro",
+      "disco",
+      "funk",
+      "pop",
+      "electronic",
+      "night",
+      "vaporwave",
+      "synthwave",
+      "dance"
+    ]
+  },
+  "SPLENDOR SHANGHAI": {
+    "slug": "splendor-shanghai",
+    "label": "Old Shanghai · Jazz / Soul / Ballroom",
+    "queries": [
+      "jazz vocal",
+      "soul vocal",
+      "blues vocal",
+      "swing vocal",
+      "vintage vocal",
+      "lounge vocal"
+    ],
+    "genres": [
+      "Jazz",
+      "Funk / Soul",
+      "Blues"
+    ],
+    "keywords": [
+      "jazz",
+      "soul",
+      "blues",
+      "swing",
+      "vintage",
+      "lounge",
+      "ballroom",
+      "slow",
+      "romantic"
+    ]
+  },
+  "VANCOUVER": {
+    "slug": "vancouver",
+    "label": "Pacific Rain · Folk / Indie / Dreamy",
+    "queries": [
+      "folk vocal",
+      "acoustic vocal",
+      "indie folk vocal",
+      "dreamy vocal",
+      "mellow vocal",
+      "ambient vocal"
+    ],
+    "genres": [
+      "Folk",
+      "Chill-out",
+      "Ambient",
+      "Pop"
+    ],
+    "keywords": [
+      "folk",
+      "acoustic",
+      "dream",
+      "mellow",
+      "ambient",
+      "slow",
+      "relaxing",
+      "indie",
+      "rain",
+      "nature"
+    ]
+  },
+  "LONDON": {
+    "slug": "london",
+    "label": "Soho · Post-Punk / Art Pop / Indie Rock",
+    "queries": [
+      "post punk vocal",
+      "art pop vocal",
+      "indie rock vocal",
+      "new wave vocal",
+      "alternative rock vocal",
+      "experimental pop vocal"
+    ],
+    "genres": [
+      "Rock",
+      "Experimental Pop",
+      "Pop"
+    ],
+    "keywords": [
+      "post-punk",
+      "post punk",
+      "art pop",
+      "indie",
+      "rock",
+      "alternative",
+      "new wave",
+      "experimental",
+      "punk"
+    ]
+  },
+  "NEW YORK": {
+    "slug": "new-york",
+    "label": "Downtown · Soul / Funk / Urban Groove",
+    "queries": [
+      "soul vocal",
+      "funk vocal",
+      "jazz funk vocal",
+      "urban pop vocal",
+      "hip hop vocal",
+      "rnb vocal"
+    ],
+    "genres": [
+      "Funk / Soul",
+      "Jazz",
+      "Hip Hop",
+      "Pop"
+    ],
+    "keywords": [
+      "soul",
+      "funk",
+      "jazz",
+      "urban",
+      "hip hop",
+      "groove",
+      "r&b",
+      "rnb",
+      "downtown",
+      "city",
+      "pop"
+    ]
+  }
+}

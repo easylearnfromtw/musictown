@@ -1,0 +1,402 @@
+[
+  {
+    "slot": 1,
+    "target": "lo-fi/001.mp3",
+    "title": "soirée.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 2,
+    "target": "lo-fi/002.mp3",
+    "title": "memories of a sweeter season. (little britannia)",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 3,
+    "target": "lo-fi/003.mp3",
+    "title": "lovely bluesy ditty.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 4,
+    "target": "lo-fi/004.mp3",
+    "title": "Garden Eyes",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 5,
+    "target": "lo-fi/005.mp3",
+    "title": "Autumns Rusted Junky",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 6,
+    "target": "lo-fi/006.mp3",
+    "title": "Goodbye Good Times",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 7,
+    "target": "lo-fi/007.mp3",
+    "title": "Sing of the Life of Love",
+    "artist": "Bob A. Feldman",
+    "source": "https://nullrights.com/track/euprupk1y6",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 8,
+    "target": "lo-fi/008.mp3",
+    "title": "Golden Woman From A Dream V2",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 9,
+    "target": "lo-fi/009.mp3",
+    "title": "Just A Little Bit More",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 10,
+    "target": "lo-fi/010.mp3",
+    "title": "Tunez",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 11,
+    "target": "lo-fi/011.mp3",
+    "title": "harmonies du soir.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 12,
+    "target": "lo-fi/012.mp3",
+    "title": "cutie patootie.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 13,
+    "target": "lo-fi/013.mp3",
+    "title": "tabulation III.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 14,
+    "target": "lo-fi/014.mp3",
+    "title": "Eden",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 15,
+    "target": "lo-fi/015.mp3",
+    "title": "Hanging Over The Days",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 16,
+    "target": "lo-fi/016.mp3",
+    "title": "Makes-Shift Salvation",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 17,
+    "target": "lo-fi/017.mp3",
+    "title": "Georgia",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 18,
+    "target": "lo-fi/018.mp3",
+    "title": "Cure",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 19,
+    "target": "lo-fi/019.mp3",
+    "title": "Expolirng Tomorrow Part 3",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 20,
+    "target": "lo-fi/020.mp3",
+    "title": "dimanche à 11h45.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 21,
+    "target": "lo-fi/021.mp3",
+    "title": "absurdes.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 22,
+    "target": "lo-fi/022.mp3",
+    "title": "tabulation II.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 23,
+    "target": "lo-fi/023.mp3",
+    "title": "Your Nature",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 24,
+    "target": "lo-fi/024.mp3",
+    "title": "Make-Shift Salvation",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 25,
+    "target": "lo-fi/025.mp3",
+    "title": "A Cloud Dog named Sky",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 26,
+    "target": "lo-fi/026.mp3",
+    "title": "Call Of The Void",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 27,
+    "target": "lo-fi/027.mp3",
+    "title": "Make You Happy",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 28,
+    "target": "lo-fi/028.mp3",
+    "title": "Swingin' Richards",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 29,
+    "target": "lo-fi/029.mp3",
+    "title": "(esperanza) linda aflição.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 30,
+    "target": "lo-fi/030.mp3",
+    "title": "hangover & despair.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 31,
+    "target": "lo-fi/031.mp3",
+    "title": "tabulation I.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 32,
+    "target": "lo-fi/032.mp3",
+    "title": "Won't Need Money Where I'm Going",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 33,
+    "target": "lo-fi/033.mp3",
+    "title": "Georgia Bound.",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 34,
+    "target": "lo-fi/034.mp3",
+    "title": "A Small Town On Pluto",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 35,
+    "target": "lo-fi/035.mp3",
+    "title": "So This Is Life",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 36,
+    "target": "lo-fi/036.mp3",
+    "title": "Lie To Me",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 37,
+    "target": "lo-fi/037.mp3",
+    "title": "Waves",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 38,
+    "target": "lo-fi/038.mp3",
+    "title": "overwhelm.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 39,
+    "target": "lo-fi/039.mp3",
+    "title": "duet / idée. (en sol mineur)",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 40,
+    "target": "lo-fi/040.mp3",
+    "title": "Shut In",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 41,
+    "target": "lo-fi/041.mp3",
+    "title": "The Wind That Whistled Through The Wicker Chair",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 42,
+    "target": "lo-fi/042.mp3",
+    "title": "Hard To Love",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 43,
+    "target": "lo-fi/043.mp3",
+    "title": "Birthday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 44,
+    "target": "lo-fi/044.mp3",
+    "title": "Exploring Tomorrow Part 1",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 45,
+    "target": "lo-fi/045.mp3",
+    "title": "changes ?",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 46,
+    "target": "lo-fi/046.mp3",
+    "title": "ah vous dirais-je maman...",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 47,
+    "target": "lo-fi/047.mp3",
+    "title": "Old Testament God",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 48,
+    "target": "lo-fi/048.mp3",
+    "title": "Iron Skies",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 49,
+    "target": "lo-fi/049.mp3",
+    "title": "Monster",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 50,
+    "target": "lo-fi/050.mp3",
+    "title": "You're My Everything",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/fatal-1",
+    "license": "CC0 1.0 Universal"
+  }
+]

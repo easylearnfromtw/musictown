@@ -1,0 +1,402 @@
+[
+  {
+    "slot": 1,
+    "target": "vancouver/001.mp3",
+    "title": "soirée.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 2,
+    "target": "vancouver/002.mp3",
+    "title": "memories of a sweeter season. (little britannia)",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 3,
+    "target": "vancouver/003.mp3",
+    "title": "Garden Eyes",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 4,
+    "target": "vancouver/004.mp3",
+    "title": "Autumns Rusted Junky",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 5,
+    "target": "vancouver/005.mp3",
+    "title": "Goodbye Good Times",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 6,
+    "target": "vancouver/006.mp3",
+    "title": "Gloria Morning",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 7,
+    "target": "vancouver/007.mp3",
+    "title": "lovely bluesy ditty.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 8,
+    "target": "vancouver/008.mp3",
+    "title": "Summer Song",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 9,
+    "target": "vancouver/009.mp3",
+    "title": "Golden Woman From A Dream V2",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 10,
+    "target": "vancouver/010.mp3",
+    "title": "Sing of the Life of Love",
+    "artist": "Bob A. Feldman",
+    "source": "https://nullrights.com/track/euprupk1y6",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 11,
+    "target": "vancouver/011.mp3",
+    "title": "harmonies du soir.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 12,
+    "target": "vancouver/012.mp3",
+    "title": "cutie patootie.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 13,
+    "target": "vancouver/013.mp3",
+    "title": "Eden",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 14,
+    "target": "vancouver/014.mp3",
+    "title": "Hanging Over The Days",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 15,
+    "target": "vancouver/015.mp3",
+    "title": "Makes-Shift Salvation",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 16,
+    "target": "vancouver/016.mp3",
+    "title": "Dear Old Dad",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 17,
+    "target": "vancouver/017.mp3",
+    "title": "tabulation III.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 18,
+    "target": "vancouver/018.mp3",
+    "title": "Summer High",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 19,
+    "target": "vancouver/019.mp3",
+    "title": "Georgia",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 20,
+    "target": "vancouver/020.mp3",
+    "title": "dimanche à 11h45.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 21,
+    "target": "vancouver/021.mp3",
+    "title": "absurdes.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 22,
+    "target": "vancouver/022.mp3",
+    "title": "Your Nature",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 23,
+    "target": "vancouver/023.mp3",
+    "title": "Make-Shift Salvation",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 24,
+    "target": "vancouver/024.mp3",
+    "title": "A Cloud Dog named Sky",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 25,
+    "target": "vancouver/025.mp3",
+    "title": "Foggy Minded World",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 26,
+    "target": "vancouver/026.mp3",
+    "title": "tabulation II.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 27,
+    "target": "vancouver/027.mp3",
+    "title": "Bikinis & Swimshorts",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 28,
+    "target": "vancouver/028.mp3",
+    "title": "Call Of The Void",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 29,
+    "target": "vancouver/029.mp3",
+    "title": "(esperanza) linda aflição.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 30,
+    "target": "vancouver/030.mp3",
+    "title": "hangover & despair.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 31,
+    "target": "vancouver/031.mp3",
+    "title": "Won't Need Money Where I'm Going",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 32,
+    "target": "vancouver/032.mp3",
+    "title": "Georgia Bound.",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 33,
+    "target": "vancouver/033.mp3",
+    "title": "A Small Town On Pluto",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 34,
+    "target": "vancouver/034.mp3",
+    "title": "White Trash Blues",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 35,
+    "target": "vancouver/035.mp3",
+    "title": "tabulation I.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 36,
+    "target": "vancouver/036.mp3",
+    "title": "2K22",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 37,
+    "target": "vancouver/037.mp3",
+    "title": "So This Is Life",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 38,
+    "target": "vancouver/038.mp3",
+    "title": "overwhelm.",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 39,
+    "target": "vancouver/039.mp3",
+    "title": "duet / idée. (en sol mineur)",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 40,
+    "target": "vancouver/040.mp3",
+    "title": "Shut In",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 41,
+    "target": "vancouver/041.mp3",
+    "title": "The Wind That Whistled Through The Wicker Chair",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 42,
+    "target": "vancouver/042.mp3",
+    "title": "Sweetheart",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 43,
+    "target": "vancouver/043.mp3",
+    "title": "Sunday",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 44,
+    "target": "vancouver/044.mp3",
+    "title": "Hard To Love",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 45,
+    "target": "vancouver/045.mp3",
+    "title": "changes ?",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/quiet-music",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 46,
+    "target": "vancouver/046.mp3",
+    "title": "ah vous dirais-je maman...",
+    "artist": "oji",
+    "source": "https://freemusicarchive.org/music/oji/outlet",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 47,
+    "target": "vancouver/047.mp3",
+    "title": "Old Testament God",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 48,
+    "target": "vancouver/048.mp3",
+    "title": "Iron Skies",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 49,
+    "target": "vancouver/049.mp3",
+    "title": "Ballad Of Ishmael",
+    "artist": "HoliznaCC0",
+    "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+    "license": "CC0 1.0 Universal"
+  },
+  {
+    "slot": 50,
+    "target": "vancouver/050.mp3",
+    "title": "Hey Friends",
+    "artist": "SUPERARE",
+    "source": "https://freemusicarchive.org/music/superare/ix",
+    "license": "CC0 1.0 Universal"
+  }
+]
