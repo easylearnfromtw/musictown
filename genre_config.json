@@ -1,0 +1,100 @@
+{
+  "genres": [
+    {
+      "name": "JAZZ",
+      "folder": "jazz",
+      "queries": [
+        "jazz vocal",
+        "blues vocal",
+        "swing vocal",
+        "soul jazz vocal"
+      ],
+      "description": "Jazz / blues / swing vocal",
+      "require_vocals": true
+    },
+    {
+      "name": "CROONER",
+      "folder": "crooner",
+      "queries": [
+        "soul vocal",
+        "lounge vocal",
+        "jazz singer",
+        "singer songwriter vocal"
+      ],
+      "description": "Crooner-adjacent / soul / lounge vocal",
+      "require_vocals": true
+    },
+    {
+      "name": "ROCK",
+      "folder": "rock",
+      "queries": [
+        "rock vocal",
+        "punk vocal",
+        "blues rock vocal",
+        "indie rock vocal"
+      ],
+      "description": "Rock / punk / blues vocal",
+      "require_vocals": true
+    },
+    {
+      "name": "SPORT",
+      "folder": "sport",
+      "queries": [
+        "energetic vocal",
+        "pop rock vocal",
+        "electronic vocal energetic",
+        "punk vocal energetic"
+      ],
+      "description": "High-energy vocal",
+      "require_vocals": true
+    },
+    {
+      "name": "LO-FI",
+      "folder": "lo-fi",
+      "queries": [
+        "lofi vocal",
+        "folk vocal slow",
+        "indie vocal mellow",
+        "singer songwriter slow"
+      ],
+      "description": "Lo-fi / folk / mellow vocal",
+      "require_vocals": true
+    },
+    {
+      "name": "TAIPEI STYLE",
+      "folder": "taipei-style",
+      "queries": [
+        "indie vocal",
+        "lofi indie vocal",
+        "bedroom pop vocal",
+        "art pop vocal"
+      ],
+      "description": "Taipei night / indie / bedroom vocal",
+      "require_vocals": true
+    },
+    {
+      "name": "OLD TOKYO",
+      "folder": "old-tokyo",
+      "queries": [
+        "synth pop vocal",
+        "dance pop vocal",
+        "funk pop vocal",
+        "retro pop vocal"
+      ],
+      "description": "City-pop-adjacent / synth-pop vocal",
+      "require_vocals": true
+    },
+    {
+      "name": "SPLENDOR SHANGHAI",
+      "folder": "splendor-shanghai",
+      "queries": [
+        "jazz vocal vintage",
+        "soul vocal vintage",
+        "blues vocal vintage",
+        "ragtime jazz vocal"
+      ],
+      "description": "Vintage jazz / soul / ballroom vocal",
+      "require_vocals": true
+    }
+  ]
+}

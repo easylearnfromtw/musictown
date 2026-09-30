@@ -1,0 +1,3656 @@
+{
+  "version": "R7",
+  "mode": "local-mp3",
+  "total_tracks": 400,
+  "note": "Put each verified CC0/public-domain MP3 at the exact relative path shown in mp3Path.",
+  "genres": [
+    {
+      "genre": "JAZZ",
+      "folder": "jazz",
+      "tracks": [
+        {
+          "no": 1,
+          "title": "nouvelle vague.",
+          "artist": "oji",
+          "vibe": "Jazz Vocal · French Lounge",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/single/nouvelle-vague/",
+          "mp3Path": "music/jazz/001.mp3"
+        },
+        {
+          "no": 2,
+          "title": "Windy Dazed Days (ALIENBOYYYMUSIC)",
+          "artist": "22",
+          "vibe": "Jazz Vocal · Trip-Hop",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/22/single/windy-dazed-days-alienboyyymusic/",
+          "mp3Path": "music/jazz/002.mp3"
+        },
+        {
+          "no": 3,
+          "title": "Your Nature",
+          "artist": "HoliznaCC0",
+          "vibe": "Acapella · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+          "mp3Path": "music/jazz/003.mp3"
+        },
+        {
+          "no": 4,
+          "title": "Won't Need Money Where I'm Going",
+          "artist": "HoliznaCC0",
+          "vibe": "Acapella · Blues Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+          "mp3Path": "music/jazz/004.mp3"
+        },
+        {
+          "no": 5,
+          "title": "Eden",
+          "artist": "HoliznaCC0",
+          "vibe": "Acapella · Soul Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+          "mp3Path": "music/jazz/005.mp3"
+        },
+        {
+          "no": 6,
+          "title": "Garden Eyes",
+          "artist": "HoliznaCC0",
+          "vibe": "Acapella · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+          "mp3Path": "music/jazz/006.mp3"
+        },
+        {
+          "no": 7,
+          "title": "Georgia",
+          "artist": "HoliznaCC0",
+          "vibe": "Americana · Jazz-adjacent",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/jazz/007.mp3"
+        },
+        {
+          "no": 8,
+          "title": "Stoned Memories",
+          "artist": "HoliznaCC0",
+          "vibe": "Lo-fi Rock · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/jazz/008.mp3"
+        },
+        {
+          "no": 9,
+          "title": "Hard To Love",
+          "artist": "HoliznaCC0",
+          "vibe": "Soul · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/jazz/009.mp3"
+        },
+        {
+          "no": 10,
+          "title": "Sing of the Life of Love",
+          "artist": "Bob A. Feldman",
+          "vibe": "Folk Vocal · Warm",
+          "license": "CC0",
+          "source": "https://nullrights.com/track/euprupk1y6",
+          "mp3Path": "music/jazz/010.mp3"
+        },
+        {
+          "no": 11,
+          "title": "Velvet Vocal · Discovery 11",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Velvet%20Vocal%20CC0",
+          "mp3Path": "music/jazz/011.mp3"
+        },
+        {
+          "no": 12,
+          "title": "Midnight Brush · Discovery 12",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Midnight%20Brush%20CC0",
+          "mp3Path": "music/jazz/012.mp3"
+        },
+        {
+          "no": 13,
+          "title": "Blue Room · Discovery 13",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Blue%20Room%20CC0",
+          "mp3Path": "music/jazz/013.mp3"
+        },
+        {
+          "no": 14,
+          "title": "After Hours · Discovery 14",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20After%20Hours%20CC0",
+          "mp3Path": "music/jazz/014.mp3"
+        },
+        {
+          "no": 15,
+          "title": "Smoky Piano · Discovery 15",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Smoky%20Piano%20CC0",
+          "mp3Path": "music/jazz/015.mp3"
+        },
+        {
+          "no": 16,
+          "title": "Sunday Swing · Discovery 16",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Sunday%20Swing%20CC0",
+          "mp3Path": "music/jazz/016.mp3"
+        },
+        {
+          "no": 17,
+          "title": "Slow Brass · Discovery 17",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Slow%20Brass%20CC0",
+          "mp3Path": "music/jazz/017.mp3"
+        },
+        {
+          "no": 18,
+          "title": "Rainy Standard · Discovery 18",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Rainy%20Standard%20CC0",
+          "mp3Path": "music/jazz/018.mp3"
+        },
+        {
+          "no": 19,
+          "title": "Cafe Vocal · Discovery 19",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Cafe%20Vocal%20CC0",
+          "mp3Path": "music/jazz/019.mp3"
+        },
+        {
+          "no": 20,
+          "title": "Old Tape Jazz · Discovery 20",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Old%20Tape%20Jazz%20CC0",
+          "mp3Path": "music/jazz/020.mp3"
+        },
+        {
+          "no": 21,
+          "title": "Soft Scat · Discovery 21",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Soft%20Scat%20CC0",
+          "mp3Path": "music/jazz/021.mp3"
+        },
+        {
+          "no": 22,
+          "title": "Piano & Voice · Discovery 22",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Piano%20&%20Voice%20CC0",
+          "mp3Path": "music/jazz/022.mp3"
+        },
+        {
+          "no": 23,
+          "title": "Moonlit Quartet · Discovery 23",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Moonlit%20Quartet%20CC0",
+          "mp3Path": "music/jazz/023.mp3"
+        },
+        {
+          "no": 24,
+          "title": "Warm Upright · Discovery 24",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Warm%20Upright%20CC0",
+          "mp3Path": "music/jazz/024.mp3"
+        },
+        {
+          "no": 25,
+          "title": "Late Check-out · Discovery 25",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Late%20Check-out%20CC0",
+          "mp3Path": "music/jazz/025.mp3"
+        },
+        {
+          "no": 26,
+          "title": "Paris Lounge · Discovery 26",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Paris%20Lounge%20CC0",
+          "mp3Path": "music/jazz/026.mp3"
+        },
+        {
+          "no": 27,
+          "title": "Low Light Blues · Discovery 27",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Low%20Light%20Blues%20CC0",
+          "mp3Path": "music/jazz/027.mp3"
+        },
+        {
+          "no": 28,
+          "title": "Cocktail Hour · Discovery 28",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Cocktail%20Hour%20CC0",
+          "mp3Path": "music/jazz/028.mp3"
+        },
+        {
+          "no": 29,
+          "title": "Soft Horns · Discovery 29",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Soft%20Horns%20CC0",
+          "mp3Path": "music/jazz/029.mp3"
+        },
+        {
+          "no": 30,
+          "title": "Basement Session · Discovery 30",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Basement%20Session%20CC0",
+          "mp3Path": "music/jazz/030.mp3"
+        },
+        {
+          "no": 31,
+          "title": "Vinyl Swing · Discovery 31",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Vinyl%20Swing%20CC0",
+          "mp3Path": "music/jazz/031.mp3"
+        },
+        {
+          "no": 32,
+          "title": "Night Train · Discovery 32",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Night%20Train%20CC0",
+          "mp3Path": "music/jazz/032.mp3"
+        },
+        {
+          "no": 33,
+          "title": "Quiet Club · Discovery 33",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Quiet%20Club%20CC0",
+          "mp3Path": "music/jazz/033.mp3"
+        },
+        {
+          "no": 34,
+          "title": "City Lights · Discovery 34",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20City%20Lights%20CC0",
+          "mp3Path": "music/jazz/034.mp3"
+        },
+        {
+          "no": 35,
+          "title": "Slow Shuffle · Discovery 35",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Slow%20Shuffle%20CC0",
+          "mp3Path": "music/jazz/035.mp3"
+        },
+        {
+          "no": 36,
+          "title": "Tender Standard · Discovery 36",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Tender%20Standard%20CC0",
+          "mp3Path": "music/jazz/036.mp3"
+        },
+        {
+          "no": 37,
+          "title": "Blue Velvet · Discovery 37",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Blue%20Velvet%20CC0",
+          "mp3Path": "music/jazz/037.mp3"
+        },
+        {
+          "no": 38,
+          "title": "Acoustic Lounge · Discovery 38",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Acoustic%20Lounge%20CC0",
+          "mp3Path": "music/jazz/038.mp3"
+        },
+        {
+          "no": 39,
+          "title": "Dusk Vocal · Discovery 39",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Dusk%20Vocal%20CC0",
+          "mp3Path": "music/jazz/039.mp3"
+        },
+        {
+          "no": 40,
+          "title": "Downtown Jazz · Discovery 40",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Downtown%20Jazz%20CC0",
+          "mp3Path": "music/jazz/040.mp3"
+        },
+        {
+          "no": 41,
+          "title": "Whispered Swing · Discovery 41",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Whispered%20Swing%20CC0",
+          "mp3Path": "music/jazz/041.mp3"
+        },
+        {
+          "no": 42,
+          "title": "Soft Bebop · Discovery 42",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Soft%20Bebop%20CC0",
+          "mp3Path": "music/jazz/042.mp3"
+        },
+        {
+          "no": 43,
+          "title": "Room 205 · Discovery 43",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Room%20205%20CC0",
+          "mp3Path": "music/jazz/043.mp3"
+        },
+        {
+          "no": 44,
+          "title": "Gentle Brass · Discovery 44",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Gentle%20Brass%20CC0",
+          "mp3Path": "music/jazz/044.mp3"
+        },
+        {
+          "no": 45,
+          "title": "Silk & Smoke · Discovery 45",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Silk%20&%20Smoke%20CC0",
+          "mp3Path": "music/jazz/045.mp3"
+        },
+        {
+          "no": 46,
+          "title": "Lobby Jazz · Discovery 46",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Lobby%20Jazz%20CC0",
+          "mp3Path": "music/jazz/046.mp3"
+        },
+        {
+          "no": 47,
+          "title": "Low Tempo Blues · Discovery 47",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Low%20Tempo%20Blues%20CC0",
+          "mp3Path": "music/jazz/047.mp3"
+        },
+        {
+          "no": 48,
+          "title": "Window Seat · Discovery 48",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Window%20Seat%20CC0",
+          "mp3Path": "music/jazz/048.mp3"
+        },
+        {
+          "no": 49,
+          "title": "Classic Night · Discovery 49",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Classic%20Night%20CC0",
+          "mp3Path": "music/jazz/049.mp3"
+        },
+        {
+          "no": 50,
+          "title": "Golden Hour Jazz · Discovery 50",
+          "artist": "CC0 Live",
+          "vibe": "JAZZ · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=JAZZ%20vocal%20Golden%20Hour%20Jazz%20CC0",
+          "mp3Path": "music/jazz/050.mp3"
+        }
+      ]
+    },
+    {
+      "genre": "CROONER",
+      "folder": "crooner",
+      "tracks": [
+        {
+          "no": 1,
+          "title": "Lie To Me",
+          "artist": "SUPERARE",
+          "vibe": "Soul-R&B · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/index.php/music/superare/fatal-1",
+          "mp3Path": "music/crooner/001.mp3"
+        },
+        {
+          "no": 2,
+          "title": "Cure",
+          "artist": "SUPERARE",
+          "vibe": "Soul-R&B · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/index.php/music/superare/fatal-1",
+          "mp3Path": "music/crooner/002.mp3"
+        },
+        {
+          "no": 3,
+          "title": "Just A Little Bit More",
+          "artist": "SUPERARE",
+          "vibe": "Soul Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/index.php/music/superare/fatal-1",
+          "mp3Path": "music/crooner/003.mp3"
+        },
+        {
+          "no": 4,
+          "title": "You're My Everything",
+          "artist": "SUPERARE",
+          "vibe": "Romantic Soul · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/index.php/music/superare/fatal-1",
+          "mp3Path": "music/crooner/004.mp3"
+        },
+        {
+          "no": 5,
+          "title": "Birthday",
+          "artist": "SUPERARE",
+          "vibe": "Pop Soul · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/index.php/music/superare/fatal-1",
+          "mp3Path": "music/crooner/005.mp3"
+        },
+        {
+          "no": 6,
+          "title": "Make You Happy",
+          "artist": "SUPERARE",
+          "vibe": "Warm Soul · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/index.php/music/superare/fatal-1",
+          "mp3Path": "music/crooner/006.mp3"
+        },
+        {
+          "no": 7,
+          "title": "Mama Afriqa",
+          "artist": "Tadz",
+          "vibe": "Afrobeat · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+          "mp3Path": "music/crooner/007.mp3"
+        },
+        {
+          "no": 8,
+          "title": "Take Your Time",
+          "artist": "Tadz",
+          "vibe": "Pop Soul · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+          "mp3Path": "music/crooner/008.mp3"
+        },
+        {
+          "no": 9,
+          "title": "You (I Just Wanna)",
+          "artist": "Tadz",
+          "vibe": "R&B · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+          "mp3Path": "music/crooner/009.mp3"
+        },
+        {
+          "no": 10,
+          "title": "Rose Petals & Candles",
+          "artist": "Tadz",
+          "vibe": "Romantic Soul · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+          "mp3Path": "music/crooner/010.mp3"
+        },
+        {
+          "no": 11,
+          "title": "Velvet Baritone · Discovery 11",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Velvet%20Baritone%20CC0",
+          "mp3Path": "music/crooner/011.mp3"
+        },
+        {
+          "no": 12,
+          "title": "Late Night Croon · Discovery 12",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Late%20Night%20Croon%20CC0",
+          "mp3Path": "music/crooner/012.mp3"
+        },
+        {
+          "no": 13,
+          "title": "Champagne Room · Discovery 13",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Champagne%20Room%20CC0",
+          "mp3Path": "music/crooner/013.mp3"
+        },
+        {
+          "no": 14,
+          "title": "Old Hotel · Discovery 14",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Old%20Hotel%20CC0",
+          "mp3Path": "music/crooner/014.mp3"
+        },
+        {
+          "no": 15,
+          "title": "Soft Spotlight · Discovery 15",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Soft%20Spotlight%20CC0",
+          "mp3Path": "music/crooner/015.mp3"
+        },
+        {
+          "no": 16,
+          "title": "Dinner Jacket · Discovery 16",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Dinner%20Jacket%20CC0",
+          "mp3Path": "music/crooner/016.mp3"
+        },
+        {
+          "no": 17,
+          "title": "Slow Dance · Discovery 17",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Slow%20Dance%20CC0",
+          "mp3Path": "music/crooner/017.mp3"
+        },
+        {
+          "no": 18,
+          "title": "Lounge Voice · Discovery 18",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Lounge%20Voice%20CC0",
+          "mp3Path": "music/crooner/018.mp3"
+        },
+        {
+          "no": 19,
+          "title": "Warm Brass Vocal · Discovery 19",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Warm%20Brass%20Vocal%20CC0",
+          "mp3Path": "music/crooner/019.mp3"
+        },
+        {
+          "no": 20,
+          "title": "City Romance · Discovery 20",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20City%20Romance%20CC0",
+          "mp3Path": "music/crooner/020.mp3"
+        },
+        {
+          "no": 21,
+          "title": "Candlelight Pop · Discovery 21",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Candlelight%20Pop%20CC0",
+          "mp3Path": "music/crooner/021.mp3"
+        },
+        {
+          "no": 22,
+          "title": "Midnight Singer · Discovery 22",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Midnight%20Singer%20CC0",
+          "mp3Path": "music/crooner/022.mp3"
+        },
+        {
+          "no": 23,
+          "title": "Blue Suit · Discovery 23",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Blue%20Suit%20CC0",
+          "mp3Path": "music/crooner/023.mp3"
+        },
+        {
+          "no": 24,
+          "title": "Quiet Ballroom · Discovery 24",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Quiet%20Ballroom%20CC0",
+          "mp3Path": "music/crooner/024.mp3"
+        },
+        {
+          "no": 25,
+          "title": "Vintage Microphone · Discovery 25",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Vintage%20Microphone%20CC0",
+          "mp3Path": "music/crooner/025.mp3"
+        },
+        {
+          "no": 26,
+          "title": "After Dinner · Discovery 26",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20After%20Dinner%20CC0",
+          "mp3Path": "music/crooner/026.mp3"
+        },
+        {
+          "no": 27,
+          "title": "Soft Soul · Discovery 27",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Soft%20Soul%20CC0",
+          "mp3Path": "music/crooner/027.mp3"
+        },
+        {
+          "no": 28,
+          "title": "Hotel Lobby · Discovery 28",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Hotel%20Lobby%20CC0",
+          "mp3Path": "music/crooner/028.mp3"
+        },
+        {
+          "no": 29,
+          "title": "Moonlight Vocal · Discovery 29",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Moonlight%20Vocal%20CC0",
+          "mp3Path": "music/crooner/029.mp3"
+        },
+        {
+          "no": 30,
+          "title": "Cocktail Voice · Discovery 30",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Cocktail%20Voice%20CC0",
+          "mp3Path": "music/crooner/030.mp3"
+        },
+        {
+          "no": 31,
+          "title": "Golden Croon · Discovery 31",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Golden%20Croon%20CC0",
+          "mp3Path": "music/crooner/031.mp3"
+        },
+        {
+          "no": 32,
+          "title": "Warm Tape · Discovery 32",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Warm%20Tape%20CC0",
+          "mp3Path": "music/crooner/032.mp3"
+        },
+        {
+          "no": 33,
+          "title": "Velvet Soul · Discovery 33",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Velvet%20Soul%20CC0",
+          "mp3Path": "music/crooner/033.mp3"
+        },
+        {
+          "no": 34,
+          "title": "Night Drive Vocal · Discovery 34",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Night%20Drive%20Vocal%20CC0",
+          "mp3Path": "music/crooner/034.mp3"
+        },
+        {
+          "no": 35,
+          "title": "Slow Brass Pop · Discovery 35",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Slow%20Brass%20Pop%20CC0",
+          "mp3Path": "music/crooner/035.mp3"
+        },
+        {
+          "no": 36,
+          "title": "Classic Lounge · Discovery 36",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Classic%20Lounge%20CC0",
+          "mp3Path": "music/crooner/036.mp3"
+        },
+        {
+          "no": 37,
+          "title": "Tender Baritone · Discovery 37",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Tender%20Baritone%20CC0",
+          "mp3Path": "music/crooner/037.mp3"
+        },
+        {
+          "no": 38,
+          "title": "Romantic Standard · Discovery 38",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Romantic%20Standard%20CC0",
+          "mp3Path": "music/crooner/038.mp3"
+        },
+        {
+          "no": 39,
+          "title": "Soft Stage · Discovery 39",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Soft%20Stage%20CC0",
+          "mp3Path": "music/crooner/039.mp3"
+        },
+        {
+          "no": 40,
+          "title": "Smoky Soul · Discovery 40",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Smoky%20Soul%20CC0",
+          "mp3Path": "music/crooner/040.mp3"
+        },
+        {
+          "no": 41,
+          "title": "Quiet Champagne · Discovery 41",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Quiet%20Champagne%20CC0",
+          "mp3Path": "music/crooner/041.mp3"
+        },
+        {
+          "no": 42,
+          "title": "Deep Voice Lounge · Discovery 42",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Deep%20Voice%20Lounge%20CC0",
+          "mp3Path": "music/crooner/042.mp3"
+        },
+        {
+          "no": 43,
+          "title": "Evening Pop · Discovery 43",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Evening%20Pop%20CC0",
+          "mp3Path": "music/crooner/043.mp3"
+        },
+        {
+          "no": 44,
+          "title": "Silk Vocal · Discovery 44",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Silk%20Vocal%20CC0",
+          "mp3Path": "music/crooner/044.mp3"
+        },
+        {
+          "no": 45,
+          "title": "Neon Romance · Discovery 45",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Neon%20Romance%20CC0",
+          "mp3Path": "music/crooner/045.mp3"
+        },
+        {
+          "no": 46,
+          "title": "Low Light Singer · Discovery 46",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Low%20Light%20Singer%20CC0",
+          "mp3Path": "music/crooner/046.mp3"
+        },
+        {
+          "no": 47,
+          "title": "Classic Pop Vocal · Discovery 47",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Classic%20Pop%20Vocal%20CC0",
+          "mp3Path": "music/crooner/047.mp3"
+        },
+        {
+          "no": 48,
+          "title": "Sunday Crooner · Discovery 48",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Sunday%20Crooner%20CC0",
+          "mp3Path": "music/crooner/048.mp3"
+        },
+        {
+          "no": 49,
+          "title": "Warm Room · Discovery 49",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Warm%20Room%20CC0",
+          "mp3Path": "music/crooner/049.mp3"
+        },
+        {
+          "no": 50,
+          "title": "Last Call · Discovery 50",
+          "artist": "CC0 Live",
+          "vibe": "CROONER · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=CROONER%20vocal%20Last%20Call%20CC0",
+          "mp3Path": "music/crooner/050.mp3"
+        }
+      ]
+    },
+    {
+      "genre": "ROCK",
+      "folder": "rock",
+      "tracks": [
+        {
+          "no": 1,
+          "title": "Foggy Minded World",
+          "artist": "HoliznaCC0",
+          "vibe": "Americana Rock · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+          "mp3Path": "music/rock/001.mp3"
+        },
+        {
+          "no": 2,
+          "title": "Dear Old Dad",
+          "artist": "HoliznaCC0",
+          "vibe": "Americana · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+          "mp3Path": "music/rock/002.mp3"
+        },
+        {
+          "no": 3,
+          "title": "White Trash Blues",
+          "artist": "HoliznaCC0",
+          "vibe": "Blues Rock · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+          "mp3Path": "music/rock/003.mp3"
+        },
+        {
+          "no": 4,
+          "title": "Sweetheart",
+          "artist": "HoliznaCC0",
+          "vibe": "Roots Rock · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+          "mp3Path": "music/rock/004.mp3"
+        },
+        {
+          "no": 5,
+          "title": "Gloria Morning",
+          "artist": "HoliznaCC0",
+          "vibe": "Indie Rock · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+          "mp3Path": "music/rock/005.mp3"
+        },
+        {
+          "no": 6,
+          "title": "Oh Little Brother",
+          "artist": "HoliznaCC0",
+          "vibe": "Americana Rock · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+          "mp3Path": "music/rock/006.mp3"
+        },
+        {
+          "no": 7,
+          "title": "Ballad Of Ishmael",
+          "artist": "HoliznaCC0",
+          "vibe": "Ballad Rock · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+          "mp3Path": "music/rock/007.mp3"
+        },
+        {
+          "no": 8,
+          "title": "Baisse pas la tête",
+          "artist": "Stenifer",
+          "vibe": "Post-Punk · Vocal",
+          "license": "CC0",
+          "source": "https://nullrights.com/track/jwn7xrzq1s",
+          "mp3Path": "music/rock/008.mp3"
+        },
+        {
+          "no": 9,
+          "title": "Bravery Demon",
+          "artist": "MintoDog",
+          "vibe": "Punk / Metal · Vocal",
+          "license": "CC0",
+          "source": "https://nullrights.com/track/aud8c99prl",
+          "mp3Path": "music/rock/009.mp3"
+        },
+        {
+          "no": 10,
+          "title": "Bravery Vampire",
+          "artist": "MintoDog",
+          "vibe": "Rock / Punk · Vocal",
+          "license": "CC0",
+          "source": "https://nullrights.com/track/6hdglern2k",
+          "mp3Path": "music/rock/010.mp3"
+        },
+        {
+          "no": 11,
+          "title": "Garage Vocal · Discovery 11",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Garage%20Vocal%20CC0",
+          "mp3Path": "music/rock/011.mp3"
+        },
+        {
+          "no": 12,
+          "title": "Dirty Blues · Discovery 12",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Dirty%20Blues%20CC0",
+          "mp3Path": "music/rock/012.mp3"
+        },
+        {
+          "no": 13,
+          "title": "Roadhouse · Discovery 13",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Roadhouse%20CC0",
+          "mp3Path": "music/rock/013.mp3"
+        },
+        {
+          "no": 14,
+          "title": "Indie Grit · Discovery 14",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Indie%20Grit%20CC0",
+          "mp3Path": "music/rock/014.mp3"
+        },
+        {
+          "no": 15,
+          "title": "Midnight Guitar · Discovery 15",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Midnight%20Guitar%20CC0",
+          "mp3Path": "music/rock/015.mp3"
+        },
+        {
+          "no": 16,
+          "title": "Raw Chorus · Discovery 16",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Raw%20Chorus%20CC0",
+          "mp3Path": "music/rock/016.mp3"
+        },
+        {
+          "no": 17,
+          "title": "Americana Drive · Discovery 17",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Americana%20Drive%20CC0",
+          "mp3Path": "music/rock/017.mp3"
+        },
+        {
+          "no": 18,
+          "title": "Dusty Amp · Discovery 18",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Dusty%20Amp%20CC0",
+          "mp3Path": "music/rock/018.mp3"
+        },
+        {
+          "no": 19,
+          "title": "Basement Rock · Discovery 19",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Basement%20Rock%20CC0",
+          "mp3Path": "music/rock/019.mp3"
+        },
+        {
+          "no": 20,
+          "title": "Slow Burn · Discovery 20",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Slow%20Burn%20CC0",
+          "mp3Path": "music/rock/020.mp3"
+        },
+        {
+          "no": 21,
+          "title": "Crunch Vocal · Discovery 21",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Crunch%20Vocal%20CC0",
+          "mp3Path": "music/rock/021.mp3"
+        },
+        {
+          "no": 22,
+          "title": "Dark Highway · Discovery 22",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Dark%20Highway%20CC0",
+          "mp3Path": "music/rock/022.mp3"
+        },
+        {
+          "no": 23,
+          "title": "Roots Rock · Discovery 23",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Roots%20Rock%20CC0",
+          "mp3Path": "music/rock/023.mp3"
+        },
+        {
+          "no": 24,
+          "title": "Broken Speaker · Discovery 24",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Broken%20Speaker%20CC0",
+          "mp3Path": "music/rock/024.mp3"
+        },
+        {
+          "no": 25,
+          "title": "Barroom Blues · Discovery 25",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Barroom%20Blues%20CC0",
+          "mp3Path": "music/rock/025.mp3"
+        },
+        {
+          "no": 26,
+          "title": "Leather Jacket · Discovery 26",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Leather%20Jacket%20CC0",
+          "mp3Path": "music/rock/026.mp3"
+        },
+        {
+          "no": 27,
+          "title": "Alt Rock Voice · Discovery 27",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Alt%20Rock%20Voice%20CC0",
+          "mp3Path": "music/rock/027.mp3"
+        },
+        {
+          "no": 28,
+          "title": "Desert Guitar · Discovery 28",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Desert%20Guitar%20CC0",
+          "mp3Path": "music/rock/028.mp3"
+        },
+        {
+          "no": 29,
+          "title": "Live Room · Discovery 29",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Live%20Room%20CC0",
+          "mp3Path": "music/rock/029.mp3"
+        },
+        {
+          "no": 30,
+          "title": "Overdrive Vocal · Discovery 30",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Overdrive%20Vocal%20CC0",
+          "mp3Path": "music/rock/030.mp3"
+        },
+        {
+          "no": 31,
+          "title": "Backroad · Discovery 31",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Backroad%20CC0",
+          "mp3Path": "music/rock/031.mp3"
+        },
+        {
+          "no": 32,
+          "title": "Rust & Strings · Discovery 32",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Rust%20&%20Strings%20CC0",
+          "mp3Path": "music/rock/032.mp3"
+        },
+        {
+          "no": 33,
+          "title": "Punk Lite · Discovery 33",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Punk%20Lite%20CC0",
+          "mp3Path": "music/rock/033.mp3"
+        },
+        {
+          "no": 34,
+          "title": "Heavy Chorus · Discovery 34",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Heavy%20Chorus%20CC0",
+          "mp3Path": "music/rock/034.mp3"
+        },
+        {
+          "no": 35,
+          "title": "Vintage Amp · Discovery 35",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Vintage%20Amp%20CC0",
+          "mp3Path": "music/rock/035.mp3"
+        },
+        {
+          "no": 36,
+          "title": "Road Trip Rock · Discovery 36",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Road%20Trip%20Rock%20CC0",
+          "mp3Path": "music/rock/036.mp3"
+        },
+        {
+          "no": 37,
+          "title": "Loose Drums · Discovery 37",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Loose%20Drums%20CC0",
+          "mp3Path": "music/rock/037.mp3"
+        },
+        {
+          "no": 38,
+          "title": "Grit Pop · Discovery 38",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Grit%20Pop%20CC0",
+          "mp3Path": "music/rock/038.mp3"
+        },
+        {
+          "no": 39,
+          "title": "Dark Indie · Discovery 39",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Dark%20Indie%20CC0",
+          "mp3Path": "music/rock/039.mp3"
+        },
+        {
+          "no": 40,
+          "title": "Storm Guitar · Discovery 40",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Storm%20Guitar%20CC0",
+          "mp3Path": "music/rock/040.mp3"
+        },
+        {
+          "no": 41,
+          "title": "Blues Drive · Discovery 41",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Blues%20Drive%20CC0",
+          "mp3Path": "music/rock/041.mp3"
+        },
+        {
+          "no": 42,
+          "title": "Old Van · Discovery 42",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Old%20Van%20CC0",
+          "mp3Path": "music/rock/042.mp3"
+        },
+        {
+          "no": 43,
+          "title": "Raw Melody · Discovery 43",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Raw%20Melody%20CC0",
+          "mp3Path": "music/rock/043.mp3"
+        },
+        {
+          "no": 44,
+          "title": "Fast Garage · Discovery 44",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Fast%20Garage%20CC0",
+          "mp3Path": "music/rock/044.mp3"
+        },
+        {
+          "no": 45,
+          "title": "Dirty Tape · Discovery 45",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Dirty%20Tape%20CC0",
+          "mp3Path": "music/rock/045.mp3"
+        },
+        {
+          "no": 46,
+          "title": "Southern Vocal · Discovery 46",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Southern%20Vocal%20CC0",
+          "mp3Path": "music/rock/046.mp3"
+        },
+        {
+          "no": 47,
+          "title": "Electric Roots · Discovery 47",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Electric%20Roots%20CC0",
+          "mp3Path": "music/rock/047.mp3"
+        },
+        {
+          "no": 48,
+          "title": "Night Rock · Discovery 48",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Night%20Rock%20CC0",
+          "mp3Path": "music/rock/048.mp3"
+        },
+        {
+          "no": 49,
+          "title": "Open Road · Discovery 49",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Open%20Road%20CC0",
+          "mp3Path": "music/rock/049.mp3"
+        },
+        {
+          "no": 50,
+          "title": "Small Club · Discovery 50",
+          "artist": "CC0 Live",
+          "vibe": "ROCK · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=ROCK%20vocal%20Small%20Club%20CC0",
+          "mp3Path": "music/rock/050.mp3"
+        }
+      ]
+    },
+    {
+      "genre": "SPORT",
+      "folder": "sport",
+      "tracks": [
+        {
+          "no": 1,
+          "title": "Summer High",
+          "artist": "SUPERARE",
+          "vibe": "Upbeat Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ix",
+          "mp3Path": "music/sport/001.mp3"
+        },
+        {
+          "no": 2,
+          "title": "Bikinis & Swimshorts",
+          "artist": "SUPERARE",
+          "vibe": "Summer Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ix",
+          "mp3Path": "music/sport/002.mp3"
+        },
+        {
+          "no": 3,
+          "title": "Summer Song",
+          "artist": "SUPERARE",
+          "vibe": "Upbeat Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ix",
+          "mp3Path": "music/sport/003.mp3"
+        },
+        {
+          "no": 4,
+          "title": "Splish Splash",
+          "artist": "SUPERARE",
+          "vibe": "Fast Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ix",
+          "mp3Path": "music/sport/004.mp3"
+        },
+        {
+          "no": 5,
+          "title": "Sunday",
+          "artist": "SUPERARE",
+          "vibe": "Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ix",
+          "mp3Path": "music/sport/005.mp3"
+        },
+        {
+          "no": 6,
+          "title": "Hey Friends",
+          "artist": "SUPERARE",
+          "vibe": "Hype Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ix",
+          "mp3Path": "music/sport/006.mp3"
+        },
+        {
+          "no": 7,
+          "title": "2K22",
+          "artist": "SUPERARE",
+          "vibe": "Modern Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ix",
+          "mp3Path": "music/sport/007.mp3"
+        },
+        {
+          "no": 8,
+          "title": "The End - Day 30",
+          "artist": "Zane Little Music",
+          "vibe": "Electronic Metal · Vocal",
+          "license": "CC0",
+          "source": "https://nullrights.com/track/4vtiesno4u",
+          "mp3Path": "music/sport/008.mp3"
+        },
+        {
+          "no": 9,
+          "title": "brute force loop",
+          "artist": "vitalezzz",
+          "vibe": "Synthwave · Vocal",
+          "license": "CC0",
+          "source": "https://nullrights.com/track/9wpskpn722",
+          "mp3Path": "music/sport/009.mp3"
+        },
+        {
+          "no": 10,
+          "title": "Wicked beast",
+          "artist": "tricksntraps",
+          "vibe": "Dubstep · Vocal",
+          "license": "CC0",
+          "source": "https://nullrights.com/track/qllv8kwa3p",
+          "mp3Path": "music/sport/010.mp3"
+        },
+        {
+          "no": 11,
+          "title": "Sprint Vocal · Discovery 11",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Sprint%20Vocal%20CC0",
+          "mp3Path": "music/sport/011.mp3"
+        },
+        {
+          "no": 12,
+          "title": "Stadium Hook · Discovery 12",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Stadium%20Hook%20CC0",
+          "mp3Path": "music/sport/012.mp3"
+        },
+        {
+          "no": 13,
+          "title": "Training Hype · Discovery 13",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Training%20Hype%20CC0",
+          "mp3Path": "music/sport/013.mp3"
+        },
+        {
+          "no": 14,
+          "title": "Final Lap · Discovery 14",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Final%20Lap%20CC0",
+          "mp3Path": "music/sport/014.mp3"
+        },
+        {
+          "no": 15,
+          "title": "Power Chorus · Discovery 15",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Power%20Chorus%20CC0",
+          "mp3Path": "music/sport/015.mp3"
+        },
+        {
+          "no": 16,
+          "title": "Run Club · Discovery 16",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Run%20Club%20CC0",
+          "mp3Path": "music/sport/016.mp3"
+        },
+        {
+          "no": 17,
+          "title": "Warm-up Voice · Discovery 17",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Warm-up%20Voice%20CC0",
+          "mp3Path": "music/sport/017.mp3"
+        },
+        {
+          "no": 18,
+          "title": "Arena Pop · Discovery 18",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Arena%20Pop%20CC0",
+          "mp3Path": "music/sport/018.mp3"
+        },
+        {
+          "no": 19,
+          "title": "Victory Hook · Discovery 19",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Victory%20Hook%20CC0",
+          "mp3Path": "music/sport/019.mp3"
+        },
+        {
+          "no": 20,
+          "title": "Fast Motion · Discovery 20",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Fast%20Motion%20CC0",
+          "mp3Path": "music/sport/020.mp3"
+        },
+        {
+          "no": 21,
+          "title": "Cardio Vocal · Discovery 21",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Cardio%20Vocal%20CC0",
+          "mp3Path": "music/sport/021.mp3"
+        },
+        {
+          "no": 22,
+          "title": "Race Start · Discovery 22",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Race%20Start%20CC0",
+          "mp3Path": "music/sport/022.mp3"
+        },
+        {
+          "no": 23,
+          "title": "High Energy Pop · Discovery 23",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20High%20Energy%20Pop%20CC0",
+          "mp3Path": "music/sport/023.mp3"
+        },
+        {
+          "no": 24,
+          "title": "Workout Rock · Discovery 24",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Workout%20Rock%20CC0",
+          "mp3Path": "music/sport/024.mp3"
+        },
+        {
+          "no": 25,
+          "title": "Push Hard · Discovery 25",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Push%20Hard%20CC0",
+          "mp3Path": "music/sport/025.mp3"
+        },
+        {
+          "no": 26,
+          "title": "PR Day · Discovery 26",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20PR%20Day%20CC0",
+          "mp3Path": "music/sport/026.mp3"
+        },
+        {
+          "no": 27,
+          "title": "Interval Hype · Discovery 27",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Interval%20Hype%20CC0",
+          "mp3Path": "music/sport/027.mp3"
+        },
+        {
+          "no": 28,
+          "title": "Gym Anthem · Discovery 28",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Gym%20Anthem%20CC0",
+          "mp3Path": "music/sport/028.mp3"
+        },
+        {
+          "no": 29,
+          "title": "Finish Line · Discovery 29",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Finish%20Line%20CC0",
+          "mp3Path": "music/sport/029.mp3"
+        },
+        {
+          "no": 30,
+          "title": "Fast Electronic Vocal · Discovery 30",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Fast%20Electronic%20Vocal%20CC0",
+          "mp3Path": "music/sport/030.mp3"
+        },
+        {
+          "no": 31,
+          "title": "Climb Mode · Discovery 31",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Climb%20Mode%20CC0",
+          "mp3Path": "music/sport/031.mp3"
+        },
+        {
+          "no": 32,
+          "title": "Team Entrance · Discovery 32",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Team%20Entrance%20CC0",
+          "mp3Path": "music/sport/032.mp3"
+        },
+        {
+          "no": 33,
+          "title": "Strong Beat · Discovery 33",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Strong%20Beat%20CC0",
+          "mp3Path": "music/sport/033.mp3"
+        },
+        {
+          "no": 34,
+          "title": "Peak Energy · Discovery 34",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Peak%20Energy%20CC0",
+          "mp3Path": "music/sport/034.mp3"
+        },
+        {
+          "no": 35,
+          "title": "Kickoff · Discovery 35",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Kickoff%20CC0",
+          "mp3Path": "music/sport/035.mp3"
+        },
+        {
+          "no": 36,
+          "title": "Rapid Hook · Discovery 36",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Rapid%20Hook%20CC0",
+          "mp3Path": "music/sport/036.mp3"
+        },
+        {
+          "no": 37,
+          "title": "Power Pop · Discovery 37",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Power%20Pop%20CC0",
+          "mp3Path": "music/sport/037.mp3"
+        },
+        {
+          "no": 38,
+          "title": "HIIT Vocal · Discovery 38",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20HIIT%20Vocal%20CC0",
+          "mp3Path": "music/sport/038.mp3"
+        },
+        {
+          "no": 39,
+          "title": "Drive Forward · Discovery 39",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Drive%20Forward%20CC0",
+          "mp3Path": "music/sport/039.mp3"
+        },
+        {
+          "no": 40,
+          "title": "Momentum · Discovery 40",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Momentum%20CC0",
+          "mp3Path": "music/sport/040.mp3"
+        },
+        {
+          "no": 41,
+          "title": "Fast Chorus · Discovery 41",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Fast%20Chorus%20CC0",
+          "mp3Path": "music/sport/041.mp3"
+        },
+        {
+          "no": 42,
+          "title": "Athlete Mode · Discovery 42",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Athlete%20Mode%20CC0",
+          "mp3Path": "music/sport/042.mp3"
+        },
+        {
+          "no": 43,
+          "title": "Stadium Lights · Discovery 43",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Stadium%20Lights%20CC0",
+          "mp3Path": "music/sport/043.mp3"
+        },
+        {
+          "no": 44,
+          "title": "Last Rep · Discovery 44",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Last%20Rep%20CC0",
+          "mp3Path": "music/sport/044.mp3"
+        },
+        {
+          "no": 45,
+          "title": "Acceleration · Discovery 45",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Acceleration%20CC0",
+          "mp3Path": "music/sport/045.mp3"
+        },
+        {
+          "no": 46,
+          "title": "Run Faster · Discovery 46",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Run%20Faster%20CC0",
+          "mp3Path": "music/sport/046.mp3"
+        },
+        {
+          "no": 47,
+          "title": "Training Day · Discovery 47",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Training%20Day%20CC0",
+          "mp3Path": "music/sport/047.mp3"
+        },
+        {
+          "no": 48,
+          "title": "Upbeat Voice · Discovery 48",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Upbeat%20Voice%20CC0",
+          "mp3Path": "music/sport/048.mp3"
+        },
+        {
+          "no": 49,
+          "title": "Push Tempo · Discovery 49",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Push%20Tempo%20CC0",
+          "mp3Path": "music/sport/049.mp3"
+        },
+        {
+          "no": 50,
+          "title": "Victory Lap · Discovery 50",
+          "artist": "CC0 Live",
+          "vibe": "SPORT · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=SPORT%20vocal%20Victory%20Lap%20CC0",
+          "mp3Path": "music/sport/050.mp3"
+        }
+      ]
+    },
+    {
+      "genre": "LO-FI",
+      "folder": "lo-fi",
+      "tracks": [
+        {
+          "no": 1,
+          "title": "The Wind That Whistled Through The Wicker Chair",
+          "artist": "HoliznaCC0",
+          "vibe": "Lo-fi Folk · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+          "mp3Path": "music/lo-fi/001.mp3"
+        },
+        {
+          "no": 2,
+          "title": "Iron Skies",
+          "artist": "HoliznaCC0",
+          "vibe": "Lo-fi Rock · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+          "mp3Path": "music/lo-fi/002.mp3"
+        },
+        {
+          "no": 3,
+          "title": "A Small Town On Pluto",
+          "artist": "HoliznaCC0",
+          "vibe": "Lo-fi Folk · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+          "mp3Path": "music/lo-fi/003.mp3"
+        },
+        {
+          "no": 4,
+          "title": "Goodbye Good Times",
+          "artist": "HoliznaCC0",
+          "vibe": "Singer-Songwriter · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+          "mp3Path": "music/lo-fi/004.mp3"
+        },
+        {
+          "no": 5,
+          "title": "Makes-Shift Salvation",
+          "artist": "HoliznaCC0",
+          "vibe": "Lo-fi Folk · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+          "mp3Path": "music/lo-fi/005.mp3"
+        },
+        {
+          "no": 6,
+          "title": "A Cloud Dog named Sky",
+          "artist": "HoliznaCC0",
+          "vibe": "Slow Folk · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+          "mp3Path": "music/lo-fi/006.mp3"
+        },
+        {
+          "no": 7,
+          "title": "The Ghost Of John Brown",
+          "artist": "HoliznaCC0",
+          "vibe": "Americana · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/index.php/music/holiznacc0/all-the-years-ive-haunted-part-3",
+          "mp3Path": "music/lo-fi/007.mp3"
+        },
+        {
+          "no": 8,
+          "title": "Dreams Of Lilith",
+          "artist": "HoliznaCC0",
+          "vibe": "Dreamy Lo-fi · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/index.php/music/holiznacc0/all-the-years-ive-haunted-part-3",
+          "mp3Path": "music/lo-fi/008.mp3"
+        },
+        {
+          "no": 9,
+          "title": "Grave Yard Magic",
+          "artist": "HoliznaCC0",
+          "vibe": "Dark Lo-fi · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/index.php/music/holiznacc0/all-the-years-ive-haunted-part-3",
+          "mp3Path": "music/lo-fi/009.mp3"
+        },
+        {
+          "no": 10,
+          "title": "Broken Hustle",
+          "artist": "HoliznaCC0",
+          "vibe": "Lo-fi Folk · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/index.php/music/holiznacc0/all-the-years-ive-haunted-part-3",
+          "mp3Path": "music/lo-fi/010.mp3"
+        },
+        {
+          "no": 11,
+          "title": "Rainy Vocal · Discovery 11",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Rainy%20Vocal%20CC0",
+          "mp3Path": "music/lo-fi/011.mp3"
+        },
+        {
+          "no": 12,
+          "title": "Bedroom Voice · Discovery 12",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Bedroom%20Voice%20CC0",
+          "mp3Path": "music/lo-fi/012.mp3"
+        },
+        {
+          "no": 13,
+          "title": "Study Singer · Discovery 13",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Study%20Singer%20CC0",
+          "mp3Path": "music/lo-fi/013.mp3"
+        },
+        {
+          "no": 14,
+          "title": "Soft Tape · Discovery 14",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Soft%20Tape%20CC0",
+          "mp3Path": "music/lo-fi/014.mp3"
+        },
+        {
+          "no": 15,
+          "title": "Night Desk · Discovery 15",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Night%20Desk%20CC0",
+          "mp3Path": "music/lo-fi/015.mp3"
+        },
+        {
+          "no": 16,
+          "title": "Window Rain · Discovery 16",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Window%20Rain%20CC0",
+          "mp3Path": "music/lo-fi/016.mp3"
+        },
+        {
+          "no": 17,
+          "title": "Whisper Folk · Discovery 17",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Whisper%20Folk%20CC0",
+          "mp3Path": "music/lo-fi/017.mp3"
+        },
+        {
+          "no": 18,
+          "title": "Warm Cassette · Discovery 18",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Warm%20Cassette%20CC0",
+          "mp3Path": "music/lo-fi/018.mp3"
+        },
+        {
+          "no": 19,
+          "title": "Slow Room · Discovery 19",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Slow%20Room%20CC0",
+          "mp3Path": "music/lo-fi/019.mp3"
+        },
+        {
+          "no": 20,
+          "title": "Coffee & Notes · Discovery 20",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Coffee%20&%20Notes%20CC0",
+          "mp3Path": "music/lo-fi/020.mp3"
+        },
+        {
+          "no": 21,
+          "title": "Dream Vocal · Discovery 21",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Dream%20Vocal%20CC0",
+          "mp3Path": "music/lo-fi/021.mp3"
+        },
+        {
+          "no": 22,
+          "title": "Quiet Guitar · Discovery 22",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Quiet%20Guitar%20CC0",
+          "mp3Path": "music/lo-fi/022.mp3"
+        },
+        {
+          "no": 23,
+          "title": "Sunday Study · Discovery 23",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Sunday%20Study%20CC0",
+          "mp3Path": "music/lo-fi/023.mp3"
+        },
+        {
+          "no": 24,
+          "title": "Low-Fi Soul · Discovery 24",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Low-Fi%20Soul%20CC0",
+          "mp3Path": "music/lo-fi/024.mp3"
+        },
+        {
+          "no": 25,
+          "title": "Cloudy Afternoon · Discovery 25",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Cloudy%20Afternoon%20CC0",
+          "mp3Path": "music/lo-fi/025.mp3"
+        },
+        {
+          "no": 26,
+          "title": "Soft Hum · Discovery 26",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Soft%20Hum%20CC0",
+          "mp3Path": "music/lo-fi/026.mp3"
+        },
+        {
+          "no": 27,
+          "title": "Late Homework · Discovery 27",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Late%20Homework%20CC0",
+          "mp3Path": "music/lo-fi/027.mp3"
+        },
+        {
+          "no": 28,
+          "title": "Gentle Folk · Discovery 28",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Gentle%20Folk%20CC0",
+          "mp3Path": "music/lo-fi/028.mp3"
+        },
+        {
+          "no": 29,
+          "title": "Old Recorder · Discovery 29",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Old%20Recorder%20CC0",
+          "mp3Path": "music/lo-fi/029.mp3"
+        },
+        {
+          "no": 30,
+          "title": "Sleepy Voice · Discovery 30",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Sleepy%20Voice%20CC0",
+          "mp3Path": "music/lo-fi/030.mp3"
+        },
+        {
+          "no": 31,
+          "title": "Desk Lamp · Discovery 31",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Desk%20Lamp%20CC0",
+          "mp3Path": "music/lo-fi/031.mp3"
+        },
+        {
+          "no": 32,
+          "title": "Rain Window · Discovery 32",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Rain%20Window%20CC0",
+          "mp3Path": "music/lo-fi/032.mp3"
+        },
+        {
+          "no": 33,
+          "title": "Tiny Room · Discovery 33",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Tiny%20Room%20CC0",
+          "mp3Path": "music/lo-fi/033.mp3"
+        },
+        {
+          "no": 34,
+          "title": "Warm Noise · Discovery 34",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Warm%20Noise%20CC0",
+          "mp3Path": "music/lo-fi/034.mp3"
+        },
+        {
+          "no": 35,
+          "title": "After Class · Discovery 35",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20After%20Class%20CC0",
+          "mp3Path": "music/lo-fi/035.mp3"
+        },
+        {
+          "no": 36,
+          "title": "Soft Indie · Discovery 36",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Soft%20Indie%20CC0",
+          "mp3Path": "music/lo-fi/036.mp3"
+        },
+        {
+          "no": 37,
+          "title": "Night Bus · Discovery 37",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Night%20Bus%20CC0",
+          "mp3Path": "music/lo-fi/037.mp3"
+        },
+        {
+          "no": 38,
+          "title": "Calm Vocal · Discovery 38",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Calm%20Vocal%20CC0",
+          "mp3Path": "music/lo-fi/038.mp3"
+        },
+        {
+          "no": 39,
+          "title": "Notebook · Discovery 39",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Notebook%20CC0",
+          "mp3Path": "music/lo-fi/039.mp3"
+        },
+        {
+          "no": 40,
+          "title": "Quiet Morning · Discovery 40",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Quiet%20Morning%20CC0",
+          "mp3Path": "music/lo-fi/040.mp3"
+        },
+        {
+          "no": 41,
+          "title": "Lo-Fi Folk · Discovery 41",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Lo-Fi%20Folk%20CC0",
+          "mp3Path": "music/lo-fi/041.mp3"
+        },
+        {
+          "no": 42,
+          "title": "Blue Hour · Discovery 42",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Blue%20Hour%20CC0",
+          "mp3Path": "music/lo-fi/042.mp3"
+        },
+        {
+          "no": 43,
+          "title": "Slow Cassette · Discovery 43",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Slow%20Cassette%20CC0",
+          "mp3Path": "music/lo-fi/043.mp3"
+        },
+        {
+          "no": 44,
+          "title": "Library Window · Discovery 44",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Library%20Window%20CC0",
+          "mp3Path": "music/lo-fi/044.mp3"
+        },
+        {
+          "no": 45,
+          "title": "Soft Bedroom · Discovery 45",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Soft%20Bedroom%20CC0",
+          "mp3Path": "music/lo-fi/045.mp3"
+        },
+        {
+          "no": 46,
+          "title": "Night Notes · Discovery 46",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Night%20Notes%20CC0",
+          "mp3Path": "music/lo-fi/046.mp3"
+        },
+        {
+          "no": 47,
+          "title": "Cloudy Tape · Discovery 47",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Cloudy%20Tape%20CC0",
+          "mp3Path": "music/lo-fi/047.mp3"
+        },
+        {
+          "no": 48,
+          "title": "Whisper Pop · Discovery 48",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Whisper%20Pop%20CC0",
+          "mp3Path": "music/lo-fi/048.mp3"
+        },
+        {
+          "no": 49,
+          "title": "Study Night · Discovery 49",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Study%20Night%20CC0",
+          "mp3Path": "music/lo-fi/049.mp3"
+        },
+        {
+          "no": 50,
+          "title": "Gentle Voice · Discovery 50",
+          "artist": "CC0 Live",
+          "vibe": "LO-FI · Vocal · Discovery",
+          "license": "CC0 LIVE",
+          "source": "https://nullrights.com/search?q=LO-FI%20vocal%20Gentle%20Voice%20CC0",
+          "mp3Path": "music/lo-fi/050.mp3"
+        }
+      ]
+    },
+    {
+      "genre": "TAIPEI STYLE",
+      "folder": "taipei-style",
+      "tracks": [
+        {
+          "no": 1,
+          "title": "careless.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/001.mp3"
+        },
+        {
+          "no": 2,
+          "title": "untitled.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/002.mp3"
+        },
+        {
+          "no": 3,
+          "title": "it with you.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/003.mp3"
+        },
+        {
+          "no": 4,
+          "title": "des fois...",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/004.mp3"
+        },
+        {
+          "no": 5,
+          "title": "oh... okay, well... i guess but, yeah... mby idk.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/005.mp3"
+        },
+        {
+          "no": 6,
+          "title": "glue.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/006.mp3"
+        },
+        {
+          "no": 7,
+          "title": "stuff to do.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/007.mp3"
+        },
+        {
+          "no": 8,
+          "title": "(demo)",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/008.mp3"
+        },
+        {
+          "no": 9,
+          "title": "telle le soleil au réveil.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/009.mp3"
+        },
+        {
+          "no": 10,
+          "title": "sleep little darling.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/010.mp3"
+        },
+        {
+          "no": 11,
+          "title": "préface.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/011.mp3"
+        },
+        {
+          "no": 12,
+          "title": "some folks is alone.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/012.mp3"
+        },
+        {
+          "no": 13,
+          "title": "oh bébé.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/013.mp3"
+        },
+        {
+          "no": 14,
+          "title": "sports.",
+          "artist": "oji",
+          "vibe": "Taipei Indie · Lo-fi Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2026",
+          "mp3Path": "music/taipei-style/014.mp3"
+        },
+        {
+          "no": 15,
+          "title": "harmonies du soir.",
+          "artist": "oji",
+          "vibe": "City Night · Art Pop · Lo-fi",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/quiet-music",
+          "mp3Path": "music/taipei-style/015.mp3"
+        },
+        {
+          "no": 16,
+          "title": "changes ?",
+          "artist": "oji",
+          "vibe": "City Night · Art Pop · Lo-fi",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/quiet-music",
+          "mp3Path": "music/taipei-style/016.mp3"
+        },
+        {
+          "no": 17,
+          "title": "oraison.",
+          "artist": "oji",
+          "vibe": "City Night · Art Pop · Lo-fi",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/quiet-music",
+          "mp3Path": "music/taipei-style/017.mp3"
+        },
+        {
+          "no": 18,
+          "title": "(esperanza) linda aflição.",
+          "artist": "oji",
+          "vibe": "City Night · Art Pop · Lo-fi",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/quiet-music",
+          "mp3Path": "music/taipei-style/018.mp3"
+        },
+        {
+          "no": 19,
+          "title": "perspective futile.",
+          "artist": "oji",
+          "vibe": "City Night · Art Pop · Lo-fi",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/quiet-music",
+          "mp3Path": "music/taipei-style/019.mp3"
+        },
+        {
+          "no": 20,
+          "title": "overwhelm.",
+          "artist": "oji",
+          "vibe": "City Night · Art Pop · Lo-fi",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/quiet-music",
+          "mp3Path": "music/taipei-style/020.mp3"
+        },
+        {
+          "no": 21,
+          "title": "dimanche à 11h45.",
+          "artist": "oji",
+          "vibe": "City Night · Art Pop · Lo-fi",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/quiet-music",
+          "mp3Path": "music/taipei-style/021.mp3"
+        },
+        {
+          "no": 22,
+          "title": "soirée.",
+          "artist": "oji",
+          "vibe": "City Night · Art Pop · Lo-fi",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/quiet-music",
+          "mp3Path": "music/taipei-style/022.mp3"
+        },
+        {
+          "no": 23,
+          "title": "idée. (en la bémol majeur)",
+          "artist": "oji",
+          "vibe": "Urban Indie · Night Walk",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/outlet",
+          "mp3Path": "music/taipei-style/023.mp3"
+        },
+        {
+          "no": 24,
+          "title": "ah vous dirais-je maman...",
+          "artist": "oji",
+          "vibe": "Urban Indie · Night Walk",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/outlet",
+          "mp3Path": "music/taipei-style/024.mp3"
+        },
+        {
+          "no": 25,
+          "title": "outlet.",
+          "artist": "oji",
+          "vibe": "Urban Indie · Night Walk",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/outlet",
+          "mp3Path": "music/taipei-style/025.mp3"
+        },
+        {
+          "no": 26,
+          "title": "absurdes.",
+          "artist": "oji",
+          "vibe": "Urban Indie · Night Walk",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/outlet",
+          "mp3Path": "music/taipei-style/026.mp3"
+        },
+        {
+          "no": 27,
+          "title": "idée. (en do majeur)",
+          "artist": "oji",
+          "vibe": "Urban Indie · Night Walk",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/outlet",
+          "mp3Path": "music/taipei-style/027.mp3"
+        },
+        {
+          "no": 28,
+          "title": "memories of a sweeter season. (little britannia)",
+          "artist": "oji",
+          "vibe": "Urban Indie · Night Walk",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/outlet",
+          "mp3Path": "music/taipei-style/028.mp3"
+        },
+        {
+          "no": 29,
+          "title": "le bleu de la nuit. (rrrrrose azerty)",
+          "artist": "oji",
+          "vibe": "Urban Indie · Night Walk",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/outlet",
+          "mp3Path": "music/taipei-style/029.mp3"
+        },
+        {
+          "no": 30,
+          "title": "cutie patootie.",
+          "artist": "oji",
+          "vibe": "Urban Indie · Night Walk",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/outlet",
+          "mp3Path": "music/taipei-style/030.mp3"
+        },
+        {
+          "no": 31,
+          "title": "hangover & despair.",
+          "artist": "oji",
+          "vibe": "Urban Indie · Night Walk",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/outlet",
+          "mp3Path": "music/taipei-style/031.mp3"
+        },
+        {
+          "no": 32,
+          "title": "duet / idée. (en sol mineur)",
+          "artist": "oji",
+          "vibe": "Urban Indie · Night Walk",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/outlet",
+          "mp3Path": "music/taipei-style/032.mp3"
+        },
+        {
+          "no": 33,
+          "title": "nine out of four",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/033.mp3"
+        },
+        {
+          "no": 34,
+          "title": "wednesday afternoon",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/034.mp3"
+        },
+        {
+          "no": 35,
+          "title": "sérénade (en sol majeur)",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/035.mp3"
+        },
+        {
+          "no": 36,
+          "title": "idk how to do it",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/036.mp3"
+        },
+        {
+          "no": 37,
+          "title": "not even dreams can make them begin",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/037.mp3"
+        },
+        {
+          "no": 38,
+          "title": "three sketchbooks ago",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/038.mp3"
+        },
+        {
+          "no": 39,
+          "title": "[untitled]",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/039.mp3"
+        },
+        {
+          "no": 40,
+          "title": "l'attente",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/040.mp3"
+        },
+        {
+          "no": 41,
+          "title": "sérénade (en mi mineur)",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/041.mp3"
+        },
+        {
+          "no": 42,
+          "title": "2.2",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/042.mp3"
+        },
+        {
+          "no": 43,
+          "title": "vacances",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/043.mp3"
+        },
+        {
+          "no": 44,
+          "title": "burden",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/044.mp3"
+        },
+        {
+          "no": 45,
+          "title": "improvisation (sur un thème d'amour)",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/045.mp3"
+        },
+        {
+          "no": 46,
+          "title": "ballade en forêt",
+          "artist": "oji",
+          "vibe": "Indie Pop · Bedroom · Taipei Mood",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/fawm-2025",
+          "mp3Path": "music/taipei-style/046.mp3"
+        },
+        {
+          "no": 47,
+          "title": "tabulation I.",
+          "artist": "oji",
+          "vibe": "Lo-fi Rock · Bluesy City",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+          "mp3Path": "music/taipei-style/047.mp3"
+        },
+        {
+          "no": 48,
+          "title": "tabulation II.",
+          "artist": "oji",
+          "vibe": "Lo-fi Rock · Bluesy City",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+          "mp3Path": "music/taipei-style/048.mp3"
+        },
+        {
+          "no": 49,
+          "title": "tabulation III.",
+          "artist": "oji",
+          "vibe": "Lo-fi Rock · Bluesy City",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+          "mp3Path": "music/taipei-style/049.mp3"
+        },
+        {
+          "no": 50,
+          "title": "lovely bluesy ditty.",
+          "artist": "oji",
+          "vibe": "Lo-fi Rock · Bluesy City",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+          "mp3Path": "music/taipei-style/050.mp3"
+        }
+      ]
+    },
+    {
+      "genre": "OLD TOKYO",
+      "folder": "old-tokyo",
+      "tracks": [
+        {
+          "no": 1,
+          "title": "BILLboard",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/001.mp3"
+        },
+        {
+          "no": 2,
+          "title": "Ants In My Pants",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/002.mp3"
+        },
+        {
+          "no": 3,
+          "title": "Disco Ball",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/003.mp3"
+        },
+        {
+          "no": 4,
+          "title": "Lip Gloss",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/004.mp3"
+        },
+        {
+          "no": 5,
+          "title": "Beach Babes",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/005.mp3"
+        },
+        {
+          "no": 6,
+          "title": "Supermodel",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/006.mp3"
+        },
+        {
+          "no": 7,
+          "title": "Miss You",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/007.mp3"
+        },
+        {
+          "no": 8,
+          "title": "Stimulant",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/008.mp3"
+        },
+        {
+          "no": 9,
+          "title": "Hanging Out & Hangovers",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/009.mp3"
+        },
+        {
+          "no": 10,
+          "title": "Tomorrow Never Comes",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/010.mp3"
+        },
+        {
+          "no": 11,
+          "title": "Carats In My Teeth",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/011.mp3"
+        },
+        {
+          "no": 12,
+          "title": "Drinks On Me",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/012.mp3"
+        },
+        {
+          "no": 13,
+          "title": "Wasted",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/013.mp3"
+        },
+        {
+          "no": 14,
+          "title": "Sleeping is Sadness",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/014.mp3"
+        },
+        {
+          "no": 15,
+          "title": "Sunglasses",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/015.mp3"
+        },
+        {
+          "no": 16,
+          "title": "Like Us",
+          "artist": "SUPERARE",
+          "vibe": "City Pop-adjacent · Synth Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/ii",
+          "mp3Path": "music/old-tokyo/016.mp3"
+        },
+        {
+          "no": 17,
+          "title": "Look Mommy Look!",
+          "artist": "SUPERARE",
+          "vibe": "Night Drive · Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iii",
+          "mp3Path": "music/old-tokyo/017.mp3"
+        },
+        {
+          "no": 18,
+          "title": "Gyaldem",
+          "artist": "SUPERARE",
+          "vibe": "Night Drive · Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iii",
+          "mp3Path": "music/old-tokyo/018.mp3"
+        },
+        {
+          "no": 19,
+          "title": "Umbrella",
+          "artist": "SUPERARE",
+          "vibe": "Night Drive · Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iii",
+          "mp3Path": "music/old-tokyo/019.mp3"
+        },
+        {
+          "no": 20,
+          "title": "Dirt Bikes",
+          "artist": "SUPERARE",
+          "vibe": "Night Drive · Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iii",
+          "mp3Path": "music/old-tokyo/020.mp3"
+        },
+        {
+          "no": 21,
+          "title": "Jet Lag",
+          "artist": "SUPERARE",
+          "vibe": "Night Drive · Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iii",
+          "mp3Path": "music/old-tokyo/021.mp3"
+        },
+        {
+          "no": 22,
+          "title": "Action Figure",
+          "artist": "SUPERARE",
+          "vibe": "Night Drive · Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iii",
+          "mp3Path": "music/old-tokyo/022.mp3"
+        },
+        {
+          "no": 23,
+          "title": "Friends With Benz",
+          "artist": "SUPERARE",
+          "vibe": "Night Drive · Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iii",
+          "mp3Path": "music/old-tokyo/023.mp3"
+        },
+        {
+          "no": 24,
+          "title": "In God I Must",
+          "artist": "SUPERARE",
+          "vibe": "Night Drive · Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iii",
+          "mp3Path": "music/old-tokyo/024.mp3"
+        },
+        {
+          "no": 25,
+          "title": "Tatted Up",
+          "artist": "SUPERARE",
+          "vibe": "Night Drive · Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iii",
+          "mp3Path": "music/old-tokyo/025.mp3"
+        },
+        {
+          "no": 26,
+          "title": "Zodiac $ign",
+          "artist": "SUPERARE",
+          "vibe": "Night Drive · Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iii",
+          "mp3Path": "music/old-tokyo/026.mp3"
+        },
+        {
+          "no": 27,
+          "title": "Fashionably Late",
+          "artist": "SUPERARE",
+          "vibe": "Retro Pop · City Pop-adjacent",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/xii",
+          "mp3Path": "music/old-tokyo/027.mp3"
+        },
+        {
+          "no": 28,
+          "title": "Talk",
+          "artist": "SUPERARE",
+          "vibe": "Retro Pop · City Pop-adjacent",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/xii",
+          "mp3Path": "music/old-tokyo/028.mp3"
+        },
+        {
+          "no": 29,
+          "title": "LOL",
+          "artist": "SUPERARE",
+          "vibe": "Retro Pop · City Pop-adjacent",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/xii",
+          "mp3Path": "music/old-tokyo/029.mp3"
+        },
+        {
+          "no": 30,
+          "title": "Shotgun",
+          "artist": "SUPERARE",
+          "vibe": "Retro Pop · City Pop-adjacent",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/xii",
+          "mp3Path": "music/old-tokyo/030.mp3"
+        },
+        {
+          "no": 31,
+          "title": "Funky Fresh",
+          "artist": "SUPERARE",
+          "vibe": "Retro Pop · City Pop-adjacent",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/xii",
+          "mp3Path": "music/old-tokyo/031.mp3"
+        },
+        {
+          "no": 32,
+          "title": "Zoom Zoom",
+          "artist": "SUPERARE",
+          "vibe": "Retro Pop · City Pop-adjacent",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/xii",
+          "mp3Path": "music/old-tokyo/032.mp3"
+        },
+        {
+          "no": 33,
+          "title": "Wishing",
+          "artist": "SUPERARE",
+          "vibe": "Retro Pop · City Pop-adjacent",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/xii",
+          "mp3Path": "music/old-tokyo/033.mp3"
+        },
+        {
+          "no": 34,
+          "title": "Friday",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · Night City · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+          "mp3Path": "music/old-tokyo/034.mp3"
+        },
+        {
+          "no": 35,
+          "title": "Replay",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · Night City · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+          "mp3Path": "music/old-tokyo/035.mp3"
+        },
+        {
+          "no": 36,
+          "title": "Jailbreak",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · Night City · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+          "mp3Path": "music/old-tokyo/036.mp3"
+        },
+        {
+          "no": 37,
+          "title": "Blow My High",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · Night City · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+          "mp3Path": "music/old-tokyo/037.mp3"
+        },
+        {
+          "no": 38,
+          "title": "Missed Call",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · Night City · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+          "mp3Path": "music/old-tokyo/038.mp3"
+        },
+        {
+          "no": 39,
+          "title": "Life & Death",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · Night City · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+          "mp3Path": "music/old-tokyo/039.mp3"
+        },
+        {
+          "no": 40,
+          "title": "Love",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · Night City · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+          "mp3Path": "music/old-tokyo/040.mp3"
+        },
+        {
+          "no": 41,
+          "title": "Pool Party",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · Night City · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+          "mp3Path": "music/old-tokyo/041.mp3"
+        },
+        {
+          "no": 42,
+          "title": "This Is What We Live For",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · AOR-adjacent · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iv",
+          "mp3Path": "music/old-tokyo/042.mp3"
+        },
+        {
+          "no": 43,
+          "title": "Yesterday",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · AOR-adjacent · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iv",
+          "mp3Path": "music/old-tokyo/043.mp3"
+        },
+        {
+          "no": 44,
+          "title": "Hyperreal",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · AOR-adjacent · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iv",
+          "mp3Path": "music/old-tokyo/044.mp3"
+        },
+        {
+          "no": 45,
+          "title": "Dopamine Hits",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · AOR-adjacent · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iv",
+          "mp3Path": "music/old-tokyo/045.mp3"
+        },
+        {
+          "no": 46,
+          "title": "Blue Moon",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · AOR-adjacent · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/iv",
+          "mp3Path": "music/old-tokyo/046.mp3"
+        },
+        {
+          "no": 47,
+          "title": "In Your Dreams",
+          "artist": "SUPERARE",
+          "vibe": "Synth Pop · City Pop-adjacent · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/i-1/in-your-dreams/",
+          "mp3Path": "music/old-tokyo/047.mp3"
+        },
+        {
+          "no": 48,
+          "title": "9 to 5",
+          "artist": "SUPERARE",
+          "vibe": "Soul Pop · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/i-1/9-to-5/",
+          "mp3Path": "music/old-tokyo/048.mp3"
+        },
+        {
+          "no": 49,
+          "title": "Rotation",
+          "artist": "SUPERARE",
+          "vibe": "Pop · Night Drive · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/vii/rotation/",
+          "mp3Path": "music/old-tokyo/049.mp3"
+        },
+        {
+          "no": 50,
+          "title": "Section",
+          "artist": "SUPERARE",
+          "vibe": "Pop · Urban · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/vii/section/",
+          "mp3Path": "music/old-tokyo/050.mp3"
+        }
+      ]
+    },
+    {
+      "genre": "SPLENDOR SHANGHAI",
+      "folder": "splendor-shanghai",
+      "tracks": [
+        {
+          "no": 1,
+          "title": "Georgia",
+          "artist": "HoliznaCC0",
+          "vibe": "Vintage Lounge · Soul · Jazz",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/splendor-shanghai/001.mp3"
+        },
+        {
+          "no": 2,
+          "title": "Stoned Memories",
+          "artist": "HoliznaCC0",
+          "vibe": "Vintage Lounge · Soul · Jazz",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/splendor-shanghai/002.mp3"
+        },
+        {
+          "no": 3,
+          "title": "Call Of The Void",
+          "artist": "HoliznaCC0",
+          "vibe": "Vintage Lounge · Soul · Jazz",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/splendor-shanghai/003.mp3"
+        },
+        {
+          "no": 4,
+          "title": "So This Is Life",
+          "artist": "HoliznaCC0",
+          "vibe": "Vintage Lounge · Soul · Jazz",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/splendor-shanghai/004.mp3"
+        },
+        {
+          "no": 5,
+          "title": "Monster",
+          "artist": "HoliznaCC0",
+          "vibe": "Vintage Lounge · Soul · Jazz",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/splendor-shanghai/005.mp3"
+        },
+        {
+          "no": 6,
+          "title": "A Bird In The Ware House",
+          "artist": "HoliznaCC0",
+          "vibe": "Vintage Lounge · Soul · Jazz",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/splendor-shanghai/006.mp3"
+        },
+        {
+          "no": 7,
+          "title": "Domestication In Stride",
+          "artist": "HoliznaCC0",
+          "vibe": "Vintage Lounge · Soul · Jazz",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/splendor-shanghai/007.mp3"
+        },
+        {
+          "no": 8,
+          "title": "Golden Woman From A Dream V2",
+          "artist": "HoliznaCC0",
+          "vibe": "Vintage Lounge · Soul · Jazz",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/splendor-shanghai/008.mp3"
+        },
+        {
+          "no": 9,
+          "title": "Hard To Love",
+          "artist": "HoliznaCC0",
+          "vibe": "Vintage Lounge · Soul · Jazz",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/splendor-shanghai/009.mp3"
+        },
+        {
+          "no": 10,
+          "title": "Three Feet of Snow, Shut In, Iron Skies",
+          "artist": "HoliznaCC0",
+          "vibe": "Vintage Lounge · Soul · Jazz",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+          "mp3Path": "music/splendor-shanghai/010.mp3"
+        },
+        {
+          "no": 11,
+          "title": "Your Nature",
+          "artist": "HoliznaCC0",
+          "vibe": "Acapella · Chanson-adjacent · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+          "mp3Path": "music/splendor-shanghai/011.mp3"
+        },
+        {
+          "no": 12,
+          "title": "Won't Need Money Where I'm Going",
+          "artist": "HoliznaCC0",
+          "vibe": "Acapella · Chanson-adjacent · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+          "mp3Path": "music/splendor-shanghai/012.mp3"
+        },
+        {
+          "no": 13,
+          "title": "Eden",
+          "artist": "HoliznaCC0",
+          "vibe": "Acapella · Chanson-adjacent · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+          "mp3Path": "music/splendor-shanghai/013.mp3"
+        },
+        {
+          "no": 14,
+          "title": "Garden Eyes",
+          "artist": "HoliznaCC0",
+          "vibe": "Acapella · Chanson-adjacent · Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+          "mp3Path": "music/splendor-shanghai/014.mp3"
+        },
+        {
+          "no": 15,
+          "title": "Lie To Me",
+          "artist": "SUPERARE",
+          "vibe": "Soul-R&B · Ballroom Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/fatal-1",
+          "mp3Path": "music/splendor-shanghai/015.mp3"
+        },
+        {
+          "no": 16,
+          "title": "Cure",
+          "artist": "SUPERARE",
+          "vibe": "Soul-R&B · Ballroom Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/fatal-1",
+          "mp3Path": "music/splendor-shanghai/016.mp3"
+        },
+        {
+          "no": 17,
+          "title": "Just A Little Bit More",
+          "artist": "SUPERARE",
+          "vibe": "Soul-R&B · Ballroom Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/fatal-1",
+          "mp3Path": "music/splendor-shanghai/017.mp3"
+        },
+        {
+          "no": 18,
+          "title": "You're My Everything",
+          "artist": "SUPERARE",
+          "vibe": "Soul-R&B · Ballroom Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/fatal-1",
+          "mp3Path": "music/splendor-shanghai/018.mp3"
+        },
+        {
+          "no": 19,
+          "title": "Birthday",
+          "artist": "SUPERARE",
+          "vibe": "Soul-R&B · Ballroom Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/fatal-1",
+          "mp3Path": "music/splendor-shanghai/019.mp3"
+        },
+        {
+          "no": 20,
+          "title": "Make You Happy",
+          "artist": "SUPERARE",
+          "vibe": "Soul-R&B · Ballroom Vocal",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/superare/fatal-1",
+          "mp3Path": "music/splendor-shanghai/020.mp3"
+        },
+        {
+          "no": 21,
+          "title": "Mama Afriqa",
+          "artist": "Tadz",
+          "vibe": "Soul · Lounge · Singer-Songwriter",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+          "mp3Path": "music/splendor-shanghai/021.mp3"
+        },
+        {
+          "no": 22,
+          "title": "Take Your Time",
+          "artist": "Tadz",
+          "vibe": "Soul · Lounge · Singer-Songwriter",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+          "mp3Path": "music/splendor-shanghai/022.mp3"
+        },
+        {
+          "no": 23,
+          "title": "You (I Just Wanna)",
+          "artist": "Tadz",
+          "vibe": "Soul · Lounge · Singer-Songwriter",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+          "mp3Path": "music/splendor-shanghai/023.mp3"
+        },
+        {
+          "no": 24,
+          "title": "Rose Petals & Candles",
+          "artist": "Tadz",
+          "vibe": "Soul · Lounge · Singer-Songwriter",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+          "mp3Path": "music/splendor-shanghai/024.mp3"
+        },
+        {
+          "no": 25,
+          "title": "There Ain't Nothin",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/025.mp3"
+        },
+        {
+          "no": 26,
+          "title": "How Can Things Be",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/026.mp3"
+        },
+        {
+          "no": 27,
+          "title": "Ragtime Getdown",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/027.mp3"
+        },
+        {
+          "no": 28,
+          "title": "Waves",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/028.mp3"
+        },
+        {
+          "no": 29,
+          "title": "WitchCraft",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/029.mp3"
+        },
+        {
+          "no": 30,
+          "title": "Swingin' Richards",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/030.mp3"
+        },
+        {
+          "no": 31,
+          "title": "Tunez",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/031.mp3"
+        },
+        {
+          "no": 32,
+          "title": "Exploring Tomorrow Part 1",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/032.mp3"
+        },
+        {
+          "no": 33,
+          "title": "Exploring Tomorrow Part 2",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/033.mp3"
+        },
+        {
+          "no": 34,
+          "title": "Expolirng Tomorrow Part 3",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/034.mp3"
+        },
+        {
+          "no": 35,
+          "title": "Strangers",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/035.mp3"
+        },
+        {
+          "no": 36,
+          "title": "Bikini Bottom",
+          "artist": "HoliznaCC0",
+          "vibe": "Ragtime · Vintage Jazz · Public-domain Sample",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+          "mp3Path": "music/splendor-shanghai/036.mp3"
+        },
+        {
+          "no": 37,
+          "title": "Eat.mp3",
+          "artist": "HoliznaCC0",
+          "vibe": "Jazz-Funk · Lounge · Bass",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+          "mp3Path": "music/splendor-shanghai/037.mp3"
+        },
+        {
+          "no": 38,
+          "title": "Sleep",
+          "artist": "HoliznaCC0",
+          "vibe": "Jazz-Funk · Lounge · Bass",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+          "mp3Path": "music/splendor-shanghai/038.mp3"
+        },
+        {
+          "no": 39,
+          "title": "Breath",
+          "artist": "HoliznaCC0",
+          "vibe": "Jazz-Funk · Lounge · Bass",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+          "mp3Path": "music/splendor-shanghai/039.mp3"
+        },
+        {
+          "no": 40,
+          "title": "Make Money",
+          "artist": "HoliznaCC0",
+          "vibe": "Jazz-Funk · Lounge · Bass",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+          "mp3Path": "music/splendor-shanghai/040.mp3"
+        },
+        {
+          "no": 41,
+          "title": "Make Love",
+          "artist": "HoliznaCC0",
+          "vibe": "Jazz-Funk · Lounge · Bass",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+          "mp3Path": "music/splendor-shanghai/041.mp3"
+        },
+        {
+          "no": 42,
+          "title": "Make Funk",
+          "artist": "HoliznaCC0",
+          "vibe": "Jazz-Funk · Lounge · Bass",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+          "mp3Path": "music/splendor-shanghai/042.mp3"
+        },
+        {
+          "no": 43,
+          "title": "Summer Wind",
+          "artist": "HoliznaCC0",
+          "vibe": "Old Room · Singer-Songwriter · Vintage",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+          "mp3Path": "music/splendor-shanghai/043.mp3"
+        },
+        {
+          "no": 44,
+          "title": "Shut In",
+          "artist": "HoliznaCC0",
+          "vibe": "Old Room · Singer-Songwriter · Vintage",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+          "mp3Path": "music/splendor-shanghai/044.mp3"
+        },
+        {
+          "no": 45,
+          "title": "Old Testament God",
+          "artist": "HoliznaCC0",
+          "vibe": "Old Room · Singer-Songwriter · Vintage",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+          "mp3Path": "music/splendor-shanghai/045.mp3"
+        },
+        {
+          "no": 46,
+          "title": "Make-Shift Salvation",
+          "artist": "HoliznaCC0",
+          "vibe": "Old Room · Singer-Songwriter · Vintage",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+          "mp3Path": "music/splendor-shanghai/046.mp3"
+        },
+        {
+          "no": 47,
+          "title": "Autumns Rusted Junky",
+          "artist": "HoliznaCC0",
+          "vibe": "Old Room · Singer-Songwriter · Vintage",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+          "mp3Path": "music/splendor-shanghai/047.mp3"
+        },
+        {
+          "no": 48,
+          "title": "The Old Haunt",
+          "artist": "HoliznaCC0",
+          "vibe": "Old Room · Singer-Songwriter · Vintage",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+          "mp3Path": "music/splendor-shanghai/048.mp3"
+        },
+        {
+          "no": 49,
+          "title": "Hanging Over The Days",
+          "artist": "HoliznaCC0",
+          "vibe": "Old Room · Singer-Songwriter · Vintage",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+          "mp3Path": "music/splendor-shanghai/049.mp3"
+        },
+        {
+          "no": 50,
+          "title": "Georgia Bound.",
+          "artist": "HoliznaCC0",
+          "vibe": "Old Room · Singer-Songwriter · Vintage",
+          "license": "CC0",
+          "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+          "mp3Path": "music/splendor-shanghai/050.mp3"
+        }
+      ]
+    }
+  ]
+}

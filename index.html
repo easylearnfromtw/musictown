@@ -2270,7 +2270,7 @@ body:not(.detail-open) #scene{
 
 
 /* =========================================================
-   musicetown R7.2
+   musicetown R7.3.1.1
    UI collision cleanup + interactive vinyl transport
    ========================================================= */
 
@@ -2563,6 +2563,415 @@ body:not(.detail-open) #scene{
       rgba(255,255,255,.01) 4.2% 18%,
       transparent 18.2% 100%),
     var(--vinyl);
+}
+
+
+/* =========================================================
+   musicetown R7.3.1
+   Navy transport / roller seek / Liquid Glass bottom dock
+   ========================================================= */
+:root{
+  --navy:#11223d;
+  --navy-2:#17345c;
+  --navy-3:#214b7c;
+  --navy-soft:rgba(17,34,61,.12);
+  --glass-border:rgba(255,255,255,.52);
+}
+
+/* Replace the grey deck with a deeper, more premium navy transport surface. */
+.musicetown-deck{
+  background:
+    radial-gradient(circle at 18% 16%,rgba(89,130,184,.18),transparent 30%),
+    linear-gradient(145deg,#17345c 0%,#11223d 58%,#0b1729 100%) !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.13),
+    inset 0 -24px 60px rgba(0,0,0,.16),
+    0 22px 54px rgba(18,31,52,.22) !important;
+}
+.musicetown-deck::before{
+  background:radial-gradient(circle,rgba(123,171,226,.18),transparent 66%) !important;
+}
+.musicetown-deck .deck-eyebrow,
+.musicetown-deck .deck-artist,
+.musicetown-deck .deck-time,
+.musicetown-deck .deck-help,
+.musicetown-deck .local-path,
+.musicetown-deck .local-mp3-status{
+  color:rgba(236,244,255,.70) !important;
+}
+.musicetown-deck .deck-title{
+  color:#f5f8ff !important;
+}
+.musicetown-deck .deck-help b{
+  color:#fff !important;
+}
+.musicetown-deck .local-path{
+  background:rgba(255,255,255,.06) !important;
+  border:1px solid rgba(255,255,255,.06);
+}
+.musicetown-deck .local-mp3-status{
+  background:rgba(255,255,255,.07) !important;
+  border-color:rgba(255,255,255,.08) !important;
+}
+.musicetown-deck .player-link.secondary{
+  background:rgba(255,255,255,.10) !important;
+  color:#eef4ff !important;
+}
+
+/* Deep navy buttons */
+.local-control{
+  background:var(--navy-2) !important;
+  color:#eef5ff !important;
+  border-color:rgba(255,255,255,.12) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.local-control:hover{
+  background:var(--navy-3) !important;
+}
+.local-control.primary{
+  background:#245b96 !important;
+  color:#fff !important;
+  border-color:rgba(255,255,255,.14) !important;
+}
+
+/* Roller / seek bar: prominent track with large thumb above buttons */
+.deck-time{
+  margin-top:16px !important;
+}
+.deck-seek{
+  -webkit-appearance:none;
+  appearance:none;
+  width:100%;
+  height:18px;
+  margin-top:8px !important;
+  background:transparent;
+  cursor:grab;
+}
+.deck-seek:active{cursor:grabbing}
+.deck-seek::-webkit-slider-runnable-track{
+  height:6px;
+  border-radius:999px;
+  background:
+    linear-gradient(90deg,rgba(110,171,236,.82),rgba(255,255,255,.18));
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.30);
+}
+.deck-seek::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:20px;height:20px;
+  margin-top:-7px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.86);
+  background:#dcecff;
+  box-shadow:
+    0 5px 14px rgba(0,0,0,.28),
+    inset 0 1px 0 #fff;
+}
+.deck-seek::-moz-range-track{
+  height:6px;border-radius:999px;
+  background:rgba(255,255,255,.18);
+}
+.deck-seek::-moz-range-progress{
+  height:6px;border-radius:999px;
+  background:#6eabec;
+}
+.deck-seek::-moz-range-thumb{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.86);
+  background:#dcecff;
+}
+
+/* Native audio is visually de-emphasized because the custom transport is primary */
+.native-audio{
+  opacity:.92;
+  filter:saturate(.8) brightness(.96);
+}
+
+/* ---------- Persistent Liquid Glass dock ---------- */
+.glass-transport{
+  position:fixed;
+  left:50%;
+  bottom:calc(14px + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%);
+  z-index:260;
+  width:min(980px,calc(100% - 26px));
+  display:grid;
+  grid-template-columns:minmax(190px,.9fr) auto minmax(280px,1.35fr);
+  align-items:center;
+  gap:14px;
+  padding:10px 12px;
+  border:1px solid var(--glass-border);
+  border-radius:24px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.24),rgba(175,197,225,.12)),
+    rgba(221,234,250,.20);
+  -webkit-backdrop-filter:blur(26px) saturate(155%);
+  backdrop-filter:blur(26px) saturate(155%);
+  box-shadow:
+    0 22px 58px rgba(26,45,72,.18),
+    inset 0 1px 0 rgba(255,255,255,.74),
+    inset 0 -1px 0 rgba(255,255,255,.20);
+  opacity:0;
+  pointer-events:none;
+  translate:0 16px;
+  transition:
+    opacity .28s ease,
+    translate .36s cubic-bezier(.16,1,.3,1);
+}
+.glass-transport.show{
+  opacity:1;
+  pointer-events:auto;
+  translate:0 0;
+}
+.glass-track{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.glass-disc{
+  width:38px;height:38px;flex:none;border-radius:50%;
+  background:
+    repeating-radial-gradient(circle,rgba(255,255,255,.15) 0 1px,transparent 1px 4px),
+    #151515;
+  box-shadow:
+    0 7px 18px rgba(31,44,67,.22),
+    inset 0 0 0 1px rgba(255,255,255,.14);
+}
+.glass-disc.playing{
+  animation:glassDiscSpin 5s linear infinite;
+}
+@keyframes glassDiscSpin{to{rotate:1turn}}
+
+.glass-copy{min-width:0}
+.glass-copy b{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font:700 10px/1.2 var(--serif);
+  color:#1f314a;
+}
+.glass-copy span{
+  display:block;
+  margin-top:4px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font:600 7px/1.2 var(--grotesk);
+  letter-spacing:.05em;
+  color:rgba(31,49,74,.58);
+}
+.glass-center{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.glass-btn{
+  width:34px;height:34px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.54);
+  background:rgba(255,255,255,.25);
+  color:#17345c;
+  cursor:pointer;
+  font:700 17px/1 var(--grotesk);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.64);
+}
+.glass-btn:hover{background:rgba(255,255,255,.42)}
+.glass-btn.glass-play{
+  width:40px;height:40px;
+  background:linear-gradient(180deg,#244e7f,#153459);
+  color:#fff;
+  border-color:rgba(255,255,255,.26);
+  font-size:13px;
+}
+.glass-sliders{
+  min-width:0;
+}
+.glass-time{
+  display:grid;
+  grid-template-columns:32px minmax(0,1fr) 32px;
+  align-items:center;
+  gap:7px;
+  font:700 7px/1 var(--grotesk);
+  color:rgba(31,49,74,.64);
+}
+.glass-volume-row{
+  display:grid;
+  grid-template-columns:24px minmax(80px,150px) auto;
+  justify-content:end;
+  align-items:center;
+  gap:7px;
+  margin-top:6px;
+  font:700 6.5px/1 var(--grotesk);
+  letter-spacing:.08em;
+  color:rgba(31,49,74,.58);
+}
+.glass-range{
+  -webkit-appearance:none;
+  appearance:none;
+  width:100%;
+  height:14px;
+  background:transparent;
+  cursor:pointer;
+}
+.glass-range::-webkit-slider-runnable-track{
+  height:4px;border-radius:999px;
+  background:rgba(23,52,92,.17);
+}
+.glass-range::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:14px;height:14px;
+  margin-top:-5px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.78);
+  background:#f6fbff;
+  box-shadow:0 3px 8px rgba(22,43,72,.20);
+}
+.glass-range::-moz-range-track{
+  height:4px;border-radius:999px;
+  background:rgba(23,52,92,.17);
+}
+.glass-range::-moz-range-thumb{
+  width:14px;height:14px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.78);
+  background:#f6fbff;
+}
+.auto-next-toggle{
+  justify-self:end;
+  height:26px;
+  border-radius:999px;
+  border:1px solid rgba(23,52,92,.11);
+  padding:0 9px;
+  background:rgba(255,255,255,.24);
+  color:rgba(23,52,92,.54);
+  cursor:pointer;
+  font:700 6.5px/1 var(--grotesk);
+  letter-spacing:.08em;
+}
+.auto-next-toggle.active{
+  background:rgba(23,52,92,.88);
+  color:#fff;
+  border-color:transparent;
+}
+
+/* reserve bottom space so dock doesn't cover content */
+body{padding-bottom:84px}
+
+@media(max-width:760px){
+  .glass-transport{
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:
+      "track center"
+      "sliders sliders";
+    gap:8px 10px;
+    padding:9px 10px;
+    border-radius:20px;
+    bottom:calc(8px + env(safe-area-inset-bottom,0px));
+  }
+  .glass-track{grid-area:track}
+  .glass-center{grid-area:center}
+  .glass-sliders{grid-area:sliders}
+  .glass-volume-row{
+    grid-template-columns:24px minmax(70px,1fr) auto;
+  }
+  .glass-disc{width:32px;height:32px}
+  .glass-btn{width:31px;height:31px}
+  .glass-btn.glass-play{width:36px;height:36px}
+  body{padding-bottom:112px}
+}
+
+
+/* =========================================================
+   musicetown R7.3.1.1 · SCROLL / TOUCH REGRESSION FIX
+   ========================================================= */
+
+/* The player overlay stays fixed, but its card is its own scroll viewport. */
+.player-sheet{
+  overflow:hidden !important;
+  overscroll-behavior:none;
+}
+
+.player-card{
+  max-height:calc(100dvh - 36px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) !important;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior-y:contain;
+  touch-action:pan-y !important;
+  scrollbar-gutter:stable;
+  padding-bottom:max(24px,calc(18px + env(safe-area-inset-bottom,0px))) !important;
+}
+
+/* Keep decorative color fields clipped without locking the player content. */
+.musicetown-deck,
+.track-story,
+.caption-panel{
+  overflow:hidden;
+}
+
+/* Detail page remains the main vertical scroller when the player is closed. */
+.detail{
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior-y:contain;
+  touch-action:pan-y;
+}
+
+/* Welcome survey must also remain scrollable on small screens. */
+.welcome-card{
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  touch-action:pan-y;
+}
+
+/* The large record no longer blocks an ordinary vertical swipe on phone/tablet.
+   Desktop mouse dragging still keeps the full turntable interaction. */
+.vinyl-wrap{
+  touch-action:pan-y !important;
+}
+.vinyl{
+  touch-action:pan-y !important;
+}
+
+/* Sliders keep horizontal manipulation only on themselves. */
+.deck-seek,
+.glass-range{
+  touch-action:pan-x !important;
+}
+
+/* Bottom Liquid Glass only intercepts its own controls, not the full viewport. */
+.glass-transport{
+  touch-action:pan-y;
+}
+
+/* Reserve enough scroll room so last content isn't hidden behind mini player. */
+.detail .inner.music-detail{
+  padding-bottom:max(130px,calc(108px + env(safe-area-inset-bottom,0px))) !important;
+}
+
+/* On compact screens make the sheet feel like a draggable bottom sheet,
+   while preserving a large scrollable content area. */
+@media(max-width:640px){
+  .player-sheet{
+    padding:
+      max(8px,env(safe-area-inset-top,0px))
+      8px
+      max(8px,env(safe-area-inset-bottom,0px)) !important;
+  }
+  .player-card{
+    max-height:calc(100dvh - 16px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) !important;
+    border-radius:24px !important;
+  }
+  .musicetown-deck{
+    overflow:hidden !important;
+  }
 }
 
 </style>
@@ -3701,7 +4110,129 @@ $('drawerPlayRandom').addEventListener('click',()=>{
 
 
 
-/* ================= musicetown R7.2 vinyl transport ================= */
+
+/* ================= musicetown R7.3.1 global transport ================= */
+let activeAudio=null;
+let activeTrack=null;
+let autoNextEnabled=true;
+let activeTrackPosition=null;
+
+function findTrackPosition(t){
+  for(let gi=0;gi<DATA.length;gi++){
+    const ti=DATA[gi].tracks.indexOf(t);
+    if(ti>=0)return {gi,ti};
+  }
+  return null;
+}
+function nextTrackFrom(t,dir=1){
+  const p=findTrackPosition(t);
+  if(!p)return null;
+  const arr=DATA[p.gi].tracks;
+  const ni=(p.ti+dir+arr.length)%arr.length;
+  return arr[ni];
+}
+function glassFormat(sec){
+  sec=Math.max(0,Number(sec)||0);
+  const m=Math.floor(sec/60),s=Math.floor(sec%60);
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+function updateGlassUI(){
+  const dock=$('glassTransport');
+  if(!dock||!activeTrack)return;
+  dock.classList.add('show');
+
+  $('glassTitle').textContent=activeTrack.title||'musicetown';
+  $('glassArtist').textContent=`${activeTrack.artist||''} · ${trackGenreName(activeTrack)}`;
+
+  const c=vinylColorForTrack(activeTrack);
+  const disc=$('glassDisc');
+  if(disc){
+    disc.style.background=`
+      repeating-radial-gradient(circle,rgba(255,255,255,.15) 0 1px,transparent 1px 4px),
+      ${c.hex}`;
+    disc.classList.toggle('playing',!!activeAudio&&!activeAudio.paused);
+  }
+
+  if(activeAudio){
+    const dur=Number.isFinite(activeAudio.duration)?activeAudio.duration:0;
+    const cur=activeAudio.currentTime||0;
+    $('glassCurrent').textContent=glassFormat(cur);
+    $('glassDuration').textContent=glassFormat(dur);
+    const seek=$('glassSeek');
+    if(seek){
+      seek.max=String(dur||0);
+      if(!seek.matches(':active'))seek.value=String(cur);
+    }
+    $('glassPlay').textContent=activeAudio.paused?'▶':'Ⅱ';
+    const vol=$('glassVolume');
+    if(vol&&!vol.matches(':active'))vol.value=String(activeAudio.volume);
+  }
+}
+function attachGlobalTransport(audio,t){
+  activeAudio=audio;
+  activeTrack=t;
+  activeTrackPosition=findTrackPosition(t);
+
+  if(activeAudio){
+    activeAudio.volume=Number($('glassVolume')?.value||.85);
+  }
+
+  const refresh=()=>updateGlassUI();
+  audio.addEventListener('play',refresh);
+  audio.addEventListener('pause',refresh);
+  audio.addEventListener('timeupdate',refresh);
+  audio.addEventListener('loadedmetadata',refresh);
+  audio.addEventListener('durationchange',refresh);
+  audio.addEventListener('volumechange',refresh);
+
+  audio.addEventListener('ended',()=>{
+    updateGlassUI();
+    if(!autoNextEnabled)return;
+    const nxt=nextTrackFrom(t,1);
+    if(!nxt)return;
+    window.__musicetownAutoplayNext=true;
+    openTrack(nxt,false);
+  });
+
+  updateGlassUI();
+}
+function jumpGlobal(dir){
+  if(!activeTrack)return;
+  const nxt=nextTrackFrom(activeTrack,dir);
+  if(!nxt)return;
+  window.__musicetownAutoplayNext=true;
+  openTrack(nxt,false);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  $('glassPlay')?.addEventListener('click',()=>{
+    if(!activeAudio)return;
+    if(activeAudio.paused)activeAudio.play().catch(()=>{});
+    else activeAudio.pause();
+  });
+  $('glassPrev')?.addEventListener('click',()=>jumpGlobal(-1));
+  $('glassNext')?.addEventListener('click',()=>jumpGlobal(1));
+
+  $('glassSeek')?.addEventListener('input',e=>{
+    if(!activeAudio)return;
+    activeAudio.currentTime=Number(e.target.value)||0;
+    updateGlassUI();
+  });
+
+  $('glassVolume')?.addEventListener('input',e=>{
+    if(!activeAudio)return;
+    activeAudio.volume=Math.max(0,Math.min(1,Number(e.target.value)||0));
+  });
+
+  $('autoNextToggle')?.addEventListener('click',e=>{
+    autoNextEnabled=!autoNextEnabled;
+    e.currentTarget.classList.toggle('active',autoNextEnabled);
+    e.currentTarget.setAttribute('aria-pressed',autoNextEnabled?'true':'false');
+    e.currentTarget.textContent=autoNextEnabled?'AUTO NEXT':'AUTO NEXT OFF';
+  });
+});
+
+/* ================= musicetown R7.3.1.1 vinyl transport ================= */
 const VINYL_COLORS=[
   {name:'BLACK',hex:'#151515',dark:true},
   {name:'APPLE GREEN',hex:'#A7D948',dark:false},
@@ -3776,18 +4307,50 @@ function wireVinylTransport(audio,t){
   vinyl.dataset.dark=c.dark?'true':'false';
   vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。拖曳旋轉可快轉或倒轉音樂。`);
 
+  let vinylStartX=0,vinylStartY=0,vinylTouchIntent=null;
+
   const begin=e=>{
-    e.preventDefault();
+    vinylStartX=e.clientX;
+    vinylStartY=e.clientY;
+    vinylTouchIntent=e.pointerType==='mouse'?'scratch':null;
+
+    if(e.pointerType==='mouse') e.preventDefault();
+
     vinylDragging=true;
     vinylWasPlaying=!audio.paused;
-    vinyl.classList.add('dragging');
-    vinyl.setPointerCapture?.(e.pointerId);
     vinylLastPointerAngle=pointerAngle(vinyl,e);
-    audio.pause();
+
+    if(e.pointerType==='mouse'){
+      vinyl.classList.add('dragging');
+      vinyl.setPointerCapture?.(e.pointerId);
+      audio.pause();
+    }
   };
+
   const move=e=>{
     if(!vinylDragging)return;
-    e.preventDefault();
+
+    if(e.pointerType!=='mouse' && vinylTouchIntent==null){
+      const dx=e.clientX-vinylStartX;
+      const dy=e.clientY-vinylStartY;
+      if(Math.hypot(dx,dy)<8) return;
+
+      // Vertical gesture = normal page scroll. Horizontal/rotational intent = scratch.
+      if(Math.abs(dy)>Math.abs(dx)*1.15){
+        vinylTouchIntent='scroll';
+        vinylDragging=false;
+        return;
+      }
+
+      vinylTouchIntent='scratch';
+      vinyl.classList.add('dragging');
+      vinyl.setPointerCapture?.(e.pointerId);
+      audio.pause();
+    }
+
+    if(vinylTouchIntent==='scroll') return;
+    if(e.cancelable) e.preventDefault();
+
     const a=pointerAngle(vinyl,e);
     const delta=normalizeDelta(a-vinylLastPointerAngle);
     vinylLastPointerAngle=a;
@@ -3799,13 +4362,22 @@ function wireVinylTransport(audio,t){
     }else{
       audio.currentTime=Math.max(0,(audio.currentTime||0)+secDelta);
     }
+
     vinylVisualAngle+=delta;
     vinyl.style.setProperty('--record-angle',`${vinylVisualAngle}deg`);
     paintVinylFromAudio(audio);
   };
+
   const end=e=>{
+    if(vinylTouchIntent==='scroll'){
+      vinylTouchIntent=null;
+      vinylDragging=false;
+      return;
+    }
     if(!vinylDragging)return;
+
     vinylDragging=false;
+    vinylTouchIntent=null;
     vinyl.classList.remove('dragging');
     try{vinyl.releasePointerCapture?.(e.pointerId)}catch(_){}
     if(vinylWasPlaying)audio.play().catch(()=>{});
@@ -4176,6 +4748,9 @@ function openTrack(t, userGesture=true){
 
       const a=$('nativeAudioPlayer');
       const status=$('localMp3Status');
+      if(a){
+        attachGlobalTransport(a,t);
+      }
       const setStatus=(kind,msg)=>{
         if(!status)return;
         status.className='local-mp3-status '+kind;
@@ -4191,6 +4766,10 @@ function openTrack(t, userGesture=true){
         });
         a.addEventListener('canplay',()=>{
           setStatus('ready','MP3 已就緒 · 站內直接播放');
+          if(window.__musicetownAutoplayNext){
+            window.__musicetownAutoplayNext=false;
+            a.play().catch(()=>{});
+          }
         });
         a.addEventListener('error',()=>{
           setStatus('missing',`找不到 MP3：${t.audioSrc}`);
@@ -4231,7 +4810,8 @@ function openTrack(t, userGesture=true){
         const p=locateTrack(); if(!p)return;
         const arr=DATA[p.gi].tracks;
         const ni=(p.ti+dir+arr.length)%arr.length;
-        openTrack(arr[ni],true);
+        window.__musicetownAutoplayNext=true;
+        openTrack(arr[ni],false);
       };
       $('localPrev')?.addEventListener('click',()=>jump(-1));
       $('localNext')?.addEventListener('click',()=>jump(1));
@@ -4287,8 +4867,14 @@ function closeTrack(){
   stopCaptionClock();
   $('playerSheet').classList.remove('open');
   $('playerSheet').setAttribute('aria-hidden','true');
-  $('playerBody').innerHTML='';
-  currentTrack=null;
+
+  // If music is still playing, keep the <audio> alive so the Liquid Glass
+  // bottom transport continues to work. When paused, cleaning is safe.
+  if(!activeAudio || activeAudio.paused){
+    $('playerBody').innerHTML='';
+    currentTrack=null;
+  }
+  updateGlassUI();
 }
 
 
@@ -4407,6 +4993,36 @@ setTimeout(()=>{
 
 })();
 </script>
+
+
+<div id="glassTransport" class="glass-transport" aria-label="musicetown 液態玻璃播放器">
+  <div class="glass-track">
+    <div class="glass-disc" id="glassDisc"></div>
+    <div class="glass-copy">
+      <b id="glassTitle">musicetown</b>
+      <span id="glassArtist">選一首音樂開始播放</span>
+    </div>
+  </div>
+
+  <div class="glass-center">
+    <button class="glass-btn" id="glassPrev" type="button" aria-label="上一首">‹</button>
+    <button class="glass-btn glass-play" id="glassPlay" type="button" aria-label="播放">▶</button>
+    <button class="glass-btn" id="glassNext" type="button" aria-label="下一首">›</button>
+  </div>
+
+  <div class="glass-sliders">
+    <div class="glass-time">
+      <span id="glassCurrent">0:00</span>
+      <input id="glassSeek" class="glass-range glass-seek" type="range" min="0" max="0" step="0.05" value="0">
+      <span id="glassDuration">0:00</span>
+    </div>
+    <div class="glass-volume-row">
+      <span>VOL</span>
+      <input id="glassVolume" class="glass-range glass-volume" type="range" min="0" max="1" step="0.01" value="0.85">
+      <button class="auto-next-toggle active" id="autoNextToggle" type="button" aria-pressed="true">AUTO NEXT</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
