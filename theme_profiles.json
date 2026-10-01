@@ -1,0 +1,253 @@
+{
+  "EMO": {
+    "slug": "emo",
+    "vibe": "Emo · Alternative · Melancholic",
+    "queries": [
+      "emo vocal",
+      "alternative rock vocal",
+      "post punk vocal",
+      "pop punk vocal",
+      "melancholic indie vocal",
+      "sad rock vocal"
+    ],
+    "genres": [
+      "Rock",
+      "Pop",
+      "Experimental Pop"
+    ],
+    "keywords": [
+      "emo",
+      "alternative",
+      "post punk",
+      "post-punk",
+      "pop punk",
+      "punk",
+      "melancholic",
+      "sad",
+      "rock",
+      "indie",
+      "dark",
+      "guitar"
+    ],
+    "required_any": [
+      "emo",
+      "alternative",
+      "post punk",
+      "post-punk",
+      "punk",
+      "melancholic",
+      "rock",
+      "indie"
+    ],
+    "prefer_bpm": [
+      90,
+      180
+    ],
+    "prefer_energy": [
+      45,
+      100
+    ],
+    "reject": [
+      "corporate",
+      "meditation",
+      "children",
+      "game music"
+    ],
+    "vocal_mode": "required",
+    "min_strong_matches": 1,
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "RUNNING": {
+    "slug": "running",
+    "vibe": "Running · Pace · Energy",
+    "queries": [
+      "energetic pop vocal",
+      "running electronic vocal",
+      "dance vocal",
+      "rock workout vocal",
+      "drum bass vocal",
+      "upbeat vocal"
+    ],
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Rock",
+      "Hip Hop"
+    ],
+    "keywords": [
+      "energetic",
+      "dance",
+      "electronic",
+      "rock",
+      "drum",
+      "bass",
+      "upbeat",
+      "fast",
+      "hype",
+      "motion",
+      "workout",
+      "pop"
+    ],
+    "required_any": [
+      "energetic",
+      "dance",
+      "electronic",
+      "rock",
+      "drum",
+      "bass",
+      "upbeat",
+      "fast",
+      "hype",
+      "pop"
+    ],
+    "prefer_bpm": [
+      125,
+      180
+    ],
+    "prefer_energy": [
+      65,
+      100
+    ],
+    "reject": [
+      "sleep",
+      "meditation",
+      "ambient drone",
+      "slow folk",
+      "podcast"
+    ],
+    "vocal_mode": "required",
+    "min_strong_matches": 1,
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "POEM": {
+    "slug": "poem",
+    "vibe": "Poem · Story · Acoustic",
+    "queries": [
+      "singer songwriter vocal",
+      "folk vocal",
+      "acoustic vocal",
+      "spoken word music",
+      "art pop vocal",
+      "storytelling vocal"
+    ],
+    "genres": [
+      "Folk",
+      "Pop",
+      "Experimental Pop",
+      "Rock"
+    ],
+    "keywords": [
+      "folk",
+      "singer songwriter",
+      "singer-songwriter",
+      "acoustic",
+      "spoken word",
+      "story",
+      "lyrics",
+      "art pop",
+      "poetry",
+      "indie",
+      "ballad",
+      "vocal"
+    ],
+    "required_any": [
+      "folk",
+      "singer songwriter",
+      "singer-songwriter",
+      "acoustic",
+      "spoken word",
+      "story",
+      "art pop",
+      "indie",
+      "ballad"
+    ],
+    "prefer_bpm": [
+      55,
+      125
+    ],
+    "prefer_energy": [
+      15,
+      70
+    ],
+    "reject": [
+      "hard techno",
+      "club",
+      "game music",
+      "corporate"
+    ],
+    "vocal_mode": "required",
+    "min_strong_matches": 1,
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "TRADITIONAL BEIJING": {
+    "slug": "traditional-beijing",
+    "vibe": "Beijing · Jingju-inspired · Traditional",
+    "queries": [
+      "chinese opera music",
+      "beijing opera",
+      "jingju music",
+      "chinese traditional vocal",
+      "erhu music",
+      "pipa music",
+      "guzheng music",
+      "dizi flute"
+    ],
+    "genres": [
+      "Folk",
+      "Classical",
+      "Experimental",
+      "Ambient"
+    ],
+    "keywords": [
+      "chinese",
+      "opera",
+      "beijing",
+      "jingju",
+      "erhu",
+      "pipa",
+      "guzheng",
+      "dizi",
+      "traditional",
+      "folk",
+      "ceremonial",
+      "flute",
+      "percussion"
+    ],
+    "required_any": [
+      "chinese",
+      "opera",
+      "beijing",
+      "jingju",
+      "erhu",
+      "pipa",
+      "guzheng",
+      "dizi",
+      "traditional",
+      "folk",
+      "ceremonial",
+      "flute"
+    ],
+    "prefer_bpm": [
+      55,
+      165
+    ],
+    "prefer_energy": [
+      20,
+      90
+    ],
+    "reject": [
+      "corporate",
+      "trap",
+      "club",
+      "podcast"
+    ],
+    "vocal_mode": "preferred",
+    "allow_instrumental": true,
+    "min_strong_matches": 1,
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  }
+}
