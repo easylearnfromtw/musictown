@@ -311,8 +311,19 @@ def main():
                 selected.append(t);selected_keys.add(k);used.add(k)
                 if len(selected)>=args.per_city:break
 
+        # Pass 3: Nullrights metadata can be sparse even when the result
+        # came directly from this city's own theme queries / genre pages.
+        # All candidates have already passed CC0, direct-audio and duration gates.
         if len(selected)<args.per_city:
-            raise RuntimeError(f"{city}: only {len(selected)} legal theme-adjacent CC0 tracks found")
+            for t in candidates:
+                k=track_key(t["title"],t["artist"])
+                if k in selected_keys or k in hard_used:continue
+                t["_curationTier"]="query-genre-fit"
+                selected.append(t);selected_keys.add(k);used.add(k)
+                if len(selected)>=args.per_city:break
+
+        if len(selected)<args.per_city:
+            raise RuntimeError(f"{city}: only {len(selected)} verified CC0 tracks available in its own query/genre pool")
 
         folder=profile["slug"]
         target_dir=ROOT/folder
