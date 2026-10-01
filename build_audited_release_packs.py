@@ -78,7 +78,6 @@ def clone_tracks(theme,profile,sources,by_name,target=50):
         for t in drawer.get("tracks",[]):
             if not t.get("audioSrc") or not t.get("licenseVerified"):continue
             src=str(t.get("audioSrc",""))
-            if not re.match(r"^https://",src,re.I):continue
             ident=(t.get("source"),t.get("title"),t.get("artist"),src)
             if ident in seen:continue
             seen.add(ident)
@@ -99,8 +98,8 @@ def clone_tracks(theme,profile,sources,by_name,target=50):
           "curationMatches":matches[:8],
           "curationTier":"audited-related-drawer",
           "curatedFromDrawer":src_name,
-          "streamingAudio":True,
-          "localMp3":False,
+          "streamingAudio":bool(re.match(r"^https://",str(x.get("audioSrc","")),re.I)),
+          "localMp3":not bool(re.match(r"^https://",str(x.get("audioSrc","")),re.I)),
           "vibe":f"{profile.get('label') or profile.get('vibe') or theme} · {x.get('genre') or src_name}"
         })
         out.append(x)
@@ -110,14 +109,18 @@ def main():
     _,_,data=read_catalog(ROOT/"index.html")
     by_name={d["t"]:d for d in data}
 
-    # The resolver has already converted the audited base 5 to HTTPS streams.
+    # Base five are restored to verified repository-local MP3 files before curation.
     core5={"JAZZ","CROONER","ROCK","SPORT","LO-FI"}
     for name in core5:
         d=by_name.get(name)
         if not d or len(d.get("tracks",[]))<50:
             raise RuntimeError(f"{name}: audited base drawer is not ready")
-        if not all(t.get("licenseVerified") and re.match(r"^https://",str(t.get("audioSrc","")),re.I) for t in d["tracks"][:50]):
-            raise RuntimeError(f"{name}: audited base drawer contains non-verified/non-HTTPS track")
+        if not all(t.get("licenseVerified") and str(t.get("audioSrc","")).strip() for t in d["tracks"][:50]):
+            raise RuntimeError(f"{name}: audited base drawer contains missing/unverified audio")
+        for t in d["tracks"][:50]:
+            src=str(t.get("audioSrc",""))
+            if re.match(r"^https?://",src,re.I):
+                raise RuntimeError(f"{name}: base drawer must use local MP3, got remote {src}")
 
     report={"generatedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"themes":{},"cities":{}}
 
