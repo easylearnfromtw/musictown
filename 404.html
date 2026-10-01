@@ -7671,7 +7671,7 @@ window.addEventListener('error',function(e){
     <section class="branch-drawer-section" id="branchDrawerSection">
       <div class="branch-drawer-head">
         <b>LIVE DRAWER</b>
-        <span id="drawerPoolMeta">50-TRACK POOL · RANDOM 5</span>
+        <span id="drawerPoolMeta">CURATED POOL · RANDOM 5</span>
       </div>
       <div class="branch-drawer-stage" id="branchDrawerStage">
         <div id="detailSceneMount" class="detail-scene-mount" aria-label="3D 音樂抽屜"></div>
@@ -8972,7 +8972,7 @@ function renderGlobalSearchSuggestions(){
 }
 function searchResultThemeRow(d,i){
   const group=HOME_GROUPS[themeGroupKeyForName(d.t)];
-  const status=d.tracks?.length?`${d.tracks.length} TRACKS`:'CURATING 50';
+  const status=d.tracks?.length?`${d.tracks.length} TRACKS`:`CURATING ${themeTrackTarget(d)}`;
   return `<button class="search-result-row" type="button" data-search-theme="${i}">
     <span class="search-result-mark">${String(i+1).padStart(2,'0')}</span>
     <span class="search-result-copy"><b>${esc(d.t)}</b><span>${esc(group?.label||'THEME')} · ${status}</span></span>
