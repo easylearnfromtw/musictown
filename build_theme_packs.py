@@ -302,10 +302,10 @@ def main():
     used_sources=set(hard_sources)|set(soft_sources)
 
     fallback_drawers={
-      "EMO":{"ROCK","LO-FI"},
-      "RUNNING":{"SPORT","ROCK"},
-      "POEM":{"CROONER","LO-FI","JAZZ"},
-      "TRADITIONAL BEIJING":{"JAZZ","CROONER"}
+      "EMO":{"ROCK","LO-FI","VAPOR LONDON"},
+      "RUNNING":{"SPORT","ROCK","NEW YORK"},
+      "POEM":{"CROONER","LO-FI","JAZZ","TAIPEI DREAM","VANCOUVER"},
+      "TRADITIONAL BEIJING":{"SPLENDOR SHANGHAI","OLD TOKYO","JAZZ","CROONER"}
     }
 
     report={"generatedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"themes":{}}
