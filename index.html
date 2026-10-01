@@ -8454,6 +8454,150 @@ html.mt-track-scrolling .music-panel{
   .pass-welcome-title{font-size:clamp(27px,9vw,44px)!important}
   .vinyl-wrap{min-height:364px!important;padding:30px 14px 46px!important}
 }
+
+/* ===== R9.3.12 · iPhone archive / vinyl / fluidity final hardening ===== */
+html,body{width:100%;max-width:100%;overflow-x:clip!important}
+.detail,.detail .inner.music-detail,.music-grid,.music-panel,#trackList,.track-row{
+  min-width:0!important;max-width:100%!important
+}
+.detail .inner.music-detail{box-sizing:border-box!important}
+.music-grid{width:100%!important}
+.music-panel{width:100%!important}
+#trackList{width:100%!important;overflow-x:clip!important}
+#trackList .track-row>*{min-width:0!important}
+.track-name,.track-note{
+  overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important
+}
+
+html.mt-vinyl-page-lock,
+html.mt-vinyl-page-lock body{overscroll-behavior:none!important}
+html.mt-vinyl-page-lock .player-card,
+html.mt-vinyl-page-lock .detail,
+html.mt-vinyl-page-lock .music-detail{
+  overflow-y:hidden!important;
+  overscroll-behavior:none!important;
+  touch-action:none!important
+}
+html.mt-vinyl-page-lock .vinyl-wrap{
+  touch-action:none!important;
+  cursor:grabbing!important
+}
+
+.site-head.site-head-r890{position:fixed!important}
+#localLibraryFab.head-library{
+  grid-column:1!important;justify-self:start!important;
+  position:relative!important;inset:auto!important;
+  transform:none!important;translate:none!important
+}
+
+.track-row,.theme-shelf-item,.passbook-card{will-change:auto!important}
+.vinyl-wrap.mt-vinyl-dragging,.vinyl-wrap.mt-vinyl-dragging .vinyl{
+  will-change:transform!important
+}
+
+@media(max-width:700px){
+  .detail{
+    padding-left:8px!important;padding-right:8px!important;
+    overflow-x:clip!important
+  }
+  .detail .inner.music-detail{
+    width:100%!important;max-width:100%!important;
+    padding-left:0!important;padding-right:0!important
+  }
+  .music-grid{
+    display:block!important;width:100%!important;
+    overflow:visible!important
+  }
+  .music-panel{
+    width:100%!important;max-width:100%!important;
+    padding:14px 12px!important;
+    overflow:clip!important;
+    border-radius:20px!important
+  }
+  .music-panel>.panel-headline{
+    min-width:0!important;gap:8px!important
+  }
+  .music-panel>.panel-headline h3{min-width:0!important}
+  .music-panel>.panel-headline span{
+    flex:none!important;max-width:42%!important;
+    overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important
+  }
+
+  .music-detail .music-panel>.library-tools{
+    width:100%!important;max-width:100%!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:9px!important;margin:10px 0 14px!important;
+    overflow:hidden!important
+  }
+  .music-detail .music-panel>.library-tools>.library-search{
+    grid-column:1/-1!important;width:100%!important;min-width:0!important;max-width:100%!important;
+    height:48px!important
+  }
+  .music-detail .music-panel>.library-tools>.lib-pill{
+    width:100%!important;min-width:0!important;max-width:100%!important;
+    padding:0 7px!important;height:46px!important;
+    overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+    font-size:7.4px!important;letter-spacing:.075em!important
+  }
+
+  #trackList .track-row{
+    width:100%!important;max-width:100%!important;
+    display:grid!important;
+    grid-template-columns:44px minmax(0,1fr) 42px!important;
+    column-gap:9px!important;
+    padding:10px 9px!important;
+    min-height:72px!important;
+    overflow:hidden!important;
+    contain:layout paint style!important;
+    -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+    box-shadow:0 7px 22px rgba(45,61,82,.045)!important
+  }
+  #trackList .track-no{grid-column:1!important}
+  #trackList .track-copy,
+  #trackList .track-main,
+  #trackList .track-info{grid-column:2!important;min-width:0!important}
+  #trackList .track-actions{
+    grid-column:3!important;
+    width:42px!important;min-width:42px!important;max-width:42px!important;
+    justify-content:center!important;gap:0!important;
+    overflow:visible!important
+  }
+  #trackList .track-actions .cc0-badge,
+  #trackList .cc0-badge,
+  #trackList .track-tag{display:none!important}
+  #trackList .favorite-btn{
+    width:38px!important;height:38px!important;min-width:38px!important
+  }
+  #trackList .play-dot{width:38px!important;height:38px!important}
+  #trackList .track-name{
+    width:100%!important;max-width:100%!important;
+    font-size:15px!important;line-height:1.24!important
+  }
+  #trackList .track-note{
+    width:100%!important;max-width:100%!important;
+    font-size:9px!important;line-height:1.35!important
+  }
+
+  .site-head.site-head-r890{
+    grid-template-columns:48px minmax(0,1fr) 48px!important;
+    padding-left:max(9px,env(safe-area-inset-left,0px))!important;
+    padding-right:max(9px,env(safe-area-inset-right,0px))!important
+  }
+  #localLibraryFab.head-library,
+  .site-head-r890 .global-search-trigger{
+    width:42px!important;height:42px!important;min-width:42px!important
+  }
+
+  html.mt-track-scrolling #trackList .track-row{
+    box-shadow:none!important;background:rgba(255,255,255,.74)!important
+  }
+  html.mt-track-scrolling .music-panel{
+    -webkit-backdrop-filter:blur(5px) saturate(102%)!important;
+    backdrop-filter:blur(5px) saturate(102%)!important
+  }
+}
+
 </style>
 </head>
 <body>
@@ -14411,5 +14555,59 @@ setTimeout(()=>{
   window.visualViewport?.addEventListener('resize',updateVisibleHeight,{passive:true});
   window.addEventListener('orientationchange',()=>setTimeout(updateVisibleHeight,120),{passive:true});
 })();
-</script>\n</body>
+</script>\n
+<script id="r9312-final-ux">
+(()=>{
+  'use strict';
+  const root=document.documentElement;
+  const interactive='button,input,a,select,textarea,[role="button"],.deck-info';
+  let vinylPointer=null;
+
+  const unlockVinylPage=()=>{
+    vinylPointer=null;
+    root.classList.remove('mt-vinyl-page-lock');
+  };
+  document.addEventListener('pointerdown',e=>{
+    const wrap=e.target.closest?.('.vinyl-wrap');
+    if(!wrap||e.target.closest?.(interactive))return;
+    vinylPointer=e.pointerId;
+    root.classList.add('mt-vinyl-page-lock');
+  },{capture:true,passive:true});
+  document.addEventListener('pointerup',e=>{
+    if(vinylPointer===null||e.pointerId!==vinylPointer)return;
+    unlockVinylPage();
+  },{capture:true,passive:true});
+  document.addEventListener('pointercancel',e=>{
+    if(vinylPointer===null||e.pointerId!==vinylPointer)return;
+    unlockVinylPage();
+  },{capture:true,passive:true});
+  window.addEventListener('blur',unlockVinylPage,{passive:true});
+
+  const syncWelcomeDestination=()=>{
+    const sheet=document.getElementById('passWelcomeSheet');
+    if(!sheet?.classList.contains('open'))return;
+    const title=document.getElementById('passWelcomeTitle')?.textContent?.trim();
+    const zh=document.getElementById('passWelcomeZh');
+    if(title&&zh)zh.textContent='歡迎來到 '+title;
+  };
+  const welcomeSheet=document.getElementById('passWelcomeSheet');
+  if(welcomeSheet){
+    new MutationObserver(()=>requestAnimationFrame(syncWelcomeDestination))
+      .observe(welcomeSheet,{attributes:true,attributeFilter:['class']});
+  }
+
+  const normalizeMobileArchive=()=>{
+    if(innerWidth>700)return;
+    document.querySelectorAll('.music-panel,#trackList,.library-tools').forEach(el=>{
+      el.style.maxWidth='100%';
+      el.style.minWidth='0';
+    });
+  };
+  normalizeMobileArchive();
+  window.visualViewport?.addEventListener('resize',normalizeMobileArchive,{passive:true});
+  window.addEventListener('orientationchange',()=>setTimeout(normalizeMobileArchive,120),{passive:true});
+})();
+</script>
+
+</body>
 </html>
