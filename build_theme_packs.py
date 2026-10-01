@@ -231,7 +231,7 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--per-theme",type=int,default=50)
     ap.add_argument("--bitrate",default="64k")
-    ap.add_argument("--max-candidates",type=int,default=220)
+    ap.add_argument("--max-candidates",type=int,default=420)
     ap.add_argument("--max-per-artist",type=int,default=4)
     ap.add_argument("--workers",type=int,default=6)
     ap.add_argument("--streaming",action="store_true",help="Keep verified remote audio URLs instead of packaging MP3 files into GitHub Pages.")
@@ -336,8 +336,22 @@ def main():
                 used.add(k);used_sources.add(t["source"])
                 if len(selected)>=args.per_theme:break
 
+        # Pass 3: artist-depth fallback. Diversity is a preference, not a legal/theme gate.
+        # Keep only strong theme matches with non-negative score, but permit >4 songs
+        # from the same artist when the CC0 catalog is concentrated among a few creators.
         if len(selected)<args.per_theme:
-            raise RuntimeError(f"{theme}: only {len(selected)} legal theme-adjacent tracks after fallback")
+            for t in candidates:
+                k=key(t["title"],t["artist"])
+                if k in selected_keys or k in hard_used:continue
+                if p.get("required_any") and not t.get("_strongHits"):continue
+                if t["_score"]<0:continue
+                t["_curationTier"]="exact-artist-depth"
+                selected.append(t);selected_keys.add(k)
+                used.add(k);used_sources.add(t["source"])
+                if len(selected)>=args.per_theme:break
+
+        if len(selected)<args.per_theme:
+            raise RuntimeError(f"{theme}: only {len(selected)} legal strongly theme-fit tracks after all fallbacks")
 
         folder=p["slug"]
         target=ROOT/folder
