@@ -1,4 +1,4 @@
-name: R9.2 · Curate 1875 musicetown placements + Campus Pass Deploy
+name: R9.2 · 52 themes / 1875 placements · Hybrid Deploy
 
 "on":
   workflow_dispatch:
@@ -20,6 +20,8 @@ name: R9.2 · Curate 1875 musicetown placements + Campus Pass Deploy
       - "build_limited_theme_packs.py"
       - "verify_music_install.py"
       - "prepare_audio_site.py"
+      - "index.html"
+      - "404.html"
       - ".github/workflows/install-1150-music-and-deploy.yml"
 
 permissions:
@@ -28,7 +30,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: musicetown-r91-hybrid-deploy
+  group: musicetown-hybrid-deploy
   cancel-in-progress: true
 
 jobs:
@@ -61,8 +63,6 @@ jobs:
           key: musicetown-r920-base-${{ env.BASE_BITRATE }}-${{ hashFiles('verified_audio_manifest.json') }}
           restore-keys: |
             musicetown-r920-base-${{ env.BASE_BITRATE }}-
-            musicetown-r910-base-${{ env.BASE_BITRATE }}-
-            musicetown-r890-${{ env.BASE_BITRATE }}-
 
       - name: Install base 5 local collections
         run: python fetch_verified_audio.py --bitrate "$BASE_BITRATE"
@@ -73,7 +73,7 @@ jobs:
       - name: Curate 4 music themes as verified streams
         run: python build_theme_packs.py --per-theme 50 --streaming
 
-      - name: Re-curate 29 limited city and university themes
+      - name: Build 29 limited 25-track themes
         run: python build_limited_theme_packs.py
 
       - name: Verify 52-theme hybrid catalog
