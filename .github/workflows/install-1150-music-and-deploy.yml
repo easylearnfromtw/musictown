@@ -1,4 +1,4 @@
-name: R9.3 FINAL · 101 themes / 3300 placements · Fast Hybrid Deploy
+name: R9.3 FINAL · 101 themes / 3300 placements · Audited Stable Deploy
 
 "on":
   workflow_dispatch:
@@ -11,6 +11,7 @@ name: R9.3 FINAL · 101 themes / 3300 placements · Fast Hybrid Deploy
       - "build_fresh_city_packs.py"
       - "build_theme_packs.py"
       - "build_limited_theme_packs.py"
+      - "build_audited_release_packs.py"
       - "resolve_verified_audio_streams.py"
       - "verified_audio_manifest.json"
       - "fetch_verified_audio.py"
@@ -65,11 +66,8 @@ jobs:
         run: python resolve_verified_audio_streams.py
 
 
-      - name: Curate 9 core music themes as verified streams
-        run: python build_theme_packs.py --per-theme 50 --max-candidates 36 --workers 4 --streaming
-
-      - name: Curate 22 city themes as verified streams
-        run: python build_fresh_city_packs.py --per-city 50 --max-candidates 32 --workers 4 --streaming
+      - name: Build 31 audited core and city themes deterministically
+        run: python build_audited_release_packs.py
 
       - name: Build 70 limited 25-track themes
         run: python build_limited_theme_packs.py
