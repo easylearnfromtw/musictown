@@ -1,4 +1,4 @@
-/* musicetown R9.3.10 · mobile UX refinement */
+/* musicetown R9.3.11 · mobile UX refinement */
 :root{
   --mt-safe-top:max(10px,env(safe-area-inset-top,0px));
   --mt-safe-bottom:max(10px,env(safe-area-inset-bottom,0px));
@@ -211,4 +211,151 @@ html.mt-passbook-scrolling .passbook-panel{will-change:auto!important}
   .vinyl{width:min(300px,82vw)!important;min-width:min(260px,76vw)!important}
   .passbook-card{flex-basis:calc(100vw - 48px)!important}
   .passbook-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
+}
+
+
+/* ===== R9.3.11 · screenshot-driven iPhone UX hardening ===== */
+
+/* True three-column header: Library / centered logo / Search. No floating overlap. */
+.site-head.site-head-r890,
+body:not(.detail-open) .site-head.site-head-r890,
+.detail-open .site-head.site-head-r890{
+  grid-template-columns:56px minmax(0,1fr) 56px!important;
+  gap:8px!important;
+  padding-inline:max(10px,env(safe-area-inset-left,0px)) max(10px,env(safe-area-inset-right,0px))!important;
+  z-index:980!important;
+}
+#localLibraryFab.head-library{
+  position:relative!important;
+  grid-column:1!important;grid-row:1!important;
+  justify-self:start!important;align-self:center!important;
+  top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;
+  width:42px!important;min-width:42px!important;height:42px!important;
+  padding:0!important;margin:0!important;
+  display:grid!important;place-items:center!important;
+  border-radius:50%!important;pointer-events:auto!important;
+}
+#localLibraryFab.head-library b{
+  position:absolute!important;width:1px!important;height:1px!important;
+  overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important
+}
+#localLibraryFab.head-library span{
+  width:30px!important;height:30px!important;border-radius:50%!important;
+}
+.site-head-r890 .logo-center{grid-column:2!important;justify-self:center!important;max-width:min(220px,56vw)!important}
+.site-head-r890 .global-search-trigger{
+  grid-column:3!important;justify-self:end!important;
+  width:42px!important;height:42px!important;padding:0!important;
+  display:grid!important;place-items:center!important;border-radius:50%!important
+}
+.site-head-r890 .global-search-trigger span{display:none!important}
+.site-head-r890 .global-search-trigger svg{width:17px!important;height:17px!important}
+
+/* Default home atlas shows several rows; full atlas is optional, not required. */
+.theme-shelf{
+  left:8px!important;right:8px!important;width:auto!important;translate:0 0!important;
+  bottom:calc(12px + var(--mt-safe-bottom))!important;
+  max-height:min(46dvh,470px)!important;
+  border-radius:27px!important;
+}
+body:has(#glassTransport.show):not(.detail-open) .theme-shelf{
+  bottom:calc(86px + var(--mt-safe-bottom))!important;
+}
+body.theme-atlas-expanded .theme-shelf{max-height:min(80dvh,780px)!important}
+.theme-group-items{max-height:calc(min(46dvh,470px) - 54px)!important;gap:8px!important;padding-bottom:18px!important}
+body.theme-atlas-expanded .theme-group-items{max-height:calc(min(80dvh,780px) - 54px)!important}
+.theme-atlas-row{min-height:78px!important;padding:7px 2px 9px!important}
+.theme-atlas-row-head{padding-bottom:6px!important}
+.theme-atlas-track{gap:7px!important;padding-right:18px!important}
+.theme-shelf-item{min-width:128px!important;max-width:164px!important;height:46px!important;min-height:46px!important}
+body:not(.detail-open):not(.theme-atlas-expanded) #scene{
+  inset:62px 0 calc(min(46dvh,470px) + 18px) 0!important;height:auto!important;
+}
+body:has(#glassTransport.show):not(.detail-open):not(.theme-atlas-expanded) #scene{
+  bottom:calc(min(46dvh,470px) + 92px)!important;
+}
+
+/* Track Archive: remove the empty visual canyon from the screenshot. */
+.music-panel{min-height:0!important}
+.music-panel>.panel-headline{margin-bottom:8px!important}
+.music-detail .music-panel>.library-tools{
+  margin:0 0 14px!important;
+  padding-top:0!important;
+}
+.music-detail .music-panel>.library-tools>.library-search{min-height:46px!important}
+#trackList{margin-top:0!important;padding-top:0!important}
+#trackList .track-row{min-height:64px!important}
+body:has(#glassTransport.show) #trackList{padding-bottom:118px!important}
+
+/* Audio Output: close control is always inside the top-right safe area of the card. */
+#audioAccessorySheet .audio-accessory-card{position:relative!important;padding-top:58px!important}
+#audioAccessoryClose,.audio-accessory-close{
+  position:absolute!important;
+  top:12px!important;right:12px!important;left:auto!important;bottom:auto!important;
+  width:42px!important;height:42px!important;margin:0!important;
+  translate:none!important;transform:none!important;z-index:2147483000!important;
+  pointer-events:auto!important;
+}
+
+/* Vinyl is a broad scrub surface. Decorative pseudo layers never steal the gesture. */
+.vinyl-wrap{
+  position:relative!important;isolation:isolate!important;
+  min-height:360px!important;padding:34px 26px 42px!important;margin:0!important;
+  touch-action:none!important;overscroll-behavior:contain!important;
+}
+.vinyl-wrap::before,.vinyl-wrap::after{pointer-events:none!important}
+.vinyl-wrap::after{
+  content:'DRAG  ↔  SEEK'!important;
+  left:50%!important;bottom:10px!important;translate:-50% 0!important;
+  font:760 6px/1 var(--grotesk)!important;letter-spacing:.16em!important;
+  color:rgba(39,57,77,.34)!important;
+}
+.vinyl{width:min(286px,78vw)!important;min-width:238px!important;touch-action:none!important}
+.vinyl-wrap.mt-vinyl-dragging .vinyl{
+  transform:rotate(var(--record-angle,0deg)) scale(1.035)!important;
+  filter:brightness(1.045)!important;
+  box-shadow:0 38px 72px rgba(31,40,58,.26),0 0 0 8px rgba(255,255,255,.18)!important;
+}
+
+/* Passbook: explicitly communicate local-only storage. */
+.passbook-local-note{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin:0 20px 10px;padding:9px 11px;border-radius:14px;
+  background:rgba(255,255,255,.56);border:1px solid rgba(41,70,93,.07);
+  color:rgba(41,70,93,.50);font:700 5.8px/1.25 var(--grotesk);letter-spacing:.10em
+}
+.passbook-local-note b{color:#29465d;font-size:6px}
+.passbook-actions{position:relative;z-index:3}
+.passbook-actions button{touch-action:manipulation!important}
+
+/* Lower glass cost while scrolling on iPhone. */
+html.mt-atlas-scrolling .theme-shelf,
+html.mt-passbook-scrolling .passbook-panel,
+html.mt-track-scrolling .music-panel{
+  -webkit-backdrop-filter:blur(7px) saturate(104%)!important;
+  backdrop-filter:blur(7px) saturate(104%)!important;
+  box-shadow:0 12px 34px rgba(32,48,68,.09)!important;
+}
+
+@media(max-width:700px){
+  .theme-shelf{max-height:44dvh!important}
+  .theme-group-items{max-height:calc(44dvh - 52px)!important}
+  body.theme-atlas-expanded .theme-shelf{max-height:78dvh!important}
+  body.theme-atlas-expanded .theme-group-items{max-height:calc(78dvh - 52px)!important}
+  body:not(.detail-open):not(.theme-atlas-expanded) #scene{
+    inset:60px 0 calc(44dvh + 16px) 0!important
+  }
+  body:has(#glassTransport.show):not(.detail-open):not(.theme-atlas-expanded) #scene{
+    bottom:calc(44dvh + 88px)!important
+  }
+  .theme-atlas-row{min-height:74px!important}
+  .theme-shelf-item{min-width:124px!important;max-width:154px!important;height:45px!important}
+  .theme-atlas-row-head b{font-size:6.6px!important}
+  .theme-atlas-row-head span{font-size:4.8px!important}
+  .vinyl-wrap{min-height:350px!important;padding:30px 18px 42px!important}
+  .vinyl{width:min(292px,84vw)!important;min-width:244px!important}
+  #audioAccessorySheet .audio-accessory-card{
+    width:calc(100vw - 16px)!important;max-width:calc(100vw - 16px)!important;
+    max-height:calc(var(--musicetown-visible-height,100dvh) - var(--mt-safe-top) - var(--mt-safe-bottom) - 8px)!important
+  }
 }
