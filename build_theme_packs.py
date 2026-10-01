@@ -17,7 +17,7 @@ CACHE.mkdir(parents=True,exist_ok=True)
 S=requests.Session()
 S.headers.update({"User-Agent":"musicetown-theme-curator/8.7.4"})
 NULLRIGHTS="https://nullrights.com"
-TIMEOUT=45
+TIMEOUT=20
 
 RATE_LOCK=threading.Lock()
 LAST_REQUEST_AT=0.0
@@ -25,7 +25,7 @@ RATE_BLOCK_UNTIL=0.0
 MIN_REQUEST_INTERVAL=0.18
 TRACK_HTML_CACHE={}
 
-def get(url,tries=6):
+def get(url,tries=3):
     global LAST_REQUEST_AT,RATE_BLOCK_UNTIL
     last=None
     for n in range(tries):
@@ -58,7 +58,7 @@ def norm(s):
 def key(title,artist):
     return f"{norm(artist).casefold()}||{norm(title).casefold()}"
 
-def discover(query,max_pages=5):
+def discover(query,max_pages=1):
     found=[]
     for p in range(1,max_pages+1):
         url=f"{NULLRIGHTS}/search?q={quote_plus(query)}&page={p}"
@@ -69,7 +69,7 @@ def discover(query,max_pages=5):
         found.extend(urljoin(NULLRIGHTS,x) for x in links)
     return list(dict.fromkeys(found))
 
-def discover_genre(genre,max_pages=4):
+def discover_genre(genre,max_pages=1):
     found=[]
     for p in range(1,max_pages+1):
         url=f"{NULLRIGHTS}/genre/{quote_plus(genre)}?page={p}"
@@ -260,7 +260,7 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--per-theme",type=int,default=50)
     ap.add_argument("--bitrate",default="64k")
-    ap.add_argument("--max-candidates",type=int,default=220)
+    ap.add_argument("--max-candidates",type=int,default=28)
     ap.add_argument("--max-per-artist",type=int,default=4)
     ap.add_argument("--workers",type=int,default=4)
     ap.add_argument("--streaming",action="store_true",help="Keep verified remote audio URLs instead of packaging MP3 files into GitHub Pages.")
