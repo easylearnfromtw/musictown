@@ -7818,6 +7818,7 @@ function hydrateLaunchThemePools(data){
   }
 }
 hydrateLaunchThemePools(DATA);
+function themeTrackTarget(d){return Math.max(1,Number(d?.targetTracks||50)||50)}
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const MT_COARSE=matchMedia('(pointer:coarse)').matches;
 const MT_PERF_MOBILE=MT_COARSE && (innerWidth<=820 || (window.devicePixelRatio||1)>2);
@@ -7855,11 +7856,26 @@ const HOME_GROUPS={
   MIDDLE_EAST:{label:'中東 · MIDDLE EAST',short:'MIDDLE EAST',items:[
     'MENACING DUBAI'
   ]},
-  MUSIC_THEMES:{label:'音樂主題 · MUSIC THEMES',short:'MUSIC THEMES',items:[
+  MUSIC_THEMES:{label:'音樂主題 · MUSIC THEMES',short:'MUSIC',items:[
     'JAZZ','CROONER','ROCK','SPORT','LO-FI','EMO','RUNNING','POEM'
+  ]},
+  LIMITED_CITIES:{label:'限定城市 · LIMITED CITIES',short:'LIMITED',items:[
+    'MISTY JIANGNAN','GLACIER ZURICH','SAINT BYZANTIUM'
+  ]},
+  UNIVERSITY_TW:{label:'大學限定 · TAIWAN',short:'UNI · TW',items:[
+    'NTU','NCKU','NTHU','NYCU','NCCU','FJU','CMU','SCU','THU'
+  ]},
+  UNIVERSITY_US:{label:'大學限定 · USA',short:'UNI · US',items:[
+    'MIT','STANFORD','HARVARD','BERKELEY','UCLA'
+  ]},
+  UNIVERSITY_UK:{label:'大學限定 · UK',short:'UNI · UK',items:[
+    'IMPERIAL COLLEGE LONDON','OXFORD','CAMBRIDGE','UCL'
+  ]},
+  UNIVERSITY_ASIA:{label:'大學限定 · ASIA',short:'UNI · ASIA',items:[
+    'HKU','TSINGHUA UNIVERSITY','PEKING UNIVERSITY','SNU','UTOKYO','NUS','KYOTO UNIVERSITY','WASEDA UNIVERSITY'
   ]}
 };
-const HOME_CARD_SLOTS=8;
+const HOME_CARD_SLOTS=9;
 let HOME_GROUP_KEY='ASIA';
 let HOME_CITY_DEFAULT=[...HOME_GROUPS[HOME_GROUP_KEY].items];
 let HOME_CITY_ORDER=[...HOME_CITY_DEFAULT];
@@ -8533,7 +8549,7 @@ function showDetail(i){
   $('dTitle').textContent=d.t;
   $('musicKicker').textContent='VOCAL BGM · '+String(i+1).padStart(2,'0');
   $('musicSub').textContent=d.sub;
-  $('musicMeta').innerHTML=`<span class="music-chip">${d.bpm}</span><span class="music-chip">${d.key}</span><span class="music-chip">50 CURATED TRACKS</span><span class="music-chip">VERIFIED CC0</span>`;
+  $('musicMeta').innerHTML=`<span class="music-chip">${d.bpm}</span><span class="music-chip">${d.key}</span><span class="music-chip">${themeTrackTarget(d)} CURATED TRACKS</span><span class="music-chip">VERIFIED CC0</span>`;
   $('profileLabel').textContent=`${String(i+1).padStart(2,'0')} / ${d.t}`;
   $('meters').innerHTML=d.meters.map(m=>`
     <div class="meter">
@@ -8747,8 +8763,28 @@ const GENRE_UI={
   'MENACING DUBAI':       {accent:'#8b7654',soft:'rgba(139,118,84,.17)',ink:'#4e432f',copy:'Dark glass towers, desert tension and severe luxury.'}
 };
 
+const DYNAMIC_GENRE_PALETTE=[
+  {accent:'#6f9ca1',soft:'rgba(111,156,161,.16)',ink:'#365256'},
+  {accent:'#8f8bbb',soft:'rgba(143,139,187,.16)',ink:'#3f3d58'},
+  {accent:'#9b8796',soft:'rgba(155,135,150,.15)',ink:'#493f48'},
+  {accent:'#9b8873',soft:'rgba(155,136,115,.17)',ink:'#55493d'},
+  {accent:'#5f7697',soft:'rgba(95,118,151,.17)',ink:'#35465d'},
+  {accent:'#806a78',soft:'rgba(128,106,120,.17)',ink:'#4d3e48'},
+  {accent:'#79a9a2',soft:'rgba(121,169,162,.17)',ink:'#355955'},
+  {accent:'#a35d43',soft:'rgba(163,93,67,.16)',ink:'#5b3628'},
+  {accent:'#9677ad',soft:'rgba(150,119,173,.17)',ink:'#503f61'}
+];
+function genreUiFor(name){
+  if(GENRE_UI[name])return GENRE_UI[name];
+  let h=2166136261>>>0;
+  for(const ch of String(name||'')){h^=ch.codePointAt(0);h=Math.imul(h,16777619)>>>0}
+  const p=DYNAMIC_GENRE_PALETTE[h%DYNAMIC_GENRE_PALETTE.length];
+  const drawer=DATA.find(d=>d.t===name);
+  return {...p,copy:drawer?.sub||'musicetown · Limited sound world.'};
+}
+
 function setUiTheme(name,index=null){
-  const t=GENRE_UI[name]||GENRE_UI.JAZZ;
+  const t=genreUiFor(name);
   const r=document.documentElement.style;
   r.setProperty('--genre-accent',t.accent);
   r.setProperty('--genre-accent-soft',t.soft);
@@ -8827,7 +8863,7 @@ function renderBranchDrawer(genreIndex){
   /* No CSS cards are ever generated here. The visible drawer is WebGL only. */
   const pending=!picks.length;
   $('drawerPoolMeta').textContent=pending
-    ?`${d.t} · CURATION IN PROGRESS · 0 / 50`
+    ?`${d.t} · CURATION IN PROGRESS · 0 / ${themeTrackTarget(d)}`
     :`${d.t} · MAIN 3D DRAWER · RANDOM ${Math.min(5,picks.length)}`;
   if($('rerollDrawer'))$('rerollDrawer').disabled=pending;
   if($('drawerPlayRandom'))$('drawerPlayRandom').disabled=pending;
@@ -8892,7 +8928,7 @@ function renderThemeShelf(){
   items.innerHTML=group.items.map((name,i)=>{
     const di=DATA.findIndex(d=>d.t===name),d=DATA[di];
     const count=d?.tracks?.length||0;
-    const status=count?`${count} TRACKS`:'CURATING 50';
+    const status=count?`${count} TRACKS`:`CURATING ${themeTrackTarget(d)}`;
     return `<button type="button" class="theme-shelf-item" data-theme-index="${di}" data-stage-index="${i}">
       <em>${String(i+1).padStart(2,'0')}</em><b>${name}</b><span>${status}</span>
     </button>`;
@@ -9049,7 +9085,7 @@ function updateAccessoryTheme(){
   if(!sheet)return;
   const index=typeof window.__genreIndex==='number'?window.__genreIndex:null;
   const d=index!=null?DATA[index]:null;
-  const ui=d?GENRE_UI[d.t]:null;
+  const ui=d?genreUiFor(d.t):null;
   if(ui){sheet.style.setProperty('--aa-accent',ui.accent);sheet.style.setProperty('--aa-ink',ui.ink)}
 }
 
@@ -9240,7 +9276,7 @@ function cityPassTicketNumber(config){
   return ticket;
 }
 function applyCityPassTheme(theme){
-  const config=CITY_PASS_THEMES[theme],ui=GENRE_UI[theme]||GENRE_UI.JAZZ,sheet=$('cityPassSheet');
+  const config=CITY_PASS_THEMES[theme],ui=genreUiFor(theme),sheet=$('cityPassSheet');
   if(!sheet||!config)return;
   sheet.style.setProperty('--pass-accent',ui.accent||'#719aa0');
   sheet.style.setProperty('--pass-soft',ui.soft||'rgba(113,154,160,.17)');
@@ -9324,7 +9360,7 @@ function loadCityPassImage(src){
 }
 async function buildCityPassCanvas(){
   if(!cityPassActive)return null;
-  const {drawer,geo,config,ticketNo,tracks}=cityPassActive,ui=GENRE_UI[drawer.t]||GENRE_UI.JAZZ;
+  const {drawer,geo,config,ticketNo,tracks}=cityPassActive,ui=genreUiFor(drawer.t);
   const W=1080,H=1720,c=document.createElement('canvas');c.width=W;c.height=H;
   const ctx=c.getContext('2d');if(!ctx)return null;
   const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#F8FBFD');bg.addColorStop(.56,'#F0F4F8');bg.addColorStop(1,'#E8EDF3');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
@@ -9504,7 +9540,7 @@ function renderWelcomeGenres(){
   const host=$('welcomeGenreList');
   if(!host)return;
   host.innerHTML=DATA.map((d,i)=>{
-    const ui=GENRE_UI[d.t]||GENRE_UI.JAZZ;
+    const ui=genreUiFor(d.t);
     return `
       <button class="welcome-genre-choice"
               type="button"
@@ -9532,7 +9568,7 @@ function previewWelcomeGenre(i){
   });
 
   const d=DATA[i];
-  const ui=GENRE_UI[d.t]||GENRE_UI.JAZZ;
+  const ui=genreUiFor(d.t);
   const welcome=$('welcome');
   welcome?.classList.add('previewing');
   welcome?.style.setProperty('--genre-accent',ui.accent);
@@ -9638,7 +9674,7 @@ function shareTheme(title,tracks){
   const direct=GENRE_UI[title];
   if(direct)return direct;
   const g=tracks?.[0]?.curatedTheme||trackGenreName(tracks?.[0]||{});
-  return GENRE_UI[g]||{accent:'#6f8fa8',soft:'rgba(111,143,168,.16)',ink:'#35536b'};
+  return genreUiFor(g);
 }
 function applyShareTheme(el,title,tracks){
   if(!el)return;
