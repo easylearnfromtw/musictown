@@ -7763,7 +7763,7 @@ window.addEventListener('error',function(e){
   <div class="player-card" role="dialog" aria-modal="true" aria-labelledby="playerTitle">
     <div class="player-head">
       <div>
-        <div class="player-eyebrow">musicetown · VINYL PLAYER · CLOUD AUDIO</div>
+        <div class="player-eyebrow">musicetown · VINYL PLAYER · VERIFIED AUDIO</div>
         <div class="player-title" id="playerTitle">Track</div>
         <div class="player-artist" id="playerArtist">Artist</div>
       </div>
@@ -11679,7 +11679,7 @@ window.setMusicetownMediaColors=function(colors={}){
   return {...MEDIA_SESSION_THEME};
 };
 
-const MUSICETOWN_AUDIO_MODE='site-cloud';
+const MUSICETOWN_AUDIO_MODE='hybrid-stream';
 
 function resolveSiteCloudAudio(t){
   try{
@@ -11804,7 +11804,7 @@ function mountOnlinePlaybackFallback(t){
     status.innerHTML='<i></i><span>網站雲端 MP3 缺少 · 暫時切換來源頁</span>';
   }
   $('playerLegal').textContent=
-    'Source-page fallback · 此曲尚未部署網站雲端 MP3，已改用官方 CC0 Player / 來源頁。';
+    'Source-page fallback · 目前音訊串流不可用，已改用官方 CC0 Player / 來源頁。';
 }
 
 let mtWarmAudio=null,mtWarmUrl='';
@@ -11987,7 +11987,7 @@ function openTrack(t, userGesture=true){
             </div>`}
 
             <audio id="nativeAudioPlayer" class="native-audio" preload="auto">
-              <source src="${esc(resolveSiteCloudAudio(t))}" type="audio/mpeg">
+              <source src="${esc(resolveSiteCloudAudio(t))}">
             </audio>
 
             <div class="deck-time">
@@ -12015,7 +12015,7 @@ function openTrack(t, userGesture=true){
 
         ${story}`;
 
-      $('playerLegal').textContent=t.localPersonal?'MY LIBRARY · 本機音訊只存在這個瀏覽器。':'musicetown CLOUD PLAYER · 網站雲端 MP3 → 使用者播放 → 原生 audio 真實串流。';
+      $('playerLegal').textContent=t.localPersonal?'MY LIBRARY · 本機音訊只存在這個瀏覽器。':'musicetown VERIFIED PLAYER · 本地 MP3 / 已驗證 CC0 HTTPS 串流 → 原生 audio 播放。';
     
       $('playerFavorite')?.addEventListener('click',async()=>{
         await toggleFavorite(t);
