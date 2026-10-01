@@ -7677,6 +7677,18 @@ body:has(#glassTransport.show) .detail .inner.music-detail{padding-bottom:calc(2
   }
 }
 
+/* R9.3.2 · final mobile polish */
+@media(max-width:700px){
+  .vinyl-wrap{padding:22px!important;margin:-22px!important}
+  .vinyl{min-width:244px!important}
+  .audio-accessory-card{padding-top:max(8px,env(safe-area-inset-top,0px))!important}
+  .audio-accessory-close{top:max(12px,env(safe-area-inset-top,0px))!important;right:max(12px,env(safe-area-inset-right,0px))!important}
+  .passbook-panel{padding-bottom:max(8px,env(safe-area-inset-bottom,0px))!important}
+  .passbook-carousel{scroll-padding-inline:6vw}
+  .theme-atlas-track{scroll-padding-inline:8px}
+  .theme-shelf-item{scroll-snap-align:start}
+  .global-search-panel,.library-panel{overscroll-behavior:contain}
+}
 </style>
 <script>document.documentElement.classList.add('js-boot');</script>
 
@@ -11758,7 +11770,7 @@ function wireVinylTransport(audio,t){
     if(e.cancelable)e.preventDefault();
     const rect=vinyl.getBoundingClientRect();
     const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
-    const hitRadius=rect.width*.58;
+    const hitRadius=Math.max(rect.width*.62,rect.width/2+28);
     if(Math.hypot(e.clientX-cx,e.clientY-cy)>hitRadius)return;
     vinylDragging=true;
     dragPointerId=e.pointerId;
@@ -11786,8 +11798,9 @@ function wireVinylTransport(audio,t){
     const dx=vinylLastPointerX==null?0:e.clientX-vinylLastPointerX;
     vinylLastPointerX=e.clientX;
     const angularSeconds=(delta/360)*SCRUB_SECONDS_PER_TURN;
-    const linearSeconds=dx*.20;
-    const stepSeconds=radius<rect.width*.30?linearSeconds:angularSeconds;
+    const linearSeconds=dx*.26;
+    const blend=Math.max(0,Math.min(1,(radius-rect.width*.18)/(rect.width*.34)));
+    const stepSeconds=linearSeconds*(1-blend)+angularSeconds*blend;
     const base=pendingTime==null?(Number(audio.currentTime)||0):pendingTime;
     pendingTime=base+stepSeconds;
     if(!scratchRAF)scratchRAF=requestAnimationFrame(paintScratch);
