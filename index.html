@@ -9481,7 +9481,8 @@ async function saveCityPassTicket(){
     if(!blob)return;
     try{
       const file=new File([blob],fileName,{type:'image/png'});
-      if(navigator.share&&navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:'MUSICTOWN CITY PASS',text:`${cityPassActive.drawer.t} · CITY LIMITED PASS`});return}
+      const campus=cityPassActive?.config?.kind==='university';
+      if(navigator.share&&navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:campus?'MUSICTOWN CAMPUS PASS':'MUSICTOWN CITY PASS',text:`${cityPassActive.drawer.t} · ${campus?'CAMPUS LIMITED PASS':'CITY LIMITED PASS'}`});return}
     }catch(err){if(err?.name==='AbortError')return}
     const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=fileName;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
   },'image/png',.96);
