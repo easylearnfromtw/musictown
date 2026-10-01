@@ -7655,7 +7655,7 @@ html,body{max-width:100%;overflow-x:hidden!important}
   -webkit-user-select:none!important;user-select:none!important;
   -webkit-tap-highlight-color:transparent!important;
 }
-.vinyl.dragging{cursor:grabbing!important;transform:scale(1.02)!important}
+.vinyl.dragging{cursor:grabbing!important;transform:scale(1.026)!important;will-change:transform}
 body:has(#glassTransport.show):not(.detail-open) .theme-shelf{
   bottom:calc(82px + env(safe-area-inset-bottom,0px))!important;
 }
@@ -11742,7 +11742,7 @@ function wireVinylTransport(audio,t){
   let pendingTime=null;
   let scratchRAF=0;
   let vinylLastPointerX=null;
-  const SCRUB_SECONDS_PER_TURN=54;
+  const SCRUB_SECONDS_PER_TURN=78;
 
   const freezeAtAudioTime=()=>{
     stopVinylRAF();
@@ -11770,7 +11770,7 @@ function wireVinylTransport(audio,t){
     if(e.cancelable)e.preventDefault();
     const rect=vinyl.getBoundingClientRect();
     const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
-    const hitRadius=Math.max(rect.width*.82,rect.width/2+54);
+    const hitRadius=Math.max(rect.width*.96,rect.width/2+76);
     if(Math.hypot(e.clientX-cx,e.clientY-cy)>hitRadius)return;
     vinylDragging=true;
     dragPointerId=e.pointerId;
@@ -11798,7 +11798,7 @@ function wireVinylTransport(audio,t){
     const dx=vinylLastPointerX==null?0:e.clientX-vinylLastPointerX;
     vinylLastPointerX=e.clientX;
     const angularSeconds=(delta/360)*SCRUB_SECONDS_PER_TURN;
-    const linearSeconds=dx*.34;
+    const linearSeconds=dx*.48;
     const blend=Math.max(0,Math.min(1,(radius-rect.width*.18)/(rect.width*.34)));
     const stepSeconds=linearSeconds*(1-blend)+angularSeconds*blend;
     const base=pendingTime==null?(Number(audio.currentTime)||0):pendingTime;
