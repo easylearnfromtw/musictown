@@ -289,8 +289,15 @@ def main():
 
     for theme,p in PROFILES.items():
         existing=list((by_name.get(theme) or {}).get("tracks") or [])
-        if len(existing)>=args.per_theme:
-            print(f"\n=== {theme}: preserve existing {len(existing)} ready tracks ===")
+        existing_ready=len(existing)>=args.per_theme and all(
+            bool(t.get("audioSrc")) and (
+                re.match(r"^https?://",str(t.get("audioSrc"))) is not None
+                or (ROOT/str(t.get("audioSrc"))).exists()
+            )
+            for t in existing[:args.per_theme]
+        )
+        if existing_ready:
+            print(f"\n=== {theme}: preserve existing {len(existing)} playable tracks ===")
             report["themes"][theme]=existing[:args.per_theme]
             by_name[theme]["installPending"]=False
             continue
