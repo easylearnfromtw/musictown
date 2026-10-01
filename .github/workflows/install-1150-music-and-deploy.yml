@@ -11,6 +11,7 @@ name: R9.3 FINAL · 101 themes / 3300 placements · Audited Stable Deploy
       - "build_fresh_city_packs.py"
       - "build_theme_packs.py"
       - "build_limited_theme_packs.py"
+      - "apply_r937_ux.py"
       - "build_audited_release_packs.py"
       - "resolve_verified_audio_streams.py"
       - "verified_audio_manifest.json"
@@ -73,6 +74,9 @@ jobs:
 
       - name: Build 70 limited 25-track themes
         run: python build_limited_theme_packs.py
+
+      - name: Apply R9.3.7 UX layer
+        run: python apply_r937_ux.py
 
       - name: Verify 101-theme / 3300-placement hybrid catalog
         run: python verify_music_install.py
