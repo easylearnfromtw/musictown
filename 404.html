@@ -7623,6 +7623,52 @@ body:not(.detail-open) #scene{
   body:not(.detail-open) #scene{inset:60px 0 calc(44dvh + 18px) 0!important}
 }
 
+
+/* ================= musicetown R9.3.1 · iOS viewport + vinyl control ================= */
+html,body{max-width:100%;overflow-x:hidden!important}
+.audio-accessory-sheet{
+  overflow:hidden!important;
+  padding-left:max(12px,env(safe-area-inset-left,0px))!important;
+  padding-right:max(12px,env(safe-area-inset-right,0px))!important;
+}
+.audio-accessory-card{
+  width:min(470px,calc(100vw - 24px))!important;
+  max-width:calc(100vw - 24px)!important;
+  max-height:calc(100dvh - max(28px,env(safe-area-inset-top,0px)) - max(28px,env(safe-area-inset-bottom,0px)))!important;
+  margin-inline:auto!important;
+}
+.audio-accessory-close{
+  position:absolute!important;
+  left:auto!important;right:12px!important;top:12px!important;bottom:auto!important;
+  transform:none!important;translate:none!important;margin:0!important;z-index:100!important;
+}
+.vinyl-wrap{touch-action:pan-y pinch-zoom!important}
+.vinyl{
+  width:min(264px,78vw)!important;
+  touch-action:none!important;
+  -webkit-user-select:none!important;user-select:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.vinyl.dragging{cursor:grabbing!important;transform:scale(1.02)!important}
+body:has(#glassTransport.show):not(.detail-open) .theme-shelf{
+  bottom:calc(82px + env(safe-area-inset-bottom,0px))!important;
+}
+body:has(#glassTransport.show):not(.detail-open) #scene{
+  inset-bottom:auto;
+  bottom:calc(42dvh + 88px)!important;
+}
+.passbook-card,.theme-atlas-row{content-visibility:auto;contain-intrinsic-size:360px}
+@media(max-width:700px){
+  .audio-accessory-card{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important}
+  .vinyl{width:min(258px,80vw)!important}
+  body:has(#glassTransport.show):not(.detail-open) .theme-shelf{
+    bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;
+  }
+  body:has(#glassTransport.show):not(.detail-open) #scene{
+    bottom:calc(42dvh + 82px)!important;
+  }
+}
+
 </style>
 <script>document.documentElement.classList.add('js-boot');</script>
 
@@ -11674,7 +11720,8 @@ function wireVinylTransport(audio,t){
   let dragPointerId=null;
   let pendingTime=null;
   let scratchRAF=0;
-  const SCRUB_SECONDS_PER_TURN=24;
+  let vinylLastPointerX=null;
+  const SCRUB_SECONDS_PER_TURN=72;
 
   const freezeAtAudioTime=()=>{
     stopVinylRAF();
@@ -11709,6 +11756,7 @@ function wireVinylTransport(audio,t){
     freezeAtAudioTime();
     vinyl.__scrubStartTime=audio.currentTime||0;
     vinylLastPointerAngle=pointerAngle(vinyl,e);
+    vinylLastPointerX=e.clientX;
     pendingTime=audio.currentTime||0;
     startVinylScrubSound();
   };
@@ -11719,10 +11767,18 @@ function wireVinylTransport(audio,t){
     const nextAngle=pointerAngle(vinyl,e);
     const delta=normalizeDelta(nextAngle-vinylLastPointerAngle);
     vinylLastPointerAngle=nextAngle;
+    const rect=vinyl.getBoundingClientRect();
+    const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+    const radius=Math.hypot(e.clientX-cx,e.clientY-cy);
+    const dx=vinylLastPointerX==null?0:e.clientX-vinylLastPointerX;
+    vinylLastPointerX=e.clientX;
+    const angularSeconds=(delta/360)*SCRUB_SECONDS_PER_TURN;
+    const linearSeconds=dx*.20;
+    const stepSeconds=radius<rect.width*.30?linearSeconds:angularSeconds;
     const base=pendingTime==null?(Number(audio.currentTime)||0):pendingTime;
-    pendingTime=base+(delta/360)*SCRUB_SECONDS_PER_TURN;
+    pendingTime=base+stepSeconds;
     if(!scratchRAF)scratchRAF=requestAnimationFrame(paintScratch);
-    updateVinylScrubSound(delta);
+    updateVinylScrubSound(Math.abs(delta)>.35?delta:dx);
   };
 
   const end=e=>{
@@ -11735,6 +11791,7 @@ function wireVinylTransport(audio,t){
     try{vinyl.releasePointerCapture?.(dragPointerId??e.pointerId)}catch(_){}
     dragPointerId=null;
     pendingTime=null;
+    vinylLastPointerX=null;
     stopVinylScrubSound();
     freezeAtAudioTime();
     updateGlassUI();
