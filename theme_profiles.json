@@ -52,7 +52,7 @@
     "allow_instrumental": true,
     "min_strong_matches": 1,
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -132
   },
   "CROONER": {
     "slug": "crooner",
@@ -163,7 +163,7 @@
     "vocal_mode": "preferred",
     "min_strong_matches": 1,
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112,
+    "fallback_min_score": -132,
     "allow_instrumental": true
   },
   "SPORT": {
@@ -222,7 +222,7 @@
     "vocal_mode": "preferred",
     "min_strong_matches": 1,
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112,
+    "fallback_min_score": -132,
     "allow_instrumental": true
   },
   "LO-FI": {
@@ -282,7 +282,7 @@
     "allow_instrumental": true,
     "min_strong_matches": 1,
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -132
   },
   "EMO": {
     "slug": "emo",
@@ -533,6 +533,6 @@
     "allow_instrumental": true,
     "min_strong_matches": 1,
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -132
   }
 }
