@@ -350,8 +350,37 @@ def main():
                 used.add(k);used_sources.add(t["source"])
                 if len(selected)>=args.per_theme:break
 
+        # Pass 4: metadata on some otherwise valid Nullrights tracks is sparse.
+        # Every candidate here still originated from THIS theme's own search
+        # queries / genre pages and already passed the CC0, duration, AI and
+        # direct-audio gates. Use those discovery semantics as the last theme-fit gate.
         if len(selected)<args.per_theme:
-            raise RuntimeError(f"{theme}: only {len(selected)} legal strongly theme-fit tracks after all fallbacks")
+            relaxed_artist_cap=max(args.max_per_artist*2,8)
+            for t in candidates:
+                k=key(t["title"],t["artist"])
+                if k in selected_keys or k in hard_used:continue
+                artist=norm(t["artist"]).casefold()
+                if artist_counts[artist]>=relaxed_artist_cap:continue
+                t["_curationTier"]="query-genre-fit"
+                selected.append(t);selected_keys.add(k)
+                artist_counts[artist]+=1
+                used.add(k);used_sources.add(t["source"])
+                if len(selected)>=args.per_theme:break
+
+        # Pass 5: if the legal CC0 catalog is concentrated among very few
+        # artists, keep per-theme uniqueness but remove artist diversity as
+        # the final blocker. No out-of-theme discovery pool is introduced.
+        if len(selected)<args.per_theme:
+            for t in candidates:
+                k=key(t["title"],t["artist"])
+                if k in selected_keys or k in hard_used:continue
+                t["_curationTier"]="query-genre-final"
+                selected.append(t);selected_keys.add(k)
+                used.add(k);used_sources.add(t["source"])
+                if len(selected)>=args.per_theme:break
+
+        if len(selected)<args.per_theme:
+            raise RuntimeError(f"{theme}: only {len(selected)} verified CC0 tracks available in its own query/genre pool")
 
         folder=p["slug"]
         target=ROOT/folder
