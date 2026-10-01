@@ -1,14 +1,24 @@
-name: R8.9.0 · Install 1150 musicetown tracks + Deploy
+name: R9.1 · Curate 1150 musicetown tracks + Hybrid Deploy
 
 "on":
   workflow_dispatch:
     inputs:
       bitrate:
-        description: MP3 bitrate
+        description: Base 5 local MP3 bitrate
         required: true
         default: "64k"
         type: choice
         options: ["48k","64k","80k"]
+  push:
+    branches: ["main"]
+    paths:
+      - "fresh_city_profiles.json"
+      - "theme_profiles.json"
+      - "build_fresh_city_packs.py"
+      - "build_theme_packs.py"
+      - "verify_music_install.py"
+      - "prepare_audio_site.py"
+      - ".github/workflows/install-1150-music-and-deploy.yml"
 
 permissions:
   contents: read
@@ -16,8 +26,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: musicetown-1150-deploy
-  cancel-in-progress: false
+  group: musicetown-r91-hybrid-deploy
+  cancel-in-progress: true
 
 jobs:
   build-deploy:
@@ -26,6 +36,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      BASE_BITRATE: ${{ inputs.bitrate || '64k' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -40,30 +52,27 @@ jobs:
           sudo apt-get install -y ffmpeg
           python -m pip install -r requirements.txt
 
-      - name: Restore audio cache
+      - name: Restore base audio cache
         uses: actions/cache@v4
         with:
-          path: |
-            _master_audio
-            _fresh_audio_cache
-            _theme_audio_cache
-          key: musicetown-r890-${{ inputs.bitrate }}-${{ hashFiles('verified_audio_manifest.json','fresh_city_profiles.json','theme_profiles.json') }}
+          path: _master_audio
+          key: musicetown-r910-base-${{ env.BASE_BITRATE }}-${{ hashFiles('verified_audio_manifest.json') }}
           restore-keys: |
-            musicetown-r890-${{ inputs.bitrate }}-
+            musicetown-r910-base-${{ env.BASE_BITRATE }}-
 
-      - name: Install JAZZ / CROONER / ROCK / SPORT / LO-FI
-        run: python fetch_verified_audio.py --bitrate "${{ inputs.bitrate }}"
+      - name: Install base 5 local collections
+        run: python fetch_verified_audio.py --bitrate "$BASE_BITRATE"
 
-      - name: Curate 14 city themes
-        run: python build_fresh_city_packs.py --per-city 50 --bitrate "${{ inputs.bitrate }}"
+      - name: Curate 14 city themes as verified streams
+        run: python build_fresh_city_packs.py --per-city 50 --streaming
 
-      - name: Curate EMO / RUNNING / POEM / TRADITIONAL BEIJING
-        run: python build_theme_packs.py --per-theme 50 --bitrate "${{ inputs.bitrate }}"
+      - name: Curate 4 music themes as verified streams
+        run: python build_theme_packs.py --per-theme 50 --streaming
 
-      - name: Verify all 1150 real MP3 files
+      - name: Verify 23 × 50 hybrid catalog
         run: python verify_music_install.py
 
-      - name: Prepare Pages artifact
+      - name: Prepare sub-1GB Pages artifact
         run: python prepare_audio_site.py
 
       - name: Upload Pages artifact
@@ -74,4 +83,3 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
-
