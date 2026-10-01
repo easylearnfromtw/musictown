@@ -59,29 +59,34 @@ def direct_audio_from_page(url,title):
     if not verify_cc0(h,url):
         raise RuntimeError("source no longer shows CC0 1.0 Universal")
     soup=BeautifulSoup(h,"html.parser")
-    # Visible Download link. Some audited Nullrights records use a
-    # redirect endpoint without a filename extension; the track page itself
-    # has already passed the explicit CC0 hard gate above.
-    for a in soup.find_all("a",href=True):
-        label=a.get_text(" ",strip=True).lower()
-        href=urljoin(url,a["href"])
-        if "download" in label and href.startswith(("https://","http://")):
-            return href
-    # media/src links
-    for node in soup.find_all(["audio","source","a"],src=True):
+
+    # 1) Prefer actual media URLs first.
+    for node in soup.find_all(["audio","source"],src=True):
         u=urljoin(url,node.get("src"))
         if re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",u,re.I):return u
     for a in soup.find_all("a",href=True):
         u=urljoin(url,a["href"])
         if re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",u,re.I):return u
-    # FMA embeds fileUrl in page source on many versions
+
+    # 2) FMA commonly embeds the direct file URL in page JSON/source.
     pats=[
       r'fileUrl["\']?\s*:\s*["\']([^"\']+)',
-      r'(https://files\.freemusicarchive\.org/[^"\']+?\.(?:mp3|ogg)(?:\?[^"\']*)?)'
+      r'(https://files\.freemusicarchive\.org/[^"\']+?\.(?:mp3|ogg|oga|flac|wav)(?:\?[^"\']*)?)'
     ]
     for pat in pats:
         m=re.search(pat,h,re.I)
         if m:return html.unescape(m.group(1)).replace("\\/","/")
+
+    # 3) Extensionless download endpoints are accepted only when they are
+    # clearly track-download endpoints. Never accept charts/search pages.
+    for a in soup.find_all("a",href=True):
+        label=a.get_text(" ",strip=True).lower()
+        href=urljoin(url,a["href"])
+        low=href.lower()
+        if "download" not in label:continue
+        if "nullrights.com/download/" in low:return href
+        if "freemusicarchive.org" in low and "/track/" in low and "download" in low:return href
+
     return None
 
 def resolve_master_audio(master):
