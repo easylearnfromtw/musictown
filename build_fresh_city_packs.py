@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import argparse, json, re, shutil, subprocess, tempfile, time, hashlib
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import quote_plus, urljoin
 import requests
@@ -196,8 +197,9 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--per-city",type=int,default=50)
     ap.add_argument("--bitrate",default="64k")
-    ap.add_argument("--max-candidates",type=int,default=420)
+    ap.add_argument("--max-candidates",type=int,default=180)
     ap.add_argument("--streaming",action="store_true",help="Keep verified remote audio URLs instead of packaging MP3 files into GitHub Pages.")
+    ap.add_argument("--workers",type=int,default=6)
     args=ap.parse_args()
 
     index=ROOT/"index.html"
@@ -228,16 +230,25 @@ def main():
         urls=list(dict.fromkeys(urls))
 
         candidates=[]
-        for url in urls[:args.max_candidates]:
+        candidate_urls=list(urls[:args.max_candidates])
+
+        def load_candidate(url):
             try:
-                t=parse_track(url,profile)
+                return url,parse_track(url,profile),None
+            except Exception as e:
+                return url,None,e
+
+        with ThreadPoolExecutor(max_workers=max(1,args.workers)) as ex:
+            futures=[ex.submit(load_candidate,url) for url in candidate_urls]
+            for fut in as_completed(futures):
+                url,t,err=fut.result()
+                if err is not None:
+                    print(" skip:",url,str(err)[:100]);continue
                 if not t:continue
                 k=track_key(t["title"],t["artist"])
                 if k in hard_used:continue
                 t["_score"]=score(t,profile)
                 candidates.append(t)
-            except Exception as e:
-                print(" skip:",url,str(e)[:100])
 
         candidates.sort(
             key=lambda t:(-t["_score"],hashlib.sha1((city+t["source"]).encode()).hexdigest())
