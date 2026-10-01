@@ -11,7 +11,7 @@ MANIFEST=json.loads((ROOT/"verified_audio_manifest.json").read_text(encoding="ut
 CACHE=ROOT/"_master_audio"
 CACHE.mkdir(parents=True,exist_ok=True)
 S=requests.Session()
-S.headers.update({"User-Agent":"musicetown-verified-cc0-builder/8.1"})
+S.headers.update({"User-Agent":"musicetown-audio-installer/8.6.5"})
 TIMEOUT=45
 
 def get(url):
@@ -93,7 +93,7 @@ def convert(url,dst,bitrate):
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument("--bitrate",default="128k")
+    ap.add_argument("--bitrate",default="64k")
     ap.add_argument("--verify-only",action="store_true")
     args=ap.parse_args()
     failures=[]

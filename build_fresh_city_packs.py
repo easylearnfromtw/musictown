@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, html, json, re, shutil, subprocess, tempfile, time, hashlib
+import argparse, json, re, shutil, subprocess, tempfile, time, hashlib
 from pathlib import Path
 from urllib.parse import quote_plus, urljoin
 import requests
@@ -8,16 +8,26 @@ from bs4 import BeautifulSoup
 
 ROOT=Path(__file__).resolve().parent
 PROFILES=json.loads((ROOT/"fresh_city_profiles.json").read_text(encoding="utf-8"))
+CACHE=ROOT/"_fresh_audio_cache"
+CACHE.mkdir(parents=True,exist_ok=True)
+
 S=requests.Session()
-S.headers.update({"User-Agent":"musicetown-fresh-city-builder/8.2"})
+S.headers.update({"User-Agent":"musicetown-fresh-city-installer/8.6.5"})
 NULLRIGHTS="https://nullrights.com"
 TIMEOUT=45
 CITY_NAMES=list(PROFILES.keys())
 
-def get(url):
-    r=S.get(url,timeout=TIMEOUT)
-    r.raise_for_status()
-    return r
+def get(url, tries=3):
+    last=None
+    for n in range(tries):
+        try:
+            r=S.get(url,timeout=TIMEOUT)
+            r.raise_for_status()
+            return r
+        except Exception as e:
+            last=e
+            if n+1<tries: time.sleep(1.2*(n+1))
+    raise last
 
 def norm(s):
     return re.sub(r"\s+"," ",str(s or "")).strip()
@@ -53,6 +63,7 @@ def parse_track(url):
     txt=norm(soup.get_text(" ",strip=True))
     low=txt.casefold()
 
+    # Hard gates.
     if "cc0 1.0 universal" not in low:return None
     if "has vocals" not in low:return None
     if re.search(r"ai generated\s+yes",low):return None
@@ -61,7 +72,6 @@ def parse_track(url):
     title=norm(h1.get_text(" ",strip=True) if h1 else "")
     if not title:return None
 
-    # artist — prefer attribution string
     artist=""
     ma=re.search(rf'"{re.escape(title)}"\s+by\s+(.+?)\s+[—-]',txt,re.I)
     if ma:artist=norm(ma.group(1))
@@ -84,10 +94,6 @@ def parse_track(url):
     mt=re.search(r"Tags\s+(.+?)(?:Duration|Format|Added|AI generated|Plays|License)",txt,re.I)
     if mt:tags=norm(mt.group(1))[:260]
 
-    energy=""
-    me=re.search(r"Energy\s+(\d+)%",txt,re.I)
-    if me:energy=me.group(1)
-
     sounds=""
     ms=re.search(r"Sounds like\s+(.+?)(?:Download|Embed this player|Similar tracks|What CC0 means)",txt,re.I)
     if ms:sounds=norm(ms.group(1))[:360]
@@ -95,18 +101,21 @@ def parse_track(url):
     download=None
     for a in soup.find_all("a",href=True):
         label=norm(a.get_text(" ",strip=True)).casefold()
-        if label.startswith("download") or label=="download":
-            download=urljoin(url,a["href"]);break
+        href=urljoin(url,a["href"])
+        if "download" in label and re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",href,re.I):
+            download=href
+            break
     if not download:
         for a in soup.find_all("a",href=True):
             u=urljoin(url,a["href"])
             if re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",u,re.I):
-                download=u;break
+                download=u
+                break
 
     embed_id=url.rstrip("/").split("/")[-1]
     return {
-      "title":title,"artist":artist,"genre":genre or "CC0 Vocal","tags":tags,
-      "sounds":sounds,"energy":energy,"duration":duration,
+      "title":title,"artist":artist,"genre":genre or "CC0 Vocal",
+      "tags":tags,"sounds":sounds,"duration":duration,
       "source":url,"embed":embed_id,"download":download,
       "license":"CC0 1.0 Universal","licenseVerified":True,
       "licenseChecked":time.strftime("%Y-%m-%d")
@@ -117,7 +126,6 @@ def score(track,profile):
     score=0
     for kw in profile["keywords"]:
         if kw.casefold() in blob:score+=4
-    # modest bonus for non-game / non-soundtrack language
     if "vocal" in blob:score+=3
     if any(x in blob for x in ["game","battle","boss","soundtrack","trailer"]):score-=2
     return score
@@ -128,25 +136,37 @@ def direct_audio(track):
     soup=BeautifulSoup(h,"html.parser")
     for a in soup.find_all("a",href=True):
         u=urljoin(track["source"],a["href"])
-        if re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",u,re.I):return u
+        if re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",u,re.I):
+            return u
     return None
 
-def convert(url,dst,bitrate):
+def cache_key(track):
+    return hashlib.sha256(track["source"].encode()).hexdigest()[:24]
+
+def convert_to_cache(track, bitrate):
+    cache=CACHE/f"{cache_key(track)}-{bitrate}.mp3"
+    if cache.exists() and cache.stat().st_size>=20000:
+        return cache
+
     if not shutil.which("ffmpeg"):
-        raise RuntimeError("ffmpeg is required (Mac: brew install ffmpeg)")
-    dst.parent.mkdir(parents=True,exist_ok=True)
+        raise RuntimeError("ffmpeg is required")
+
+    url=direct_audio(track)
+    if not url:raise RuntimeError("no direct audio URL")
+
     with tempfile.TemporaryDirectory() as td:
         raw=Path(td)/"input"
-        r=S.get(url,timeout=120,stream=True);r.raise_for_status()
+        r=get(url,tries=3)
         with raw.open("wb") as f:
-            for ch in r.iter_content(256*1024):
-                if ch:f.write(ch)
+            f.write(r.content)
         if raw.stat().st_size<20000:raise RuntimeError("download too small")
         subprocess.run([
-          "ffmpeg","-hide_banner","-loglevel","error","-y","-i",str(raw),
-          "-vn","-codec:a","libmp3lame","-b:a",bitrate,"-map_metadata","-1",str(dst)
+          "ffmpeg","-hide_banner","-loglevel","error","-y",
+          "-i",str(raw),"-vn","-codec:a","libmp3lame",
+          "-b:a",bitrate,"-map_metadata","-1",str(cache)
         ],check=True)
-        if dst.stat().st_size<20000:raise RuntimeError("converted output too small")
+    if cache.stat().st_size<20000:raise RuntimeError("converted output too small")
+    return cache
 
 def read_catalog(path):
     text=path.read_text(encoding="utf-8")
@@ -162,16 +182,18 @@ def write_catalog(path,data):
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--per-city",type=int,default=50)
-    ap.add_argument("--bitrate",default="96k")
-    ap.add_argument("--metadata-only",action="store_true")
-    ap.add_argument("--max-candidates",type=int,default=650)
+    ap.add_argument("--bitrate",default="64k")
+    ap.add_argument("--max-candidates",type=int,default=700)
     args=ap.parse_args()
 
     index=ROOT/"index.html"
-    text,m,data=read_catalog(index)
+    if not index.exists():
+        raise SystemExit("index.html not found. Put installer files in your musicetown repo root.")
+
+    _,_,data=read_catalog(index)
     by_name={d["t"]:d for d in data}
 
-    # Block every track used by the 5 general drawers.
+    # Exclude all songs already used by the general 5 categories.
     used=set()
     for d in data:
         if d["t"] in {"JAZZ","CROONER","ROCK","SPORT","LO-FI"}:
@@ -182,16 +204,15 @@ def main():
 
     for city in CITY_NAMES:
         profile=PROFILES[city]
-        print(f"\n=== {city} ===")
+        print(f"\n=== {city}: discovering fresh CC0 vocal tracks ===")
+
         urls=[]
-        for q in profile["queries"]:
-            urls+=discover(q)
-        for g in profile["genres"]:
-            urls+=discover_genre(g)
+        for q in profile["queries"]:urls+=discover(q)
+        for g in profile["genres"]:urls+=discover_genre(g)
         urls=list(dict.fromkeys(urls))
 
         candidates=[]
-        for n,url in enumerate(urls[:args.max_candidates],1):
+        for url in urls[:args.max_candidates]:
             try:
                 t=parse_track(url)
                 if not t:continue
@@ -200,10 +221,10 @@ def main():
                 t["_score"]=score(t,profile)
                 candidates.append(t)
             except Exception as e:
-                print(" skip",url,str(e)[:100])
+                print(" skip:",url,str(e)[:100])
 
         candidates.sort(
-            key=lambda t:(-t["_score"], hashlib.sha1((city+t["source"]).encode()).hexdigest())
+            key=lambda t:(-t["_score"],hashlib.sha1((city+t["source"]).encode()).hexdigest())
         )
 
         selected=[]
@@ -214,9 +235,12 @@ def main():
             if len(selected)>=args.per_city:break
 
         if len(selected)<args.per_city:
-            raise RuntimeError(f"{city}: only {len(selected)} fresh unique vocal CC0 tracks found")
+            raise RuntimeError(f"{city}: only {len(selected)} fresh unique CC0 vocal tracks found")
 
         folder=profile["slug"]
+        target_dir=ROOT/folder
+        target_dir.mkdir(parents=True,exist_ok=True)
+
         out_tracks=[]
         for i,t in enumerate(selected,1):
             t.pop("_score",None)
@@ -226,28 +250,26 @@ def main():
             t["curatedTheme"]=city
             t["vibe"]=f"{profile['label']} · {t['genre']}"
             t["audioSrc"]=f"{folder}/{i:03d}.mp3"
-            out_tracks.append(t)
 
-            if not args.metadata_only:
-                u=direct_audio(t)
-                if not u:raise RuntimeError(f"No direct audio for {t['title']}")
-                convert(u,ROOT/t["audioSrc"],args.bitrate)
+            print(f"  [{i:02d}/{args.per_city}] {t['artist']} — {t['title']}")
+            cache=convert_to_cache(t,args.bitrate)
+            shutil.copy2(cache,ROOT/t["audioSrc"])
+            out_tracks.append(t)
 
         by_name[city]["tracks"]=out_tracks
         report["cities"][city]=out_tracks
-        (ROOT/folder/"manifest.json").write_text(
+        (target_dir/"manifest.json").write_text(
             json.dumps(out_tracks,ensure_ascii=False,indent=2),encoding="utf-8"
         )
-        print(" selected",len(out_tracks))
 
     final=[by_name[d["t"]] for d in data]
     write_catalog(index,final)
     if (ROOT/"404.html").exists():write_catalog(ROOT/"404.html",final)
+
     (ROOT/"fresh_city_manifest.json").write_text(
         json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8"
     )
-    print("\nFresh city build complete.")
-    print("All six city pools are unique vs general drawers and vs each other.")
+    print("\nFresh city installation complete: 6 × 50 tracks.")
 
 if __name__=="__main__":
     main()
