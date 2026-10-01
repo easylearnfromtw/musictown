@@ -128,6 +128,18 @@ def main():
             continue
         for track in drawer.get("tracks",[]):
             local=str(track.get("audioSrc",""))
+
+            # Idempotent release rebuild: once a persisted catalog already carries
+            # an audited HTTPS stream, do not try to reinterpret that URL as an old
+            # repository-local target path. UI-only commits may trigger this workflow
+            # many times, so the resolver must accept its own previous output.
+            if re.match(r"^https://",local,re.I) and track.get("licenseVerified") and track.get("source"):
+                track["streamingAudio"]=True
+                track["localMp3"]=False
+                track.setdefault("originalLocalAudio",str(track.get("originalAudioSrc") or ""))
+                changed+=1
+                continue
+
             info=target_to_stream.get(local)
             if not info:
                 # Some slots retain their original audited target path.
