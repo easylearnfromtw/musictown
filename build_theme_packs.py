@@ -477,7 +477,7 @@ def main():
               "curationScore":score_value,
               "curationMatches":matches,"strongThemeMatches":strong_hits,
               "curationTier":tier,
-              "vibe":f"{p['vibe']} · {t['genre']}"
+              "vibe":f"{p['vibe']} · {t.get('genre') or t.get('_catalogDrawer') or 'CC0 Music'}"
             })
             if args.streaming:
               t["audioSrc"]=t["download"]
