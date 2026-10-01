@@ -8081,7 +8081,7 @@ html.mt-passbook-scrolling .passbook-panel{
 }
 </style>
 <style id="r937-ux-layer">
-/* musicetown R9.3.11 · mobile UX refinement */
+/* musicetown R9.3.12 · mobile UX refinement */
 :root{
   --mt-safe-top:max(10px,env(safe-area-inset-top,0px));
   --mt-safe-bottom:max(10px,env(safe-area-inset-bottom,0px));
@@ -8297,7 +8297,7 @@ html.mt-passbook-scrolling .passbook-panel{will-change:auto!important}
 }
 
 
-/* ===== R9.3.11 · screenshot-driven iPhone UX hardening ===== */
+/* ===== R9.3.12 · screenshot-driven iPhone UX hardening ===== */
 
 /* True three-column header: Library / centered logo / Search. No floating overlap. */
 .site-head.site-head-r890,
@@ -8441,6 +8441,99 @@ html.mt-track-scrolling .music-panel{
     width:calc(100vw - 16px)!important;max-width:calc(100vw - 16px)!important;
     max-height:calc(var(--musicetown-visible-height,100dvh) - var(--mt-safe-top) - var(--mt-safe-bottom) - 8px)!important
   }
+}
+
+
+/* ===== R9.3.12 pass acquisition welcome ===== */
+.pass-welcome-sheet{
+  position:fixed;inset:0;z-index:1960;display:grid;place-items:center;
+  padding:22px max(18px,env(safe-area-inset-right)) max(22px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .26s ease,visibility .26s ease;
+}
+.pass-welcome-sheet.open{opacity:1;visibility:visible;pointer-events:auto}
+.pass-welcome-backdrop{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 44%,color-mix(in srgb,var(--welcome-accent,#7898aa) 22%,transparent),transparent 38%),
+    rgba(18,29,43,.36);
+  -webkit-backdrop-filter:blur(22px) saturate(118%);
+  backdrop-filter:blur(22px) saturate(118%);
+}
+.pass-welcome-card{
+  --welcome-accent:#7898aa;--welcome-soft:rgba(120,152,170,.17);--welcome-ink:#29465d;
+  position:relative;width:min(520px,92vw);min-height:min(610px,78dvh);
+  border-radius:38px;padding:34px 28px 28px;overflow:hidden;
+  display:grid;align-content:center;justify-items:center;text-align:center;
+  color:var(--welcome-ink);
+  border:1px solid rgba(255,255,255,.86);
+  background:
+    radial-gradient(circle at 50% 17%,var(--welcome-soft),transparent 34%),
+    linear-gradient(155deg,rgba(255,255,255,.96),rgba(239,245,249,.90));
+  box-shadow:0 34px 100px rgba(22,37,53,.24),inset 0 1px 0 rgba(255,255,255,.98);
+  transform:translateY(18px) scale(.975);
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.pass-welcome-sheet.open .pass-welcome-card{transform:none}
+.pass-welcome-card::before,.pass-welcome-card::after{
+  content:"";position:absolute;border:1px solid color-mix(in srgb,var(--welcome-accent) 24%,transparent);
+  border-radius:50%;pointer-events:none;
+}
+.pass-welcome-card::before{width:330px;height:330px;left:-180px;top:-190px}
+.pass-welcome-card::after{width:260px;height:260px;right:-170px;bottom:-160px}
+.pass-welcome-eyebrow{
+  font:760 9px/1 var(--grotesk);letter-spacing:.22em;
+  color:color-mix(in srgb,var(--welcome-ink) 55%,transparent);
+}
+.pass-welcome-seal{
+  width:126px;height:126px;margin:28px 0 26px;border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,rgba(255,255,255,.86),var(--welcome-soft));
+  border:1px solid rgba(255,255,255,.94);
+  box-shadow:0 20px 48px color-mix(in srgb,var(--welcome-accent) 22%,transparent),inset 0 1px 0 #fff;
+  animation:passWelcomeFloat 2.6s ease-in-out infinite;
+}
+.pass-welcome-seal img{width:74%;height:74%;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(35,54,72,.12))}
+.pass-welcome-title{
+  margin:0;max-width:430px;
+  font:780 clamp(34px,8vw,62px)/.92 var(--grotesk);
+  letter-spacing:-.055em;text-wrap:balance;
+}
+.pass-welcome-zh{
+  margin:14px 0 0;font:700 15px/1.45 var(--serif);letter-spacing:.05em;
+  color:color-mix(in srgb,var(--welcome-ink) 76%,transparent);
+}
+.pass-welcome-copy{
+  margin:14px 0 0;max-width:370px;
+  font:600 10px/1.6 var(--grotesk);letter-spacing:.07em;
+  color:color-mix(in srgb,var(--welcome-ink) 48%,transparent);
+}
+.pass-welcome-actions{display:flex;gap:10px;margin-top:30px}
+.pass-welcome-reveal{
+  min-width:168px;height:48px;padding:0 22px;border:0;border-radius:999px;
+  background:var(--welcome-ink);color:#fff;cursor:pointer;
+  font:760 9px/1 var(--grotesk);letter-spacing:.14em;
+  box-shadow:0 14px 28px color-mix(in srgb,var(--welcome-ink) 18%,transparent);
+}
+.pass-welcome-close{
+  width:48px;height:48px;border-radius:50%;border:1px solid rgba(41,70,93,.09);
+  background:rgba(255,255,255,.62);color:var(--welcome-ink);cursor:pointer;font-size:17px;
+}
+.pass-welcome-progress{
+  position:absolute;left:28px;right:28px;bottom:18px;height:2px;border-radius:999px;
+  background:rgba(41,70,93,.08);overflow:hidden;
+}
+.pass-welcome-progress i{display:block;width:100%;height:100%;background:var(--welcome-accent);transform-origin:left center;transform:scaleX(0)}
+.pass-welcome-sheet.open .pass-welcome-progress i{animation:passWelcomeProgress 1.75s linear forwards}
+@keyframes passWelcomeFloat{50%{transform:translateY(-6px) rotate(2deg)}}
+@keyframes passWelcomeProgress{to{transform:scaleX(1)}}
+@media(max-width:560px){
+  .pass-welcome-card{min-height:min(560px,76dvh);padding:30px 22px 26px;border-radius:32px}
+  .pass-welcome-seal{width:108px;height:108px;margin:24px 0 22px}
+  .pass-welcome-title{font-size:clamp(34px,11vw,52px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .pass-welcome-card,.pass-welcome-seal,.pass-welcome-progress i{animation:none!important;transition:none!important}
 }
 
 </style>\n</head>
@@ -10469,14 +10562,72 @@ function renderCityPass(drawer,geo){
       </div>`).join(''):`<div class="city-pass-hot-row"><span class="city-pass-hot-no">—</span><div class="city-pass-hot-copy"><b>CURATION IN PROGRESS</b><span>完成音樂安裝後，這裡會顯示該主題熱門前 5 首。</span></div><em>SOON</em></div>`;
   }
 }
-function openCityPass(drawer,geo,{auto=false}={}){
-  if(!drawer||!geo)return;
+let passWelcomeTimer=0,passWelcomePending=null,passWelcomeToken=0;
+function passWelcomeDestination(drawer,geo,config){
+  if(config?.kind==='university')return config.fullName||geo?.campusName||drawer?.t||config.code;
+  if(config?.kind==='landmark')return config.fullName||config.landmarkName||config.name||drawer?.t||config.code;
+  return geo?.city||config?.fullName||drawer?.t||config?.code||'MUSICETOWN';
+}
+function passWelcomeKindCopy(config){
+  if(config?.kind==='university')return {eyebrow:'WELCOME TO CAMPUS · GPS VERIFIED',zh:'歡迎來到大學校園',copy:'CAMPUS VERIFIED · YOUR CAMPUS PASS IS READY'};
+  if(config?.kind==='landmark')return {eyebrow:'WELCOME TO LANDMARK · GPS VERIFIED',zh:'歡迎來到限定景點',copy:'LANDMARK VERIFIED · YOUR LANDMARK PASS IS READY'};
+  return {eyebrow:'WELCOME TO THE CITY · LOCATION VERIFIED',zh:'歡迎來到這座城市',copy:'CITY VERIFIED · YOUR CITY PASS IS READY'};
+}
+function closePassWelcome(){
+  clearTimeout(passWelcomeTimer);
+  passWelcomeTimer=0;passWelcomePending=null;
+  const sheet=$('passWelcomeSheet');
+  sheet?.classList.remove('open');
+  sheet?.setAttribute('aria-hidden','true');
+}
+function revealPendingPass(){
+  const pending=passWelcomePending;
+  if(!pending)return;
+  clearTimeout(passWelcomeTimer);passWelcomeTimer=0;
+  passWelcomePending=null;
+  const welcome=$('passWelcomeSheet');
+  welcome?.classList.remove('open');
+  welcome?.setAttribute('aria-hidden','true');
+  const {drawer,geo,auto}=pending;
   renderCityPass(drawer,geo);
   collectActivePass();
   const sheet=$('cityPassSheet');
+  requestAnimationFrame(()=>{
+    sheet?.classList.add('open');
+    sheet?.setAttribute('aria-hidden','false');
+  });
+  if(auto){try{sessionStorage.setItem(`musicetown.citypass.shown.${drawer.t}`,'1')}catch(_){}}
+}
+function showPassWelcome(drawer,geo,{auto=false}={}){
+  const config=CITY_PASS_THEMES[drawer?.t];
+  if(!drawer||!geo||!config)return;
+  clearTimeout(passWelcomeTimer);
+  const token=++passWelcomeToken;
+  passWelcomePending={drawer,geo,auto,token};
+  const ui=genreUiFor(drawer.t);
+  const card=$('passWelcomeCard'),sheet=$('passWelcomeSheet');
+  const kind=passWelcomeKindCopy(config);
+  const destination=passWelcomeDestination(drawer,geo,config);
+  if(card){
+    card.style.setProperty('--welcome-accent',ui.accent||'#7898aa');
+    card.style.setProperty('--welcome-soft',ui.soft||'rgba(120,152,170,.17)');
+    card.style.setProperty('--welcome-ink',ui.ink||'#29465d');
+  }
+  if($('passWelcomeEyebrow'))$('passWelcomeEyebrow').textContent=kind.eyebrow;
+  if($('passWelcomeTitle'))$('passWelcomeTitle').textContent=String(destination||drawer.t).toUpperCase();
+  if($('passWelcomeZh'))$('passWelcomeZh').textContent=kind.zh;
+  if($('passWelcomeCopy'))$('passWelcomeCopy').textContent=kind.copy;
+  if($('passWelcomeSeal'))$('passWelcomeSeal').src=cityPassVisual(config);
+  sheet?.classList.remove('open');
+  void sheet?.offsetWidth;
   sheet?.classList.add('open');
   sheet?.setAttribute('aria-hidden','false');
-  if(auto){try{sessionStorage.setItem(`musicetown.citypass.shown.${drawer.t}`,'1')}catch(_){}}
+  const delay=matchMedia?.('(prefers-reduced-motion: reduce)')?.matches?650:1750;
+  passWelcomeTimer=setTimeout(()=>{if(passWelcomePending?.token===token)revealPendingPass()},delay);
+}
+function openCityPass(drawer,geo,{auto=false}={}){
+  if(!drawer||!geo)return;
+  showPassWelcome(drawer,geo,{auto});
 }
 function closeCityPass(){
   $('cityPassSheet')?.classList.remove('open');
@@ -10623,6 +10774,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   $('cityPassClose')?.addEventListener('click',closeCityPass);
   $('cityPassDone')?.addEventListener('click',closeCityPass);
   $('cityPassBackdrop')?.addEventListener('click',closeCityPass);
+  $('passWelcomeReveal')?.addEventListener('click',revealPendingPass);
+  $('passWelcomeClose')?.addEventListener('click',closePassWelcome);
+  document.querySelector('#passWelcomeSheet .pass-welcome-backdrop')?.addEventListener('click',closePassWelcome);
   $('cityPassSave')?.addEventListener('click',saveCityPassTicket);
   const cpTicket=document.querySelector('.city-pass-ticket');
   if(cpTicket){let sx=0,sy=0;cpTicket.addEventListener('touchstart',e=>{const t=e.touches?.[0];if(t){sx=t.clientX;sy=t.clientY}},{passive:true});cpTicket.addEventListener('touchmove',e=>{const t=e.touches?.[0];if(!t)return;const dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>7&&e.cancelable)e.preventDefault()},{passive:false})}
@@ -13935,6 +14089,23 @@ setTimeout(()=>{
   </section>
 </div>
 
+
+<div id="passWelcomeSheet" class="pass-welcome-sheet" aria-hidden="true">
+  <div class="pass-welcome-backdrop"></div>
+  <section class="pass-welcome-card" id="passWelcomeCard" role="dialog" aria-modal="true" aria-labelledby="passWelcomeTitle">
+    <div class="pass-welcome-eyebrow" id="passWelcomeEyebrow">WELCOME · MUSICETOWN</div>
+    <div class="pass-welcome-seal"><img id="passWelcomeSeal" alt=""></div>
+    <h2 class="pass-welcome-title" id="passWelcomeTitle">WELCOME</h2>
+    <div class="pass-welcome-zh" id="passWelcomeZh">歡迎來到這裡</div>
+    <p class="pass-welcome-copy" id="passWelcomeCopy">LOCATION VERIFIED · YOUR PASS IS READY</p>
+    <div class="pass-welcome-actions">
+      <button class="pass-welcome-reveal" id="passWelcomeReveal" type="button">REVEAL PASS</button>
+      <button class="pass-welcome-close" id="passWelcomeClose" type="button" aria-label="關閉">×</button>
+    </div>
+    <div class="pass-welcome-progress" aria-hidden="true"><i></i></div>
+  </section>
+</div>
+
 <div id="cityPassSheet" class="city-pass-sheet" aria-hidden="true">
   <div class="city-pass-backdrop" id="cityPassBackdrop"></div>
   <article class="city-pass-ticket" id="cityPassTicket" role="dialog" aria-modal="true" aria-labelledby="cityPassThemeTitle">
@@ -14117,7 +14288,7 @@ setTimeout(()=>{
 (()=>{
   'use strict';
   const byId=id=>document.getElementById(id);
-  const modalIds=['passbookSheet','audioAccessorySheet','localLibrarySheet','globalSearchSheet','cityPassSheet'];
+  const modalIds=['passWelcomeSheet','passbookSheet','audioAccessorySheet','localLibrarySheet','globalSearchSheet','cityPassSheet'];
   let locked=false,lockY=0;
 
   const syncModalLock=()=>{
@@ -14233,7 +14404,7 @@ setTimeout(()=>{
   audioObserver.observe(document.body,{childList:true,subtree:true});
   window.visualViewport?.addEventListener('resize',pinAudioClose,{passive:true});
 
-  /* R9.3.11 vinyl scrub assist.
+  /* R9.3.12 vinyl scrub assist.
      Any horizontal drag across the record zone seeks predictably on iPhone.
      Capture-phase handling prevents the legacy circular handler from competing. */
   const installVinylAssist=()=>{
