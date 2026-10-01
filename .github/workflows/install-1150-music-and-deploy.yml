@@ -1,1 +1,77 @@
+name: R8.9.0 · Install 1150 musicetown tracks + Deploy
+
+"on":
+  workflow_dispatch:
+    inputs:
+      bitrate:
+        description: MP3 bitrate
+        required: true
+        default: "64k"
+        type: choice
+        options: ["48k","64k","80k"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: musicetown-1150-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ffmpeg + Python deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install -r requirements.txt
+
+      - name: Restore audio cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            _master_audio
+            _fresh_audio_cache
+            _theme_audio_cache
+          key: musicetown-r890-${{ inputs.bitrate }}-${{ hashFiles('verified_audio_manifest.json','fresh_city_profiles.json','theme_profiles.json') }}
+          restore-keys: |
+            musicetown-r890-${{ inputs.bitrate }}-
+
+      - name: Install JAZZ / CROONER / ROCK / SPORT / LO-FI
+        run: python fetch_verified_audio.py --bitrate "${{ inputs.bitrate }}"
+
+      - name: Curate 14 city themes
+        run: python build_fresh_city_packs.py --per-city 50 --bitrate "${{ inputs.bitrate }}"
+
+      - name: Curate EMO / RUNNING / POEM / TRADITIONAL BEIJING
+        run: python build_theme_packs.py --per-theme 50 --bitrate "${{ inputs.bitrate }}"
+
+      - name: Verify all 1150 real MP3 files
+        run: python verify_music_install.py
+
+      - name: Prepare Pages artifact
+        run: python prepare_audio_site.py
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
 
