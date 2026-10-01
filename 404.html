@@ -7677,6 +7677,40 @@ body:has(#glassTransport.show) .detail .inner.music-detail{padding-bottom:calc(2
   }
 }
 
+
+/* R9.3.3 · header library + easier vinyl scrub */
+.site-head-r890 .head-library{
+  grid-column:1!important;justify-self:start!important;align-self:start!important;
+  position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  z-index:auto!important;pointer-events:auto!important;height:38px!important;
+  padding:0 11px 0 6px!important;margin:0!important;transform:none!important;
+}
+.site-head-r890 .head-library:hover{transform:translateY(-1px)!important}
+.site-head-r890 .head-library span{width:27px!important;height:27px!important}
+.vinyl-wrap{
+  padding:30px!important;margin:-30px!important;
+  min-height:300px!important;
+  cursor:grab!important;
+}
+.vinyl-wrap:active{cursor:grabbing!important}
+.vinyl-wrap::before{
+  content:"";position:absolute;inset:4px;border-radius:34px;pointer-events:none;
+  border:1px solid transparent;
+}
+.vinyl.dragging{transform:scale(1.032)!important}
+@media(max-width:700px){
+  .site-head-r890 .head-library{
+    width:40px!important;height:40px!important;padding:0!important;justify-content:center!important;border-radius:50%!important
+  }
+  .site-head-r890 .head-library b{
+    position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+    overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important
+  }
+  .site-head-r890 .head-library span{width:29px!important;height:29px!important}
+  .vinyl-wrap{padding:32px!important;margin:-32px!important;min-height:292px!important}
+  .vinyl{width:min(268px,82vw)!important;min-width:248px!important}
+}
+
 /* R9.3.2 · final mobile polish */
 @media(max-width:700px){
   .vinyl-wrap{padding:22px!important;margin:-22px!important}
@@ -7834,7 +7868,9 @@ window.addEventListener('error',function(e){
 <div class="sr-only" id="cardKeys"></div>
 
 <header class="site-head site-head-r890">
-  <div class="head-balance" aria-hidden="true"></div>
+  <button id="localLibraryFab" class="library-fab head-library" type="button" aria-label="開啟個人本機音樂庫">
+    <span>＋</span><b>MY LIBRARY</b>
+  </button>
   <button class="logo logo-center" id="logo" type="button" aria-label="回到音樂抽屜">
     <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17"></circle><path id="gm"></path><path id="ge"></path></svg>
     <span class="logo-wordmark">musicetown</span>
@@ -11770,7 +11806,7 @@ function wireVinylTransport(audio,t){
     if(e.cancelable)e.preventDefault();
     const rect=vinyl.getBoundingClientRect();
     const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
-    const hitRadius=Math.max(rect.width*.96,rect.width/2+76);
+    const hitRadius=Math.max(rect.width*1.08,rect.width/2+96);
     if(Math.hypot(e.clientX-cx,e.clientY-cy)>hitRadius)return;
     vinylDragging=true;
     dragPointerId=e.pointerId;
@@ -11798,8 +11834,8 @@ function wireVinylTransport(audio,t){
     const dx=vinylLastPointerX==null?0:e.clientX-vinylLastPointerX;
     vinylLastPointerX=e.clientX;
     const angularSeconds=(delta/360)*SCRUB_SECONDS_PER_TURN;
-    const linearSeconds=dx*.48;
-    const blend=Math.max(0,Math.min(1,(radius-rect.width*.18)/(rect.width*.34)));
+    const linearSeconds=dx*.68;
+    const blend=Math.max(0,Math.min(.78,(radius-rect.width*.18)/(rect.width*.46)));
     const stepSeconds=linearSeconds*(1-blend)+angularSeconds*blend;
     const base=pendingTime==null?(Number(audio.currentTime)||0):pendingTime;
     pendingTime=base+stepSeconds;
@@ -11823,8 +11859,14 @@ function wireVinylTransport(audio,t){
     updateGlassUI();
     if(vinylWasPlaying)audio.play().catch(()=>{});
     else audio.pause();
+    vinyl.__suppressClickUntil=performance.now()+260;
   };
 
+  vinyl.addEventListener('click',e=>{
+    if((vinyl.__suppressClickUntil||0)>performance.now()){
+      e.preventDefault();e.stopPropagation();
+    }
+  },true);
   dragSurface.addEventListener('pointerdown',begin,{passive:false});
   dragSurface.addEventListener('pointermove',move,{passive:false});
   dragSurface.addEventListener('pointerup',end,{passive:false});
@@ -12794,10 +12836,6 @@ setTimeout(()=>{
 </script>
 
 
-
-<button id="localLibraryFab" class="library-fab" type="button" aria-label="開啟個人本機音樂庫">
-  <span>＋</span><b>MY LIBRARY</b>
-</button>
 
 <div id="localLibrarySheet" class="library-sheet" aria-hidden="true">
   <div class="library-panel" id="libraryPanel" role="dialog" aria-modal="true" aria-labelledby="libraryTitle">
