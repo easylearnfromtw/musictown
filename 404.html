@@ -7845,17 +7845,16 @@ const css = c => `rgb(${Math.round(c[0]*255)},${Math.round(c[1]*255)},${Math.rou
 const HOME_GROUPS={
   ASIA:{label:'亞洲 · ASIA',short:'ASIA',items:[
     'TAIPEI DREAM','OLD TOKYO','SPLENDOR SHANGHAI','TRADITIONAL BEIJING',
-    'BUSTLING HONG KONG','SOLEMN KYOTO','MIRACULOUS LUOYANG'
+    'BUSTLING HONG KONG','SOLEMN KYOTO','MIRACULOUS LUOYANG','TIANJING','FREEZE HOKKAIDO'
   ]},
   EUROPE:{label:'歐洲 · EUROPE',short:'EUROPE',items:[
-    'VAPOR LONDON','SLIGHTLY TIPSY ROME','CHAMPS-ÉLYSÉES'
+    'VAPOR LONDON','SLIGHTLY TIPSY ROME','CHAMPS-ÉLYSÉES','BARCELONA','ROTTERDAM'
   ]},
   NORTH_AMERICA:{label:'北美 · NORTH AMERICA',short:'N. AMERICA',items:[
-    'VANCOUVER','NEW YORK','TROPICAL HAWAII','PSYCHEDELIC LA'
+    'VANCOUVER','NEW YORK','TROPICAL HAWAII','PSYCHEDELIC LA','RUSTY DETROIT','LAS VEGAS','MEXICO'
   ]},
-  MIDDLE_EAST:{label:'中東 · MIDDLE EAST',short:'MIDDLE EAST',items:[
-    'MENACING DUBAI'
-  ]},
+  OCEANIA:{label:'大洋洲 · OCEANIA',short:'OCEANIA',items:['SYDNEY STREET']},
+  MIDDLE_EAST:{label:'中東 · MIDDLE EAST',short:'MIDDLE EAST',items:['MENACING DUBAI']},
   MUSIC_THEMES:{label:'音樂主題 · MUSIC THEMES',short:'MUSIC',items:[
     'JAZZ','CROONER','ROCK','SPORT','LO-FI','EMO','RUNNING','POEM'
   ]},
@@ -7865,14 +7864,36 @@ const HOME_GROUPS={
   UNIVERSITY_TW:{label:'大學限定 · TAIWAN',short:'UNI · TW',items:[
     'NTU','NCKU','NTHU','NYCU','NCCU','FJU','CMU','SCU','THU'
   ]},
-  UNIVERSITY_US:{label:'大學限定 · USA',short:'UNI · US',items:[
-    'MIT','STANFORD','HARVARD','BERKELEY','UCLA'
-  ]},
-  UNIVERSITY_UK:{label:'大學限定 · UK',short:'UNI · UK',items:[
-    'IMPERIAL COLLEGE LONDON','OXFORD','CAMBRIDGE','UCL'
-  ]},
+  UNIVERSITY_US:{label:'大學限定 · USA',short:'UNI · US',items:['MIT','STANFORD','HARVARD','BERKELEY','UCLA']},
+  UNIVERSITY_UK:{label:'大學限定 · UK',short:'UNI · UK',items:['IMPERIAL COLLEGE LONDON','OXFORD','CAMBRIDGE','UCL']},
   UNIVERSITY_ASIA:{label:'大學限定 · ASIA',short:'UNI · ASIA',items:[
     'HKU','TSINGHUA UNIVERSITY','PEKING UNIVERSITY','SNU','UTOKYO','NUS','KYOTO UNIVERSITY','WASEDA UNIVERSITY'
+  ]},
+  LANDMARK_TW_NORTH:{label:'景點限定 · TAIWAN NORTH',short:'SPOT · TW N',items:[
+    'XINYI DISTRICT · 信義計畫區','DANJIANG BRIDGE · 淡江大橋','KETAGALAN BOULEVARD · 凱達格蘭大道',
+    'NATIONAL PALACE MUSEUM · 故宮（台北）','XINGTIAN TEMPLE · 行天宮','XIMENDING · 西門町',
+    'WULAI OLD STREET · 烏來老街','CHIANG KAI-SHEK MEMORIAL HALL · 中正紀念堂','LONGSHAN TEMPLE · 艋舺龍山寺'
+  ]},
+  LANDMARK_TW_JOURNEY:{label:'景點限定 · TAIWAN JOURNEY',short:'SPOT · TW',items:[
+    'SUN MOON LAKE · 日月潭','ALISHAN · 阿里山','BEIGANG CHAOTIAN TEMPLE · 北港朝天宮',
+    'DAJIA JENN LANN TEMPLE · 大甲鎮瀾宮','BAISHATUN GONGTIAN TEMPLE · 白沙屯拱天宮','JIUFEN OLD STREET · 九份老街'
+  ]},
+  LANDMARK_ASIA:{label:'景點限定 · EAST ASIA',short:'SPOT · ASIA',items:[
+    'TIANANMEN SQUARE · 天安門','GREAT WALL · 萬里長城','THE BUND · 外灘（上海）',
+    'VICTORIA HARBOUR · 維多利亞港（香港）','YELLOW RIVER · 黃河流域','YANGTZE RIVER · 長江流域',
+    'FORBIDDEN CITY · 故宮（北京）'
+  ]},
+  LANDMARK_JP_ME:{label:'景點限定 · JAPAN / WEST ASIA',short:'SPOT · EAST',items:[
+    'MOUNT FUJI · 富士山','GINZA · 銀座','OSAKA CASTLE · 大阪城','ISTANBUL · 伊斯坦堡','JERUSALEM · 耶路撒冷'
+  ]},
+  LANDMARK_EUROPE:{label:'景點限定 · EUROPE',short:'SPOT · EU',items:[
+    'BIG BEN · 大笨鐘','TOWER BRIDGE · 倫敦塔橋','CHAMPS-ÉLYSÉES LANDMARK · 香榭大道',
+    'MANNEKEN PIS · 比利時尿尿小童','ST. PETER\'S BASILICA · 聖彼得大教堂',
+    'MILAN CATHEDRAL · 米蘭大教堂','NOTRE-DAME DE PARIS · 法國巴黎聖母院','WESTMINSTER ABBEY · 西敏寺（英國）'
+  ]},
+  LANDMARK_WORLD:{label:'景點限定 · WORLD',short:'SPOT · WORLD',items:[
+    'TIMES SQUARE · 時代廣場','STATUE OF LIBERTY · 自由女神','RIO DE JANEIRO · 巴西里約熱內盧',
+    'SYDNEY OPERA HOUSE · 雪梨歌劇院','YELLOWSTONE · 黃石公園','SAHARA · 撒哈拉沙漠'
   ]}
 };
 const HOME_CARD_SLOTS=9;
