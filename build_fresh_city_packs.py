@@ -125,7 +125,8 @@ def parse_track(url, profile):
     for a in soup.find_all("a",href=True):
         label=norm(a.get_text(" ",strip=True)).casefold()
         href=urljoin(url,a["href"])
-        if "download" in label and re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",href,re.I):
+        # Accept verified extensionless Download redirect endpoints.
+        if "download" in label and href.startswith(("https://","http://")):
             download=href
             break
     if not download:
