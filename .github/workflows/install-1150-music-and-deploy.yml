@@ -16,8 +16,6 @@ name: R9.3 FINAL · 101 themes / 3300 placements · Fast Hybrid Deploy
       - "fetch_verified_audio.py"
       - "verify_music_install.py"
       - "prepare_audio_site.py"
-      - "index.html"
-      - "404.html"
       - ".github/workflows/install-1150-music-and-deploy.yml"
 
 permissions:
@@ -27,7 +25,7 @@ permissions:
 
 concurrency:
   group: musicetown-r93-hybrid-deploy
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build-deploy:
@@ -68,10 +66,10 @@ jobs:
 
 
       - name: Curate 9 core music themes as verified streams
-        run: python build_theme_packs.py --per-theme 50 --streaming
+        run: python build_theme_packs.py --per-theme 50 --max-candidates 90 --workers 4 --streaming
 
       - name: Curate 22 city themes as verified streams
-        run: python build_fresh_city_packs.py --per-city 50 --streaming
+        run: python build_fresh_city_packs.py --per-city 50 --max-candidates 70 --workers 4 --streaming
 
       - name: Build 70 limited 25-track themes
         run: python build_limited_theme_packs.py
