@@ -25,7 +25,7 @@ permissions:
 
 concurrency:
   group: musicetown-r93-hybrid-deploy
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build-deploy:
