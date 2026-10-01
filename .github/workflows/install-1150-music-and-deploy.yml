@@ -61,6 +61,8 @@ jobs:
           key: musicetown-r930-base-${{ env.BASE_BITRATE }}-${{ hashFiles('verified_audio_manifest.json') }}
           restore-keys: |
             musicetown-r920-base-${{ env.BASE_BITRATE }}-
+            musicetown-r910-base-${{ env.BASE_BITRATE }}-
+            musicetown-r890-${{ env.BASE_BITRATE }}-
 
       - name: Install base 5 local collections
         run: python fetch_verified_audio.py --bitrate "$BASE_BITRATE"
