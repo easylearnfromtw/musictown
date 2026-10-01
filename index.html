@@ -8081,7 +8081,7 @@ html.mt-passbook-scrolling .passbook-panel{
 }
 </style>
 <style id="r937-ux-layer">
-/* musicetown R9.3.12 · mobile UX refinement */
+/* musicetown R9.3.11 · mobile UX refinement */
 :root{
   --mt-safe-top:max(10px,env(safe-area-inset-top,0px));
   --mt-safe-bottom:max(10px,env(safe-area-inset-bottom,0px));
@@ -8297,7 +8297,7 @@ html.mt-passbook-scrolling .passbook-panel{will-change:auto!important}
 }
 
 
-/* ===== R9.3.12 · screenshot-driven iPhone UX hardening ===== */
+/* ===== R9.3.11 · screenshot-driven iPhone UX hardening ===== */
 
 /* True three-column header: Library / centered logo / Search. No floating overlap. */
 .site-head.site-head-r890,
@@ -8441,99 +8441,6 @@ html.mt-track-scrolling .music-panel{
     width:calc(100vw - 16px)!important;max-width:calc(100vw - 16px)!important;
     max-height:calc(var(--musicetown-visible-height,100dvh) - var(--mt-safe-top) - var(--mt-safe-bottom) - 8px)!important
   }
-}
-
-
-/* ===== R9.3.12 pass acquisition welcome ===== */
-.pass-welcome-sheet{
-  position:fixed;inset:0;z-index:1960;display:grid;place-items:center;
-  padding:22px max(18px,env(safe-area-inset-right)) max(22px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));
-  opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity .26s ease,visibility .26s ease;
-}
-.pass-welcome-sheet.open{opacity:1;visibility:visible;pointer-events:auto}
-.pass-welcome-backdrop{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(circle at 50% 44%,color-mix(in srgb,var(--welcome-accent,#7898aa) 22%,transparent),transparent 38%),
-    rgba(18,29,43,.36);
-  -webkit-backdrop-filter:blur(22px) saturate(118%);
-  backdrop-filter:blur(22px) saturate(118%);
-}
-.pass-welcome-card{
-  --welcome-accent:#7898aa;--welcome-soft:rgba(120,152,170,.17);--welcome-ink:#29465d;
-  position:relative;width:min(520px,92vw);min-height:min(610px,78dvh);
-  border-radius:38px;padding:34px 28px 28px;overflow:hidden;
-  display:grid;align-content:center;justify-items:center;text-align:center;
-  color:var(--welcome-ink);
-  border:1px solid rgba(255,255,255,.86);
-  background:
-    radial-gradient(circle at 50% 17%,var(--welcome-soft),transparent 34%),
-    linear-gradient(155deg,rgba(255,255,255,.96),rgba(239,245,249,.90));
-  box-shadow:0 34px 100px rgba(22,37,53,.24),inset 0 1px 0 rgba(255,255,255,.98);
-  transform:translateY(18px) scale(.975);
-  transition:transform .5s cubic-bezier(.16,1,.3,1);
-}
-.pass-welcome-sheet.open .pass-welcome-card{transform:none}
-.pass-welcome-card::before,.pass-welcome-card::after{
-  content:"";position:absolute;border:1px solid color-mix(in srgb,var(--welcome-accent) 24%,transparent);
-  border-radius:50%;pointer-events:none;
-}
-.pass-welcome-card::before{width:330px;height:330px;left:-180px;top:-190px}
-.pass-welcome-card::after{width:260px;height:260px;right:-170px;bottom:-160px}
-.pass-welcome-eyebrow{
-  font:760 9px/1 var(--grotesk);letter-spacing:.22em;
-  color:color-mix(in srgb,var(--welcome-ink) 55%,transparent);
-}
-.pass-welcome-seal{
-  width:126px;height:126px;margin:28px 0 26px;border-radius:50%;
-  display:grid;place-items:center;
-  background:linear-gradient(145deg,rgba(255,255,255,.86),var(--welcome-soft));
-  border:1px solid rgba(255,255,255,.94);
-  box-shadow:0 20px 48px color-mix(in srgb,var(--welcome-accent) 22%,transparent),inset 0 1px 0 #fff;
-  animation:passWelcomeFloat 2.6s ease-in-out infinite;
-}
-.pass-welcome-seal img{width:74%;height:74%;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(35,54,72,.12))}
-.pass-welcome-title{
-  margin:0;max-width:430px;
-  font:780 clamp(34px,8vw,62px)/.92 var(--grotesk);
-  letter-spacing:-.055em;text-wrap:balance;
-}
-.pass-welcome-zh{
-  margin:14px 0 0;font:700 15px/1.45 var(--serif);letter-spacing:.05em;
-  color:color-mix(in srgb,var(--welcome-ink) 76%,transparent);
-}
-.pass-welcome-copy{
-  margin:14px 0 0;max-width:370px;
-  font:600 10px/1.6 var(--grotesk);letter-spacing:.07em;
-  color:color-mix(in srgb,var(--welcome-ink) 48%,transparent);
-}
-.pass-welcome-actions{display:flex;gap:10px;margin-top:30px}
-.pass-welcome-reveal{
-  min-width:168px;height:48px;padding:0 22px;border:0;border-radius:999px;
-  background:var(--welcome-ink);color:#fff;cursor:pointer;
-  font:760 9px/1 var(--grotesk);letter-spacing:.14em;
-  box-shadow:0 14px 28px color-mix(in srgb,var(--welcome-ink) 18%,transparent);
-}
-.pass-welcome-close{
-  width:48px;height:48px;border-radius:50%;border:1px solid rgba(41,70,93,.09);
-  background:rgba(255,255,255,.62);color:var(--welcome-ink);cursor:pointer;font-size:17px;
-}
-.pass-welcome-progress{
-  position:absolute;left:28px;right:28px;bottom:18px;height:2px;border-radius:999px;
-  background:rgba(41,70,93,.08);overflow:hidden;
-}
-.pass-welcome-progress i{display:block;width:100%;height:100%;background:var(--welcome-accent);transform-origin:left center;transform:scaleX(0)}
-.pass-welcome-sheet.open .pass-welcome-progress i{animation:passWelcomeProgress 1.75s linear forwards}
-@keyframes passWelcomeFloat{50%{transform:translateY(-6px) rotate(2deg)}}
-@keyframes passWelcomeProgress{to{transform:scaleX(1)}}
-@media(max-width:560px){
-  .pass-welcome-card{min-height:min(560px,76dvh);padding:30px 22px 26px;border-radius:32px}
-  .pass-welcome-seal{width:108px;height:108px;margin:24px 0 22px}
-  .pass-welcome-title{font-size:clamp(34px,11vw,52px)}
-}
-@media(prefers-reduced-motion:reduce){
-  .pass-welcome-card,.pass-welcome-seal,.pass-welcome-progress i{animation:none!important;transition:none!important}
 }
 
 </style>\n</head>
@@ -14288,7 +14195,7 @@ setTimeout(()=>{
 (()=>{
   'use strict';
   const byId=id=>document.getElementById(id);
-  const modalIds=['passWelcomeSheet','passbookSheet','audioAccessorySheet','localLibrarySheet','globalSearchSheet','cityPassSheet'];
+  const modalIds=['passbookSheet','audioAccessorySheet','localLibrarySheet','globalSearchSheet','cityPassSheet'];
   let locked=false,lockY=0;
 
   const syncModalLock=()=>{
@@ -14404,7 +14311,7 @@ setTimeout(()=>{
   audioObserver.observe(document.body,{childList:true,subtree:true});
   window.visualViewport?.addEventListener('resize',pinAudioClose,{passive:true});
 
-  /* R9.3.12 vinyl scrub assist.
+  /* R9.3.11 vinyl scrub assist.
      Any horizontal drag across the record zone seeks predictably on iPhone.
      Capture-phase handling prevents the legacy circular handler from competing. */
   const installVinylAssist=()=>{
