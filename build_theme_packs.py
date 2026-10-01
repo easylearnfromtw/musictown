@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import quote_plus, urljoin
 import requests
+import threading
 from bs4 import BeautifulSoup
 
 ROOT=Path(__file__).resolve().parent
@@ -18,18 +19,38 @@ S.headers.update({"User-Agent":"musicetown-theme-curator/8.7.4"})
 NULLRIGHTS="https://nullrights.com"
 TIMEOUT=45
 
-def get(url,tries=3):
+RATE_LOCK=threading.Lock()
+LAST_REQUEST_AT=0.0
+RATE_BLOCK_UNTIL=0.0
+MIN_REQUEST_INTERVAL=0.22
+
+def get(url,tries=6):
+    global LAST_REQUEST_AT,RATE_BLOCK_UNTIL
     last=None
     for n in range(tries):
+        # Pace all workers together so parallel parsing does not hammer Nullrights.
+        with RATE_LOCK:
+            now=time.monotonic()
+            wait=max(0.0,RATE_BLOCK_UNTIL-now,MIN_REQUEST_INTERVAL-(now-LAST_REQUEST_AT))
+            if wait>0:time.sleep(wait)
+            LAST_REQUEST_AT=time.monotonic()
         try:
             r=S.get(url,timeout=TIMEOUT)
+            if r.status_code==429:
+                raw=r.headers.get("Retry-After","")
+                try:cooldown=float(raw)
+                except Exception:cooldown=min(18.0,3.5*(n+1))
+                cooldown=max(2.5,min(30.0,cooldown))
+                with RATE_LOCK:
+                    RATE_BLOCK_UNTIL=max(RATE_BLOCK_UNTIL,time.monotonic()+cooldown)
+                last=requests.HTTPError(f"429 Too Many Requests: cooling down {cooldown:.1f}s",response=r)
+                continue
             r.raise_for_status()
             return r
         except Exception as e:
             last=e
-            if n+1<tries: time.sleep(1.1*(n+1))
+            if n+1<tries:time.sleep(min(8.0,1.4*(n+1)))
     raise last
-
 def norm(s):
     return re.sub(r"\s+"," ",str(s or "")).strip()
 
@@ -233,7 +254,7 @@ def main():
     ap.add_argument("--bitrate",default="64k")
     ap.add_argument("--max-candidates",type=int,default=420)
     ap.add_argument("--max-per-artist",type=int,default=4)
-    ap.add_argument("--workers",type=int,default=6)
+    ap.add_argument("--workers",type=int,default=3)
     ap.add_argument("--streaming",action="store_true",help="Keep verified remote audio URLs instead of packaging MP3 files into GitHub Pages.")
     args=ap.parse_args()
 
