@@ -7514,6 +7514,115 @@ input[type="search"]{-webkit-appearance:none;appearance:none}
 .passbook-empty{padding:62px 24px 70px;text-align:center;color:rgba(41,70,93,.45);font:600 10px/1.7 var(--serif)}
 @media(max-width:700px){.passbook-head{padding:17px 16px 8px}.passbook-meta{padding-inline:16px}.passbook-card{padding:17px;min-height:360px}.passbook-card-top{grid-template-columns:58px minmax(0,1fr) auto}.passbook-seal{width:58px;height:58px;border-radius:17px}.passbook-ticket-body{grid-template-columns:1fr 1fr}.theme-shelf-head-actions{gap:5px}.passbook-trigger{padding-inline:7px}}
 
+
+/* ================= musicetown R9.3 · mobile UX / theme atlas ================= */
+.theme-group-tabs{display:none!important}
+.theme-shelf{
+  bottom:max(10px,env(safe-area-inset-bottom,0px))!important;
+  max-height:clamp(270px,38dvh,430px);
+  overflow:hidden!important;
+  padding:11px 11px 10px!important;
+}
+.theme-shelf-head{position:sticky;top:0;z-index:5;padding:0 5px 9px!important;background:linear-gradient(180deg,rgba(248,251,253,.90),rgba(248,251,253,.64) 72%,transparent)}
+.theme-group-items{
+  display:block!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  max-height:calc(clamp(270px,38dvh,430px) - 58px);
+  padding:0 2px 10px!important;
+  scroll-snap-type:none!important;
+  overscroll-behavior:contain;
+  scrollbar-width:none;
+}
+.theme-group-items::-webkit-scrollbar{display:none}
+.theme-atlas-row{padding:8px 2px 10px;border-top:1px solid rgba(41,61,81,.055)}
+.theme-atlas-row:first-child{border-top:0;padding-top:2px}
+.theme-atlas-row-head{display:flex;align-items:center;justify-content:space-between;padding:0 3px 7px}
+.theme-atlas-row-head button{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  border:0;background:transparent;color:var(--genre-ink);padding:0;text-align:left;cursor:pointer
+}
+.theme-atlas-row-head b{font:760 6.5px/1 var(--grotesk);letter-spacing:.13em}
+.theme-atlas-row-head span{font:700 5px/1 var(--grotesk);letter-spacing:.10em;color:rgba(41,61,81,.34);white-space:nowrap}
+.theme-atlas-row.active .theme-atlas-row-head b{color:var(--genre-accent)}
+.theme-atlas-track{display:flex;gap:9px;overflow-x:auto;padding:1px 2px 4px;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.theme-atlas-track::-webkit-scrollbar{display:none}
+.theme-shelf-item{min-width:148px!important;height:48px!important;border-radius:15px!important}
+body:not(.detail-open) #scene{
+  inset:65px 0 clamp(285px,40dvh,445px) 0!important;
+  height:auto!important;
+}
+
+/* library now mirrors search in the top-left instead of covering tracks/player */
+.library-fab{
+  left:14px!important;right:auto!important;
+  top:calc(12px + env(safe-area-inset-top,0px))!important;
+  bottom:auto!important;z-index:540!important;height:40px!important;
+  padding:0 13px 0 7px!important;
+}
+.library-fab span{width:29px!important;height:29px!important}
+
+/* archive controls always occupy their own rows; no translucent overlap with tracks */
+.music-detail .music-panel>.library-tools{
+  display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;
+  margin:18px 0 15px!important;position:relative!important;z-index:3!important;
+}
+.music-detail .music-panel>.library-tools>.library-search{
+  grid-column:1/-1!important;min-height:48px!important;margin:0!important;
+}
+.music-detail .music-panel>.library-tools>.lib-pill{min-height:46px!important;margin:0!important}
+#trackList{display:grid!important;gap:10px!important;padding-top:2px!important;position:relative;z-index:1}
+#trackList .track-row{margin:0!important;min-height:66px}
+
+/* output sheet close button: always top-right inside the card on iOS */
+.audio-accessory-card{position:relative!important}
+.audio-accessory-close{
+  position:absolute!important;left:auto!important;right:14px!important;
+  top:14px!important;bottom:auto!important;margin:0!important;
+  transform:none!important;translate:none!important;z-index:90!important;
+}
+
+/* vinyl is an intentional control surface; touch never gets mistaken for page scroll */
+.vinyl-wrap,.vinyl{touch-action:none!important;overscroll-behavior:contain!important}
+.vinyl{cursor:grab}
+.vinyl.dragging{cursor:grabbing;transform:scale(1.018);filter:brightness(1.025)}
+.passbook-actions{flex-wrap:wrap}
+.passbook-actions [data-passbook-remove]{color:#865a58}
+
+@media(max-width:700px){
+  .theme-shelf{
+    left:8px!important;right:8px!important;width:auto!important;translate:0 0!important;
+    max-height:42dvh!important;border-radius:23px!important;
+  }
+  .theme-group-items{max-height:calc(42dvh - 58px)!important}
+  body:not(.detail-open) #scene{inset:62px 0 calc(42dvh + 20px) 0!important}
+  .theme-shelf-item{min-width:132px!important;max-width:176px!important;height:47px!important}
+  .theme-atlas-row{padding-block:7px 9px}
+  .theme-atlas-row-head b{font-size:6px}
+  .theme-atlas-row-head span{font-size:4.7px}
+  .library-fab{
+    left:10px!important;right:auto!important;
+    top:calc(10px + env(safe-area-inset-top,0px))!important;
+    bottom:auto!important;width:42px!important;height:42px!important;
+    padding:0!important;justify-content:center!important;border-radius:50%!important
+  }
+  .library-fab b{
+    position:absolute!important;width:1px!important;height:1px!important;
+    padding:0!important;margin:-1px!important;overflow:hidden!important;
+    clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important
+  }
+  .library-fab span{width:30px!important;height:30px!important}
+  .audio-accessory-close{right:12px!important;top:12px!important;width:38px!important;height:38px!important}
+  .music-detail .music-panel>.library-tools{gap:9px!important;margin-top:16px!important}
+  #trackList .track-row{min-height:70px;padding-block:10px!important}
+  .detail .inner.music-detail{padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))!important}
+}
+@media(max-width:390px){
+  .theme-shelf{max-height:44dvh!important}
+  .theme-group-items{max-height:calc(44dvh - 58px)!important}
+  body:not(.detail-open) #scene{inset:60px 0 calc(44dvh + 18px) 0!important}
+}
+
 </style>
 <script>document.documentElement.classList.add('js-boot');</script>
 
@@ -7683,7 +7792,7 @@ window.addEventListener('error',function(e){
     <div class="global-search-box">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.2"></circle><path d="m15.5 15.5 4.2 4.2"></path></svg>
       <input id="globalSearchInput" type="search" autocomplete="off" placeholder="城市、主題、歌名、歌手…">
-      <span id="globalSearchCount">23 THEMES</span>
+      <span id="globalSearchCount">101 THEMES</span>
     </div>
     <div class="global-search-suggest" id="globalSearchSuggest"></div>
     <div class="global-search-results" id="globalSearchResults"></div>
@@ -7733,12 +7842,12 @@ window.addEventListener('error',function(e){
       <section class="music-panel">
         <div class="panel-headline">
           <h3>TRACK ARCHIVE</h3>
-          <span>50-TRACK POOL</span>
+          <span id="archivePoolLabel">50-TRACK POOL</span>
         </div>
         <div class="library-tools">
       <input class="library-search" id="genreSearch" type="search" placeholder="搜尋這一類音樂…" autocomplete="off">
       <button class="lib-pill" id="shuffleBtn" type="button">RANDOM</button>
-      <button class="lib-pill" id="all50Btn" type="button">1150 PICKS</button>
+      <button class="lib-pill" id="all50Btn" type="button">3300 PICKS</button>
     </div>
     <div class="track-list" id="trackList"></div>
       </section>
@@ -7791,8 +7900,8 @@ window.addEventListener('error',function(e){
 </div>
 
 <footer class="site-foot">
-  <span style="--d:1.42s">musicetown · 23 THEMES · 1150 PICKS</span>
-  <span style="--d:1.5s">2026 | musicetown R9.0.0<i class="sq"></i></span>
+  <span style="--d:1.42s">musicetown · 101 THEMES · 3300 PICKS</span>
+  <span style="--d:1.5s">2026 | musicetown R9.3<i class="sq"></i></span>
 </footer>
 <p class="nogl" id="nogl" hidden>這個瀏覽器無法顯示 3D 收納盒，請用上方導覽列瀏覽各頁。</p>
 
@@ -8609,6 +8718,8 @@ function showDetail(i){
   $('musicKicker').textContent='VOCAL BGM · '+String(i+1).padStart(2,'0');
   $('musicSub').textContent=d.sub;
   $('musicMeta').innerHTML=`<span class="music-chip">${d.bpm}</span><span class="music-chip">${d.key}</span><span class="music-chip">${themeTrackTarget(d)} CURATED TRACKS</span><span class="music-chip">VERIFIED CC0</span>`;
+  if($('archivePoolLabel'))$('archivePoolLabel').textContent=`${themeTrackTarget(d)}-TRACK POOL`;
+  if($('all50Btn'))$('all50Btn').textContent=`${DATA.reduce((n,x)=>n+themeTrackTarget(x),0)} PICKS`;
   $('profileLabel').textContent=`${String(i+1).padStart(2,'0')} / ${d.t}`;
   $('meters').innerHTML=d.meters.map(m=>`
     <div class="meter">
@@ -8977,20 +9088,28 @@ function setHomeGroup(key,{persist=true}={}){
 function renderThemeShelf(){
   const tabs=$('themeGroupTabs'),items=$('themeGroupItems');
   if(!tabs||!items)return;
-  const group=currentHomeGroup();
-  $('themeShelfTitle').textContent=group.label;
-  $('themeShelfCount').textContent=`${String(group.items.length).padStart(2,'0')} THEMES`;
-  tabs.innerHTML=Object.entries(HOME_GROUPS).map(([key,g])=>`
-    <button type="button" class="theme-group-tab ${key===HOME_GROUP_KEY?'active':''}" data-home-group="${key}" role="tab" aria-selected="${key===HOME_GROUP_KEY?'true':'false'}">
-      <span>${g.short}</span>
-    </button>`).join('');
-  items.innerHTML=group.items.map((name,i)=>{
-    const di=DATA.findIndex(d=>d.t===name),d=DATA[di];
-    const count=d?.tracks?.length||0;
-    const status=count?`${count} TRACKS`:`CURATING ${themeTrackTarget(d)}`;
-    return `<button type="button" class="theme-shelf-item" data-theme-index="${di}" data-stage-index="${i}">
-      <em>${String(i+1).padStart(2,'0')}</em><b>${name}</b><span>${status}</span>
-    </button>`;
+  const totalTargets=DATA.reduce((n,d)=>n+themeTrackTarget(d),0);
+  $('themeShelfTitle').textContent='EXPLORE · THEME ATLAS';
+  $('themeShelfCount').textContent=`${DATA.length} THEMES · ${totalTargets} PICKS`;
+  tabs.innerHTML='';
+  items.innerHTML=Object.entries(HOME_GROUPS).map(([key,g])=>{
+    const rows=g.items.map((name,i)=>{
+      const di=DATA.findIndex(d=>d.t===name),d=DATA[di];
+      if(di<0||!d)return '';
+      const count=d.tracks?.length||0;
+      const status=count?`${count} TRACKS`:`CURATING ${themeTrackTarget(d)}`;
+      return `<button type="button" class="theme-shelf-item" data-theme-index="${di}">
+        <em>${String(i+1).padStart(2,'0')}</em><b>${esc(name)}</b><span>${status}</span>
+      </button>`;
+    }).join('');
+    return `<section class="theme-atlas-row ${key===HOME_GROUP_KEY?'active':''}" data-atlas-row="${key}">
+      <div class="theme-atlas-row-head">
+        <button type="button" data-home-group="${key}" aria-label="切換 3D 抽屜到 ${esc(g.label)}">
+          <b>${esc(g.label)}</b><span>${String(g.items.length).padStart(2,'0')} THEMES · TAP TO STAGE</span>
+        </button>
+      </div>
+      <div class="theme-atlas-track">${rows}</div>
+    </section>`;
   }).join('');
 }
 function updateGenreUI(){renderThemeShelf()}
@@ -9083,6 +9202,8 @@ document.addEventListener('DOMContentLoaded',()=>{
     setHomeGroup(b.dataset.homeGroup);
   });
   $('themeGroupItems')?.addEventListener('click',e=>{
+    const g=e.target.closest('[data-home-group]');
+    if(g){setHomeGroup(g.dataset.homeGroup);return}
     const b=e.target.closest('[data-theme-index]');if(!b)return;
     navigateToThemeIndex(b.dataset.themeIndex);
   });
@@ -9354,6 +9475,7 @@ function renderPassbook(){
       <div class="passbook-actions">
         <button type="button" data-passbook-view="${i}">VIEW</button>
         <button type="button" data-passbook-save="${i}">SAVE IMAGE</button>
+        <button type="button" data-passbook-remove="${i}">REMOVE</button>
         <button class="primary" type="button" data-passbook-share="${i}">SHARE</button>
       </div>
     </article>`;
@@ -9395,6 +9517,10 @@ async function savePassbookEntry(entry){
   const url=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=url;a.download=`musicetown-${entry.slug||'pass'}-ticket.png`;document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1800);
+}
+function removePassbookEntry(entry){
+  const items=readPassbook().filter(x=>!(x.slug===entry.slug&&x.ticketNo===entry.ticketNo));
+  writePassbook(items);renderPassbook();
 }
 async function sharePassbookEntry(entry){
   const canvas=await passbookCanvas(entry),blob=await canvasBlob(canvas);if(!blob)return;
@@ -9657,6 +9783,7 @@ async function buildCityPassCanvas(){
   return c;
 }
 async function saveCityPassTicket(){
+  collectActivePass();
   const canvas=await buildCityPassCanvas();if(!canvas)return;
   const slug=cityPassActive?.config?.slug||'city-pass',fileName=`musicetown-${slug}-city-pass.png`;
   canvas.toBlob(async blob=>{
@@ -9695,11 +9822,13 @@ document.addEventListener('DOMContentLoaded',()=>{
     const view=e.target.closest('[data-passbook-view]');
     const save=e.target.closest('[data-passbook-save]');
     const share=e.target.closest('[data-passbook-share]');
-    const target=view||save||share;if(!target)return;
-    const i=Number(target.dataset.passbookView??target.dataset.passbookSave??target.dataset.passbookShare);
+    const remove=e.target.closest('[data-passbook-remove]');
+    const target=view||save||remove||share;if(!target)return;
+    const i=Number(target.dataset.passbookView??target.dataset.passbookSave??target.dataset.passbookRemove??target.dataset.passbookShare);
     const entry=readPassbook()[i];if(!entry)return;
     if(view)activateSavedPass(entry,{open:true});
     else if(save)await savePassbookEntry(entry);
+    else if(remove)removePassbookEntry(entry);
     else if(share)await sharePassbookEntry(entry);
   });
   $('cityPassClose')?.addEventListener('click',closeCityPass);
@@ -11540,15 +11669,12 @@ function wireVinylTransport(audio,t){
   vinyl.style.setProperty('--vinyl',c.hex);
   vinyl.dataset.dark=c.dark?'true':'false';
   vinyl.dataset.material=c.material||'solid';
-  vinyl.setAttribute(
-    'aria-label',
-    `${c.name} 彩膠唱片。播放時跟隨歌曲旋轉；暫停時停止；拖曳可真正快轉或倒轉。`
-  );
+  vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。按住唱片即可平滑快轉或倒轉。`);
 
-  let vinylStartX=0;
-  let vinylStartY=0;
-  let vinylTouchIntent=null;
   let dragPointerId=null;
+  let pendingTime=null;
+  let scratchRAF=0;
+  const SCRUB_SECONDS_PER_TURN=24;
 
   const freezeAtAudioTime=()=>{
     stopVinylRAF();
@@ -11557,151 +11683,78 @@ function wireVinylTransport(audio,t){
     paintVinylFromAudio(audio);
   };
 
-  const beginScratch=e=>{
-    vinylTouchIntent='scratch';
+  const paintScratch=()=>{
+    scratchRAF=0;
+    if(pendingTime==null)return;
+    const target=pendingTime;pendingTime=null;
+    if(!setVinylAudioTime(audio,target))return;
+    vinylVisualAngle=((audio.currentTime||0)/VINYL_SECONDS_PER_TURN)*360;
+    rotor.style.setProperty('--record-angle',`${vinylVisualAngle}deg`);
+    if(seek)seek.value=String(audio.currentTime||0);
+    const cur=$('deckCurrent');if(cur)cur.textContent=formatClock(audio.currentTime||0);
+    updateGlassUI();
+    showSeekFeedback($('deckSeekFeedback'),(audio.currentTime||0)-(vinyl.__scrubStartTime||0));
+  };
+
+  const begin=e=>{
+    if(vinyl.closest('.musicetown-deck')?.classList.contains('fallback-mode'))return;
+    if(e.pointerType==='mouse'&&e.button!==0)return;
+    if(e.cancelable)e.preventDefault();
+    vinylDragging=true;
     dragPointerId=e.pointerId;
     vinyl.classList.add('dragging');
-    vinyl.setPointerCapture?.(e.pointerId);
-
+    try{vinyl.setPointerCapture?.(e.pointerId)}catch(_){}
     vinylWasPlaying=!audio.paused;
     audio.pause();
     freezeAtAudioTime();
     vinyl.__scrubStartTime=audio.currentTime||0;
-
     vinylLastPointerAngle=pointerAngle(vinyl,e);
+    pendingTime=audio.currentTime||0;
     startVinylScrubSound();
   };
 
-  const begin=e=>{
-    // No fake control in remote/source-page fallback mode.
-    if(vinyl.closest('.musicetown-deck')?.classList.contains('fallback-mode'))return;
-
-    vinylStartX=e.clientX;
-    vinylStartY=e.clientY;
-    vinylTouchIntent=e.pointerType==='mouse'?'scratch':null;
-    vinylDragging=true;
-    vinylWasPlaying=!audio.paused;
-    vinylLastPointerAngle=pointerAngle(vinyl,e);
-
-    if(e.pointerType==='mouse'){
-      e.preventDefault();
-      beginScratch(e);
-    }
-  };
-
   const move=e=>{
-    if(!vinylDragging)return;
-
-    if(e.pointerType!=='mouse' && vinylTouchIntent==null){
-      const dx=e.clientX-vinylStartX;
-      const dy=e.clientY-vinylStartY;
-
-      if(Math.hypot(dx,dy)<8)return;
-
-      // Vertical movement stays page scrolling.
-      if(Math.abs(dy)>Math.abs(dx)*1.15){
-        vinylTouchIntent='scroll';
-        vinylDragging=false;
-        return;
-      }
-
-      beginScratch(e);
-    }
-
-    if(vinylTouchIntent==='scroll')return;
-    if(vinylTouchIntent!=='scratch')return;
-
+    if(!vinylDragging||dragPointerId!==e.pointerId)return;
     if(e.cancelable)e.preventDefault();
-
     const nextAngle=pointerAngle(vinyl,e);
     const delta=normalizeDelta(nextAngle-vinylLastPointerAngle);
     vinylLastPointerAngle=nextAngle;
-
-    // Screen coordinates make positive angular movement clockwise.
-    // Clockwise => forward, counter-clockwise => rewind.
-    const secDelta=(delta/360)*VINYL_SECONDS_PER_TURN;
-    const before=Number(audio.currentTime)||0;
-    const changed=setVinylAudioTime(audio,before+secDelta);
-
-    if(changed){
-      vinylVisualAngle=((audio.currentTime||0)/VINYL_SECONDS_PER_TURN)*360;
-      rotor.style.setProperty('--record-angle',`${vinylVisualAngle}deg`);
-
-      if(seek){
-        seek.value=String(audio.currentTime||0);
-      }
-
-      const cur=$('deckCurrent');
-      if(cur)cur.textContent=formatClock(audio.currentTime||0);
-
-      updateGlassUI();
-      showSeekFeedback($('deckSeekFeedback'),(audio.currentTime||0)-(vinyl.__scrubStartTime||0));
-      updateVinylScrubSound(delta);
-    }
+    const base=pendingTime==null?(Number(audio.currentTime)||0):pendingTime;
+    pendingTime=base+(delta/360)*SCRUB_SECONDS_PER_TURN;
+    if(!scratchRAF)scratchRAF=requestAnimationFrame(paintScratch);
+    updateVinylScrubSound(delta);
   };
 
   const end=e=>{
-    if(vinylTouchIntent==='scroll'){
-      vinylTouchIntent=null;
-      vinylDragging=false;
-      stopVinylScrubSound();
-      return;
-    }
-
     if(!vinylDragging)return;
-
+    if(e.cancelable)e.preventDefault();
+    if(scratchRAF){cancelAnimationFrame(scratchRAF);scratchRAF=0}
+    paintScratch();
     vinylDragging=false;
-    vinylTouchIntent=null;
     vinyl.classList.remove('dragging');
-
-    try{
-      if(dragPointerId!=null)vinyl.releasePointerCapture?.(dragPointerId);
-      else vinyl.releasePointerCapture?.(e.pointerId);
-    }catch(_){}
-
+    try{vinyl.releasePointerCapture?.(dragPointerId??e.pointerId)}catch(_){}
     dragPointerId=null;
+    pendingTime=null;
     stopVinylScrubSound();
-
-    // Snap visual state exactly to the real audio position.
     freezeAtAudioTime();
     updateGlassUI();
-
-    // Preserve the state from before dragging.
-    if(vinylWasPlaying){
-      audio.play().catch(()=>{});
-    }else{
-      audio.pause();
-    }
+    if(vinylWasPlaying)audio.play().catch(()=>{});
+    else audio.pause();
   };
 
-  vinyl.addEventListener('pointerdown',begin);
-  vinyl.addEventListener('pointermove',move);
-  vinyl.addEventListener('pointerup',end);
-  vinyl.addEventListener('pointercancel',end);
+  vinyl.addEventListener('pointerdown',begin,{passive:false});
+  vinyl.addEventListener('pointermove',move,{passive:false});
+  vinyl.addEventListener('pointerup',end,{passive:false});
+  vinyl.addEventListener('pointercancel',end,{passive:false});
   wireSmoothSeek(seek,audio,$('deckSeekFeedback'),()=>{paintVinylFromAudio(audio);updateGlassUI();});
 
   audio.addEventListener('loadedmetadata',()=>freezeAtAudioTime());
   audio.addEventListener('durationchange',()=>freezeAtAudioTime());
-  audio.addEventListener('timeupdate',()=>{
-    if(!vinylDragging)paintVinylFromAudio(audio);
-  });
-  audio.addEventListener('seeked',()=>{if(seek?.__mtScrubbing)paintVinylFromAudio(audio);else freezeAtAudioTime();});
-
-  audio.addEventListener('play',()=>{
-    vinyl.classList.remove('remote-spinning');
-    runVinylRAF(audio);
-  });
-
-  audio.addEventListener('pause',()=>{
-    // Pause means the record truly stops at its current groove.
-    freezeAtAudioTime();
-  });
-
-  audio.addEventListener('ended',()=>{
-    freezeAtAudioTime();
-  });
-
-  // Initial state: never spin until audio is actually playing.
+  audio.addEventListener('timeupdate',()=>{if(!vinylDragging)paintVinylFromAudio(audio)});
+  audio.addEventListener('seeked',()=>{if(seek?.__mtScrubbing)paintVinylFromAudio(audio);else if(!vinylDragging)freezeAtAudioTime()});
+  audio.addEventListener('play',()=>{vinyl.classList.remove('remote-spinning');runVinylRAF(audio)});
+  audio.addEventListener('pause',()=>{if(!vinylDragging)freezeAtAudioTime()});
+  audio.addEventListener('ended',()=>freezeAtAudioTime());
   freezeAtAudioTime();
 }
 
@@ -11828,7 +11881,7 @@ function renderTracks(genreIndex, query=''){
         <button class="play-dot" type="button" tabindex="-1" aria-hidden="true">${musicetownIcon('play')}</button>
       </div>
     </div>`}).join('') || (d.installPending
-      ? `<div class="theme-install-pending"><b>50-TRACK CURATION READY TO INSTALL</b><span>執行 R9.0.0 的 1150-track GitHub Action 後，這裡會填入 50 首來源頁明確標示 CC0 1.0 Universal、且通過 ${esc(d.t)} 主題強特徵篩選的曲目。</span></div>`
+      ? `<div class="theme-install-pending"><b>${themeTrackTarget(d)}-TRACK CURATION IN PROGRESS</b><span>R9.3 完成後，這裡會填入 ${themeTrackTarget(d)} 首來源頁明確標示 CC0 1.0 Universal、且通過 ${esc(d.t)} 主題特徵篩選的曲目。</span></div>`
       : `<div class="track-note" style="padding:20px">找不到符合的歌曲</div>`);
 }
 
@@ -12576,7 +12629,8 @@ $('shuffleBtn').addEventListener('click',()=>{
 });
 $('all50Btn').addEventListener('click',()=>{
   const all=DATA.flatMap((d,gi)=>d.tracks.map(t=>({...t,genre:d.t,gi})));
-  const q=prompt('1150 個策展選曲：23 個主題，每個 50 首。輸入歌名 / Artist / 城市 / 類型關鍵字（留白隨機）','');
+  const total=DATA.reduce((n,d)=>n+d.tracks.length,0);
+  const q=prompt(`${total} 個已就緒策展選曲：${DATA.length} 個主題。輸入歌名 / Artist / 城市 / 類型關鍵字（留白隨機）`,'');
   if(q===null) return;
   const key=q.trim().toLowerCase();
   const found=key?all.filter(t=>`${t.title} ${t.artist} ${t.vibe} ${t.genre}`.toLowerCase().includes(key)):all;
