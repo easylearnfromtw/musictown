@@ -1,0 +1,1688 @@
+{
+  "MISTY JIANGNAN": {
+    "kind": "city",
+    "track_count": 25,
+    "slug": "misty-jiangnan",
+    "label": "Misty Jiangnan · 煙雨江南（蘇州）",
+    "sub": "小橋、薄雨、白牆黛瓦與水巷倒影。用詩性 folk、留白、古典與霧感聲響組成蘇州的煙雨江南。",
+    "bpm": "52–118 BPM",
+    "key": "Suzhou · Mist · Poetry · Water Town",
+    "meters": [
+      [
+        "MIST",
+        100
+      ],
+      [
+        "POETRY",
+        98
+      ],
+      [
+        "TRADITION",
+        86
+      ],
+      [
+        "ENERGY",
+        34
+      ]
+    ],
+    "source_themes": [
+      "POEM",
+      "SOLEMN KYOTO",
+      "VANCOUVER",
+      "TRADITIONAL BEIJING",
+      "SPLENDOR SHANGHAI"
+    ],
+    "keywords": [
+      "rain",
+      "mist",
+      "poem",
+      "folk",
+      "acoustic",
+      "traditional",
+      "quiet",
+      "water",
+      "ambient"
+    ],
+    "cityPass": {
+      "kind": "city",
+      "slug": "misty-jiangnan",
+      "code": "SUZ",
+      "country": "CN",
+      "aliases": [
+        "suzhou",
+        "suzhou city"
+      ],
+      "summary": "煙雨、園林、水巷與慢下來的江南聲音。MISTY JIANGNAN 是一張只在蘇州城市範圍內解鎖的收藏票根。"
+    }
+  },
+  "GLACIER ZURICH": {
+    "kind": "city",
+    "track_count": 25,
+    "slug": "glacier-zurich",
+    "label": "Glacier Zurich · 冰川蘇黎世",
+    "sub": "冰川藍、湖面、電車與極簡秩序。以冷調 ambient、indie、jazz 與清透電子組成蘇黎世的低溫城市聲景。",
+    "bpm": "58–126 BPM",
+    "key": "Zurich · Glacier · Minimal · Alpine",
+    "meters": [
+      [
+        "ICE",
+        100
+      ],
+      [
+        "CLARITY",
+        96
+      ],
+      [
+        "MINIMAL",
+        92
+      ],
+      [
+        "ENERGY",
+        45
+      ]
+    ],
+    "source_themes": [
+      "VANCOUVER",
+      "VAPOR LONDON",
+      "LO-FI",
+      "JAZZ",
+      "CHAMPS-ÉLYSÉES"
+    ],
+    "keywords": [
+      "ambient",
+      "minimal",
+      "cold",
+      "rain",
+      "jazz",
+      "electronic",
+      "quiet",
+      "glass",
+      "night"
+    ],
+    "cityPass": {
+      "kind": "city",
+      "slug": "glacier-zurich",
+      "code": "ZRH",
+      "country": "CH",
+      "aliases": [
+        "zurich",
+        "zürich",
+        "zuerich"
+      ],
+      "summary": "湖面、冰川色、電車與乾淨到近乎透明的節奏。GLACIER ZURICH 只在蘇黎世城市範圍內解鎖票根。"
+    }
+  },
+  "SAINT BYZANTIUM": {
+    "kind": "city",
+    "track_count": 25,
+    "slug": "saint-byzantium",
+    "label": "Saint Byzantium · 聖君士坦丁",
+    "sub": "金色穹頂、聖歌、海峽風與古帝國殘響。把 sacred、dark ambient、ceremonial 與東地中海質地疊成拜占庭式聲場。",
+    "bpm": "45–122 BPM",
+    "key": "Constantinople · Sacred · Gold · Empire",
+    "meters": [
+      [
+        "SACRED",
+        100
+      ],
+      [
+        "EMPIRE",
+        98
+      ],
+      [
+        "MYSTERY",
+        94
+      ],
+      [
+        "ENERGY",
+        46
+      ]
+    ],
+    "source_themes": [
+      "SLIGHTLY TIPSY ROME",
+      "MENACING DUBAI",
+      "MIRACULOUS LUOYANG",
+      "TRADITIONAL BEIJING",
+      "CROONER"
+    ],
+    "keywords": [
+      "sacred",
+      "choral",
+      "ambient",
+      "ceremonial",
+      "dark",
+      "ancient",
+      "vocal",
+      "traditional"
+    ],
+    "cityPass": {
+      "kind": "city",
+      "slug": "saint-byzantium",
+      "code": "IST",
+      "country": "TR",
+      "aliases": [
+        "istanbul",
+        "constantinople"
+      ],
+      "summary": "金色穹頂、聖歌與海峽夜風。SAINT BYZANTIUM 的票根只在今日伊斯坦堡城市範圍內解鎖。"
+    }
+  },
+  "NTU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "ntu",
+    "label": "NTU · 國立臺灣大學",
+    "sub": "椰林大道、午後雷雨、總圖深夜與公館街聲。偏 indie、poem、jazz 與低飽和 lo-fi。",
+    "bpm": "62–128 BPM",
+    "key": "Taipei · Rain · Campus Indie",
+    "meters": [
+      [
+        "CAMPUS",
+        100
+      ],
+      [
+        "INDIE",
+        94
+      ],
+      [
+        "RAIN",
+        88
+      ],
+      [
+        "FOCUS",
+        82
+      ]
+    ],
+    "source_themes": [
+      "TAIPEI DREAM",
+      "POEM",
+      "JAZZ",
+      "LO-FI"
+    ],
+    "keywords": [
+      "indie",
+      "rain",
+      "folk",
+      "jazz",
+      "lo-fi",
+      "poem"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "ntu",
+      "code": "NTU",
+      "country": "TW",
+      "fullName": "國立臺灣大學",
+      "summary": "椰林大道與公館雨夜。只有定位在臺大校園範圍內，才能收藏 NTU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Gongguan Campus",
+          "lat": 25.01682,
+          "lon": 121.53846,
+          "radius": 1200
+        }
+      ]
+    }
+  },
+  "NCKU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "ncku",
+    "label": "NCKU · 國立成功大學",
+    "sub": "榕園、老校舍、台南日光與機車穿過校園的風。南方 indie、rock、folk 與夜讀 lo-fi。",
+    "bpm": "70–138 BPM",
+    "key": "Tainan · Banyan · Southern Indie",
+    "meters": [
+      [
+        "SUN",
+        94
+      ],
+      [
+        "CAMPUS",
+        100
+      ],
+      [
+        "ROCK",
+        78
+      ],
+      [
+        "WARMTH",
+        92
+      ]
+    ],
+    "source_themes": [
+      "TROPICAL HAWAII",
+      "ROCK",
+      "POEM",
+      "LO-FI"
+    ],
+    "keywords": [
+      "warm",
+      "folk",
+      "rock",
+      "indie",
+      "summer",
+      "acoustic"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "ncku",
+      "code": "NCKU",
+      "country": "TW",
+      "fullName": "國立成功大學",
+      "summary": "榕園、台南暖風與老校舍。只有定位在成大主要校區群內才能取得 NCKU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Main Campus Cluster",
+          "lat": 22.9987,
+          "lon": 120.2195,
+          "radius": 1350
+        }
+      ]
+    }
+  },
+  "NTHU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "nthu",
+    "label": "NTHU · 國立清華大學",
+    "sub": "清華湖、理工樓群、樹影與深夜研究室。清澈 ambient、focus lo-fi、jazz 與帶速度感的電子。",
+    "bpm": "60–136 BPM",
+    "key": "Hsinchu · Lake · Focus · Research",
+    "meters": [
+      [
+        "FOCUS",
+        100
+      ],
+      [
+        "CLARITY",
+        96
+      ],
+      [
+        "TECH",
+        86
+      ],
+      [
+        "SPACE",
+        88
+      ]
+    ],
+    "source_themes": [
+      "VANCOUVER",
+      "LO-FI",
+      "JAZZ",
+      "RUNNING"
+    ],
+    "keywords": [
+      "ambient",
+      "focus",
+      "minimal",
+      "electronic",
+      "jazz",
+      "night"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "nthu",
+      "code": "NTHU",
+      "country": "TW",
+      "fullName": "國立清華大學",
+      "summary": "清華湖與研究室深夜。定位在清華校園內才能解鎖 NTHU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Main Campus",
+          "lat": 24.7964,
+          "lon": 120.9965,
+          "radius": 950
+        },
+        {
+          "name": "Nanda Campus",
+          "lat": 24.7934,
+          "lon": 120.9653,
+          "radius": 650
+        }
+      ]
+    }
+  },
+  "NYCU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "nycu",
+    "label": "NYCU · 國立陽明交通大學",
+    "sub": "光復校區的科技速度與陽明山麓的醫學夜色，電子、running、city pop 與安靜 lo-fi 交錯。",
+    "bpm": "68–150 BPM",
+    "key": "Tech · Medicine · Transit · Night",
+    "meters": [
+      [
+        "TECH",
+        100
+      ],
+      [
+        "MOTION",
+        94
+      ],
+      [
+        "FOCUS",
+        88
+      ],
+      [
+        "NIGHT",
+        86
+      ]
+    ],
+    "source_themes": [
+      "RUNNING",
+      "OLD TOKYO",
+      "NEW YORK",
+      "LO-FI"
+    ],
+    "keywords": [
+      "electronic",
+      "motion",
+      "night",
+      "synth",
+      "focus",
+      "urban"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "nycu",
+      "code": "NYCU",
+      "country": "TW",
+      "fullName": "國立陽明交通大學",
+      "summary": "科技與醫學的雙校區聲景。定位在光復或陽明校區即可解鎖 NYCU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Guangfu Campus",
+          "lat": 24.7869,
+          "lon": 120.9972,
+          "radius": 900
+        },
+        {
+          "name": "Yangming Campus",
+          "lat": 25.1211,
+          "lon": 121.5135,
+          "radius": 900
+        }
+      ]
+    }
+  },
+  "NCCU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "nccu",
+    "label": "NCCU · 國立政治大學",
+    "sub": "指南山、河岸、傳播院與人文午後。poem、jazz、crooner、台北 indie 偏重文字與敘事。",
+    "bpm": "58–122 BPM",
+    "key": "Wenshan · River · Words · Humanities",
+    "meters": [
+      [
+        "WORDS",
+        100
+      ],
+      [
+        "HUMANITY",
+        96
+      ],
+      [
+        "JAZZ",
+        78
+      ],
+      [
+        "SPACE",
+        85
+      ]
+    ],
+    "source_themes": [
+      "POEM",
+      "JAZZ",
+      "TAIPEI DREAM",
+      "CROONER"
+    ],
+    "keywords": [
+      "poem",
+      "story",
+      "jazz",
+      "folk",
+      "vocal",
+      "indie"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "nccu",
+      "code": "NCCU",
+      "country": "TW",
+      "fullName": "國立政治大學",
+      "summary": "指南山與河岸的人文聲景。定位在政大校園內才能收藏 NCCU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Main Campus",
+          "lat": 24.987,
+          "lon": 121.5755,
+          "radius": 1250
+        }
+      ]
+    }
+  },
+  "FJU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "fju",
+    "label": "FJU · 天主教輔仁大學",
+    "sub": "鐘聲、校園草地、捷運出口與天主教人文氣質。sacred、crooner、poem、jazz 偏暖。",
+    "bpm": "52–120 BPM",
+    "key": "Catholic · Warm · Choral · Campus",
+    "meters": [
+      [
+        "WARMTH",
+        96
+      ],
+      [
+        "CHORAL",
+        88
+      ],
+      [
+        "CAMPUS",
+        100
+      ],
+      [
+        "VOCAL",
+        82
+      ]
+    ],
+    "source_themes": [
+      "SLIGHTLY TIPSY ROME",
+      "CROONER",
+      "POEM",
+      "JAZZ"
+    ],
+    "keywords": [
+      "sacred",
+      "vocal",
+      "jazz",
+      "folk",
+      "choral",
+      "warm"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "fju",
+      "code": "FJU",
+      "country": "TW",
+      "fullName": "天主教輔仁大學",
+      "summary": "鐘聲、草地與新莊午後。定位在輔大校園內才能解鎖 FJU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Main Campus",
+          "lat": 25.0358,
+          "lon": 121.4331,
+          "radius": 1050
+        }
+      ]
+    }
+  },
+  "CMU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "cmu",
+    "label": "CMU · 中國醫藥大學",
+    "sub": "白袍、夜間自習、醫院燈光與水湳新校區的乾淨線條。focus lo-fi、minimal、running 與夜色 jazz。",
+    "bpm": "60–138 BPM",
+    "key": "Medicine · Night Study · Clean · Pulse",
+    "meters": [
+      [
+        "FOCUS",
+        100
+      ],
+      [
+        "MED",
+        100
+      ],
+      [
+        "PULSE",
+        84
+      ],
+      [
+        "NIGHT",
+        88
+      ]
+    ],
+    "source_themes": [
+      "LO-FI",
+      "RUNNING",
+      "TAIPEI DREAM",
+      "JAZZ"
+    ],
+    "keywords": [
+      "focus",
+      "night",
+      "minimal",
+      "jazz",
+      "motion",
+      "lo-fi"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "cmu",
+      "code": "CMU",
+      "country": "TW",
+      "fullName": "中國醫藥大學",
+      "summary": "醫學夜讀與校園節奏。定位在水湳或英才校區範圍內才能解鎖 CMU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Shuinan Campus",
+          "lat": 24.1808,
+          "lon": 120.684,
+          "radius": 950
+        },
+        {
+          "name": "Yingcai Campus / Hospital District",
+          "lat": 24.158,
+          "lon": 120.6801,
+          "radius": 800
+        }
+      ]
+    }
+  },
+  "SCU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "scu",
+    "label": "SCU · 東吳大學",
+    "sub": "外雙溪山色與城中校區的舊台北感，chamber-like jazz、poem、crooner 與 lo-fi。",
+    "bpm": "55–118 BPM",
+    "key": "Waishuangxi · Old Taipei · Chamber",
+    "meters": [
+      [
+        "HISTORY",
+        92
+      ],
+      [
+        "WORDS",
+        90
+      ],
+      [
+        "CAMPUS",
+        100
+      ],
+      [
+        "QUIET",
+        86
+      ]
+    ],
+    "source_themes": [
+      "SPLENDOR SHANGHAI",
+      "POEM",
+      "CROONER",
+      "LO-FI"
+    ],
+    "keywords": [
+      "vintage",
+      "jazz",
+      "poem",
+      "quiet",
+      "folk",
+      "crooner"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "scu",
+      "code": "SCU",
+      "country": "TW",
+      "fullName": "東吳大學",
+      "summary": "外雙溪與城中兩種台北節奏。定位在任一東吳校區皆可解鎖 SCU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Waishuanghsi Campus",
+          "lat": 25.0953,
+          "lon": 121.5456,
+          "radius": 900
+        },
+        {
+          "name": "Downtown Campus",
+          "lat": 25.03835,
+          "lon": 121.50947,
+          "radius": 650
+        }
+      ]
+    }
+  },
+  "THU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "thu",
+    "label": "THU · 東海大學",
+    "sub": "路思義教堂、草坡、樹海與台中午後。dream folk、poem、lo-fi 與暖色 indie。",
+    "bpm": "58–124 BPM",
+    "key": "Taichung · Chapel · Meadow · Dream Folk",
+    "meters": [
+      [
+        "GREEN",
+        100
+      ],
+      [
+        "DREAM",
+        94
+      ],
+      [
+        "FOLK",
+        92
+      ],
+      [
+        "SPACE",
+        91
+      ]
+    ],
+    "source_themes": [
+      "VANCOUVER",
+      "POEM",
+      "LO-FI",
+      "TROPICAL HAWAII"
+    ],
+    "keywords": [
+      "folk",
+      "dream",
+      "acoustic",
+      "warm",
+      "nature",
+      "indie"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "thu",
+      "code": "THU",
+      "country": "TW",
+      "fullName": "東海大學",
+      "summary": "草坡、樹海與路思義教堂。定位在東海大學校園內才能取得 THU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Main Campus",
+          "lat": 24.1795,
+          "lon": 120.5988,
+          "radius": 1650
+        }
+      ]
+    }
+  },
+  "MIT": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "mit",
+    "label": "MIT · Massachusetts Institute of Technology",
+    "sub": "Infinite Corridor、Charles River、機械與程式深夜。高密度 electronic、running、rock 與 urban pulse。",
+    "bpm": "82–160 BPM",
+    "key": "Cambridge · Tech · Systems · Motion",
+    "meters": [
+      [
+        "TECH",
+        100
+      ],
+      [
+        "MOTION",
+        96
+      ],
+      [
+        "IDEAS",
+        94
+      ],
+      [
+        "ENERGY",
+        88
+      ]
+    ],
+    "source_themes": [
+      "RUNNING",
+      "NEW YORK",
+      "OLD TOKYO",
+      "ROCK"
+    ],
+    "keywords": [
+      "electronic",
+      "motion",
+      "rock",
+      "synth",
+      "urban",
+      "energy"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "mit",
+      "code": "MIT",
+      "country": "US",
+      "fullName": "Massachusetts Institute of Technology",
+      "summary": "Charles River 與 Infinite Corridor。定位在 MIT 校園內才能解鎖 MIT CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Cambridge Campus",
+          "lat": 42.3601,
+          "lon": -71.0942,
+          "radius": 1150
+        }
+      ]
+    }
+  },
+  "IMPERIAL COLLEGE LONDON": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "imperial-college-london",
+    "label": "Imperial College London · 倫敦帝國學院",
+    "sub": "South Kensington、Queen's Tower、science after dark。冷調 London、running、jazz 與 focus lo-fi。",
+    "bpm": "66–142 BPM",
+    "key": "London · Science · Glass · Precision",
+    "meters": [
+      [
+        "SCIENCE",
+        100
+      ],
+      [
+        "PRECISION",
+        97
+      ],
+      [
+        "LONDON",
+        94
+      ],
+      [
+        "FOCUS",
+        90
+      ]
+    ],
+    "source_themes": [
+      "VAPOR LONDON",
+      "RUNNING",
+      "JAZZ",
+      "LO-FI"
+    ],
+    "keywords": [
+      "electronic",
+      "jazz",
+      "night",
+      "focus",
+      "rock",
+      "urban"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "imperial-college-london",
+      "code": "ICL",
+      "country": "GB",
+      "fullName": "Imperial College London",
+      "summary": "South Kensington 的科學與城市聲景。定位在主校區內才可收藏 ICL CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "South Kensington Campus",
+          "lat": 51.4988,
+          "lon": -0.1749,
+          "radius": 900
+        }
+      ]
+    }
+  },
+  "OXFORD": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "oxford",
+    "label": "Oxford · 牛津大學",
+    "sub": "石牆、college courtyard、鐘聲與長篇閱讀。poem、sacred、crooner、jazz 偏古典與文字感。",
+    "bpm": "48–116 BPM",
+    "key": "Oxford · Colleges · Bells · Literature",
+    "meters": [
+      [
+        "HISTORY",
+        100
+      ],
+      [
+        "WORDS",
+        100
+      ],
+      [
+        "RITUAL",
+        88
+      ],
+      [
+        "QUIET",
+        84
+      ]
+    ],
+    "source_themes": [
+      "POEM",
+      "SLIGHTLY TIPSY ROME",
+      "CROONER",
+      "JAZZ"
+    ],
+    "keywords": [
+      "poem",
+      "sacred",
+      "jazz",
+      "folk",
+      "vocal",
+      "classical"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "oxford",
+      "code": "OXF",
+      "country": "GB",
+      "fullName": "University of Oxford",
+      "summary": "牛津不是單一封閉校園，因此以中央大學區較寬 geofence 判斷。人在 Oxford 核心大學區才可解鎖 OXF CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Central Oxford University Area",
+          "lat": 51.7548,
+          "lon": -1.2544,
+          "radius": 2200
+        }
+      ]
+    }
+  },
+  "STANFORD": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "stanford",
+    "label": "Stanford · 史丹佛大學",
+    "sub": "棕櫚大道、紅瓦、矽谷日光與創業速度。psychedelic LA、running、tropical 與 lo-fi 混合。",
+    "bpm": "70–148 BPM",
+    "key": "California · Palm · Startup · Sunset",
+    "meters": [
+      [
+        "SUN",
+        96
+      ],
+      [
+        "IDEAS",
+        100
+      ],
+      [
+        "MOTION",
+        90
+      ],
+      [
+        "DREAM",
+        82
+      ]
+    ],
+    "source_themes": [
+      "PSYCHEDELIC LA",
+      "RUNNING",
+      "TROPICAL HAWAII",
+      "LO-FI"
+    ],
+    "keywords": [
+      "dream",
+      "electronic",
+      "sun",
+      "rock",
+      "indie",
+      "motion"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "stanford",
+      "code": "SU",
+      "country": "US",
+      "fullName": "Stanford University",
+      "summary": "棕櫚大道與矽谷日光。定位在 Stanford 校園範圍內才能取得 CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Stanford Campus",
+          "lat": 37.4275,
+          "lon": -122.1697,
+          "radius": 2200
+        }
+      ]
+    }
+  },
+  "HARVARD": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "harvard",
+    "label": "Harvard · 哈佛大學",
+    "sub": "Harvard Yard、紅磚、Cambridge 深秋與學術傳統。jazz、crooner、poem 與 New York-adjacent urban classic。",
+    "bpm": "55–126 BPM",
+    "key": "Cambridge · Brick · Tradition · Autumn",
+    "meters": [
+      [
+        "TRADITION",
+        100
+      ],
+      [
+        "WORDS",
+        94
+      ],
+      [
+        "JAZZ",
+        88
+      ],
+      [
+        "AUTUMN",
+        92
+      ]
+    ],
+    "source_themes": [
+      "NEW YORK",
+      "CROONER",
+      "JAZZ",
+      "POEM"
+    ],
+    "keywords": [
+      "jazz",
+      "poem",
+      "vocal",
+      "vintage",
+      "folk",
+      "urban"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "harvard",
+      "code": "HAR",
+      "country": "US",
+      "fullName": "Harvard University",
+      "summary": "Harvard Yard 與 Cambridge 核心校區。定位在主要校園區內才能解鎖 HARVARD CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Cambridge Campus",
+          "lat": 42.377,
+          "lon": -71.1167,
+          "radius": 1450
+        },
+        {
+          "name": "Allston Campus",
+          "lat": 42.3636,
+          "lon": -71.1266,
+          "radius": 950
+        }
+      ]
+    }
+  },
+  "CAMBRIDGE": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "cambridge",
+    "label": "Cambridge · 再別康橋",
+    "sub": "River Cam、石橋、草地與徐志摩式離別感。poem、folk、sacred、jazz 走極度文學與留白。",
+    "bpm": "48–112 BPM",
+    "key": "River Cam · Poetry · Colleges · Farewell",
+    "meters": [
+      [
+        "POETRY",
+        100
+      ],
+      [
+        "RIVER",
+        96
+      ],
+      [
+        "HISTORY",
+        94
+      ],
+      [
+        "SPACE",
+        100
+      ]
+    ],
+    "source_themes": [
+      "POEM",
+      "VANCOUVER",
+      "SLIGHTLY TIPSY ROME",
+      "JAZZ"
+    ],
+    "keywords": [
+      "poem",
+      "folk",
+      "quiet",
+      "sacred",
+      "jazz",
+      "ambient"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "cambridge",
+      "code": "CAM",
+      "country": "GB",
+      "fullName": "University of Cambridge",
+      "summary": "River Cam 與分散在城市中的 colleges。定位在 Cambridge 大學核心區才能解鎖 CAM CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Central Cambridge University Area",
+          "lat": 52.2043,
+          "lon": 0.1149,
+          "radius": 2200
+        }
+      ]
+    }
+  },
+  "HKU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "hku",
+    "label": "HKU · 香港大學",
+    "sub": "薄扶林山坡、百年本部、港島密度與海風。Hong Kong neon、London、New York、lo-fi 交疊。",
+    "bpm": "68–146 BPM",
+    "key": "Hong Kong · Hill · Heritage · Urban",
+    "meters": [
+      [
+        "URBAN",
+        96
+      ],
+      [
+        "HISTORY",
+        88
+      ],
+      [
+        "CAMPUS",
+        100
+      ],
+      [
+        "NIGHT",
+        90
+      ]
+    ],
+    "source_themes": [
+      "BUSTLING HONG KONG",
+      "VAPOR LONDON",
+      "NEW YORK",
+      "LO-FI"
+    ],
+    "keywords": [
+      "urban",
+      "night",
+      "electronic",
+      "jazz",
+      "indie",
+      "city"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "hku",
+      "code": "HKU",
+      "country": "HK",
+      "fullName": "The University of Hong Kong",
+      "summary": "薄扶林山坡與港島城市密度。定位在香港大學本部校園內才能解鎖 HKU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Main Campus",
+          "lat": 22.283,
+          "lon": 114.1371,
+          "radius": 1000
+        }
+      ]
+    }
+  },
+  "TSINGHUA UNIVERSITY": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "tsinghua-university",
+    "label": "Tsinghua University · 清華大學（中國）",
+    "sub": "清華園、工科密度、北京四季與理性秩序。running、京味、洛陽 grand、lo-fi 形成科技與傳統並置。",
+    "bpm": "64–146 BPM",
+    "key": "Beijing · Engineering · Garden · Precision",
+    "meters": [
+      [
+        "TECH",
+        100
+      ],
+      [
+        "TRADITION",
+        84
+      ],
+      [
+        "FOCUS",
+        94
+      ],
+      [
+        "MOTION",
+        88
+      ]
+    ],
+    "source_themes": [
+      "RUNNING",
+      "TRADITIONAL BEIJING",
+      "MIRACULOUS LUOYANG",
+      "LO-FI"
+    ],
+    "keywords": [
+      "electronic",
+      "traditional",
+      "focus",
+      "ambient",
+      "motion",
+      "chinese"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "tsinghua-university",
+      "code": "THU-CN",
+      "country": "CN",
+      "fullName": "Tsinghua University",
+      "summary": "清華園與北京西北高校區。定位在清華大學主要校園內才能解鎖 CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Main Campus",
+          "lat": 40.0005,
+          "lon": 116.3269,
+          "radius": 1850
+        }
+      ]
+    }
+  },
+  "PEKING UNIVERSITY": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "peking-university",
+    "label": "Peking University · 北京大學",
+    "sub": "未名湖、博雅塔、人文與古典北京。poem、京味、洛陽 grand、jazz 更偏文字與歷史。",
+    "bpm": "50–120 BPM",
+    "key": "Beijing · Weiming Lake · Humanities · History",
+    "meters": [
+      [
+        "WORDS",
+        100
+      ],
+      [
+        "HISTORY",
+        98
+      ],
+      [
+        "TRADITION",
+        92
+      ],
+      [
+        "SPACE",
+        88
+      ]
+    ],
+    "source_themes": [
+      "POEM",
+      "TRADITIONAL BEIJING",
+      "MIRACULOUS LUOYANG",
+      "JAZZ"
+    ],
+    "keywords": [
+      "poem",
+      "traditional",
+      "jazz",
+      "folk",
+      "chinese",
+      "quiet"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "peking-university",
+      "code": "PKU",
+      "country": "CN",
+      "fullName": "Peking University",
+      "summary": "未名湖與博雅塔。定位在北京大學主要校園內才能解鎖 PKU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Main Campus",
+          "lat": 39.9928,
+          "lon": 116.3055,
+          "radius": 1800
+        }
+      ]
+    }
+  },
+  "BERKELEY": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "berkeley",
+    "label": "Berkeley · 加州大學柏克萊分校",
+    "sub": "Sather Tower、Bay Area 霧與反文化殘影。psychedelic、Vancouver indie、rock、lo-fi 偏自由與實驗。",
+    "bpm": "66–144 BPM",
+    "key": "Bay Area · Free Thought · Psych · Fog",
+    "meters": [
+      [
+        "IDEAS",
+        100
+      ],
+      [
+        "PSYCHE",
+        90
+      ],
+      [
+        "FOG",
+        84
+      ],
+      [
+        "ENERGY",
+        76
+      ]
+    ],
+    "source_themes": [
+      "PSYCHEDELIC LA",
+      "VANCOUVER",
+      "ROCK",
+      "LO-FI"
+    ],
+    "keywords": [
+      "psychedelic",
+      "rock",
+      "indie",
+      "ambient",
+      "folk",
+      "experimental"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "berkeley",
+      "code": "UCB",
+      "country": "US",
+      "fullName": "University of California, Berkeley",
+      "summary": "Sather Tower 與 Bay Area 山坡。定位在 Berkeley 主校園內才能解鎖 UCB CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Berkeley Campus",
+          "lat": 37.8719,
+          "lon": -122.2585,
+          "radius": 1600
+        }
+      ]
+    }
+  },
+  "SNU": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "snu",
+    "label": "SNU · 首爾大學",
+    "sub": "冠岳山、超大型校園、首爾速度與冷調秩序。Hong Kong urban、Tokyo synth、running、New York pulse。",
+    "bpm": "74–152 BPM",
+    "key": "Seoul · Gwanak · Urban · Motion",
+    "meters": [
+      [
+        "URBAN",
+        94
+      ],
+      [
+        "TECH",
+        90
+      ],
+      [
+        "MOTION",
+        96
+      ],
+      [
+        "CAMPUS",
+        100
+      ]
+    ],
+    "source_themes": [
+      "BUSTLING HONG KONG",
+      "OLD TOKYO",
+      "RUNNING",
+      "NEW YORK"
+    ],
+    "keywords": [
+      "urban",
+      "electronic",
+      "synth",
+      "motion",
+      "night",
+      "pop"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "snu",
+      "code": "SNU",
+      "country": "KR",
+      "fullName": "Seoul National University",
+      "summary": "冠岳山腳的大型校園聲景。定位在首爾大學冠岳校區內才能解鎖 SNU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Gwanak Campus",
+          "lat": 37.4599,
+          "lon": 126.9519,
+          "radius": 2300
+        }
+      ]
+    }
+  },
+  "UTOKYO": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "utokyo",
+    "label": "UTokyo · 東京大學",
+    "sub": "本鄉赤門、銀杏、研究室與東京舊城。Old Tokyo、Kyoto solemn、lo-fi、jazz 偏克制與知性。",
+    "bpm": "55–126 BPM",
+    "key": "Tokyo · Hongo · Ginkgo · Research",
+    "meters": [
+      [
+        "RESEARCH",
+        100
+      ],
+      [
+        "TOKYO",
+        92
+      ],
+      [
+        "AUTUMN",
+        90
+      ],
+      [
+        "FOCUS",
+        94
+      ]
+    ],
+    "source_themes": [
+      "OLD TOKYO",
+      "SOLEMN KYOTO",
+      "LO-FI",
+      "JAZZ"
+    ],
+    "keywords": [
+      "retro",
+      "quiet",
+      "jazz",
+      "ambient",
+      "focus",
+      "traditional"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "utokyo",
+      "code": "UT",
+      "country": "JP",
+      "fullName": "The University of Tokyo",
+      "summary": "赤門、銀杏與本鄉研究室。定位在東大本鄉或駒場校區內才能解鎖 UTOKYO CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Hongo Campus",
+          "lat": 35.7126,
+          "lon": 139.761,
+          "radius": 1100
+        },
+        {
+          "name": "Komaba Campus",
+          "lat": 35.6605,
+          "lon": 139.6847,
+          "radius": 900
+        }
+      ]
+    }
+  },
+  "NUS": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "nus",
+    "label": "NUS · 新加坡國立大學",
+    "sub": "Kent Ridge 熱帶綠意、玻璃建築與國際校園速度。tropical、running、New York、lo-fi。",
+    "bpm": "72–148 BPM",
+    "key": "Singapore · Tropical · Global · Future",
+    "meters": [
+      [
+        "GLOBAL",
+        100
+      ],
+      [
+        "TROPICAL",
+        90
+      ],
+      [
+        "TECH",
+        86
+      ],
+      [
+        "MOTION",
+        88
+      ]
+    ],
+    "source_themes": [
+      "TROPICAL HAWAII",
+      "RUNNING",
+      "NEW YORK",
+      "LO-FI"
+    ],
+    "keywords": [
+      "tropical",
+      "electronic",
+      "urban",
+      "indie",
+      "motion",
+      "warm"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "nus",
+      "code": "NUS",
+      "country": "SG",
+      "fullName": "National University of Singapore",
+      "summary": "Kent Ridge 的熱帶綠意與全球校園。定位在 NUS Kent Ridge 範圍內才能解鎖 NUS CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Kent Ridge Campus",
+          "lat": 1.2966,
+          "lon": 103.7764,
+          "radius": 1900
+        }
+      ]
+    }
+  },
+  "KYOTO UNIVERSITY": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "kyoto-university",
+    "label": "Kyoto University · 京都大學",
+    "sub": "吉田山、自由學風、老研究室與京都留白。Solemn Kyoto、poem、lo-fi、traditional 聲景。",
+    "bpm": "50–120 BPM",
+    "key": "Kyoto · Yoshida · Freedom · Quiet",
+    "meters": [
+      [
+        "FREEDOM",
+        100
+      ],
+      [
+        "TRADITION",
+        90
+      ],
+      [
+        "SPACE",
+        96
+      ],
+      [
+        "FOCUS",
+        92
+      ]
+    ],
+    "source_themes": [
+      "SOLEMN KYOTO",
+      "POEM",
+      "LO-FI",
+      "TRADITIONAL BEIJING"
+    ],
+    "keywords": [
+      "traditional",
+      "quiet",
+      "poem",
+      "ambient",
+      "folk",
+      "focus"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "kyoto-university",
+      "code": "KU",
+      "country": "JP",
+      "fullName": "Kyoto University",
+      "summary": "吉田校區與京都東山的學術留白。定位在京都大學吉田校區內才能解鎖 KU CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Yoshida Campus",
+          "lat": 35.0264,
+          "lon": 135.7809,
+          "radius": 1500
+        }
+      ]
+    }
+  },
+  "WASEDA UNIVERSITY": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "waseda-university",
+    "label": "Waseda University · 早稻田大學",
+    "sub": "大隈講堂、學生街、東京青春與密集社團感。Old Tokyo、rock、poem、Hong Kong-like urban pulse。",
+    "bpm": "72–148 BPM",
+    "key": "Tokyo · Youth · Club · Urban",
+    "meters": [
+      [
+        "YOUTH",
+        100
+      ],
+      [
+        "URBAN",
+        92
+      ],
+      [
+        "ENERGY",
+        86
+      ],
+      [
+        "WORDS",
+        78
+      ]
+    ],
+    "source_themes": [
+      "OLD TOKYO",
+      "ROCK",
+      "POEM",
+      "BUSTLING HONG KONG"
+    ],
+    "keywords": [
+      "rock",
+      "urban",
+      "retro",
+      "pop",
+      "indie",
+      "vocal"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "waseda-university",
+      "code": "WSD",
+      "country": "JP",
+      "fullName": "Waseda University",
+      "summary": "大隈講堂與早稻田學生街。定位在早稻田主要校區內才能解鎖 WASEDA CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Waseda Campus",
+          "lat": 35.709,
+          "lon": 139.7195,
+          "radius": 950
+        }
+      ]
+    }
+  },
+  "UCL": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "ucl",
+    "label": "UCL · University College London",
+    "sub": "Bloomsbury、圖書館、倫敦街區與跨學科密度。Vapor London、poem、New York urban、lo-fi。",
+    "bpm": "64–140 BPM",
+    "key": "Bloomsbury · London · Interdisciplinary · Night",
+    "meters": [
+      [
+        "LONDON",
+        100
+      ],
+      [
+        "IDEAS",
+        94
+      ],
+      [
+        "URBAN",
+        88
+      ],
+      [
+        "FOCUS",
+        90
+      ]
+    ],
+    "source_themes": [
+      "VAPOR LONDON",
+      "POEM",
+      "NEW YORK",
+      "LO-FI"
+    ],
+    "keywords": [
+      "urban",
+      "indie",
+      "poem",
+      "electronic",
+      "night",
+      "focus"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "ucl",
+      "code": "UCL",
+      "country": "GB",
+      "fullName": "University College London",
+      "summary": "Bloomsbury 的城市型校園。定位在 UCL 主校區範圍內才能解鎖 UCL CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Bloomsbury Campus",
+          "lat": 51.5246,
+          "lon": -0.134,
+          "radius": 950
+        }
+      ]
+    }
+  },
+  "UCLA": {
+    "kind": "university",
+    "track_count": 25,
+    "slug": "ucla",
+    "label": "UCLA · University of California, Los Angeles",
+    "sub": "Westwood、棕櫚、陽光與影像工業旁的青春。psychedelic LA、tropical、rock、New York-style motion。",
+    "bpm": "74–150 BPM",
+    "key": "Los Angeles · Westwood · Film · Sun",
+    "meters": [
+      [
+        "SUN",
+        100
+      ],
+      [
+        "YOUTH",
+        94
+      ],
+      [
+        "MOTION",
+        88
+      ],
+      [
+        "COLOR",
+        92
+      ]
+    ],
+    "source_themes": [
+      "PSYCHEDELIC LA",
+      "TROPICAL HAWAII",
+      "ROCK",
+      "NEW YORK"
+    ],
+    "keywords": [
+      "psychedelic",
+      "rock",
+      "sun",
+      "urban",
+      "pop",
+      "indie"
+    ],
+    "cityPass": {
+      "kind": "university",
+      "slug": "ucla",
+      "code": "UCLA",
+      "country": "US",
+      "fullName": "University of California, Los Angeles",
+      "summary": "Westwood 與洛杉磯日光。定位在 UCLA 校園內才能解鎖 UCLA CAMPUS PASS。",
+      "geofences": [
+        {
+          "name": "Westwood Campus",
+          "lat": 34.0689,
+          "lon": -118.4452,
+          "radius": 1750
+        }
+      ]
+    }
+  }
+}
