@@ -1,4 +1,4 @@
-name: R9.3 · 101 themes / 3300 placements · Hybrid Deploy
+name: R9.3 FINAL · 101 themes / 3300 placements · Hybrid Deploy
 
 "on":
   workflow_dispatch:
@@ -23,7 +23,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: musicetown-r93-hybrid-deploy
+  group: musicetown-r93-final-release
   cancel-in-progress: true
 
 jobs:
