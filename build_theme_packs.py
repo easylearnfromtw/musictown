@@ -2,6 +2,7 @@
 from __future__ import annotations
 import argparse, json, re, shutil, subprocess, tempfile, time, hashlib, math
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import quote_plus, urljoin
 import requests
@@ -230,8 +231,9 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--per-theme",type=int,default=50)
     ap.add_argument("--bitrate",default="64k")
-    ap.add_argument("--max-candidates",type=int,default=480)
+    ap.add_argument("--max-candidates",type=int,default=220)
     ap.add_argument("--max-per-artist",type=int,default=4)
+    ap.add_argument("--workers",type=int,default=6)
     ap.add_argument("--streaming",action="store_true",help="Keep verified remote audio URLs instead of packaging MP3 files into GitHub Pages.")
     args=ap.parse_args()
 
@@ -273,18 +275,26 @@ def main():
 
         candidates=[]
         seen=set()
-        for url in urls[:args.max_candidates]:
-            if url in hard_sources:continue
+        candidate_urls=[url for url in urls[:args.max_candidates] if url not in hard_sources]
+
+        def load_candidate(url):
             try:
-                t=parse_track(url,p)
+                return url,parse_track(url,p),None
+            except Exception as e:
+                return url,None,e
+
+        with ThreadPoolExecutor(max_workers=max(1,args.workers)) as ex:
+            futures=[ex.submit(load_candidate,url) for url in candidate_urls]
+            for fut in as_completed(futures):
+                url,t,err=fut.result()
+                if err is not None:
+                    print(" skip:",url,str(err)[:100]);continue
                 if not t:continue
                 k=key(t["title"],t["artist"])
                 if k in hard_used or k in seen:continue
                 seen.add(k)
                 score(t,p)
                 candidates.append(t)
-            except Exception as e:
-                print(" skip:",url,str(e)[:100])
 
         candidates.sort(key=lambda t:(-t["_score"],hashlib.sha1((theme+t["source"]).encode()).hexdigest()))
 
