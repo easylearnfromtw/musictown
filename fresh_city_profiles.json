@@ -1,180 +1,428 @@
 {
-  "TAIPEI STYLE": {
-    "slug": "taipei-style",
-    "label": "Taipei Night · Indie / Bedroom / Rain",
+  "TROPICAL HAWAII": {
+    "slug": "tropical-hawaii",
+    "label": "Tropical Hawaii · Island / Surf / Reggae",
     "queries": [
-      "indie vocal",
-      "bedroom pop vocal",
-      "lofi vocal",
-      "folk vocal mellow",
-      "dream pop vocal",
-      "soft pop vocal"
+      "tropical vocal",
+      "island vocal",
+      "reggae vocal",
+      "surf rock vocal",
+      "ukulele vocal",
+      "summer folk vocal"
     ],
     "genres": [
-      "Pop",
       "Folk",
-      "Chill-out",
-      "Experimental Pop"
-    ],
-    "keywords": [
-      "indie",
-      "bedroom",
-      "lofi",
-      "lo-fi",
-      "dream",
-      "soft",
-      "mellow",
-      "rain",
-      "night",
-      "folk",
-      "pop",
-      "chill"
-    ]
-  },
-  "OLD TOKYO": {
-    "slug": "old-tokyo",
-    "label": "Neon Tokyo · Synth / Retro Pop / Disco",
-    "queries": [
-      "synth pop vocal",
-      "retro pop vocal",
-      "disco vocal",
-      "funk pop vocal",
-      "synthwave vocal",
-      "electronic pop vocal"
-    ],
-    "genres": [
       "Pop",
-      "Electronic",
+      "Rock",
       "Funk / Soul"
     ],
     "keywords": [
-      "synth",
-      "retro",
-      "disco",
-      "funk",
-      "pop",
-      "electronic",
-      "night",
-      "vaporwave",
-      "synthwave",
-      "dance"
-    ]
-  },
-  "SPLENDOR SHANGHAI": {
-    "slug": "splendor-shanghai",
-    "label": "Old Shanghai · Jazz / Soul / Ballroom",
-    "queries": [
-      "jazz vocal",
-      "soul vocal",
-      "blues vocal",
-      "swing vocal",
-      "vintage vocal",
-      "lounge vocal"
-    ],
-    "genres": [
-      "Jazz",
-      "Funk / Soul",
-      "Blues"
-    ],
-    "keywords": [
-      "jazz",
-      "soul",
-      "blues",
-      "swing",
-      "vintage",
-      "lounge",
-      "ballroom",
-      "slow",
-      "romantic"
-    ]
-  },
-  "VANCOUVER": {
-    "slug": "vancouver",
-    "label": "Pacific Rain · Folk / Indie / Dreamy",
-    "queries": [
-      "folk vocal",
-      "acoustic vocal",
-      "indie folk vocal",
-      "dreamy vocal",
-      "mellow vocal",
-      "ambient vocal"
-    ],
-    "genres": [
-      "Folk",
-      "Chill-out",
-      "Ambient",
-      "Pop"
-    ],
-    "keywords": [
+      "tropical",
+      "island",
+      "reggae",
+      "surf",
+      "ukulele",
+      "summer",
+      "sun",
+      "beach",
       "folk",
       "acoustic",
-      "dream",
-      "mellow",
-      "ambient",
-      "slow",
-      "relaxing",
-      "indie",
-      "rain",
-      "nature"
-    ]
+      "warm",
+      "groove"
+    ],
+    "required_any": [
+      "tropical",
+      "island",
+      "reggae",
+      "surf",
+      "ukulele",
+      "summer",
+      "beach",
+      "folk",
+      "acoustic"
+    ],
+    "reject": [
+      "industrial",
+      "horror",
+      "dark ambient",
+      "metal"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
   },
-  "LONDON": {
-    "slug": "london",
-    "label": "Soho · Post-Punk / Art Pop / Indie Rock",
+  "BUSTLING HONG KONG": {
+    "slug": "bustling-hong-kong",
+    "label": "Bustling Hong Kong · Neon / Urban / Electronic",
     "queries": [
-      "post punk vocal",
-      "art pop vocal",
-      "indie rock vocal",
-      "new wave vocal",
-      "alternative rock vocal",
-      "experimental pop vocal"
+      "urban electronic vocal",
+      "synth pop vocal",
+      "neon pop vocal",
+      "hip hop vocal",
+      "electronic dance vocal",
+      "night city vocal"
+    ],
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Hip Hop",
+      "Funk / Soul"
+    ],
+    "keywords": [
+      "electronic",
+      "synth",
+      "urban",
+      "hip hop",
+      "dance",
+      "funk",
+      "neon",
+      "night",
+      "city",
+      "pop",
+      "groove",
+      "techno"
+    ],
+    "required_any": [
+      "electronic",
+      "synth",
+      "urban",
+      "hip hop",
+      "dance",
+      "funk",
+      "night",
+      "city",
+      "pop"
+    ],
+    "reject": [
+      "sleep",
+      "meditation",
+      "drone",
+      "sacred"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "SLIGHTLY TIPSY ROME": {
+    "slug": "slightly-tipsy-rome",
+    "label": "Slightly Tipsy Rome · Sacred / Choral / Ancient",
+    "queries": [
+      "choral music",
+      "sacred vocal",
+      "organ music",
+      "hymn vocal",
+      "early music",
+      "classical vocal",
+      "ancient folk"
+    ],
+    "genres": [
+      "Classical",
+      "Folk",
+      "Ambient",
+      "Experimental"
+    ],
+    "keywords": [
+      "choral",
+      "choir",
+      "sacred",
+      "organ",
+      "hymn",
+      "classical",
+      "ancient",
+      "folk",
+      "ceremonial",
+      "church",
+      "vocal",
+      "ambient"
+    ],
+    "required_any": [
+      "choral",
+      "choir",
+      "sacred",
+      "organ",
+      "hymn",
+      "classical",
+      "ancient",
+      "folk",
+      "ceremonial",
+      "ambient"
+    ],
+    "reject": [
+      "trap",
+      "club",
+      "hard techno",
+      "corporate"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "PSYCHEDELIC LA": {
+    "slug": "psychedelic-la",
+    "label": "Psychedelic LA · Hazy / Dream / West Coast",
+    "queries": [
+      "psychedelic rock vocal",
+      "dream pop vocal",
+      "shoegaze vocal",
+      "experimental pop vocal",
+      "hazy indie vocal",
+      "west coast rock vocal"
     ],
     "genres": [
       "Rock",
       "Experimental Pop",
-      "Pop"
+      "Pop",
+      "Ambient"
     ],
     "keywords": [
-      "post-punk",
-      "post punk",
-      "art pop",
+      "psychedelic",
+      "dream",
+      "shoegaze",
+      "experimental",
+      "hazy",
       "indie",
       "rock",
-      "alternative",
-      "new wave",
+      "ambient",
+      "trippy",
+      "garage",
+      "pop",
+      "guitar"
+    ],
+    "required_any": [
+      "psychedelic",
+      "dream",
+      "shoegaze",
       "experimental",
-      "punk"
-    ]
+      "hazy",
+      "indie",
+      "rock",
+      "ambient"
+    ],
+    "reject": [
+      "corporate",
+      "podcast",
+      "game music"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
   },
-  "NEW YORK": {
-    "slug": "new-york",
-    "label": "Downtown · Soul / Funk / Urban Groove",
+  "SOLEMN KYOTO": {
+    "slug": "solemn-kyoto",
+    "label": "Solemn Kyoto · Zen / Traditional / Ceremony",
     "queries": [
-      "soul vocal",
-      "funk vocal",
-      "jazz funk vocal",
-      "urban pop vocal",
-      "hip hop vocal",
-      "rnb vocal"
+      "japanese traditional music",
+      "zen music",
+      "koto music",
+      "shakuhachi music",
+      "taiko music",
+      "meditation folk",
+      "ceremonial ambient"
     ],
     "genres": [
-      "Funk / Soul",
-      "Jazz",
-      "Hip Hop",
-      "Pop"
+      "Folk",
+      "Ambient",
+      "Classical",
+      "Experimental"
     ],
     "keywords": [
-      "soul",
-      "funk",
+      "japanese",
+      "zen",
+      "koto",
+      "shakuhachi",
+      "taiko",
+      "traditional",
+      "folk",
+      "meditation",
+      "ceremonial",
+      "ambient",
+      "flute",
+      "world"
+    ],
+    "required_any": [
+      "japanese",
+      "zen",
+      "koto",
+      "shakuhachi",
+      "taiko",
+      "traditional",
+      "folk",
+      "meditation",
+      "ceremonial",
+      "ambient",
+      "flute",
+      "world"
+    ],
+    "reject": [
+      "club",
+      "trap",
+      "hard rock",
+      "corporate"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "MIRACULOUS LUOYANG": {
+    "slug": "miraculous-luoyang",
+    "label": "Miraculous Luoyang · Imperial / Chinese / Grand",
+    "queries": [
+      "chinese traditional music",
+      "guzheng music",
+      "pipa music",
+      "erhu music",
+      "dizi flute",
+      "ceremonial orchestral",
+      "epic folk"
+    ],
+    "genres": [
+      "Folk",
+      "Classical",
+      "Ambient",
+      "Experimental"
+    ],
+    "keywords": [
+      "chinese",
+      "guzheng",
+      "pipa",
+      "erhu",
+      "dizi",
+      "traditional",
+      "folk",
+      "orchestral",
+      "ceremonial",
+      "epic",
+      "world",
+      "flute"
+    ],
+    "required_any": [
+      "chinese",
+      "guzheng",
+      "pipa",
+      "erhu",
+      "dizi",
+      "traditional",
+      "folk",
+      "orchestral",
+      "ceremonial",
+      "epic",
+      "world",
+      "flute"
+    ],
+    "reject": [
+      "corporate",
+      "trap",
+      "club",
+      "podcast"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "CHAMPS-ÉLYSÉES": {
+    "slug": "champs-elysees",
+    "label": "Champs-Élysées · Fashion / Lounge / Chic House",
+    "queries": [
+      "lounge vocal",
+      "chic house vocal",
+      "nu disco vocal",
+      "chanson vocal",
+      "fashion electronic",
+      "french pop vocal",
+      "jazz lounge vocal"
+    ],
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Jazz",
+      "Funk / Soul"
+    ],
+    "keywords": [
+      "lounge",
+      "house",
+      "disco",
+      "chanson",
       "jazz",
-      "urban",
-      "hip hop",
-      "groove",
-      "r&b",
-      "rnb",
-      "downtown",
-      "city",
-      "pop"
-    ]
+      "fashion",
+      "electronic",
+      "soul",
+      "pop",
+      "chic",
+      "dance",
+      "french"
+    ],
+    "required_any": [
+      "lounge",
+      "house",
+      "disco",
+      "chanson",
+      "jazz",
+      "fashion",
+      "electronic",
+      "soul",
+      "pop",
+      "dance"
+    ],
+    "reject": [
+      "metal",
+      "horror",
+      "industrial noise"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "MENACING DUBAI": {
+    "slug": "menacing-dubai",
+    "label": "Menacing Dubai · Dark Luxury / Desert / Electronic",
+    "queries": [
+      "dark electronic music",
+      "industrial electronic",
+      "tense ambient",
+      "middle eastern electronic",
+      "arabic electronic",
+      "desert ambient",
+      "dark techno"
+    ],
+    "genres": [
+      "Electronic",
+      "Ambient",
+      "Experimental",
+      "Hip Hop"
+    ],
+    "keywords": [
+      "dark",
+      "electronic",
+      "industrial",
+      "tense",
+      "ambient",
+      "middle eastern",
+      "arabic",
+      "desert",
+      "techno",
+      "experimental",
+      "cinematic",
+      "bass"
+    ],
+    "required_any": [
+      "dark",
+      "electronic",
+      "industrial",
+      "ambient",
+      "middle eastern",
+      "arabic",
+      "desert",
+      "techno",
+      "experimental",
+      "cinematic"
+    ],
+    "reject": [
+      "happy acoustic",
+      "children",
+      "corporate"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
   }
 }
