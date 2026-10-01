@@ -359,3 +359,151 @@ html.mt-track-scrolling .music-panel{
     max-height:calc(var(--musicetown-visible-height,100dvh) - var(--mt-safe-top) - var(--mt-safe-bottom) - 8px)!important
   }
 }
+
+
+/* ===== R9.3.13 · compact transport + iPhone overflow hardening ===== */
+html,body{max-width:100%;overflow-x:hidden}
+html.mt-vinyl-page-lock,
+html.mt-vinyl-page-lock body{
+  overscroll-behavior:none!important;
+}
+html.mt-vinyl-page-lock body{
+  touch-action:none!important;
+}
+
+.music-detail,
+.music-detail .inner,
+.music-grid,
+.music-panel,
+#trackList,
+.track-row{
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+.track-row>div:nth-child(2){min-width:0!important}
+.track-name,
+.track-note{
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+.library-tools>*{min-width:0!important;max-width:100%!important}
+.lib-pill{overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+
+@media(max-width:700px){
+  /* Compact persistent transport: disc + previous + play + next only. */
+  #glassTransport.glass-transport{
+    left:50%!important;
+    right:auto!important;
+    inset-inline:auto!important;
+    width:auto!important;
+    min-width:214px!important;
+    max-width:calc(100vw - 24px)!important;
+    bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;
+    transform:translateX(-50%)!important;
+    translate:none!important;
+    display:grid!important;
+    grid-template-columns:38px auto!important;
+    grid-template-areas:"track center"!important;
+    align-items:center!important;
+    gap:7px!important;
+    padding:7px 9px!important;
+    border-radius:999px!important;
+  }
+  #glassTransport .glass-track{
+    grid-area:track!important;
+    display:grid!important;
+    place-items:center!important;
+    width:38px!important;
+    min-width:38px!important;
+  }
+  #glassTransport .glass-disc{
+    width:34px!important;
+    height:34px!important;
+    margin:0!important;
+  }
+  #glassTransport .glass-copy,
+  #glassTransport .glass-sliders,
+  #glassTransport .glass-output,
+  #glassTransport .glass-dislike,
+  #glassTransport .auto-next-toggle{
+    display:none!important;
+  }
+  #glassTransport .glass-center{
+    grid-area:center!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:5px!important;
+  }
+  #glassTransport .glass-btn{
+    width:34px!important;height:34px!important;
+    min-width:34px!important;min-height:34px!important;
+  }
+  #glassTransport .glass-btn.glass-play{
+    width:40px!important;height:40px!important;
+    min-width:40px!important;min-height:40px!important;
+  }
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))!important}
+  .music-detail{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
+  body:has(#glassTransport.show) #trackList{padding-bottom:84px!important}
+
+  /* Screenshot fix: Track Archive stays fully inside viewport. */
+  .music-detail .inner{
+    width:100%!important;
+    padding-left:max(10px,env(safe-area-inset-left,0px))!important;
+    padding-right:max(10px,env(safe-area-inset-right,0px))!important;
+  }
+  .music-panel{width:100%!important;padding:14px!important}
+  .music-detail .music-panel>.library-tools{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+  .music-detail .music-panel>.library-tools>.library-search{
+    grid-column:1/-1!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+  .music-detail .music-panel>.library-tools>.lib-pill{
+    width:100%!important;
+    min-width:0!important;
+    padding-inline:8px!important;
+    font-size:8px!important;
+  }
+  #trackList .track-row{
+    width:100%!important;
+    grid-template-columns:42px minmax(0,1fr) 42px!important;
+    gap:8px!important;
+    padding:9px!important;
+    overflow:hidden!important;
+  }
+  #trackList .track-no{
+    width:40px!important;height:40px!important;
+  }
+  #trackList .track-actions{
+    width:42px!important;
+    min-width:42px!important;
+    justify-content:flex-end!important;
+    gap:0!important;
+  }
+  #trackList .track-actions .cc0-badge,
+  #trackList .track-actions .dislike-btn,
+  #trackList .track-actions .play-dot{
+    display:none!important;
+  }
+  #trackList .favorite-btn{
+    width:38px!important;height:38px!important;
+    min-width:38px!important;
+  }
+  #trackList .track-name{font-size:12.5px!important}
+  #trackList .track-note{font-size:8px!important}
+
+  .vinyl-wrap{
+    touch-action:none!important;
+    overscroll-behavior:none!important;
+  }
+}
