@@ -1,4 +1,287 @@
 {
+  "JAZZ": {
+    "slug": "jazz",
+    "vibe": "Jazz · Midnight · Swing",
+    "queries": [
+      "jazz vocal",
+      "swing vocal",
+      "soul jazz vocal",
+      "blues jazz vocal",
+      "lounge jazz vocal",
+      "bebop vocal"
+    ],
+    "genres": [
+      "Jazz",
+      "Blues",
+      "Funk / Soul"
+    ],
+    "keywords": [
+      "jazz",
+      "swing",
+      "soul",
+      "blues",
+      "lounge",
+      "bebop",
+      "piano",
+      "brass",
+      "sax",
+      "vocal"
+    ],
+    "required_any": [
+      "jazz",
+      "swing",
+      "soul",
+      "blues",
+      "lounge",
+      "bebop"
+    ],
+    "prefer_bpm": [
+      55,
+      150
+    ],
+    "prefer_energy": [
+      20,
+      85
+    ],
+    "reject": [
+      "hard techno",
+      "metal",
+      "corporate"
+    ],
+    "vocal_mode": "preferred",
+    "allow_instrumental": true,
+    "min_strong_matches": 1,
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "CROONER": {
+    "slug": "crooner",
+    "vibe": "Crooner · Velvet · Lounge",
+    "queries": [
+      "crooner vocal",
+      "lounge vocal",
+      "ballad vocal",
+      "classic pop vocal",
+      "soul ballad vocal",
+      "jazz singer"
+    ],
+    "genres": [
+      "Jazz",
+      "Pop",
+      "Funk / Soul",
+      "Blues"
+    ],
+    "keywords": [
+      "crooner",
+      "lounge",
+      "ballad",
+      "classic",
+      "soul",
+      "jazz",
+      "vocal",
+      "romantic",
+      "slow",
+      "singer"
+    ],
+    "required_any": [
+      "crooner",
+      "lounge",
+      "ballad",
+      "classic",
+      "soul",
+      "jazz",
+      "vocal"
+    ],
+    "prefer_bpm": [
+      50,
+      120
+    ],
+    "prefer_energy": [
+      15,
+      65
+    ],
+    "reject": [
+      "hard techno",
+      "metal",
+      "industrial"
+    ],
+    "vocal_mode": "required",
+    "min_strong_matches": 1,
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "ROCK": {
+    "slug": "rock",
+    "vibe": "Rock · Guitar · Raw",
+    "queries": [
+      "rock vocal",
+      "garage rock vocal",
+      "indie rock vocal",
+      "blues rock vocal",
+      "punk rock vocal",
+      "alternative rock vocal"
+    ],
+    "genres": [
+      "Rock",
+      "Punk",
+      "Blues"
+    ],
+    "keywords": [
+      "rock",
+      "garage",
+      "indie",
+      "blues",
+      "punk",
+      "alternative",
+      "guitar",
+      "raw",
+      "band",
+      "drums"
+    ],
+    "required_any": [
+      "rock",
+      "garage",
+      "indie",
+      "blues",
+      "punk",
+      "alternative",
+      "guitar"
+    ],
+    "prefer_bpm": [
+      75,
+      180
+    ],
+    "prefer_energy": [
+      45,
+      100
+    ],
+    "reject": [
+      "meditation",
+      "corporate",
+      "sleep"
+    ],
+    "vocal_mode": "preferred",
+    "min_strong_matches": 1,
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "SPORT": {
+    "slug": "sport",
+    "vibe": "Sport · Motion · Energy",
+    "queries": [
+      "energetic electronic vocal",
+      "workout vocal",
+      "dance rock vocal",
+      "drum bass vocal",
+      "upbeat pop vocal",
+      "high energy vocal"
+    ],
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Rock",
+      "Hip Hop"
+    ],
+    "keywords": [
+      "energetic",
+      "workout",
+      "dance",
+      "drum",
+      "bass",
+      "upbeat",
+      "fast",
+      "electronic",
+      "rock",
+      "hype"
+    ],
+    "required_any": [
+      "energetic",
+      "workout",
+      "dance",
+      "drum",
+      "bass",
+      "upbeat",
+      "fast",
+      "electronic",
+      "rock"
+    ],
+    "prefer_bpm": [
+      125,
+      190
+    ],
+    "prefer_energy": [
+      70,
+      100
+    ],
+    "reject": [
+      "sleep",
+      "meditation",
+      "slow folk"
+    ],
+    "vocal_mode": "preferred",
+    "min_strong_matches": 1,
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "LO-FI": {
+    "slug": "lo-fi",
+    "vibe": "Lo-fi · Bedroom · Quiet",
+    "queries": [
+      "lofi vocal",
+      "lo-fi vocal",
+      "bedroom pop vocal",
+      "chillhop vocal",
+      "mellow indie vocal",
+      "ambient vocal"
+    ],
+    "genres": [
+      "Chill-out",
+      "Pop",
+      "Folk",
+      "Ambient",
+      "Experimental Pop"
+    ],
+    "keywords": [
+      "lofi",
+      "lo-fi",
+      "bedroom",
+      "chill",
+      "mellow",
+      "ambient",
+      "indie",
+      "soft",
+      "quiet",
+      "tape"
+    ],
+    "required_any": [
+      "lofi",
+      "lo-fi",
+      "bedroom",
+      "chill",
+      "mellow",
+      "ambient",
+      "indie",
+      "soft"
+    ],
+    "prefer_bpm": [
+      50,
+      115
+    ],
+    "prefer_energy": [
+      10,
+      55
+    ],
+    "reject": [
+      "hard techno",
+      "metal",
+      "hype"
+    ],
+    "vocal_mode": "preferred",
+    "allow_instrumental": true,
+    "min_strong_matches": 1,
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
   "EMO": {
     "slug": "emo",
     "vibe": "Emo · Alternative · Melancholic",
