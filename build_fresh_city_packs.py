@@ -252,6 +252,25 @@ def main():
                 hard_used.add(track_key(t.get("title"),t.get("artist")))
     used=set(hard_used)
 
+    fallback_drawers={
+      "TROPICAL HAWAII":{"VANCOUVER","LO-FI","SPORT"},
+      "BUSTLING HONG KONG":{"OLD TOKYO","NEW YORK","SPORT"},
+      "SLIGHTLY TIPSY ROME":{"CROONER","JAZZ","SPLENDOR SHANGHAI"},
+      "PSYCHEDELIC LA":{"ROCK","LO-FI","VANCOUVER"},
+      "SOLEMN KYOTO":{"LO-FI","VANCOUVER","JAZZ"},
+      "MIRACULOUS LUOYANG":{"SPLENDOR SHANGHAI","JAZZ","CROONER"},
+      "CHAMPS-ÉLYSÉES":{"CROONER","JAZZ","VAPOR LONDON"},
+      "MENACING DUBAI":{"SPORT","OLD TOKYO","ROCK"},
+      "BARCELONA":{"CROONER","ROCK","SPLENDOR SHANGHAI"},
+      "RUSTY DETROIT":{"ROCK","JAZZ","NEW YORK"},
+      "SYDNEY STREET":{"ROCK","VANCOUVER","NEW YORK"},
+      "TIANJING":{"SPLENDOR SHANGHAI","OLD TOKYO","JAZZ"},
+      "ROTTERDAM":{"VAPOR LONDON","OLD TOKYO","SPORT"},
+      "LAS VEGAS":{"CROONER","NEW YORK","JAZZ"},
+      "FREEZE HOKKAIDO":{"VANCOUVER","LO-FI","OLD TOKYO"},
+      "MEXICO":{"ROCK","CROONER","JAZZ"}
+    }
+
     report={"generatedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"cities":{}}
 
     for city in CITY_NAMES:
@@ -344,18 +363,22 @@ def main():
 
         if len(selected)<args.per_city:
             fallback=[]
+            allowed=fallback_drawers.get(city,set())
             for src in catalog_fallback:
+                if allowed and src.get("_catalogDrawer") not in allowed:continue
                 t=dict(src)
                 k=track_key(t.get("title"),t.get("artist"))
                 if k in selected_keys:continue
+                t["genre"]=t.get("genre") or t.get("_catalogDrawer") or "CC0 Music"
                 try:t["_score"]=score(t,profile)
                 except Exception:continue
+                t["_score"]=round(float(t.get("_score",0))+30,2)
                 fallback.append(t)
             fallback.sort(key=lambda t:(-t.get("_score",0),hashlib.sha1((city+str(t.get("shareId",""))).encode()).hexdigest()))
             for t in fallback:
                 k=track_key(t.get("title"),t.get("artist"))
                 if k in selected_keys:continue
-                t["_curationTier"]="verified-catalog-fallback"
+                t["_curationTier"]="verified-related-drawer-fallback"
                 selected.append(t);selected_keys.add(k);used.add(k)
                 if len(selected)>=args.per_city:break
 
