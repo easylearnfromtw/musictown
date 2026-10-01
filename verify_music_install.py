@@ -11,7 +11,9 @@ if not m:
 data=json.loads(m.group(1))
 
 LIMITED=json.loads((ROOT/"limited_theme_profiles.json").read_text(encoding="utf-8")) if (ROOT/"limited_theme_profiles.json").exists() else {}
-EXPECTED_BASE_DRAWERS=23
+FRESH=json.loads((ROOT/"fresh_city_profiles.json").read_text(encoding="utf-8")) if (ROOT/"fresh_city_profiles.json").exists() else {}
+THEMES=json.loads((ROOT/"theme_profiles.json").read_text(encoding="utf-8")) if (ROOT/"theme_profiles.json").exists() else {}
+EXPECTED_BASE_DRAWERS=5+len(FRESH)+len(THEMES)
 EXPECTED_LIMITED_DRAWERS=len(LIMITED)
 EXPECTED_DRAWERS=EXPECTED_BASE_DRAWERS+EXPECTED_LIMITED_DRAWERS
 EXPECTED_TOTAL=EXPECTED_BASE_DRAWERS*50+sum(int(v.get("track_count",25)) for v in LIMITED.values())
@@ -41,17 +43,19 @@ for d in data:
             bad.append(f"{name}: limited drawer missing profile")
         elif int(p.get("track_count",25))!=target:
             bad.append(f"{name}: targetTracks does not match limited profile")
-        if d.get("limitedKind")=="university":
+        if d.get("limitedKind") in {"university","landmark"}:
             cfg=d.get("cityPass") or {}
             fences=cfg.get("geofences") or []
-            if cfg.get("kind")!="university":
-                bad.append(f"{name}: university drawer missing university cityPass kind")
+            expected_kind=d.get("limitedKind")
+            if cfg.get("kind")!=expected_kind:
+                bad.append(f"{name}: {expected_kind} drawer has wrong cityPass kind")
             if not fences:
-                bad.append(f"{name}: university drawer has no GPS geofence")
+                bad.append(f"{name}: {expected_kind} drawer has no GPS geofence")
+            max_radius=5000 if expected_kind=="university" else 600000
             for i,fence in enumerate(fences,1):
                 try:
                     lat=float(fence["lat"]);lon=float(fence["lon"]);radius=float(fence["radius"])
-                    if not (-90<=lat<=90 and -180<=lon<=180 and 250<=radius<=5000):
+                    if not (-90<=lat<=90 and -180<=lon<=180 and 250<=radius<=max_radius):
                         bad.append(f"{name}: invalid geofence #{i}")
                 except Exception:
                     bad.append(f"{name}: malformed geofence #{i}")
