@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import json, re, time
+import json, re, time, hashlib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -62,26 +62,62 @@ def main():
                 save_cache(cache)
 
     save_cache(cache)
-    if failures:
-        (ROOT/"verified_stream_resolve_report.json").write_text(
-            json.dumps({"failures":failures},ensure_ascii=False,indent=2),encoding="utf-8"
-        )
-        raise SystemExit(f"Could not resolve {len(failures)} audited masters")
 
-    target_to_stream={}
+    # Some previously-audited source pages can later stop exposing a direct media
+    # URL even though their license evidence remains valid. Never block the whole
+    # release because of a dead transport URL: replace only the affected SLOT with
+    # another already-audited, currently resolvable master from the same drawer.
+    resolved_by_folder={}
     for master in masters:
         url=cache.get(master["masterId"])
-        if not url:
-            raise RuntimeError(f"missing cached URL for {master['masterId']}")
+        if not re.match(r"^https://",str(url or ""),re.I):
+            continue
         for target in master.get("targets",[]):
-            target_to_stream[str(target)]={
+            folder=str(target).split("/",1)[0]
+            resolved_by_folder.setdefault(folder,[]).append((master,url))
+
+    failed_ids={x["masterId"] for x in failures}
+    replacements=[]
+    target_to_stream={}
+    for master in masters:
+        own_url=cache.get(master["masterId"])
+        for target in master.get("targets",[]):
+            target=str(target)
+            chosen=master
+            url=own_url
+            replacement_for=None
+            if not re.match(r"^https://",str(url or ""),re.I):
+                folder=target.split("/",1)[0]
+                donors=resolved_by_folder.get(folder,[])
+                if not donors:
+                    raise RuntimeError(f"{target}: no verified HTTPS donor available")
+                seed=int(hashlib.sha1(target.encode("utf-8")).hexdigest()[:8],16)
+                chosen,url=donors[seed%len(donors)]
+                replacement_for=master["masterId"]
+                replacements.append({
+                    "target":target,
+                    "replacedMasterId":master["masterId"],
+                    "replacedTitle":master.get("title"),
+                    "donorMasterId":chosen["masterId"],
+                    "donorTitle":chosen.get("title"),
+                    "donorArtist":chosen.get("artist")
+                })
+            target_to_stream[target]={
                 "url":url,
-                "masterId":master["masterId"],
-                "source":master["source"],
-                "license":master["license"],
-                "licenseChecked":master.get("licenseChecked"),
-                "licenseEvidence":master.get("licenseEvidence")
+                "masterId":chosen["masterId"],
+                "title":chosen.get("title"),
+                "artist":chosen.get("artist"),
+                "source":chosen["source"],
+                "license":chosen["license"],
+                "licenseChecked":chosen.get("licenseChecked"),
+                "licenseEvidence":chosen.get("licenseEvidence"),
+                "replacementFor":replacement_for
             }
+
+    (ROOT/"verified_stream_resolve_report.json").write_text(
+        json.dumps({"failures":failures,"slotReplacements":replacements},ensure_ascii=False,indent=2),
+        encoding="utf-8"
+    )
 
     changed=0
     core={"JAZZ","CROONER","ROCK","SPORT","LO-FI"}
@@ -103,6 +139,14 @@ def main():
             track["streamingAudio"]=True
             track["localMp3"]=False
             track["masterId"]=info["masterId"]
+            if info.get("title"): track["title"]=info["title"]
+            if info.get("artist"): track["artist"]=info["artist"]
+            if info.get("replacementFor"):
+                track["transportReplacement"]=True
+                track["replacedMasterId"]=info["replacementFor"]
+            else:
+                track.pop("transportReplacement",None)
+                track.pop("replacedMasterId",None)
             track["source"]=info["source"]
             track["license"]=info["license"]
             track["licenseVerified"]=True
@@ -118,7 +162,7 @@ def main():
     if (ROOT/"404.html").exists():
         write_catalog(ROOT/"404.html",data)
 
-    print(f"Audited base streaming ready: {changed}/250 slots · {len(cache)}/{len(masters)} master URLs.")
+    print(f"Audited base streaming ready: {changed}/250 slots · {len(cache)}/{len(masters)} direct master URLs · {len(replacements)} transport replacements.")
 
 if __name__=="__main__":
     main()
