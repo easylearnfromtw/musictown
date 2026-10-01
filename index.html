@@ -8080,7 +8080,50 @@ html.mt-passbook-scrolling .passbook-panel{
   .passbook-card{flex-basis:88vw!important}
 }
 </style>
-</head>
+<style id="r937-ux-layer">\n/* musicetown R9.3.7 UX layer */
+:root{--mt-safe-top:max(10px,env(safe-area-inset-top,0px));--mt-safe-bottom:max(10px,env(safe-area-inset-bottom,0px))}
+button,input,[role="button"]{-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,[role="button"]:focus-visible{outline:2px solid var(--genre-accent,#6f8fa8);outline-offset:3px}
+.theme-atlas-row{content-visibility:auto;contain-intrinsic-size:78px}
+.theme-atlas-track{display:flex!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none!important;-webkit-overflow-scrolling:touch!important;scroll-snap-type:x proximity!important;overscroll-behavior-inline:contain!important;padding-inline:4px 20px!important}
+.theme-atlas-track::-webkit-scrollbar{display:none!important}
+.theme-shelf-item{scroll-snap-align:start!important;min-height:48px!important;touch-action:manipulation!important}
+.theme-atlas-row-head button{min-height:30px!important;touch-action:manipulation!important}
+.theme-group-items{-webkit-overflow-scrolling:touch!important;overscroll-behavior:contain!important;scroll-behavior:smooth!important}
+html.mt-atlas-scrolling .theme-shelf{-webkit-backdrop-filter:blur(8px) saturate(104%)!important;backdrop-filter:blur(8px) saturate(104%)!important;box-shadow:0 16px 48px rgba(32,48,68,.12)!important}
+.passbook-panel{padding-bottom:var(--mt-safe-bottom)!important}
+.passbook-carousel{scroll-snap-type:x mandatory!important;scroll-behavior:smooth!important;overscroll-behavior-inline:contain!important}
+.passbook-card{scroll-snap-align:center!important;scroll-snap-stop:always!important}
+.passbook-progress{display:flex;align-items:center;justify-content:center;gap:10px;padding:0 20px 12px;color:rgba(41,70,93,.48);font:760 6px/1 var(--grotesk);letter-spacing:.12em}
+.passbook-progress button{width:36px;height:36px;border-radius:50%;border:1px solid rgba(41,70,93,.08);background:rgba(255,255,255,.68);color:#29465d;display:grid;place-items:center;font:760 13px/1 var(--grotesk);cursor:pointer}
+.passbook-progress b{min-width:72px;text-align:center;color:#29465d;font-size:6.2px}
+.passbook-progress button:disabled{opacity:.26;cursor:default}
+#audioAccessorySheet{padding:var(--mt-safe-top) max(10px,env(safe-area-inset-right,0px)) var(--mt-safe-bottom) max(10px,env(safe-area-inset-left,0px))!important}
+#audioAccessorySheet .audio-accessory-card{position:relative!important;isolation:isolate!important;max-height:calc(var(--musicetown-visible-height,100dvh) - var(--mt-safe-top) - var(--mt-safe-bottom))!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important}
+#audioAccessoryClose{position:sticky!important;float:right!important;top:8px!important;right:8px!important;left:auto!important;bottom:auto!important;margin:0 0 -44px auto!important;width:44px!important;height:44px!important;z-index:1002!important;transform:none!important;translate:none!important}
+.deck-seek,.glass-seek{-webkit-appearance:none!important;appearance:none!important;min-height:34px!important;height:34px!important;background:transparent!important;touch-action:pan-x!important;cursor:pointer!important}
+.deck-seek::-webkit-slider-runnable-track,.glass-seek::-webkit-slider-runnable-track{height:5px;border-radius:999px;background:rgba(47,65,85,.16)}
+.deck-seek::-webkit-slider-thumb,.glass-seek::-webkit-slider-thumb{-webkit-appearance:none!important;appearance:none!important;width:22px;height:22px;border-radius:50%;margin-top:-8.5px;background:var(--genre-accent,#6f8fa8);border:4px solid rgba(255,255,255,.94);box-shadow:0 3px 12px rgba(32,48,68,.20)}
+.deck-seek::-moz-range-track,.glass-seek::-moz-range-track{height:5px;border-radius:999px;background:rgba(47,65,85,.16)}
+.deck-seek::-moz-range-thumb,.glass-seek::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--genre-accent,#6f8fa8);border:4px solid rgba(255,255,255,.94)}
+.vinyl-wrap{touch-action:none!important;overscroll-behavior:contain!important}
+.vinyl-wrap:active .vinyl{filter:brightness(1.045)!important}
+.site-head-r890{padding-top:var(--mt-safe-top)!important}
+#localLibraryFab.head-library,.global-search-trigger{min-width:44px!important;min-height:44px!important}
+.music-detail{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))!important}
+body:has(#glassTransport.show) .music-detail{padding-bottom:calc(190px + env(safe-area-inset-bottom,0px))!important}
+.passbook-sheet,.audio-accessory-sheet,.library-sheet,.global-search-sheet,.city-pass-sheet{overscroll-behavior:contain!important}
+.passbook-panel,.library-panel,.global-search-panel,.audio-accessory-card,.city-pass-ticket{max-width:100vw!important}
+@media(max-width:700px){
+  .theme-shelf{left:8px!important;right:8px!important;width:auto!important;max-height:44dvh!important;border-radius:24px!important}
+  .theme-group-items{max-height:calc(44dvh - 58px)!important}
+  body.theme-atlas-expanded .theme-shelf{max-height:78dvh!important}
+  body.theme-atlas-expanded .theme-group-items{max-height:calc(78dvh - 58px)!important}
+  .theme-atlas-track{gap:9px!important;padding-right:28px!important}
+  .theme-shelf-item{min-width:134px!important;max-width:174px!important}
+  .passbook-progress button{width:40px;height:40px}
+  .vinyl-wrap{min-height:344px!important}
+}\n</style>\n</head>
 <body>
 
 <div id="welcome" class="welcome-active" aria-modal="true" role="dialog" aria-labelledby="welcomeTitle">
@@ -13750,5 +13793,87 @@ setTimeout(()=>{
 })();
 
 </script>
-</body>
+<script id="r937-ux-script">\n(()=>{
+  const byId=id=>document.getElementById(id);
+  const modalIds=['passbookSheet','audioAccessorySheet','localLibrarySheet','globalSearchSheet','cityPassSheet'];
+  let locked=false,lockY=0;
+  const syncModalLock=()=>{
+    const open=modalIds.some(id=>byId(id)?.classList.contains('open'));
+    if(open&&!locked){
+      locked=true;lockY=window.scrollY||0;
+      document.body.dataset.mtLockY=String(lockY);
+      Object.assign(document.body.style,{position:'fixed',top:(-lockY)+'px',left:'0',right:'0',width:'100%'});
+    }else if(!open&&locked){
+      locked=false;
+      const y=Number(document.body.dataset.mtLockY||lockY)||0;
+      ['position','top','left','right','width'].forEach(k=>document.body.style[k]='');
+      delete document.body.dataset.mtLockY;
+      window.scrollTo({top:y,left:0,behavior:'instant'});
+    }
+  };
+  const observer=new MutationObserver(syncModalLock);
+  modalIds.forEach(id=>{const el=byId(id);if(el)observer.observe(el,{attributes:true,attributeFilter:['class']})});
+  syncModalLock();
+
+  const cards=()=>[...document.querySelectorAll('#passbookCarousel .passbook-card')];
+  const currentIndex=()=>{
+    const box=byId('passbookCarousel'),list=cards();
+    if(!box||!list.length)return 0;
+    const center=box.scrollLeft+box.clientWidth/2;
+    let best=0,dist=Infinity;
+    list.forEach((card,i)=>{const d=Math.abs(card.offsetLeft+card.offsetWidth/2-center);if(d<dist){dist=d;best=i}});
+    return best;
+  };
+  const updatePager=()=>{
+    const list=cards(),i=currentIndex(),txt=byId('passbookProgressText');
+    if(txt)txt.textContent=list.length?String(i+1)+' / '+String(list.length):'0 / 0';
+    const prev=document.querySelector('[data-pass-prev]'),next=document.querySelector('[data-pass-next]');
+    if(prev)prev.disabled=!list.length||i===0;
+    if(next)next.disabled=!list.length||i===list.length-1;
+  };
+  const step=dir=>{
+    const list=cards(),i=currentIndex();
+    const target=list[Math.max(0,Math.min(list.length-1,i+dir))];
+    if(target)target.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+  };
+  const ensurePager=()=>{
+    const panel=document.querySelector('#passbookSheet .passbook-panel');
+    if(!panel||byId('passbookProgress'))return;
+    const bar=document.createElement('div');
+    bar.id='passbookProgress';bar.className='passbook-progress';
+    bar.innerHTML='<button type="button" data-pass-prev aria-label="Previous pass">&#8249;</button><b id="passbookProgressText">0 / 0</b><button type="button" data-pass-next aria-label="Next pass">&#8250;</button>';
+    panel.appendChild(bar);
+    bar.querySelector('[data-pass-prev]')?.addEventListener('click',()=>step(-1));
+    bar.querySelector('[data-pass-next]')?.addEventListener('click',()=>step(1));
+  };
+  ensurePager();
+  const carousel=byId('passbookCarousel');
+  if(carousel){
+    let timer=0;
+    carousel.addEventListener('scroll',()=>{clearTimeout(timer);timer=setTimeout(updatePager,60)},{passive:true});
+    new MutationObserver(()=>requestAnimationFrame(updatePager)).observe(carousel,{childList:true});
+  }
+  byId('passbookOpen')?.addEventListener('click',()=>requestAnimationFrame(updatePager));
+  updatePager();
+
+  const transient=(el,cls)=>{
+    if(!el)return;let timer=0;
+    el.addEventListener('scroll',()=>{
+      document.documentElement.classList.add(cls);
+      clearTimeout(timer);timer=setTimeout(()=>document.documentElement.classList.remove(cls),120);
+    },{passive:true});
+  };
+  transient(byId('themeGroupItems'),'mt-atlas-scrolling');
+  transient(byId('passbookCarousel'),'mt-passbook-scrolling');
+
+  const pinClose=()=>{
+    const close=byId('audioAccessoryClose');if(!close)return;
+    close.style.setProperty('top','8px','important');
+    close.style.setProperty('right','8px','important');
+    close.style.setProperty('left','auto','important');
+    close.style.setProperty('transform','none','important');
+  };
+  pinClose();
+  window.visualViewport?.addEventListener('resize',pinClose,{passive:true});
+})();\n</script>\n</body>
 </html>
