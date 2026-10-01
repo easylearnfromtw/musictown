@@ -113,6 +113,8 @@ def parse_track(url, profile):
                 download=u
                 break
 
+    if not download:return None
+
     embed_id=url.rstrip("/").split("/")[-1]
     return {
       "title":title,"artist":artist,"genre":genre or "CC0 Music",
@@ -194,7 +196,8 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--per-city",type=int,default=50)
     ap.add_argument("--bitrate",default="64k")
-    ap.add_argument("--max-candidates",type=int,default=700)
+    ap.add_argument("--max-candidates",type=int,default=420)
+    ap.add_argument("--streaming",action="store_true",help="Keep verified remote audio URLs instead of packaging MP3 files into GitHub Pages.")
     args=ap.parse_args()
 
     index=ROOT/"index.html"
@@ -204,12 +207,18 @@ def main():
     _,_,data=read_catalog(index)
     by_name={d["t"]:d for d in data}
 
-    # Exclude all songs already used by the general 5 categories.
-    used=set()
+    # Protect the 11 already-working drawers from replacement/reuse.
+    legacy_themes={
+      "JAZZ","CROONER","ROCK","SPORT","LO-FI",
+      "TAIPEI DREAM","OLD TOKYO","SPLENDOR SHANGHAI",
+      "VANCOUVER","VAPOR LONDON","NEW YORK"
+    }
+    hard_used=set()
     for d in data:
-        if d["t"] in {"JAZZ","CROONER","ROCK","SPORT","LO-FI"}:
-            for t in d["tracks"]:
-                used.add(track_key(t.get("title"),t.get("artist")))
+        if d["t"] in legacy_themes:
+            for t in d.get("tracks",[]):
+                hard_used.add(track_key(t.get("title"),t.get("artist")))
+    used=set(hard_used)
 
     report={"generatedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"cities":{}}
 
@@ -228,7 +237,7 @@ def main():
                 t=parse_track(url,profile)
                 if not t:continue
                 k=track_key(t["title"],t["artist"])
-                if k in used:continue
+                if k in hard_used:continue
                 t["_score"]=score(t,profile)
                 candidates.append(t)
             except Exception as e:
@@ -239,46 +248,79 @@ def main():
         )
 
         selected=[]
+        selected_keys=set()
+
+        # Pass 1: exact theme matches, unique across newly generated packs.
         for t in candidates:
             k=track_key(t["title"],t["artist"])
             if k in used:continue
             if profile.get("required_any") and not t.get("_strongHits"):continue
             if t.get("_score",0)<0:continue
-            selected.append(t);used.add(k)
+            t["_curationTier"]="exact"
+            selected.append(t);selected_keys.add(k);used.add(k)
             if len(selected)>=args.per_city:break
 
+        # Pass 2: legal/theme-adjacent fallback. It may reuse tracks across NEW
+        # packs, but never reuses anything from the 11 established drawers.
         if len(selected)<args.per_city:
-            raise RuntimeError(f"{city}: only {len(selected)} fresh unique theme-fit CC0 tracks found")
+            fallback_min_matches=int(profile.get("fallback_min_keyword_matches",1))
+            fallback_min_score=float(profile.get("fallback_min_score",-112))
+            for t in candidates:
+                k=track_key(t["title"],t["artist"])
+                if k in selected_keys or k in hard_used:continue
+                matches=t.get("_matches",[])
+                strong=t.get("_strongHits",[])
+                if not strong and len(matches)<fallback_min_matches:continue
+                if t.get("_score",0)<fallback_min_score:continue
+                t["_curationTier"]="adjacent-reuse" if k in used else "adjacent"
+                selected.append(t);selected_keys.add(k);used.add(k)
+                if len(selected)>=args.per_city:break
+
+        if len(selected)<args.per_city:
+            raise RuntimeError(f"{city}: only {len(selected)} legal theme-adjacent CC0 tracks found")
 
         folder=profile["slug"]
         target_dir=ROOT/folder
-        target_dir.mkdir(parents=True,exist_ok=True)
+        if not args.streaming:
+            target_dir.mkdir(parents=True,exist_ok=True)
 
         out_tracks=[]
         for i,t in enumerate(selected,1):
             score_value=t.pop("_score",0)
             matches=t.pop("_matches",[])
             strong_hits=t.pop("_strongHits",[])
+            tier=t.pop("_curationTier","exact")
             t["curationScore"]=score_value
             t["curationMatches"]=matches
             t["strongThemeMatches"]=strong_hits
+            t["curationTier"]=tier
             t["trackNo"]=i
             t["shareId"]=f"{folder}-{i:03d}"
             t["freshCity"]=True
             t["curatedTheme"]=city
             t["vibe"]=f"{profile['label']} · {t['genre']}"
-            t["audioSrc"]=f"{folder}/{i:03d}.mp3"
 
-            print(f"  [{i:02d}/{args.per_city}] {t['artist']} — {t['title']}")
-            cache=convert_to_cache(t,args.bitrate)
-            shutil.copy2(cache,ROOT/t["audioSrc"])
+            print(f"  [{i:02d}/{args.per_city}] {t['artist']} — {t['title']} · {tier}")
+            if args.streaming:
+                t["audioSrc"]=t["download"]
+                t["streamingAudio"]=True
+                t["localMp3"]=False
+            else:
+                t["audioSrc"]=f"{folder}/{i:03d}.mp3"
+                cache=convert_to_cache(t,args.bitrate)
+                shutil.copy2(cache,ROOT/t["audioSrc"])
+                t["localMp3"]=True
             out_tracks.append(t)
 
+        if city not in by_name:
+            raise RuntimeError(f"{city}: profile does not match a MUSIC_DATA drawer")
         by_name[city]["tracks"]=out_tracks
+        by_name[city]["installPending"]=False
         report["cities"][city]=out_tracks
-        (target_dir/"manifest.json").write_text(
-            json.dumps(out_tracks,ensure_ascii=False,indent=2),encoding="utf-8"
-        )
+        if not args.streaming:
+            (target_dir/"manifest.json").write_text(
+                json.dumps(out_tracks,ensure_ascii=False,indent=2),encoding="utf-8"
+            )
 
     final=[by_name[d["t"]] for d in data]
     write_catalog(index,final)
@@ -287,7 +329,8 @@ def main():
     (ROOT/"fresh_city_manifest.json").write_text(
         json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8"
     )
-    print(f"\nFresh city installation complete: {len(CITY_NAMES)} × {args.per_city} tracks.")
+    mode="verified remote streams" if args.streaming else "packaged MP3"
+    print(f"\nFresh city installation complete: {len(CITY_NAMES)} × {args.per_city} tracks · {mode}.")
 
 if __name__=="__main__":
     main()
