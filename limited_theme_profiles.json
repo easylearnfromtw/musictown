@@ -1684,5 +1684,2363 @@
         }
       ]
     }
+  },
+  "TIMES SQUARE · 時代廣場": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "times-square",
+    "label": "Times Square · 時代廣場",
+    "sub": "霓虹巨幕、Broadway 人潮與午夜仍不熄滅的紐約能量。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "NEW YORK",
+      "RUNNING",
+      "JAZZ",
+      "LAS VEGAS"
+    ],
+    "keywords": [
+      "urban",
+      "night",
+      "jazz",
+      "electronic",
+      "dance",
+      "city"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "times-square",
+      "code": "TSQ",
+      "country": "",
+      "fullName": "Times Square · 時代廣場",
+      "summary": "霓虹巨幕、Broadway 人潮與午夜仍不熄滅的紐約能量。",
+      "geofences": [
+        {
+          "name": "Times Square",
+          "lat": 40.758,
+          "lon": -73.9855,
+          "radius": 700
+        }
+      ]
+    }
+  },
+  "TIANANMEN SQUARE · 天安門": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "tiananmen-square",
+    "label": "Tiananmen Square · 天安門",
+    "sub": "軸線、廣場、紀念性尺度與北京的歷史重量。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TRADITIONAL BEIJING",
+      "MIRACULOUS LUOYANG",
+      "TIANJING",
+      "POEM"
+    ],
+    "keywords": [
+      "chinese",
+      "traditional",
+      "ceremonial",
+      "orchestral",
+      "poem"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "tiananmen-square",
+      "code": "TAM",
+      "country": "",
+      "fullName": "Tiananmen Square · 天安門",
+      "summary": "軸線、廣場、紀念性尺度與北京的歷史重量。",
+      "geofences": [
+        {
+          "name": "Tiananmen Square",
+          "lat": 39.9055,
+          "lon": 116.3976,
+          "radius": 1100
+        }
+      ]
+    }
+  },
+  "GREAT WALL · 萬里長城": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "great-wall",
+    "label": "Great Wall · 萬里長城",
+    "sub": "山脊、風、石牆與長距離歷史感。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TRADITIONAL BEIJING",
+      "MIRACULOUS LUOYANG",
+      "POEM",
+      "RUNNING"
+    ],
+    "keywords": [
+      "traditional",
+      "epic",
+      "folk",
+      "wind",
+      "orchestral",
+      "poem"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "great-wall",
+      "code": "WALL",
+      "country": "",
+      "fullName": "Great Wall · 萬里長城",
+      "summary": "山脊、風、石牆與長距離歷史感。",
+      "geofences": [
+        {
+          "name": "Badaling",
+          "lat": 40.3543,
+          "lon": 116.0061,
+          "radius": 2400
+        },
+        {
+          "name": "Mutianyu",
+          "lat": 40.4319,
+          "lon": 116.5704,
+          "radius": 2400
+        }
+      ]
+    }
+  },
+  "THE BUND · 外灘（上海）": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "the-bund",
+    "label": "The Bund · 外灘（上海）",
+    "sub": "黃浦江、Art Deco、老上海與金融天際線交疊。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "SPLENDOR SHANGHAI",
+      "JAZZ",
+      "CROONER",
+      "NEW YORK"
+    ],
+    "keywords": [
+      "jazz",
+      "vintage",
+      "soul",
+      "urban",
+      "night"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "the-bund",
+      "code": "BUND",
+      "country": "",
+      "fullName": "The Bund · 外灘（上海）",
+      "summary": "黃浦江、Art Deco、老上海與金融天際線交疊。",
+      "geofences": [
+        {
+          "name": "The Bund",
+          "lat": 31.24,
+          "lon": 121.4905,
+          "radius": 1500
+        }
+      ]
+    }
+  },
+  "VICTORIA HARBOUR · 維多利亞港（香港）": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "victoria-harbour",
+    "label": "Victoria Harbour · 維多利亞港（香港）",
+    "sub": "海港、天際線、渡輪與高密度霓虹聲景。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "BUSTLING HONG KONG",
+      "NEW YORK",
+      "VAPOR LONDON",
+      "RUNNING"
+    ],
+    "keywords": [
+      "urban",
+      "electronic",
+      "night",
+      "city",
+      "motion"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "victoria-harbour",
+      "code": "VIC",
+      "country": "",
+      "fullName": "Victoria Harbour · 維多利亞港（香港）",
+      "summary": "海港、天際線、渡輪與高密度霓虹聲景。",
+      "geofences": [
+        {
+          "name": "Victoria Harbour",
+          "lat": 22.2938,
+          "lon": 114.1694,
+          "radius": 3200
+        }
+      ]
+    }
+  },
+  "XINYI DISTRICT · 信義計畫區": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "xinyi-district",
+    "label": "Xinyi District · 信義計畫區",
+    "sub": "玻璃高樓、百貨、夜景與台北都會節奏。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TAIPEI DREAM",
+      "NEW YORK",
+      "RUNNING",
+      "CHAMPS-ÉLYSÉES"
+    ],
+    "keywords": [
+      "urban",
+      "night",
+      "electronic",
+      "indie",
+      "city"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "xinyi-district",
+      "code": "XYI",
+      "country": "",
+      "fullName": "Xinyi District · 信義計畫區",
+      "summary": "玻璃高樓、百貨、夜景與台北都會節奏。",
+      "geofences": [
+        {
+          "name": "Xinyi Planning District",
+          "lat": 25.0338,
+          "lon": 121.5645,
+          "radius": 2100
+        }
+      ]
+    }
+  },
+  "BIG BEN · 大笨鐘": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "big-ben",
+    "label": "Big Ben · 大笨鐘",
+    "sub": "Westminster 鐘聲、泰晤士河與倫敦政治核心。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "VAPOR LONDON",
+      "CROONER",
+      "POEM",
+      "JAZZ"
+    ],
+    "keywords": [
+      "london",
+      "vintage",
+      "poem",
+      "jazz",
+      "night"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "big-ben",
+      "code": "BEN",
+      "country": "",
+      "fullName": "Big Ben · 大笨鐘",
+      "summary": "Westminster 鐘聲、泰晤士河與倫敦政治核心。",
+      "geofences": [
+        {
+          "name": "Big Ben",
+          "lat": 51.5007,
+          "lon": -0.1246,
+          "radius": 800
+        }
+      ]
+    }
+  },
+  "TOWER BRIDGE · 倫敦塔橋": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "tower-bridge",
+    "label": "Tower Bridge · 倫敦塔橋",
+    "sub": "鋼鐵、塔樓、泰晤士河與維多利亞工業感。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "VAPOR LONDON",
+      "RUSTY DETROIT",
+      "JAZZ",
+      "RUNNING"
+    ],
+    "keywords": [
+      "industrial",
+      "london",
+      "urban",
+      "electronic",
+      "jazz"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "tower-bridge",
+      "code": "TBR",
+      "country": "",
+      "fullName": "Tower Bridge · 倫敦塔橋",
+      "summary": "鋼鐵、塔樓、泰晤士河與維多利亞工業感。",
+      "geofences": [
+        {
+          "name": "Tower Bridge",
+          "lat": 51.5055,
+          "lon": -0.0754,
+          "radius": 850
+        }
+      ]
+    }
+  },
+  "DANJIANG BRIDGE · 淡江大橋": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "danjiang-bridge",
+    "label": "Danjiang Bridge · 淡江大橋",
+    "sub": "淡水河口、風、橋體與西岸落日。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TAIPEI DREAM",
+      "VANCOUVER",
+      "RUNNING",
+      "POEM"
+    ],
+    "keywords": [
+      "wind",
+      "indie",
+      "ambient",
+      "motion",
+      "poem"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "danjiang-bridge",
+      "code": "DJB",
+      "country": "",
+      "fullName": "Danjiang Bridge · 淡江大橋",
+      "summary": "淡水河口、風、橋體與西岸落日。",
+      "geofences": [
+        {
+          "name": "Danjiang Bridge",
+          "lat": 25.1688,
+          "lon": 121.4198,
+          "radius": 2200
+        }
+      ]
+    }
+  },
+  "SUN MOON LAKE · 日月潭": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "sun-moon-lake",
+    "label": "Sun Moon Lake · 日月潭",
+    "sub": "湖面、山霧、晨光與緩慢呼吸。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "VANCOUVER",
+      "POEM",
+      "LO-FI",
+      "SOLEMN KYOTO"
+    ],
+    "keywords": [
+      "ambient",
+      "quiet",
+      "folk",
+      "nature",
+      "poem"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "sun-moon-lake",
+      "code": "SML",
+      "country": "",
+      "fullName": "Sun Moon Lake · 日月潭",
+      "summary": "湖面、山霧、晨光與緩慢呼吸。",
+      "geofences": [
+        {
+          "name": "Sun Moon Lake",
+          "lat": 23.8659,
+          "lon": 120.9159,
+          "radius": 8000
+        }
+      ]
+    }
+  },
+  "ALISHAN · 阿里山": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "alishan",
+    "label": "Alishan · 阿里山",
+    "sub": "雲海、森林鐵路、日出與高山木質氣息。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "VANCOUVER",
+      "FREEZE HOKKAIDO",
+      "POEM",
+      "LO-FI"
+    ],
+    "keywords": [
+      "nature",
+      "ambient",
+      "folk",
+      "quiet",
+      "mountain"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "alishan",
+      "code": "ALI",
+      "country": "",
+      "fullName": "Alishan · 阿里山",
+      "summary": "雲海、森林鐵路、日出與高山木質氣息。",
+      "geofences": [
+        {
+          "name": "Alishan",
+          "lat": 23.51,
+          "lon": 120.805,
+          "radius": 8000
+        }
+      ]
+    }
+  },
+  "STATUE OF LIBERTY · 自由女神": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "statue-of-liberty",
+    "label": "Statue of Liberty · 自由女神",
+    "sub": "港灣、移民記憶與紐約自由意象。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "NEW YORK",
+      "CROONER",
+      "JAZZ",
+      "POEM"
+    ],
+    "keywords": [
+      "urban",
+      "jazz",
+      "soul",
+      "poem",
+      "vintage"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "statue-of-liberty",
+      "code": "LIB",
+      "country": "",
+      "fullName": "Statue of Liberty · 自由女神",
+      "summary": "港灣、移民記憶與紐約自由意象。",
+      "geofences": [
+        {
+          "name": "Liberty Island",
+          "lat": 40.6892,
+          "lon": -74.0445,
+          "radius": 1200
+        }
+      ]
+    }
+  },
+  "ISTANBUL · 伊斯坦堡": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "istanbul",
+    "label": "Istanbul · 伊斯坦堡",
+    "sub": "海峽、清真寺、拜占庭與鄂圖曼層層重疊。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "SAINT BYZANTIUM",
+      "MENACING DUBAI",
+      "SLIGHTLY TIPSY ROME",
+      "POEM"
+    ],
+    "keywords": [
+      "sacred",
+      "traditional",
+      "ambient",
+      "dark",
+      "folk"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "istanbul",
+      "code": "IST",
+      "country": "",
+      "fullName": "Istanbul · 伊斯坦堡",
+      "summary": "海峽、清真寺、拜占庭與鄂圖曼層層重疊。",
+      "geofences": [
+        {
+          "name": "Historic Istanbul",
+          "lat": 41.0082,
+          "lon": 28.9784,
+          "radius": 5000
+        }
+      ]
+    }
+  },
+  "JERUSALEM · 耶路撒冷": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "jerusalem",
+    "label": "Jerusalem · 耶路撒冷",
+    "sub": "石牆、宗教聲響、古城巷道與高度凝縮的歷史。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "SAINT BYZANTIUM",
+      "SLIGHTLY TIPSY ROME",
+      "POEM",
+      "MENACING DUBAI"
+    ],
+    "keywords": [
+      "sacred",
+      "choral",
+      "traditional",
+      "poem",
+      "ambient"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "jerusalem",
+      "code": "JRS",
+      "country": "",
+      "fullName": "Jerusalem · 耶路撒冷",
+      "summary": "石牆、宗教聲響、古城巷道與高度凝縮的歷史。",
+      "geofences": [
+        {
+          "name": "Old City Jerusalem",
+          "lat": 31.778,
+          "lon": 35.2354,
+          "radius": 4200
+        }
+      ]
+    }
+  },
+  "CHAMPS-ÉLYSÉES LANDMARK · 香榭大道": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "champs-elysees-landmark",
+    "label": "Champs-Élysées · 香榭大道",
+    "sub": "大道、精品櫥窗、夜燈與巴黎式 polished rhythm。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "CHAMPS-ÉLYSÉES",
+      "CROONER",
+      "JAZZ",
+      "LAS VEGAS"
+    ],
+    "keywords": [
+      "lounge",
+      "fashion",
+      "jazz",
+      "house",
+      "night"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "champs-elysees-landmark",
+      "code": "CE",
+      "country": "",
+      "fullName": "Champs-Élysées · 香榭大道",
+      "summary": "大道、精品櫥窗、夜燈與巴黎式 polished rhythm。",
+      "geofences": [
+        {
+          "name": "Champs-Élysées",
+          "lat": 48.8698,
+          "lon": 2.3078,
+          "radius": 1600
+        }
+      ]
+    }
+  },
+  "RIO DE JANEIRO · 巴西里約熱內盧": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "rio-de-janeiro",
+    "label": "Rio de Janeiro · 巴西里約熱內盧",
+    "sub": "山海、海灘、舞動節奏與高飽和城市生命力。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TROPICAL HAWAII",
+      "MEXICO",
+      "RUNNING",
+      "JAZZ"
+    ],
+    "keywords": [
+      "latin",
+      "tropical",
+      "dance",
+      "rhythm",
+      "sun"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "rio-de-janeiro",
+      "code": "RIO",
+      "country": "",
+      "fullName": "Rio de Janeiro · 巴西里約熱內盧",
+      "summary": "山海、海灘、舞動節奏與高飽和城市生命力。",
+      "geofences": [
+        {
+          "name": "Copacabana",
+          "lat": -22.9711,
+          "lon": -43.1822,
+          "radius": 5000
+        },
+        {
+          "name": "Christ the Redeemer",
+          "lat": -22.9519,
+          "lon": -43.2105,
+          "radius": 5000
+        }
+      ]
+    }
+  },
+  "MANNEKEN PIS · 比利時尿尿小童": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "manneken-pis",
+    "label": "Manneken Pis · 比利時尿尿小童",
+    "sub": "布魯塞爾舊城的幽默、小尺度與街角文化。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "CHAMPS-ÉLYSÉES",
+      "POEM",
+      "JAZZ",
+      "CROONER"
+    ],
+    "keywords": [
+      "europe",
+      "jazz",
+      "folk",
+      "playful",
+      "vintage"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "manneken-pis",
+      "code": "BRU",
+      "country": "",
+      "fullName": "Manneken Pis · 比利時尿尿小童",
+      "summary": "布魯塞爾舊城的幽默、小尺度與街角文化。",
+      "geofences": [
+        {
+          "name": "Manneken Pis",
+          "lat": 50.845,
+          "lon": 4.35,
+          "radius": 650
+        }
+      ]
+    }
+  },
+  "SYDNEY OPERA HOUSE · 雪梨歌劇院": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "sydney-opera-house",
+    "label": "Sydney Opera House · 雪梨歌劇院",
+    "sub": "港灣、白色殼體、表演藝術與海風。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "SYDNEY STREET",
+      "TROPICAL HAWAII",
+      "JAZZ",
+      "POEM"
+    ],
+    "keywords": [
+      "coast",
+      "jazz",
+      "art",
+      "ambient",
+      "indie"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "sydney-opera-house",
+      "code": "SOH",
+      "country": "",
+      "fullName": "Sydney Opera House · 雪梨歌劇院",
+      "summary": "港灣、白色殼體、表演藝術與海風。",
+      "geofences": [
+        {
+          "name": "Sydney Opera House",
+          "lat": -33.8568,
+          "lon": 151.2153,
+          "radius": 1100
+        }
+      ]
+    }
+  },
+  "YELLOWSTONE · 黃石公園": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "yellowstone",
+    "label": "Yellowstone · 黃石公園",
+    "sub": "地熱、森林、野生與巨大自然尺度。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "VANCOUVER",
+      "FREEZE HOKKAIDO",
+      "POEM",
+      "LO-FI"
+    ],
+    "keywords": [
+      "nature",
+      "ambient",
+      "folk",
+      "quiet",
+      "wild"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "yellowstone",
+      "code": "YNP",
+      "country": "",
+      "fullName": "Yellowstone · 黃石公園",
+      "summary": "地熱、森林、野生與巨大自然尺度。",
+      "geofences": [
+        {
+          "name": "Yellowstone Center",
+          "lat": 44.6,
+          "lon": -110.5,
+          "radius": 65000
+        }
+      ]
+    }
+  },
+  "SAHARA · 撒哈拉沙漠": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "sahara",
+    "label": "Sahara · 撒哈拉沙漠",
+    "sub": "沙海、乾燥風、極端尺度與低頻空間。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "MENACING DUBAI",
+      "MEXICO",
+      "POEM",
+      "LO-FI"
+    ],
+    "keywords": [
+      "desert",
+      "ambient",
+      "dark",
+      "folk",
+      "wind"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "sahara",
+      "code": "SAH",
+      "country": "",
+      "fullName": "Sahara · 撒哈拉沙漠",
+      "summary": "沙海、乾燥風、極端尺度與低頻空間。",
+      "geofences": [
+        {
+          "name": "Western Sahara",
+          "lat": 25,
+          "lon": -12,
+          "radius": 450000
+        },
+        {
+          "name": "Central Sahara",
+          "lat": 26,
+          "lon": 8,
+          "radius": 500000
+        },
+        {
+          "name": "Eastern Sahara",
+          "lat": 25,
+          "lon": 25,
+          "radius": 480000
+        }
+      ]
+    }
+  },
+  "YELLOW RIVER · 黃河流域": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "yellow-river",
+    "label": "Yellow River · 黃河流域",
+    "sub": "高原、黃土、河灣與北方文明長線記憶。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TIANJING",
+      "MIRACULOUS LUOYANG",
+      "TRADITIONAL BEIJING",
+      "POEM"
+    ],
+    "keywords": [
+      "chinese",
+      "traditional",
+      "folk",
+      "epic",
+      "poem"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "yellow-river",
+      "code": "YLR",
+      "country": "",
+      "fullName": "Yellow River · 黃河流域",
+      "summary": "高原、黃土、河灣與北方文明長線記憶。",
+      "geofences": [
+        {
+          "name": "Lanzhou Reach",
+          "lat": 36.0611,
+          "lon": 103.8343,
+          "radius": 90000
+        },
+        {
+          "name": "Yinchuan Reach",
+          "lat": 38.4872,
+          "lon": 106.2309,
+          "radius": 90000
+        },
+        {
+          "name": "Zhengzhou Reach",
+          "lat": 34.7466,
+          "lon": 113.6254,
+          "radius": 90000
+        },
+        {
+          "name": "Jinan Reach",
+          "lat": 36.6512,
+          "lon": 117.1201,
+          "radius": 90000
+        }
+      ]
+    }
+  },
+  "YANGTZE RIVER · 長江流域": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "yangtze-river",
+    "label": "Yangtze River · 長江流域",
+    "sub": "大江、城市群、濕潤南方與東西向文明軸線。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "SPLENDOR SHANGHAI",
+      "MISTY JIANGNAN",
+      "TIANJING",
+      "POEM"
+    ],
+    "keywords": [
+      "chinese",
+      "river",
+      "folk",
+      "urban",
+      "poem"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "yangtze-river",
+      "code": "YTZ",
+      "country": "",
+      "fullName": "Yangtze River · 長江流域",
+      "summary": "大江、城市群、濕潤南方與東西向文明軸線。",
+      "geofences": [
+        {
+          "name": "Chongqing Reach",
+          "lat": 29.563,
+          "lon": 106.5516,
+          "radius": 110000
+        },
+        {
+          "name": "Wuhan Reach",
+          "lat": 30.5928,
+          "lon": 114.3055,
+          "radius": 110000
+        },
+        {
+          "name": "Nanjing Reach",
+          "lat": 32.0603,
+          "lon": 118.7969,
+          "radius": 100000
+        },
+        {
+          "name": "Shanghai Estuary",
+          "lat": 31.2304,
+          "lon": 121.4737,
+          "radius": 100000
+        }
+      ]
+    }
+  },
+  "MOUNT FUJI · 富士山": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "mount-fuji",
+    "label": "Mount Fuji · 富士山",
+    "sub": "雪頂、湖面、火山尺度與日本象徵性留白。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "FREEZE HOKKAIDO",
+      "SOLEMN KYOTO",
+      "OLD TOKYO",
+      "POEM"
+    ],
+    "keywords": [
+      "japanese",
+      "ambient",
+      "quiet",
+      "traditional",
+      "nature"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "mount-fuji",
+      "code": "FUJI",
+      "country": "",
+      "fullName": "Mount Fuji · 富士山",
+      "summary": "雪頂、湖面、火山尺度與日本象徵性留白。",
+      "geofences": [
+        {
+          "name": "Mount Fuji",
+          "lat": 35.3606,
+          "lon": 138.7274,
+          "radius": 22000
+        }
+      ]
+    }
+  },
+  "GINZA · 銀座": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "ginza",
+    "label": "Ginza · 銀座",
+    "sub": "精品街、霓虹、東京 polished night 與秩序感。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "OLD TOKYO",
+      "CHAMPS-ÉLYSÉES",
+      "RUNNING",
+      "JAZZ"
+    ],
+    "keywords": [
+      "tokyo",
+      "synth",
+      "fashion",
+      "night",
+      "jazz"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "ginza",
+      "code": "GNZ",
+      "country": "",
+      "fullName": "Ginza · 銀座",
+      "summary": "精品街、霓虹、東京 polished night 與秩序感。",
+      "geofences": [
+        {
+          "name": "Ginza",
+          "lat": 35.6717,
+          "lon": 139.765,
+          "radius": 1500
+        }
+      ]
+    }
+  },
+  "OSAKA CASTLE · 大阪城": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "osaka-castle",
+    "label": "Osaka Castle · 大阪城",
+    "sub": "石垣、天守、城市公園與關西歷史層次。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "SOLEMN KYOTO",
+      "OLD TOKYO",
+      "POEM",
+      "ROCK"
+    ],
+    "keywords": [
+      "japanese",
+      "traditional",
+      "rock",
+      "folk",
+      "poem"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "osaka-castle",
+      "code": "OSA",
+      "country": "",
+      "fullName": "Osaka Castle · 大阪城",
+      "summary": "石垣、天守、城市公園與關西歷史層次。",
+      "geofences": [
+        {
+          "name": "Osaka Castle",
+          "lat": 34.6873,
+          "lon": 135.5262,
+          "radius": 1400
+        }
+      ]
+    }
+  },
+  "KETAGALAN BOULEVARD · 凱達格蘭大道": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "ketagalan-boulevard",
+    "label": "Ketagalan Boulevard · 凱達格蘭大道",
+    "sub": "總統府前軸線、台北政治核心與大型公共空間。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TAIPEI DREAM",
+      "RUNNING",
+      "POEM",
+      "JAZZ"
+    ],
+    "keywords": [
+      "taipei",
+      "urban",
+      "poem",
+      "jazz",
+      "motion"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "ketagalan-boulevard",
+      "code": "KTB",
+      "country": "",
+      "fullName": "Ketagalan Boulevard · 凱達格蘭大道",
+      "summary": "總統府前軸線、台北政治核心與大型公共空間。",
+      "geofences": [
+        {
+          "name": "Ketagalan Boulevard",
+          "lat": 25.04,
+          "lon": 121.5151,
+          "radius": 1200
+        }
+      ]
+    }
+  },
+  "ST. PETER'S BASILICA · 聖彼得大教堂": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "st-peters-basilica",
+    "label": "St. Peter's Basilica · 聖彼得大教堂",
+    "sub": "穹頂、聖樂、巨大中殿與天主教儀式感。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "SLIGHTLY TIPSY ROME",
+      "SAINT BYZANTIUM",
+      "CROONER",
+      "POEM"
+    ],
+    "keywords": [
+      "sacred",
+      "choral",
+      "classical",
+      "ambient",
+      "vocal"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "st-peters-basilica",
+      "code": "SPB",
+      "country": "",
+      "fullName": "St. Peter's Basilica · 聖彼得大教堂",
+      "summary": "穹頂、聖樂、巨大中殿與天主教儀式感。",
+      "geofences": [
+        {
+          "name": "St. Peter's Basilica",
+          "lat": 41.9022,
+          "lon": 12.4539,
+          "radius": 900
+        }
+      ]
+    }
+  },
+  "MILAN CATHEDRAL · 米蘭大教堂": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "milan-cathedral",
+    "label": "Milan Cathedral · 米蘭大教堂",
+    "sub": "哥德尖塔、白石、時尚城市與神聖空間。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "SLIGHTLY TIPSY ROME",
+      "CHAMPS-ÉLYSÉES",
+      "SAINT BYZANTIUM",
+      "JAZZ"
+    ],
+    "keywords": [
+      "sacred",
+      "fashion",
+      "classical",
+      "jazz",
+      "vocal"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "milan-cathedral",
+      "code": "DUO",
+      "country": "",
+      "fullName": "Milan Cathedral · 米蘭大教堂",
+      "summary": "哥德尖塔、白石、時尚城市與神聖空間。",
+      "geofences": [
+        {
+          "name": "Duomo di Milano",
+          "lat": 45.4641,
+          "lon": 9.1919,
+          "radius": 900
+        }
+      ]
+    }
+  },
+  "FORBIDDEN CITY · 故宮（北京）": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "forbidden-city",
+    "label": "Forbidden City · 故宮（北京）",
+    "sub": "宮牆、軸線、朱紅與帝國尺度。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TRADITIONAL BEIJING",
+      "MIRACULOUS LUOYANG",
+      "TIANJING",
+      "POEM"
+    ],
+    "keywords": [
+      "chinese",
+      "imperial",
+      "traditional",
+      "ceremonial",
+      "poem"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "forbidden-city",
+      "code": "FCB",
+      "country": "",
+      "fullName": "Forbidden City · 故宮（北京）",
+      "summary": "宮牆、軸線、朱紅與帝國尺度。",
+      "geofences": [
+        {
+          "name": "Forbidden City",
+          "lat": 39.9163,
+          "lon": 116.3972,
+          "radius": 1600
+        }
+      ]
+    }
+  },
+  "NATIONAL PALACE MUSEUM · 故宮（台北）": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "national-palace-museum",
+    "label": "National Palace Museum · 故宮（台北）",
+    "sub": "山邊博物館、器物、書畫與安靜的歷史觀看。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TRADITIONAL BEIJING",
+      "MIRACULOUS LUOYANG",
+      "TAIPEI DREAM",
+      "POEM"
+    ],
+    "keywords": [
+      "chinese",
+      "traditional",
+      "quiet",
+      "poem",
+      "art"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "national-palace-museum",
+      "code": "NPM",
+      "country": "",
+      "fullName": "National Palace Museum · 故宮（台北）",
+      "summary": "山邊博物館、器物、書畫與安靜的歷史觀看。",
+      "geofences": [
+        {
+          "name": "National Palace Museum",
+          "lat": 25.1024,
+          "lon": 121.5485,
+          "radius": 1200
+        }
+      ]
+    }
+  },
+  "NOTRE-DAME DE PARIS · 法國巴黎聖母院": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "notre-dame-paris",
+    "label": "Notre-Dame de Paris · 法國巴黎聖母院",
+    "sub": "塞納河、哥德建築、鐘聲與巴黎宗教歷史。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "CHAMPS-ÉLYSÉES",
+      "SLIGHTLY TIPSY ROME",
+      "POEM",
+      "CROONER"
+    ],
+    "keywords": [
+      "sacred",
+      "paris",
+      "choral",
+      "poem",
+      "vintage"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "notre-dame-paris",
+      "code": "NDP",
+      "country": "",
+      "fullName": "Notre-Dame de Paris · 法國巴黎聖母院",
+      "summary": "塞納河、哥德建築、鐘聲與巴黎宗教歷史。",
+      "geofences": [
+        {
+          "name": "Notre-Dame",
+          "lat": 48.853,
+          "lon": 2.3499,
+          "radius": 900
+        }
+      ]
+    }
+  },
+  "WESTMINSTER ABBEY · 西敏寺（英國）": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "westminster-abbey",
+    "label": "Westminster Abbey · 西敏寺（英國）",
+    "sub": "王室儀式、哥德空間與倫敦歷史核心。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "VAPOR LONDON",
+      "SLIGHTLY TIPSY ROME",
+      "POEM",
+      "CROONER"
+    ],
+    "keywords": [
+      "sacred",
+      "london",
+      "choral",
+      "poem",
+      "vintage"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "westminster-abbey",
+      "code": "WMA",
+      "country": "",
+      "fullName": "Westminster Abbey · 西敏寺（英國）",
+      "summary": "王室儀式、哥德空間與倫敦歷史核心。",
+      "geofences": [
+        {
+          "name": "Westminster Abbey",
+          "lat": 51.4993,
+          "lon": -0.1273,
+          "radius": 850
+        }
+      ]
+    }
+  },
+  "BEIGANG CHAOTIAN TEMPLE · 北港朝天宮": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "beigang-chaotian-temple",
+    "label": "Beigang Chaotian Temple · 北港朝天宮",
+    "sub": "香火、鑼鼓、廟埕與台灣媽祖信仰聲景。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TRADITIONAL BEIJING",
+      "MIRACULOUS LUOYANG",
+      "TAIPEI DREAM",
+      "POEM"
+    ],
+    "keywords": [
+      "traditional",
+      "temple",
+      "folk",
+      "ceremonial",
+      "percussion"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "beigang-chaotian-temple",
+      "code": "BCT",
+      "country": "",
+      "fullName": "Beigang Chaotian Temple · 北港朝天宮",
+      "summary": "香火、鑼鼓、廟埕與台灣媽祖信仰聲景。",
+      "geofences": [
+        {
+          "name": "Beigang Chaotian Temple",
+          "lat": 23.5686,
+          "lon": 120.3048,
+          "radius": 1000
+        }
+      ]
+    }
+  },
+  "DAJIA JENN LANN TEMPLE · 大甲鎮瀾宮": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "dajia-jenn-lann-temple",
+    "label": "Dajia Jenn Lann Temple · 大甲鎮瀾宮",
+    "sub": "進香、鑼鼓、街區與大甲媽祖的群體節奏。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TRADITIONAL BEIJING",
+      "RUNNING",
+      "TAIPEI DREAM",
+      "POEM"
+    ],
+    "keywords": [
+      "traditional",
+      "temple",
+      "folk",
+      "ceremonial",
+      "percussion"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "dajia-jenn-lann-temple",
+      "code": "DJL",
+      "country": "",
+      "fullName": "Dajia Jenn Lann Temple · 大甲鎮瀾宮",
+      "summary": "進香、鑼鼓、街區與大甲媽祖的群體節奏。",
+      "geofences": [
+        {
+          "name": "Dajia Jenn Lann Temple",
+          "lat": 24.345142,
+          "lon": 120.62348,
+          "radius": 1000
+        }
+      ]
+    }
+  },
+  "BAISHATUN GONGTIAN TEMPLE · 白沙屯拱天宮": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "baishatun-gongtian-temple",
+    "label": "Baishatun Gongtian Temple · 白沙屯拱天宮",
+    "sub": "白沙屯、進香文化、海線風與信仰流動。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TRADITIONAL BEIJING",
+      "RUNNING",
+      "VANCOUVER",
+      "POEM"
+    ],
+    "keywords": [
+      "traditional",
+      "temple",
+      "folk",
+      "wind",
+      "ceremonial"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "baishatun-gongtian-temple",
+      "code": "BGT",
+      "country": "",
+      "fullName": "Baishatun Gongtian Temple · 白沙屯拱天宮",
+      "summary": "白沙屯、進香文化、海線風與信仰流動。",
+      "geofences": [
+        {
+          "name": "Baishatun Gongtian Temple",
+          "lat": 24.5714,
+          "lon": 120.7108,
+          "radius": 1200
+        }
+      ]
+    }
+  },
+  "XINGTIAN TEMPLE · 行天宮": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "xingtian-temple",
+    "label": "Xingtian Temple · 行天宮",
+    "sub": "台北市中心的香火、收驚與高度日常化的廟宇聲景。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TAIPEI DREAM",
+      "TRADITIONAL BEIJING",
+      "POEM",
+      "LO-FI"
+    ],
+    "keywords": [
+      "temple",
+      "traditional",
+      "taipei",
+      "quiet",
+      "folk"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "xingtian-temple",
+      "code": "XTG",
+      "country": "",
+      "fullName": "Xingtian Temple · 行天宮",
+      "summary": "台北市中心的香火、收驚與高度日常化的廟宇聲景。",
+      "geofences": [
+        {
+          "name": "Xingtian Temple",
+          "lat": 25.0631,
+          "lon": 121.5339,
+          "radius": 950
+        }
+      ]
+    }
+  },
+  "XIMENDING · 西門町": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "ximending",
+    "label": "Ximending · 西門町",
+    "sub": "街頭、看板、次文化、夜間人潮與台北青春。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TAIPEI DREAM",
+      "BUSTLING HONG KONG",
+      "OLD TOKYO",
+      "RUNNING"
+    ],
+    "keywords": [
+      "urban",
+      "night",
+      "pop",
+      "indie",
+      "electronic"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "ximending",
+      "code": "XMD",
+      "country": "",
+      "fullName": "Ximending · 西門町",
+      "summary": "街頭、看板、次文化、夜間人潮與台北青春。",
+      "geofences": [
+        {
+          "name": "Ximending",
+          "lat": 25.0422,
+          "lon": 121.5077,
+          "radius": 1400
+        }
+      ]
+    }
+  },
+  "WULAI OLD STREET · 烏來老街": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "wulai-old-street",
+    "label": "Wulai Old Street · 烏來老街",
+    "sub": "山谷、溫泉、溪流與老街蒸氣感。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "VANCOUVER",
+      "TAIPEI DREAM",
+      "POEM",
+      "LO-FI"
+    ],
+    "keywords": [
+      "nature",
+      "folk",
+      "ambient",
+      "quiet",
+      "rain"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "wulai-old-street",
+      "code": "WUL",
+      "country": "",
+      "fullName": "Wulai Old Street · 烏來老街",
+      "summary": "山谷、溫泉、溪流與老街蒸氣感。",
+      "geofences": [
+        {
+          "name": "Wulai Old Street",
+          "lat": 24.8639,
+          "lon": 121.5515,
+          "radius": 1800
+        }
+      ]
+    }
+  },
+  "CHIANG KAI-SHEK MEMORIAL HALL · 中正紀念堂": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "cks-memorial-hall",
+    "label": "Chiang Kai-shek Memorial Hall · 中正紀念堂",
+    "sub": "大廣場、白牆藍瓦、儀式性與台北中央軸線。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TAIPEI DREAM",
+      "POEM",
+      "JAZZ",
+      "TRADITIONAL BEIJING"
+    ],
+    "keywords": [
+      "taipei",
+      "ceremonial",
+      "poem",
+      "jazz",
+      "traditional"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "cks-memorial-hall",
+      "code": "CKS",
+      "country": "",
+      "fullName": "Chiang Kai-shek Memorial Hall · 中正紀念堂",
+      "summary": "大廣場、白牆藍瓦、儀式性與台北中央軸線。",
+      "geofences": [
+        {
+          "name": "CKS Memorial Hall",
+          "lat": 25.0346,
+          "lon": 121.5219,
+          "radius": 1200
+        }
+      ]
+    }
+  },
+  "LONGSHAN TEMPLE · 艋舺龍山寺": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "longshan-temple",
+    "label": "Longshan Temple · 艋舺龍山寺",
+    "sub": "艋舺、香火、老城與台北民間信仰密度。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TAIPEI DREAM",
+      "TRADITIONAL BEIJING",
+      "POEM",
+      "SPLENDOR SHANGHAI"
+    ],
+    "keywords": [
+      "temple",
+      "traditional",
+      "taipei",
+      "folk",
+      "vintage"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "longshan-temple",
+      "code": "LST",
+      "country": "",
+      "fullName": "Longshan Temple · 艋舺龍山寺",
+      "summary": "艋舺、香火、老城與台北民間信仰密度。",
+      "geofences": [
+        {
+          "name": "Longshan Temple",
+          "lat": 25.0372,
+          "lon": 121.4999,
+          "radius": 950
+        }
+      ]
+    }
+  },
+  "JIUFEN OLD STREET · 九份老街": {
+    "kind": "landmark",
+    "track_count": 25,
+    "slug": "jiufen-old-street",
+    "label": "Jiufen Old Street · 九份老街",
+    "sub": "山城、雨、紅燈籠、階梯與海霧。",
+    "bpm": "50–148 BPM",
+    "key": "LANDMARK · GPS LIMITED",
+    "meters": [
+      [
+        "PLACE",
+        100
+      ],
+      [
+        "MEMORY",
+        94
+      ],
+      [
+        "ATMOSPHERE",
+        92
+      ],
+      [
+        "LOCAL",
+        90
+      ]
+    ],
+    "source_themes": [
+      "TAIPEI DREAM",
+      "MISTY JIANGNAN",
+      "VANCOUVER",
+      "POEM"
+    ],
+    "keywords": [
+      "rain",
+      "mist",
+      "folk",
+      "indie",
+      "poem"
+    ],
+    "cityPass": {
+      "kind": "landmark",
+      "slug": "jiufen-old-street",
+      "code": "JF",
+      "country": "",
+      "fullName": "Jiufen Old Street · 九份老街",
+      "summary": "山城、雨、紅燈籠、階梯與海霧。",
+      "geofences": [
+        {
+          "name": "Jiufen Old Street",
+          "lat": 25.1099,
+          "lon": 121.8452,
+          "radius": 1600
+        }
+      ]
+    }
   }
 }
