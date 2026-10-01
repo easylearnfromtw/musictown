@@ -243,11 +243,7 @@ def main():
 
     # Protect the 11 established drawers. Newly curated city packs are a soft
     # exclusion: avoid them first, but allow controlled reuse as a fallback.
-    legacy_themes={
-      "JAZZ","CROONER","ROCK","SPORT","LO-FI",
-      "TAIPEI DREAM","OLD TOKYO","SPLENDOR SHANGHAI",
-      "VANCOUVER","VAPOR LONDON","NEW YORK"
-    }
+    legacy_themes={"JAZZ","CROONER","ROCK","SPORT","LO-FI"}
     hard_used=set()
     hard_sources=set()
     soft_used=set()
