@@ -47,7 +47,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "OLD TOKYO": {
     "slug": "old-tokyo",
@@ -95,7 +96,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "SPLENDOR SHANGHAI": {
     "slug": "splendor-shanghai",
@@ -140,7 +142,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "VANCOUVER": {
     "slug": "vancouver",
@@ -188,7 +191,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "VAPOR LONDON": {
     "slug": "vapor-london",
@@ -234,7 +238,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "NEW YORK": {
     "slug": "new-york",
@@ -285,7 +290,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "TROPICAL HAWAII": {
     "slug": "tropical-hawaii",
@@ -337,7 +343,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "BUSTLING HONG KONG": {
     "slug": "bustling-hong-kong",
@@ -389,7 +396,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "SLIGHTLY TIPSY ROME": {
     "slug": "slightly-tipsy-rome",
@@ -443,7 +451,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "PSYCHEDELIC LA": {
     "slug": "psychedelic-la",
@@ -493,7 +502,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "SOLEMN KYOTO": {
     "slug": "solemn-kyoto",
@@ -549,7 +559,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "MIRACULOUS LUOYANG": {
     "slug": "miraculous-luoyang",
@@ -605,7 +616,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "CHAMPS-ÉLYSÉES": {
     "slug": "champs-elysees",
@@ -658,7 +670,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "MENACING DUBAI": {
     "slug": "menacing-dubai",
@@ -711,7 +724,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "BARCELONA": {
     "slug": "barcelona",
@@ -759,7 +773,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "RUSTY DETROIT": {
     "slug": "rusty-detroit",
@@ -807,7 +822,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "SYDNEY STREET": {
     "slug": "sydney-street",
@@ -855,7 +871,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "TIANJING": {
     "slug": "tianjing",
@@ -902,7 +919,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "ROTTERDAM": {
     "slug": "rotterdam",
@@ -945,7 +963,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "LAS VEGAS": {
     "slug": "las-vegas",
@@ -994,7 +1013,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "FREEZE HOKKAIDO": {
     "slug": "freeze-hokkaido",
@@ -1042,7 +1062,8 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "MEXICO": {
     "slug": "mexico",
@@ -1090,6 +1111,7 @@
     ],
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   }
 }
