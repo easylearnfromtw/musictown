@@ -163,7 +163,8 @@
     "vocal_mode": "preferred",
     "min_strong_matches": 1,
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "SPORT": {
     "slug": "sport",
@@ -221,7 +222,8 @@
     "vocal_mode": "preferred",
     "min_strong_matches": 1,
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "LO-FI": {
     "slug": "lo-fi",
