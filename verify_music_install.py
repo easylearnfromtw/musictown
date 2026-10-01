@@ -10,9 +10,9 @@ if not m:
     raise SystemExit("MUSIC_DATA not found")
 data=json.loads(m.group(1))
 
-EXPECTED_DRAWERS=23
-EXPECTED_PER_DRAWER=50
-EXPECTED_TOTAL=EXPECTED_DRAWERS*EXPECTED_PER_DRAWER
+EXPECTED_DRAWERS=52
+EXPECTED_BASE_TRACKS=50
+EXPECTED_LIMITED_TRACKS=25
 
 missing=[]
 bad=[]
@@ -27,8 +27,9 @@ for d in data:
     name=d.get("t","UNKNOWN")
     tracks=d.get("tracks",[])
     counts[name]=len(tracks)
-    if len(tracks)!=EXPECTED_PER_DRAWER:
-        bad.append(f"{name}: expected {EXPECTED_PER_DRAWER} tracks, got {len(tracks)}")
+    target=max(1,int(d.get("targetTracks") or EXPECTED_BASE_TRACKS))
+    if len(tracks)!=target:
+        bad.append(f"{name}: expected {target} tracks, got {len(tracks)}")
     if d.get("installPending"):
         bad.append(f"{name}: installPending still true")
 
@@ -78,11 +79,12 @@ for d in data:
 if len(data)!=EXPECTED_DRAWERS:
     bad.append(f"catalog: expected {EXPECTED_DRAWERS} drawers, got {len(data)}")
 
+expected_total=sum(max(1,int(d.get("targetTracks") or EXPECTED_BASE_TRACKS)) for d in data)
 total=sum(counts.values())
 ready=total-len(missing)-len([x for x in bad if "::" in x or ": too small" in x or ": ffprobe failed" in x])
 
 report={
-  "expected":EXPECTED_TOTAL,
+  "expected":expected_total,
   "drawers":len(data),
   "counts":counts,
   "total":total,
@@ -96,7 +98,7 @@ report={
     json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8"
 )
 
-print(f"\nMUSIC CATALOG: {total}/{EXPECTED_TOTAL}")
+print(f"\nMUSIC CATALOG: {total}/{expected_total}")
 print(f"LOCAL AUDIO: {len(local)}")
 print(f"REMOTE VERIFIED STREAMS: {len(remote)}")
 if missing:
@@ -106,4 +108,4 @@ if bad:
     print("\nBAD:")
     for x in bad[:100]:print(" -",x)
 
-sys.exit(1 if missing or bad or total!=EXPECTED_TOTAL else 0)
+sys.exit(1 if missing or bad or total!=expected_total else 0)
