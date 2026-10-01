@@ -7479,6 +7479,41 @@ input[type="search"]{-webkit-appearance:none;appearance:none}
 @keyframes mtCeremony{0%{opacity:0;filter:blur(10px)}18%{opacity:1;filter:none}74%{opacity:1}100%{opacity:0;filter:blur(8px)}}
 @keyframes mtGlobeTurn{0%{transform:scale(.7) rotate(-18deg);opacity:0}28%{opacity:1}68%{transform:scale(1.06) rotate(8deg)}100%{transform:scale(.96) rotate(18deg);opacity:.2}}
 @media(max-width:700px){.city-pass-sheet,.city-pass-ticket{overflow-x:hidden!important;max-width:100vw!important;overscroll-behavior-x:none!important;touch-action:pan-y!important}.city-pass-ticket *{max-width:100%}.theme-group-items{gap:9px!important}.live-lyrics{padding:15px}.live-lyrics-lines{height:156px;padding-block:58px}}
+
+.theme-shelf-head-actions{display:flex;align-items:center;gap:7px}
+.passbook-trigger{height:25px;padding:0 9px;border-radius:999px;border:1px solid rgba(41,61,81,.07);background:rgba(255,255,255,.58);color:var(--genre-ink);display:inline-flex;align-items:center;gap:6px;cursor:pointer;font:760 5.3px/1 var(--grotesk);letter-spacing:.10em}
+.passbook-trigger span{min-width:17px;height:17px;padding:0 5px;border-radius:999px;background:var(--genre-ink);color:#fff;display:grid;place-items:center;font-size:5px}
+.passbook-sheet{position:fixed;inset:0;z-index:1850;display:grid;place-items:end center;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease,visibility .22s ease}
+.passbook-sheet.open{opacity:1;visibility:visible;pointer-events:auto}
+.passbook-backdrop{position:absolute;inset:0;background:rgba(18,31,45,.28);-webkit-backdrop-filter:blur(14px) saturate(110%);backdrop-filter:blur(14px) saturate(110%)}
+.passbook-panel{position:relative;width:min(960px,100%);max-height:88dvh;overflow:hidden;border-radius:31px 31px 0 0;border:1px solid rgba(255,255,255,.86);border-bottom:0;background:linear-gradient(150deg,rgba(250,252,254,.97),rgba(236,243,248,.95));box-shadow:0 -22px 80px rgba(28,39,55,.22),inset 0 1px 0 rgba(255,255,255,.96);transform:translateY(22px);transition:transform .4s cubic-bezier(.16,1,.3,1);color:#29465d}
+.passbook-sheet.open .passbook-panel{transform:none}
+.passbook-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:20px 20px 8px}
+.passbook-head small{display:block;font:740 5.5px/1 var(--grotesk);letter-spacing:.16em;color:rgba(41,70,93,.38)}
+.passbook-head h2{margin:7px 0 0;font:740 28px/1 var(--grotesk);letter-spacing:-.04em}
+.passbook-head button{width:40px;height:40px;border:1px solid rgba(41,70,93,.07);border-radius:50%;background:rgba(255,255,255,.62);color:inherit;display:grid;place-items:center;font-size:17px}
+.passbook-meta{padding:0 20px 12px;font:600 7px/1.45 var(--grotesk);letter-spacing:.06em;color:rgba(41,70,93,.46)}
+.passbook-carousel{display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding:5px max(20px,calc((100vw - min(760px,88vw))/2)) 28px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.passbook-carousel::-webkit-scrollbar{display:none}
+.passbook-card{flex:0 0 min(760px,88vw);min-height:390px;scroll-snap-align:center;border-radius:29px;border:1px solid rgba(255,255,255,.90);background:linear-gradient(145deg,rgba(255,255,255,.90),rgba(230,238,246,.76));box-shadow:0 24px 70px rgba(38,53,71,.15),inset 0 1px 0 rgba(255,255,255,.98);padding:22px;display:grid;grid-template-rows:auto 1fr auto;gap:18px;position:relative;overflow:hidden}
+.passbook-card:before{content:"";position:absolute;width:230px;height:230px;border-radius:50%;left:-80px;top:-90px;background:var(--passbook-soft,rgba(113,154,160,.16));filter:blur(8px)}
+.passbook-card-top{position:relative;display:grid;grid-template-columns:74px minmax(0,1fr) auto;gap:14px;align-items:center}
+.passbook-seal{width:74px;height:74px;border-radius:22px;background:rgba(255,255,255,.72);display:grid;place-items:center;border:1px solid rgba(41,70,93,.07);overflow:hidden}
+.passbook-seal img{width:100%;height:100%;object-fit:cover}
+.passbook-copy{min-width:0}.passbook-copy small,.passbook-copy b,.passbook-copy span{display:block}
+.passbook-copy small{font:760 5.8px/1 var(--grotesk);letter-spacing:.14em;color:var(--passbook-accent,#719aa0)}
+.passbook-copy b{margin-top:8px;font:740 clamp(18px,3vw,31px)/1.04 var(--serif);white-space:normal}
+.passbook-copy span{margin-top:8px;font:650 7px/1.4 var(--grotesk);letter-spacing:.06em;color:rgba(41,70,93,.48)}
+.passbook-code{font:800 clamp(20px,4vw,42px)/1 var(--grotesk);letter-spacing:-.04em;color:var(--passbook-accent,#719aa0)}
+.passbook-ticket-body{position:relative;border-top:1px dashed rgba(41,70,93,.15);border-bottom:1px dashed rgba(41,70,93,.15);padding:18px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.passbook-ticket-body small{display:block;font:740 5.2px/1 var(--grotesk);letter-spacing:.13em;color:rgba(41,70,93,.34)}
+.passbook-ticket-body b{display:block;margin-top:7px;font:720 8px/1.3 var(--grotesk);word-break:break-word}
+.passbook-actions{display:flex;gap:8px;justify-content:flex-end}
+.passbook-actions button{min-height:38px;padding:0 13px;border-radius:999px;border:1px solid rgba(41,70,93,.08);background:rgba(255,255,255,.68);color:#29465d;font:740 6px/1 var(--grotesk);letter-spacing:.09em}
+.passbook-actions .primary{background:var(--passbook-ink,#29465d);color:#fff;border-color:transparent}
+.passbook-empty{padding:62px 24px 70px;text-align:center;color:rgba(41,70,93,.45);font:600 10px/1.7 var(--serif)}
+@media(max-width:700px){.passbook-head{padding:17px 16px 8px}.passbook-meta{padding-inline:16px}.passbook-card{padding:17px;min-height:360px}.passbook-card-top{grid-template-columns:58px minmax(0,1fr) auto}.passbook-seal{width:58px;height:58px;border-radius:17px}.passbook-ticket-body{grid-template-columns:1fr 1fr}.theme-shelf-head-actions{gap:5px}.passbook-trigger{padding-inline:7px}}
+
 </style>
 <script>document.documentElement.classList.add('js-boot');</script>
 
@@ -7611,7 +7646,10 @@ window.addEventListener('error',function(e){
       <small>THEME CLASSIFICATION</small>
       <b id="themeShelfTitle">亞洲 · ASIA</b>
     </div>
-    <span id="themeShelfCount">07 THEMES</span>
+    <div class="theme-shelf-head-actions">
+      <button id="passbookOpen" class="passbook-trigger" type="button" aria-label="開啟票根收藏庫">PASSBOOK <span id="passbookCount">0</span></button>
+      <span id="themeShelfCount">07 THEMES</span>
+    </div>
   </div>
   <div class="theme-group-tabs" id="themeGroupTabs" role="tablist" aria-label="主題群組"></div>
   <div class="theme-group-items" id="themeGroupItems" aria-live="polite"></div>
@@ -9252,6 +9290,124 @@ function cityPassVisual(config){
   return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 }
 
+
+const PASSBOOK_KEY='musicetown.passbook.v1';
+function readPassbook(){
+  try{const x=JSON.parse(localStorage.getItem(PASSBOOK_KEY)||'[]');return Array.isArray(x)?x:[]}catch(_){return[]}
+}
+function writePassbook(items){
+  try{localStorage.setItem(PASSBOOK_KEY,JSON.stringify(items.slice(0,240)))}catch(_){}
+  updatePassbookCount();
+}
+function passbookKindLabel(kind){
+  return kind==='university'?'CAMPUS PASS':kind==='landmark'?'LANDMARK PASS':'CITY PASS';
+}
+function updatePassbookCount(){
+  const n=readPassbook().length;
+  if($('passbookCount'))$('passbookCount').textContent=String(n);
+}
+function collectActivePass(){
+  if(!cityPassActive||cityPassActive.geo?.preview)return;
+  const {drawer,geo,config,ticketNo}=cityPassActive;
+  const items=readPassbook();
+  const ix=items.findIndex(x=>x.slug===config.slug);
+  const existing=ix>=0?items[ix]:null;
+  const safeLocation=String(geo.campusName||geo.region||geo.city||config.fullName||config.code||'').slice(0,120);
+  const entry={
+    theme:drawer.t,slug:config.slug,code:config.code,kind:config.kind||'city',
+    ticketNo:existing?.ticketNo||ticketNo,
+    location:safeLocation,
+    firstCollectedAt:existing?.firstCollectedAt||new Date().toISOString(),
+    lastCollectedAt:new Date().toISOString()
+  };
+  if(ix>=0)items.splice(ix,1);
+  items.unshift(entry);
+  writePassbook(items);
+  cityPassActive.ticketNo=entry.ticketNo;
+  if($('cityPassTicketNo'))$('cityPassTicketNo').textContent=entry.ticketNo;
+}
+function renderPassbook(){
+  const host=$('passbookCarousel');if(!host)return;
+  const items=readPassbook();
+  updatePassbookCount();
+  if(!items.length){
+    host.innerHTML='<div class="passbook-empty">還沒有收藏票根。到限定城市、校園或景點，通過位置驗證後，票根會自動收進這裡。</div>';
+    return;
+  }
+  host.innerHTML=items.map((entry,i)=>{
+    const drawer=DATA.find(d=>d.t===entry.theme);
+    const config=CITY_PASS_THEMES[entry.theme]||drawer?.cityPass||{};
+    const ui=genreUiFor(entry.theme);
+    const date=new Date(entry.firstCollectedAt);
+    const dateText=Number.isNaN(date.getTime())?'—':date.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
+    return `<article class="passbook-card" data-passbook-index="${i}" style="--passbook-accent:${ui.accent};--passbook-soft:${ui.soft};--passbook-ink:${ui.ink}">
+      <div class="passbook-card-top">
+        <div class="passbook-seal"><img src="${cityPassVisual(config)}" alt=""></div>
+        <div class="passbook-copy"><small>${passbookKindLabel(entry.kind)} · COLLECTED</small><b>${esc(entry.theme)}</b><span>${esc(entry.location||config.fullName||config.code||'')}</span></div>
+        <div class="passbook-code">${esc(entry.code||'MT')}</div>
+      </div>
+      <div class="passbook-ticket-body">
+        <div><small>TICKET</small><b>${esc(entry.ticketNo||'—')}</b></div>
+        <div><small>COLLECTED</small><b>${esc(dateText)}</b></div>
+        <div><small>STORAGE</small><b>LOCAL DEVICE</b></div>
+      </div>
+      <div class="passbook-actions">
+        <button type="button" data-passbook-view="${i}">VIEW</button>
+        <button type="button" data-passbook-save="${i}">SAVE IMAGE</button>
+        <button class="primary" type="button" data-passbook-share="${i}">SHARE</button>
+      </div>
+    </article>`;
+  }).join('');
+}
+function openPassbook(){
+  renderPassbook();
+  $('passbookSheet')?.classList.add('open');
+  $('passbookSheet')?.setAttribute('aria-hidden','false');
+}
+function closePassbook(){
+  $('passbookSheet')?.classList.remove('open');
+  $('passbookSheet')?.setAttribute('aria-hidden','true');
+}
+function activateSavedPass(entry,{open=true}={}){
+  const drawer=DATA.find(d=>d.t===entry.theme),config=CITY_PASS_THEMES[entry.theme]||drawer?.cityPass;
+  if(!drawer||!config)return false;
+  const geo={city:entry.location,campusName:entry.location,region:'COLLECTED',saved:true};
+  renderCityPass(drawer,geo);
+  cityPassActive.ticketNo=entry.ticketNo;
+  if($('cityPassTicketNo'))$('cityPassTicketNo').textContent=entry.ticketNo;
+  if(open){
+    closePassbook();
+    $('cityPassSheet')?.classList.add('open');
+    $('cityPassSheet')?.setAttribute('aria-hidden','false');
+  }
+  return true;
+}
+function passbookCanvas(entry){
+  const old=cityPassActive;
+  if(!activateSavedPass(entry,{open:false}))return Promise.resolve(null);
+  return buildCityPassCanvas().finally(()=>{cityPassActive=old});
+}
+function canvasBlob(canvas){
+  return new Promise(resolve=>canvas?.toBlob(resolve,'image/png',.96));
+}
+async function savePassbookEntry(entry){
+  const canvas=await passbookCanvas(entry),blob=await canvasBlob(canvas);if(!blob)return;
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=`musicetown-${entry.slug||'pass'}-ticket.png`;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1800);
+}
+async function sharePassbookEntry(entry){
+  const canvas=await passbookCanvas(entry),blob=await canvasBlob(canvas);if(!blob)return;
+  try{
+    const file=new File([blob],`musicetown-${entry.slug||'pass'}-ticket.png`,{type:'image/png'});
+    if(navigator.share&&navigator.canShare?.({files:[file]})){
+      await navigator.share({files:[file],title:'MUSICTOWN '+passbookKindLabel(entry.kind),text:entry.theme});
+      return;
+    }
+  }catch(err){if(err?.name==='AbortError')return}
+  await savePassbookEntry(entry);
+}
+
 let cityPassGeoPromise=null;
 let cityPassActive=null;
 let cityPassPendingIndex=null;
@@ -9401,6 +9557,7 @@ function renderCityPass(drawer,geo){
 function openCityPass(drawer,geo,{auto=false}={}){
   if(!drawer||!geo)return;
   renderCityPass(drawer,geo);
+  collectActivePass();
   const sheet=$('cityPassSheet');
   sheet?.classList.add('open');
   sheet?.setAttribute('aria-hidden','false');
@@ -9530,6 +9687,21 @@ function openThemeDeepLink(){
   }catch(err){console.warn('[musicetown city pass deep link]',err)}
 }
 document.addEventListener('DOMContentLoaded',()=>{
+  updatePassbookCount();
+  $('passbookOpen')?.addEventListener('click',openPassbook);
+  $('passbookClose')?.addEventListener('click',closePassbook);
+  $('passbookBackdrop')?.addEventListener('click',closePassbook);
+  $('passbookCarousel')?.addEventListener('click',async e=>{
+    const view=e.target.closest('[data-passbook-view]');
+    const save=e.target.closest('[data-passbook-save]');
+    const share=e.target.closest('[data-passbook-share]');
+    const target=view||save||share;if(!target)return;
+    const i=Number(target.dataset.passbookView??target.dataset.passbookSave??target.dataset.passbookShare);
+    const entry=readPassbook()[i];if(!entry)return;
+    if(view)activateSavedPass(entry,{open:true});
+    else if(save)await savePassbookEntry(entry);
+    else if(share)await sharePassbookEntry(entry);
+  });
   $('cityPassClose')?.addEventListener('click',closeCityPass);
   $('cityPassDone')?.addEventListener('click',closeCityPass);
   $('cityPassBackdrop')?.addEventListener('click',closeCityPass);
@@ -9561,7 +9733,11 @@ document.addEventListener('DOMContentLoaded',()=>{
     const geo=await eligiblePassGeo(DATA[i].t);
     if(geo)openCityPass(DATA[i],geo,{auto:false});
   });
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('cityPassSheet')?.classList.contains('open'))closeCityPass()});
+  document.addEventListener('keydown',e=>{
+    if(e.key!=='Escape')return;
+    if($('passbookSheet')?.classList.contains('open'))closePassbook();
+    if($('cityPassSheet')?.classList.contains('open'))closeCityPass();
+  });
 });
 function openCityPassPreviewFromQuery(){
   try{
@@ -12878,6 +13054,19 @@ setTimeout(()=>{
     <div class="audio-accessory-actions">
       <button class="audio-accessory-primary" id="audioAccessoryDone" type="button">DONE</button>
     </div>
+  </section>
+</div>
+
+
+<div id="passbookSheet" class="passbook-sheet" aria-hidden="true">
+  <div class="passbook-backdrop" id="passbookBackdrop"></div>
+  <section class="passbook-panel" role="dialog" aria-modal="true" aria-labelledby="passbookTitle">
+    <header class="passbook-head">
+      <div><small>LOCAL COLLECTION · ON THIS DEVICE</small><h2 id="passbookTitle">MUSICTOWN PASSBOOK</h2></div>
+      <button id="passbookClose" type="button" aria-label="關閉收藏庫">×</button>
+    </header>
+    <div class="passbook-meta">票根只儲存在這台裝置的瀏覽器。GPS 座標不會被寫入收藏；清除瀏覽器網站資料時，收藏也會一起清除。</div>
+    <div id="passbookCarousel" class="passbook-carousel" aria-live="polite"></div>
   </section>
 </div>
 
