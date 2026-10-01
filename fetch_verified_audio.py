@@ -11,7 +11,7 @@ MANIFEST=json.loads((ROOT/"verified_audio_manifest.json").read_text(encoding="ut
 CACHE=ROOT/"_master_audio"
 CACHE.mkdir(parents=True,exist_ok=True)
 S=requests.Session()
-S.headers.update({"User-Agent":"musicetown-audio-installer/8.6.5"})
+S.headers.update({"User-Agent":"musicetown-audio-installer/8.7.3"})
 TIMEOUT=45
 
 def get(url):

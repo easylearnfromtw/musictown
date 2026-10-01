@@ -5,7 +5,7 @@ and track pages expose genre/tags, vocal analysis, duration and download/source 
 
 Profiles:
 
-- TAIPEI STYLE — indie vocal / bedroom pop / lo-fi / folk / dream pop
+- TAIPEI DREAM — indie vocal / bedroom pop / lo-fi / folk / dream pop
 - OLD TOKYO — synth pop / retro pop / disco / funk pop / synthwave
 - SPLENDOR SHANGHAI — jazz vocal / soul / blues / swing / vintage lounge
 - VANCOUVER — folk / acoustic / indie folk / dreamy / mellow / ambient vocal

@@ -12,7 +12,7 @@ CACHE=ROOT/"_fresh_audio_cache"
 CACHE.mkdir(parents=True,exist_ok=True)
 
 S=requests.Session()
-S.headers.update({"User-Agent":"musicetown-fresh-city-installer/8.6.5"})
+S.headers.update({"User-Agent":"musicetown-fresh-city-installer/8.9.0"})
 NULLRIGHTS="https://nullrights.com"
 TIMEOUT=45
 CITY_NAMES=list(PROFILES.keys())
@@ -57,15 +57,16 @@ def discover_genre(genre,max_pages=8):
         found.extend(urljoin(NULLRIGHTS,x) for x in links)
     return list(dict.fromkeys(found))
 
-def parse_track(url):
+def parse_track(url, profile):
     h=get(url).text
     soup=BeautifulSoup(h,"html.parser")
     txt=norm(soup.get_text(" ",strip=True))
     low=txt.casefold()
 
-    # Hard gates.
+    # Hard legal gate; vocals can be required or merely preferred per theme.
     if "cc0 1.0 universal" not in low:return None
-    if "has vocals" not in low:return None
+    has_vocals="has vocals" in low
+    if profile.get("vocal_mode","required")=="required" and not has_vocals:return None
     if re.search(r"ai generated\s+yes",low):return None
 
     h1=soup.find("h1")
@@ -114,8 +115,8 @@ def parse_track(url):
 
     embed_id=url.rstrip("/").split("/")[-1]
     return {
-      "title":title,"artist":artist,"genre":genre or "CC0 Vocal",
-      "tags":tags,"sounds":sounds,"duration":duration,
+      "title":title,"artist":artist,"genre":genre or "CC0 Music",
+      "tags":tags,"sounds":sounds,"duration":duration,"hasVocals":has_vocals,
       "source":url,"embed":embed_id,"download":download,
       "license":"CC0 1.0 Universal","licenseVerified":True,
       "licenseChecked":time.strftime("%Y-%m-%d")
@@ -124,10 +125,20 @@ def parse_track(url):
 def score(track,profile):
     blob=" ".join([track.get("genre",""),track.get("tags",""),track.get("sounds","")]).casefold()
     score=0
-    for kw in profile["keywords"]:
-        if kw.casefold() in blob:score+=4
-    if "vocal" in blob:score+=3
-    if any(x in blob for x in ["game","battle","boss","soundtrack","trailer"]):score-=2
+    matches=[]
+    for kw in profile.get("keywords",[]):
+        if kw.casefold() in blob:
+            score+=5
+            matches.append(kw)
+    required=profile.get("required_any",[])
+    strong=[kw for kw in required if kw.casefold() in blob]
+    track["_strongHits"]=strong
+    track["_matches"]=matches[:10]
+    if required and not strong:score-=120
+    if track.get("hasVocals"):score+=8
+    for x in profile.get("reject",[]):
+        if x.casefold() in blob:score-=18
+    if any(x in blob for x in ["background music","podcast intro","youtube intro","corporate video","game music"]):score-=10
     return score
 
 def direct_audio(track):
@@ -204,7 +215,7 @@ def main():
 
     for city in CITY_NAMES:
         profile=PROFILES[city]
-        print(f"\n=== {city}: discovering fresh CC0 vocal tracks ===")
+        print(f"\n=== {city}: discovering fresh CC0 theme-fit tracks ===")
 
         urls=[]
         for q in profile["queries"]:urls+=discover(q)
@@ -214,7 +225,7 @@ def main():
         candidates=[]
         for url in urls[:args.max_candidates]:
             try:
-                t=parse_track(url)
+                t=parse_track(url,profile)
                 if not t:continue
                 k=track_key(t["title"],t["artist"])
                 if k in used:continue
@@ -231,11 +242,13 @@ def main():
         for t in candidates:
             k=track_key(t["title"],t["artist"])
             if k in used:continue
+            if profile.get("required_any") and not t.get("_strongHits"):continue
+            if t.get("_score",0)<0:continue
             selected.append(t);used.add(k)
             if len(selected)>=args.per_city:break
 
         if len(selected)<args.per_city:
-            raise RuntimeError(f"{city}: only {len(selected)} fresh unique CC0 vocal tracks found")
+            raise RuntimeError(f"{city}: only {len(selected)} fresh unique theme-fit CC0 tracks found")
 
         folder=profile["slug"]
         target_dir=ROOT/folder
@@ -243,7 +256,12 @@ def main():
 
         out_tracks=[]
         for i,t in enumerate(selected,1):
-            t.pop("_score",None)
+            score_value=t.pop("_score",0)
+            matches=t.pop("_matches",[])
+            strong_hits=t.pop("_strongHits",[])
+            t["curationScore"]=score_value
+            t["curationMatches"]=matches
+            t["strongThemeMatches"]=strong_hits
             t["trackNo"]=i
             t["shareId"]=f"{folder}-{i:03d}"
             t["freshCity"]=True
@@ -269,7 +287,7 @@ def main():
     (ROOT/"fresh_city_manifest.json").write_text(
         json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8"
     )
-    print("\nFresh city installation complete: 6 × 50 tracks.")
+    print(f"\nFresh city installation complete: {len(CITY_NAMES)} × {args.per_city} tracks.")
 
 if __name__=="__main__":
     main()

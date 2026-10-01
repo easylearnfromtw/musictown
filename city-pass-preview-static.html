@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>musicetown · City Limited Pass Preview</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;background:#dfe8ee;color:#29465d}body{padding:22px 14px 32px;background:radial-gradient(circle at 12% 8%,rgba(255,255,255,.98),transparent 28%),radial-gradient(circle at 88% 88%,rgba(113,154,160,.28),transparent 34%),linear-gradient(145deg,#eaf2f5,#dce7ec)}
+.ticket{--accent:#719aa0;--soft:rgba(113,154,160,.17);--ink:#29465d;position:relative;width:min(720px,100%);margin:auto;overflow:hidden;border-radius:30px;border:1px solid rgba(255,255,255,.92);background:radial-gradient(circle at 10% 2%,rgba(255,255,255,.98),transparent 26%),radial-gradient(circle at 92% 88%,var(--soft),transparent 35%),linear-gradient(150deg,rgba(248,251,253,.98),rgba(240,244,248,.96));box-shadow:0 32px 90px rgba(19,39,57,.22),inset 0 1px 0 rgba(255,255,255,.98)}
+.qr-marquee{height:78px;overflow:hidden;border-bottom:1px dashed rgba(40,69,92,.13);background:linear-gradient(90deg,var(--soft),rgba(255,255,255,.58),var(--soft))}.qr-track{width:max-content;height:100%;display:flex;align-items:center;gap:16px;padding:7px 14px;transform:translateX(-22px)}.qr-unit{height:62px;min-width:188px;display:flex;align-items:center;gap:9px;padding:4px 10px 4px 4px;border-radius:14px;border:1px solid rgba(255,255,255,.8);background:rgba(255,255,255,.68)}.qr-unit img{width:54px;height:54px;border-radius:8px}.qr-unit span{font-size:6px;font-weight:800;letter-spacing:.14em;color:rgba(40,69,92,.58)}
+.header{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 0}.logo{display:flex;align-items:center;gap:10px}.logo svg{width:32px;height:32px;fill:none;stroke:var(--ink);stroke-width:1.6}.logo b,.logo span{display:block}.logo b{font-size:9px;letter-spacing:.18em}.logo span{margin-top:4px;font-size:5.5px;letter-spacing:.12em;color:rgba(40,69,92,.45)}.close{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.64);border:1px solid rgba(40,69,92,.08);font-size:18px}
+.hero{padding:25px 18px 18px}.code{font-size:58px;line-height:.82;font-weight:800;letter-spacing:-.08em;color:var(--accent)}.kicker{margin-top:17px;font-size:6px;font-weight:800;letter-spacing:.18em;color:var(--accent)}h1{margin:7px 0 0;font-size:39px;line-height:.92;letter-spacing:-.05em}p{margin:12px 0 0;font:500 10px/1.6 Georgia,serif;color:rgba(40,69,92,.62)}
+.meta{display:grid;grid-template-columns:1fr 1fr;margin:0 18px;border-top:1px dashed rgba(40,69,92,.13);border-bottom:1px dashed rgba(40,69,92,.13)}.meta>div{padding:12px 9px;border-right:1px solid rgba(40,69,92,.07);border-bottom:1px solid rgba(40,69,92,.07)}.meta>div:nth-child(2n){border-right:0}.meta>div:nth-child(n+3){border-bottom:0}.meta small,.meta b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta small{font-size:5.5px;font-weight:800;letter-spacing:.12em;color:rgba(40,69,92,.38)}.meta b{margin-top:5px;font-size:7px;letter-spacing:.04em}
+.hot{padding:20px 18px 16px}.hot-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:10px}.hot-head small{font-size:5.8px;font-weight:800;letter-spacing:.15em;color:var(--accent)}.hot-head h2{margin:5px 0 0;font-size:18px;letter-spacing:-.02em}.hot-head>span{font-size:5.5px;font-weight:800;letter-spacing:.12em;color:rgba(40,69,92,.34)}.rows{display:grid;gap:6px}.row{display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:8px;min-height:48px;padding:7px 8px;border-radius:13px;background:rgba(255,255,255,.58);border:1px solid rgba(40,69,92,.055)}.no{font-size:7.5px;font-weight:800;color:var(--accent)}.copy{min-width:0}.copy b,.copy span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.copy b{font:700 9px/1.2 Georgia,serif}.copy span{margin-top:3px;font-size:6px;font-weight:700;color:rgba(40,69,92,.45)}.row em{font-size:5.2px;font-weight:800;font-style:normal;color:rgba(40,69,92,.34);letter-spacing:.07em}
+.footer{padding:15px 18px 19px;border-top:1px dashed rgba(40,69,92,.13)}.privacy b,.privacy span{display:block}.privacy b{font-size:5.6px;letter-spacing:.13em;color:var(--accent)}.privacy span{margin-top:5px;font-size:6.2px;line-height:1.45;color:rgba(40,69,92,.44)}.actions{display:flex;gap:7px;margin-top:13px}.save,.done{height:40px;border-radius:999px;border:0;font-size:6.5px;font-weight:800;letter-spacing:.09em}.save{flex:1;background:var(--ink);color:#fff}.done{padding:0 18px;background:rgba(255,255,255,.7);color:var(--ink);border:1px solid rgba(40,69,92,.08)}
+.preview-label{text-align:center;margin:14px auto 0;font-size:6px;letter-spacing:.15em;font-weight:800;color:rgba(40,69,92,.5)}
+</style>
+</head>
+<body>
+<article class="ticket">
+  <div class="qr-marquee"><div class="qr-track">
+    <div class="qr-unit"><img src="assets/city-pass-qr/taipei-style.png"><span>MUSICTOWN · CITY LINK</span></div>
+    <div class="qr-unit"><img src="assets/city-pass-qr/taipei-style.png"><span>MUSICTOWN · CITY LINK</span></div>
+    <div class="qr-unit"><img src="assets/city-pass-qr/taipei-style.png"><span>MUSICTOWN · CITY LINK</span></div>
+  </div></div>
+  <header class="header"><div class="logo"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16"/><ellipse cx="20" cy="20" rx="7" ry="16"/><ellipse cx="20" cy="20" rx="16" ry="7"/></svg><div><b>MUSICTOWN</b><span>CITY LIMITED MUSIC PASS</span></div></div><div class="close">×</div></header>
+  <section class="hero"><div class="code">TPE</div><div class="kicker">CITY EXCLUSIVE · IP MATCH</div><h1>TAIPEI DREAM</h1><p>雨夜、巷口、捷運與城市獨立人聲。TAIPEI DREAM 把台北都會的潮濕霓虹、日常節奏與輕微孤獨感收進一個抽屜。</p></section>
+  <section class="meta"><div><small>PROGRAM</small><b>MUSICTOWN</b></div><div><small>LOCATION</small><b>TAIPEI</b></div><div><small>STATUS</small><b>IP CITY MATCH</b></div><div><small>TICKET</small><b>MT-TPE-20261001-7128</b></div></section>
+  <section class="hot"><div class="hot-head"><div><small>LOCAL SOUND INDEX</small><h2>熱門音樂 · HOT 5</h2></div><span>TOP FIVE</span></div><div class="rows">
+    <div class="row"><span class="no">01</span><div class="copy"><b>soirée.</b><span>oji</span></div><em>HOT</em></div>
+    <div class="row"><span class="no">02</span><div class="copy"><b>memories of a sweeter season.</b><span>oji</span></div><em>HOT</em></div>
+    <div class="row"><span class="no">03</span><div class="copy"><b>lovely bluesy ditty.</b><span>oji</span></div><em>HOT</em></div>
+    <div class="row"><span class="no">04</span><div class="copy"><b>Blow My High</b><span>SUPERARE</span></div><em>HOT</em></div>
+    <div class="row"><span class="no">05</span><div class="copy"><b>Dopamine Hits</b><span>SUPERARE</span></div><em>HOT</em></div>
+  </div></section>
+  <footer class="footer"><div class="privacy"><b>APPROXIMATE LOCATION</b><span>城市資格依公開 IP 的約略城市判定；musicetown 不保存完整 IP 位址。</span></div><div class="actions"><button class="save">SAVE TICKET</button><button class="done">DONE</button></div></footer>
+</article>
+<div class="preview-label">R8.7.7 · CITY PASS DESIGN PREVIEW</div>
+</body></html>
