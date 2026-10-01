@@ -208,11 +208,7 @@ def main():
     by_name={d["t"]:d for d in data}
 
     # Protect the 11 already-working drawers from replacement/reuse.
-    legacy_themes={
-      "JAZZ","CROONER","ROCK","SPORT","LO-FI",
-      "TAIPEI DREAM","OLD TOKYO","SPLENDOR SHANGHAI",
-      "VANCOUVER","VAPOR LONDON","NEW YORK"
-    }
+    legacy_themes={"JAZZ","CROONER","ROCK","SPORT","LO-FI"}
     hard_used=set()
     for d in data:
         if d["t"] in legacy_themes:
