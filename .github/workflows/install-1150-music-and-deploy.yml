@@ -1,4 +1,4 @@
-name: R9.3 FINAL · 101 themes / 3300 placements · Audited Stable Deploy
+name: R9.3.13 · 101 themes / 3300 placements · Local Audio Stable Deploy
 
 "on":
   workflow_dispatch:
@@ -8,16 +8,14 @@ name: R9.3 FINAL · 101 themes / 3300 placements · Audited Stable Deploy
       - "fresh_city_profiles.json"
       - "theme_profiles.json"
       - "limited_theme_profiles.json"
-      - "build_fresh_city_packs.py"
-      - "build_theme_packs.py"
+      - "build_audited_release_packs.py"
       - "build_limited_theme_packs.py"
+      - "restore_verified_local_audio.py"
+      - "fetch_verified_audio.py"
+      - "verified_audio_manifest.json"
       - "apply_r937_ux.py"
       - "r937_ux.js"
       - "r937_ux.css"
-      - "build_audited_release_packs.py"
-      - "resolve_verified_audio_streams.py"
-      - "verified_audio_manifest.json"
-      - "fetch_verified_audio.py"
       - "verify_music_install.py"
       - "prepare_audio_site.py"
       - "index.html"
@@ -30,13 +28,13 @@ permissions:
   id-token: write
 
 concurrency:
-  group: musicetown-r93-hybrid-deploy
+  group: musicetown-r9313-local-audio
   cancel-in-progress: true
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 360
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -58,18 +56,28 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install Python deps
-        run: python -m pip install -r requirements.txt
+      - name: Install ffmpeg + Python deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install -r requirements.txt
 
-      - name: Restore audited stream URL cache
+      - name: Restore verified MP3 cache
         uses: actions/cache@v4
         with:
-          path: _resolved_verified_streams.json
-          key: musicetown-r93-stream-map-${{ hashFiles('verified_audio_manifest.json') }}
+          path: _master_audio
+          key: musicetown-r9313-base-64k-${{ hashFiles('verified_audio_manifest.json') }}
+          restore-keys: |
+            musicetown-r9313-base-64k-
+            musicetown-r920-base-64k-
+            musicetown-r910-base-64k-
+            musicetown-r890-64k-
 
-      - name: Resolve audited base 5 to verified HTTPS streams
-        run: python resolve_verified_audio_streams.py
+      - name: Build 250 verified local base tracks
+        run: python fetch_verified_audio.py --bitrate 64k
 
+      - name: Restore catalog to local verified MP3 paths
+        run: python restore_verified_local_audio.py
 
       - name: Build 31 audited core and city themes deterministically
         run: python build_audited_release_packs.py
@@ -77,25 +85,25 @@ jobs:
       - name: Build 70 limited 25-track themes
         run: python build_limited_theme_packs.py
 
-      - name: Apply R9.3.7 UX layer
+      - name: Apply R9.3 UX layer
         run: python apply_r937_ux.py
 
-      - name: Verify 101-theme / 3300-placement hybrid catalog
+      - name: Verify 101-theme / 3300-placement catalog
         run: python verify_music_install.py
 
-      - name: Persist audited 3300-placement catalog to main
+      - name: Persist stable 3300-placement catalog to main
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html 404.html
           if git diff --cached --quiet; then
-            echo "Audited catalog already persisted."
+            echo "Stable catalog already persisted."
           else
-            git commit -m "Persist audited 3300-placement catalog [skip ci]"
+            git commit -m "Persist stable local-audio 3300 catalog [skip ci]"
             git push origin HEAD:main
           fi
 
-      - name: Prepare lightweight Pages artifact
+      - name: Prepare Pages artifact with local audio
         run: python prepare_audio_site.py
 
       - name: Upload Pages artifact
