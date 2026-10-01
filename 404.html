@@ -7664,6 +7664,8 @@ body:has(#glassTransport.show):not(.detail-open) #scene{
   bottom:calc(42dvh + 88px)!important;
 }
 .passbook-card,.theme-atlas-row{content-visibility:auto;contain-intrinsic-size:360px}
+body:has(#glassTransport.show) .music-detail #trackList{padding-bottom:92px!important}
+body:has(#glassTransport.show) .detail .inner.music-detail{padding-bottom:calc(210px + env(safe-area-inset-bottom,0px))!important}
 @media(max-width:700px){
   .audio-accessory-card{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important}
   .vinyl{width:min(258px,80vw)!important}
