@@ -8079,7 +8079,8 @@ html.mt-passbook-scrolling .passbook-panel{
   .passbook-card{flex-basis:88vw!important}
 }
 </style>
-<style id="r937-ux-layer">\n/* musicetown R9.3.7 UX layer */
+<style id="r937-ux-layer">
+/* musicetown R9.3.7 UX layer */
 :root{--mt-safe-top:max(10px,env(safe-area-inset-top,0px));--mt-safe-bottom:max(10px,env(safe-area-inset-bottom,0px))}
 button,input,[role="button"]{-webkit-tap-highlight-color:transparent}
 button:focus-visible,input:focus-visible,[role="button"]:focus-visible{outline:2px solid var(--genre-accent,#6f8fa8);outline-offset:3px}
@@ -8099,7 +8100,7 @@ html.mt-atlas-scrolling .theme-shelf{-webkit-backdrop-filter:blur(8px) saturate(
 .passbook-progress button:disabled{opacity:.26;cursor:default}
 #audioAccessorySheet{padding:var(--mt-safe-top) max(10px,env(safe-area-inset-right,0px)) var(--mt-safe-bottom) max(10px,env(safe-area-inset-left,0px))!important}
 #audioAccessorySheet .audio-accessory-card{position:relative!important;isolation:isolate!important;max-height:calc(var(--musicetown-visible-height,100dvh) - var(--mt-safe-top) - var(--mt-safe-bottom))!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important}
-#audioAccessoryClose{position:sticky!important;float:right!important;top:8px!important;right:8px!important;left:auto!important;bottom:auto!important;margin:0 0 -44px auto!important;width:44px!important;height:44px!important;z-index:1002!important;transform:none!important;translate:none!important}
+#audioAccessoryClose{position:absolute!important;top:12px!important;right:12px!important;left:auto!important;bottom:auto!important;float:none!important;margin:0!important;width:44px!important;height:44px!important;z-index:1002!important;transform:none!important;translate:none!important}
 .deck-seek,.glass-seek{-webkit-appearance:none!important;appearance:none!important;min-height:34px!important;height:34px!important;background:transparent!important;touch-action:pan-x!important;cursor:pointer!important}
 .deck-seek::-webkit-slider-runnable-track,.glass-seek::-webkit-slider-runnable-track{height:5px;border-radius:999px;background:rgba(47,65,85,.16)}
 .deck-seek::-webkit-slider-thumb,.glass-seek::-webkit-slider-thumb{-webkit-appearance:none!important;appearance:none!important;width:22px;height:22px;border-radius:50%;margin-top:-8.5px;background:var(--genre-accent,#6f8fa8);border:4px solid rgba(255,255,255,.94);box-shadow:0 3px 12px rgba(32,48,68,.20)}
@@ -8122,7 +8123,8 @@ body:has(#glassTransport.show) .music-detail{padding-bottom:calc(190px + env(saf
   .theme-shelf-item{min-width:134px!important;max-width:174px!important}
   .passbook-progress button{width:40px;height:40px}
   .vinyl-wrap{min-height:344px!important}
-}\n</style>\n</head>
+}
+</style>\n</head>
 <body>
 
 <div id="welcome" class="welcome-active" aria-modal="true" role="dialog" aria-labelledby="welcomeTitle">
@@ -13792,7 +13794,8 @@ setTimeout(()=>{
 })();
 
 </script>
-<script id="r937-ux-script">\n(()=>{
+<script id="r937-ux-script">
+(()=>{
   const byId=id=>document.getElementById(id);
   const modalIds=['passbookSheet','audioAccessorySheet','localLibrarySheet','globalSearchSheet','cityPassSheet'];
   let locked=false,lockY=0;
@@ -13874,5 +13877,6 @@ setTimeout(()=>{
   };
   pinClose();
   window.visualViewport?.addEventListener('resize',pinClose,{passive:true});
-})();\n</script>\n</body>
+})();
+</script>\n</body>
 </html>
