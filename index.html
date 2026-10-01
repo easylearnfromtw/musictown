@@ -9239,7 +9239,7 @@ for(const d of DATA){
 function cityPassVisual(config){
   if(config?.qr)return config.qr;
   const code=String(config?.code||'MT').slice(0,8).toUpperCase();
-  const label=config?.kind==='university'?'CAMPUS PASS':'LIMITED PASS';
+  const label=config?.kind==='university'?'CAMPUS PASS':config?.kind==='landmark'?'LANDMARK PASS':'LIMITED PASS';
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
     <rect width="240" height="240" rx="42" fill="#f7fafc"/>
     <rect x="9" y="9" width="222" height="222" rx="34" fill="none" stroke="#29465d" stroke-opacity=".18" stroke-width="2"/>
@@ -9286,7 +9286,7 @@ async function getApproxIpGeo(){
 }
 function isCityPassMatch(theme,geo){
   const c=CITY_PASS_THEMES[theme];
-  if(!c||!geo||c.kind==='university')return false;
+  if(!c||!geo||c.kind==='university'||c.kind==='landmark')return false;
   if(String(geo.country_code||'').toUpperCase()!==c.country)return false;
   const city=normalizeCityPassText(geo.city);
   if(!city)return false;
@@ -9330,11 +9330,11 @@ function getPreciseCampusPosition(config){
     },{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
   });
 }
-async function eligiblePassGeo(theme,{requestCampus=false}={}){
+async function eligiblePassGeo(theme,{requestCampus=false,requestPrecise=false}={}){
   const config=CITY_PASS_THEMES[theme];
   if(!config)return null;
-  if(config.kind==='university'){
-    if(!requestCampus)return null;
+  if(config.kind==='university'||config.kind==='landmark'){
+    if(!(requestCampus||requestPrecise))return null;
     return await getPreciseCampusPosition(config);
   }
   const geo=await getApproxIpGeo();
@@ -9370,6 +9370,7 @@ function renderCityPass(drawer,geo){
   const config=CITY_PASS_THEMES[drawer.t];
   if(!config)return;
   const campus=config.kind==='university';
+  const landmark=config.kind==='landmark';
   applyCityPassTheme(drawer.t);
   const ticketNo=cityPassTicketNumber(config),tracks=cityPassTopTracks(drawer);
   cityPassActive={drawer,geo,config,ticketNo,tracks};
@@ -9378,12 +9379,13 @@ function renderCityPass(drawer,geo){
   $('cityPassDescription').textContent=config.summary;
   $('cityPassDetectedCity').textContent=(geo.campusName||geo.city||config.code).toUpperCase();
   $('cityPassTicketNo').textContent=ticketNo;
-  if($('cityPassProgramType'))$('cityPassProgramType').textContent=campus?'CAMPUS LIMITED MUSIC PASS':'CITY LIMITED MUSIC PASS';
-  if($('cityPassKicker'))$('cityPassKicker').textContent=campus?'CAMPUS EXCLUSIVE · GPS VERIFIED':'CITY EXCLUSIVE · IP MATCH';
-  if($('cityPassStatus'))$('cityPassStatus').textContent=campus?'GPS CAMPUS VERIFIED':'IP CITY MATCH';
-  if($('cityPassPrivacyTitle'))$('cityPassPrivacyTitle').textContent=campus?'PRECISE LOCATION · ON DEVICE':'APPROXIMATE LOCATION';
+  if($('cityPassProgramType'))$('cityPassProgramType').textContent=campus?'CAMPUS LIMITED MUSIC PASS':landmark?'LANDMARK LIMITED MUSIC PASS':'CITY LIMITED MUSIC PASS';
+  if($('cityPassKicker'))$('cityPassKicker').textContent=campus?'CAMPUS EXCLUSIVE · GPS VERIFIED':landmark?'LANDMARK EXCLUSIVE · GPS VERIFIED':'CITY EXCLUSIVE · IP MATCH';
+  if($('cityPassStatus'))$('cityPassStatus').textContent=campus?'GPS CAMPUS VERIFIED':landmark?'GPS LANDMARK VERIFIED':'IP CITY MATCH';
+  if($('cityPassPrivacyTitle'))$('cityPassPrivacyTitle').textContent=(campus||landmark)?'PRECISE LOCATION · ON DEVICE':'APPROXIMATE LOCATION';
   if($('cityPassPrivacyText'))$('cityPassPrivacyText').textContent=campus
     ?'校園資格只在你的裝置上即時判斷；musicetown 不儲存或上傳精確 GPS 座標。'
+    :landmark?'景點資格只在你的裝置上即時判斷；musicetown 不儲存或上傳精確 GPS 座標。'
     :'城市資格依公開 IP 的約略城市判定；musicetown 不保存完整 IP 位址。';
   document.querySelectorAll('.city-pass-qr-img').forEach(img=>img.src=cityPassVisual(config));
   const list=$('cityPassHotList');
@@ -9413,12 +9415,13 @@ async function refreshCityPassEligibility(index,{auto=false}={}){
   if(btn){btn.hidden=true;btn.disabled=false}
   if(!drawer||!config)return false;
 
-  if(config.kind==='university'){
+  if(config.kind==='university'||config.kind==='landmark'){
     if(btn){
+      const landmark=config.kind==='landmark';
       btn.hidden=false;
       btn.dataset.genreIndex=String(index);
-      btn.title=`${config.code} · CAMPUS LIMITED PASS · GPS REQUIRED`;
-      const label=btn.querySelector('span');if(label)label.textContent='CAMPUS PASS';
+      btn.title=`${config.code} · ${landmark?'LANDMARK':'CAMPUS'} LIMITED PASS · GPS REQUIRED`;
+      const label=btn.querySelector('span');if(label)label.textContent=landmark?'LANDMARK PASS':'CAMPUS PASS';
     }
     return true;
   }
@@ -9470,6 +9473,7 @@ async function buildCityPassCanvas(){
   if(!cityPassActive)return null;
   const {drawer,geo,config,ticketNo,tracks}=cityPassActive,ui=genreUiFor(drawer.t);
   const campus=config.kind==='university';
+  const landmark=config.kind==='landmark';
   const W=1080,H=1720,c=document.createElement('canvas');c.width=W;c.height=H;
   const ctx=c.getContext('2d');if(!ctx)return null;
   const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#F8FBFD');bg.addColorStop(.56,'#F0F4F8');bg.addColorStop(1,'#E8EDF3');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
@@ -9478,20 +9482,20 @@ async function buildCityPassCanvas(){
   let qr=null;try{qr=await loadCityPassImage(cityPassVisual(config))}catch(_){}
   if(qr)ctx.drawImage(qr,105,105,210,210);
   ctx.fillStyle=ui.ink||'#29465d';ctx.textAlign='left';ctx.font='700 28px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText('MUSICTOWN',360,142);
-  ctx.font='700 15px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.globalAlpha=.50;ctx.fillText(campus?'CAMPUS LIMITED MUSIC PASS':'CITY LIMITED MUSIC PASS',360,177);ctx.globalAlpha=1;
+  ctx.font='700 15px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.globalAlpha=.50;ctx.fillText(campus?'CAMPUS LIMITED MUSIC PASS':landmark?'LANDMARK LIMITED MUSIC PASS':'CITY LIMITED MUSIC PASS',360,177);ctx.globalAlpha=1;
   ctx.textAlign='right';ctx.font='700 54px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillStyle=ui.accent||'#719aa0';ctx.fillText(config.code,930,260);
   ctx.setLineDash([9,10]);ctx.strokeStyle='rgba(36,63,86,.15)';ctx.beginPath();ctx.moveTo(105,350);ctx.lineTo(930,350);ctx.stroke();ctx.setLineDash([]);
-  ctx.textAlign='left';ctx.fillStyle=ui.accent||'#719aa0';ctx.font='700 14px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(campus?'CAMPUS EXCLUSIVE · GPS VERIFIED':'CITY EXCLUSIVE · IP CITY MATCH',105,410);
+  ctx.textAlign='left';ctx.fillStyle=ui.accent||'#719aa0';ctx.font='700 14px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(campus?'CAMPUS EXCLUSIVE · GPS VERIFIED':landmark?'LANDMARK EXCLUSIVE · GPS VERIFIED':'CITY EXCLUSIVE · IP CITY MATCH',105,410);
   ctx.fillStyle=ui.ink||'#29465d';ctx.font='700 55px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';let title=drawer.t;while(ctx.measureText(title).width>825&&title.length>8)title=title.slice(0,-1);ctx.fillText(title,105,475);
   ctx.fillStyle='rgba(41,70,93,.64)';ctx.font='500 24px Georgia,"Times New Roman",serif';wrapCanvasText(ctx,config.summary,810).slice(0,4).forEach((line,i)=>ctx.fillText(line,105,535+i*36));
-  const metaY=705,meta=[['PROGRAM','MUSICTOWN'],['LOCATION',String(geo.campusName||geo.city||config.code).toUpperCase()],['STATUS',campus?'GPS VERIFIED':'APPROX. IP MATCH'],['TICKET',ticketNo]],colW=825/4;
+  const metaY=705,meta=[['PROGRAM','MUSICTOWN'],['LOCATION',String(geo.campusName||geo.city||config.code).toUpperCase()],['STATUS',(campus||landmark)?'GPS VERIFIED':'APPROX. IP MATCH'],['TICKET',ticketNo]],colW=825/4;
   meta.forEach(([k,v],i)=>{const x=105+i*colW;ctx.fillStyle='rgba(41,70,93,.38)';ctx.font='700 12px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(k,x,metaY);ctx.fillStyle=ui.ink||'#29465d';ctx.font='700 17px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';let vv=v;while(ctx.measureText(vv).width>colW-22&&vv.length>5)vv=vv.slice(0,-1);if(vv!==v)vv=vv.slice(0,-1)+'…';ctx.fillText(vv,x,metaY+31)});
   ctx.fillStyle=ui.accent||'#719aa0';ctx.font='700 13px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText('LOCAL SOUND INDEX',105,820);
   ctx.fillStyle=ui.ink||'#29465d';ctx.font='700 32px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText('熱門音樂 · HOT 5',105,868);
   const sourceTracks=tracks.length?tracks:Array.from({length:5},(_,i)=>({title:i===0?'CURATION IN PROGRESS':'—',artist:'musicetown'}));
   sourceTracks.slice(0,5).forEach((t,i)=>{const y=935+i*118;ctx.fillStyle='rgba(255,255,255,.72)';roundRectPath(ctx,105,y,825,92,22);ctx.fill();ctx.fillStyle=ui.accent||'#719aa0';ctx.font='700 18px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(String(i+1).padStart(2,'0'),130,y+37);ctx.fillStyle=ui.ink||'#29465d';ctx.font='700 22px Georgia,"Times New Roman",serif';let tt=String(t.title||'Untitled');while(ctx.measureText(tt).width>560&&tt.length>7)tt=tt.slice(0,-1);if(tt!==String(t.title||''))tt=tt.slice(0,-1)+'…';ctx.fillText(tt,190,y+34);ctx.fillStyle='rgba(41,70,93,.48)';ctx.font='600 15px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(String(t.artist||'musicetown'),190,y+64);ctx.textAlign='right';ctx.font='700 12px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(Number(t.plays)>0?`${Number(t.plays).toLocaleString()} PLAYS`:'HOT',900,y+48);ctx.textAlign='left'});
-  ctx.fillStyle=ui.accent||'#719aa0';ctx.font='700 13px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(campus?'CAMPUS LOCATION · COLLECTIBLE DIGITAL TICKET':'APPROXIMATE LOCATION · COLLECTIBLE DIGITAL TICKET',105,1575);
-  ctx.fillStyle='rgba(41,70,93,.46)';ctx.font='500 14px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(campus?'GPS is checked on device only; precise coordinates are not stored.':'IP city is approximate. musicetown does not store your full IP address.',105,1607);
+  ctx.fillStyle=ui.accent||'#719aa0';ctx.font='700 13px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(campus?'CAMPUS LOCATION · COLLECTIBLE DIGITAL TICKET':landmark?'LANDMARK LOCATION · COLLECTIBLE DIGITAL TICKET':'APPROXIMATE LOCATION · COLLECTIBLE DIGITAL TICKET',105,1575);
+  ctx.fillStyle='rgba(41,70,93,.46)';ctx.font='500 14px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText((campus||landmark)?'GPS is checked on device only; precise coordinates are not stored.':'IP city is approximate. musicetown does not store your full IP address.',105,1607);
   ctx.textAlign='right';ctx.fillStyle=ui.ink||'#29465d';ctx.font='700 13px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText('musicetown · '+config.code,930,1607);
   return c;
 }
@@ -9502,8 +9506,10 @@ async function saveCityPassTicket(){
     if(!blob)return;
     try{
       const file=new File([blob],fileName,{type:'image/png'});
-      const campus=cityPassActive?.config?.kind==='university';
-      if(navigator.share&&navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:campus?'MUSICTOWN CAMPUS PASS':'MUSICTOWN CITY PASS',text:`${cityPassActive.drawer.t} · ${campus?'CAMPUS LIMITED PASS':'CITY LIMITED PASS'}`});return}
+      const campus=cityPassActive?.config?.kind==='university',landmark=cityPassActive?.config?.kind==='landmark';
+      const passTitle=campus?'MUSICTOWN CAMPUS PASS':landmark?'MUSICTOWN LANDMARK PASS':'MUSICTOWN CITY PASS';
+      const passKind=campus?'CAMPUS LIMITED PASS':landmark?'LANDMARK LIMITED PASS':'CITY LIMITED PASS';
+      if(navigator.share&&navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:passTitle,text:`${cityPassActive.drawer.t} · ${passKind}`});return}
     }catch(err){if(err?.name==='AbortError')return}
     const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=fileName;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
   },'image/png',.96);
@@ -9537,17 +9543,18 @@ document.addEventListener('DOMContentLoaded',()=>{
     const config=CITY_PASS_THEMES[DATA[i].t];
     if(!config)return;
     const label=btn?.querySelector('span');
-    if(config.kind==='university'){
+    if(config.kind==='university'||config.kind==='landmark'){
+      const landmark=config.kind==='landmark';
       if(btn)btn.disabled=true;
       if(label)label.textContent='CHECKING GPS…';
-      const geo=await eligiblePassGeo(DATA[i].t,{requestCampus:true});
+      const geo=await eligiblePassGeo(DATA[i].t,{requestPrecise:true});
       if(btn)btn.disabled=false;
       if(geo){
-        if(label)label.textContent='CAMPUS PASS';
+        if(label)label.textContent=landmark?'LANDMARK PASS':'CAMPUS PASS';
         openCityPass(DATA[i],geo,{auto:false});
       }else{
-        if(label)label.textContent='CAMPUS ONLY';
-        setTimeout(()=>{if(label)label.textContent='CAMPUS PASS'},1800);
+        if(label)label.textContent=landmark?'LANDMARK ONLY':'CAMPUS ONLY';
+        setTimeout(()=>{if(label)label.textContent=landmark?'LANDMARK PASS':'CAMPUS PASS'},1800);
       }
       return;
     }
