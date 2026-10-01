@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
+from urllib.parse import urlparse
 import json,re,subprocess,shutil,sys
 
 ROOT=Path(__file__).resolve().parent
@@ -9,39 +10,95 @@ if not m:
     raise SystemExit("MUSIC_DATA not found")
 data=json.loads(m.group(1))
 
-expected=[]
-for d in data:
-    for t in d.get("tracks",[]):
-        expected.append((d["t"],t.get("title",""),t.get("audioSrc","")))
+EXPECTED_DRAWERS=23
+EXPECTED_PER_DRAWER=50
+EXPECTED_TOTAL=EXPECTED_DRAWERS*EXPECTED_PER_DRAWER
 
 missing=[]
 bad=[]
+remote=[]
+local=[]
+counts={}
+seen_share_ids=set()
+
 ffprobe=shutil.which("ffprobe")
 
-for drawer,title,rel in expected:
-    p=ROOT/rel
-    if not rel or not p.exists():
-        missing.append(f"{drawer} :: {title} :: {rel}")
-        continue
-    if p.stat().st_size<20000:
-        bad.append(f"{rel}: too small ({p.stat().st_size} bytes)")
-        continue
-    if ffprobe:
-        r=subprocess.run(
-          [ffprobe,"-v","error","-show_entries","format=duration","-of","default=nw=1:nk=1",str(p)],
-          capture_output=True,text=True
-        )
-        if r.returncode!=0:
-            bad.append(f"{rel}: ffprobe failed")
+for d in data:
+    name=d.get("t","UNKNOWN")
+    tracks=d.get("tracks",[])
+    counts[name]=len(tracks)
+    if len(tracks)!=EXPECTED_PER_DRAWER:
+        bad.append(f"{name}: expected {EXPECTED_PER_DRAWER} tracks, got {len(tracks)}")
+    if d.get("installPending"):
+        bad.append(f"{name}: installPending still true")
 
-total=len(expected)
-ready=total-len(missing)-len(bad)
-report={"expected":total,"ready":ready,"missing":missing,"bad":bad}
+    drawer_seen=set()
+    for t in tracks:
+        title=t.get("title","")
+        rel=str(t.get("audioSrc","") or "").strip()
+        sid=str(t.get("shareId","") or "").strip()
+        if sid:
+            if sid in drawer_seen:
+                bad.append(f"{name}: duplicate shareId {sid}")
+            drawer_seen.add(sid)
+            seen_share_ids.add(sid)
+
+        if not rel:
+            missing.append(f"{name} :: {title} :: empty audioSrc")
+            continue
+
+        parsed=urlparse(rel)
+        if parsed.scheme in {"http","https"}:
+            if parsed.scheme!="https":
+                bad.append(f"{name} :: {title} :: remote audio must use HTTPS")
+            if not t.get("licenseVerified"):
+                bad.append(f"{name} :: {title} :: remote stream is not licenseVerified")
+            if not t.get("source"):
+                bad.append(f"{name} :: {title} :: remote stream missing source page")
+            remote.append(rel)
+            continue
+
+        p=ROOT/rel
+        if not p.exists():
+            missing.append(f"{name} :: {title} :: {rel}")
+            continue
+        if p.stat().st_size<20000:
+            bad.append(f"{rel}: too small ({p.stat().st_size} bytes)")
+            continue
+        if ffprobe:
+            r=subprocess.run(
+              [ffprobe,"-v","error","-show_entries","format=duration","-of","default=nw=1:nk=1",str(p)],
+              capture_output=True,text=True
+            )
+            if r.returncode!=0:
+                bad.append(f"{rel}: ffprobe failed")
+                continue
+        local.append(rel)
+
+if len(data)!=EXPECTED_DRAWERS:
+    bad.append(f"catalog: expected {EXPECTED_DRAWERS} drawers, got {len(data)}")
+
+total=sum(counts.values())
+ready=total-len(missing)-len([x for x in bad if "::" in x or ": too small" in x or ": ffprobe failed" in x])
+
+report={
+  "expected":EXPECTED_TOTAL,
+  "drawers":len(data),
+  "counts":counts,
+  "total":total,
+  "ready":ready,
+  "localAudio":len(local),
+  "remoteAudio":len(remote),
+  "missing":missing,
+  "bad":bad
+}
 (ROOT/"MUSIC_INSTALL_REPORT.json").write_text(
     json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8"
 )
 
-print(f"\nMUSIC READY: {ready}/{total}")
+print(f"\nMUSIC CATALOG: {total}/{EXPECTED_TOTAL}")
+print(f"LOCAL AUDIO: {len(local)}")
+print(f"REMOTE VERIFIED STREAMS: {len(remote)}")
 if missing:
     print("\nMISSING:")
     for x in missing[:100]:print(" -",x)
@@ -49,7 +106,4 @@ if bad:
     print("\nBAD:")
     for x in bad[:100]:print(" -",x)
 
-if total!=550:
-    print(f"\nWARNING: catalog currently contains {total} tracks, not 550.")
-
-sys.exit(1 if missing or bad else 0)
+sys.exit(1 if missing or bad or total!=EXPECTED_TOTAL else 0)
