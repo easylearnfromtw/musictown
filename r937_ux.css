@@ -1,4 +1,4 @@
-/* musicetown R9.3.7 UX layer */
+/* musicetown R9.3.9 UX + local passbook layer */
 :root{--mt-safe-top:max(10px,env(safe-area-inset-top,0px));--mt-safe-bottom:max(10px,env(safe-area-inset-bottom,0px))}
 button,input,[role="button"]{-webkit-tap-highlight-color:transparent}
 button:focus-visible,input:focus-visible,[role="button"]:focus-visible{outline:2px solid var(--genre-accent,#6f8fa8);outline-offset:3px}
@@ -41,4 +41,209 @@ body:has(#glassTransport.show) .music-detail{padding-bottom:calc(190px + env(saf
   .theme-shelf-item{min-width:134px!important;max-width:174px!important}
   .passbook-progress button{width:40px;height:40px}
   .vinyl-wrap{min-height:344px!important}
+}
+
+/* ===== R9.3.9 mobile information architecture ===== */
+#localLibraryFab{
+  position:fixed!important;
+  top:calc(var(--mt-safe-top) + 6px)!important;
+  left:max(10px,env(safe-area-inset-left,0px))!important;
+  right:auto!important;
+  bottom:auto!important;
+  transform:none!important;
+  translate:none!important;
+  margin:0!important;
+  z-index:970!important;
+  min-width:94px!important;
+  max-width:116px!important;
+  height:42px!important;
+  border-radius:999px!important;
+  padding:0 12px!important;
+  background:rgba(250,252,255,.78)!important;
+  border:1px solid rgba(255,255,255,.82)!important;
+  box-shadow:0 8px 28px rgba(34,49,68,.12)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(132%)!important;
+  backdrop-filter:blur(18px) saturate(132%)!important;
+}
+#passbookOpen,.mt-passbook-open{
+  position:fixed!important;
+  top:calc(var(--mt-safe-top) + 6px)!important;
+  left:calc(max(10px,env(safe-area-inset-left,0px)) + 102px)!important;
+  right:auto!important;
+  bottom:auto!important;
+  z-index:969!important;
+  height:42px!important;
+  min-width:84px!important;
+  max-width:108px!important;
+  border-radius:999px!important;
+  padding:0 11px!important;
+  border:1px solid rgba(255,255,255,.82)!important;
+  background:rgba(250,252,255,.72)!important;
+  color:#29465d!important;
+  box-shadow:0 8px 28px rgba(34,49,68,.10)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(132%)!important;
+  backdrop-filter:blur(18px) saturate(132%)!important;
+}
+.mt-pass-count{
+  display:inline-grid;place-items:center;
+  min-width:16px;height:16px;padding:0 4px;margin-left:5px;border-radius:999px;
+  background:#29465d;color:#fff;font:800 8px/1 var(--grotesk)
+}
+body.welcome-active #localLibraryFab,
+body.welcome-active #passbookOpen,
+body.welcome-active .mt-passbook-open{opacity:0!important;pointer-events:none!important}
+
+/* Theme atlas = vertical sections, horizontal rails inside each section. */
+.theme-group-items{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:14px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  padding:10px 10px calc(26px + var(--mt-safe-bottom))!important;
+  scroll-padding-block:12px!important;
+}
+.theme-atlas-row{
+  display:block!important;
+  flex:0 0 auto!important;
+  min-height:82px!important;
+  padding:1px 0 10px!important;
+  border-bottom:1px solid rgba(49,68,88,.075)!important;
+}
+.theme-atlas-row:last-child{border-bottom:0!important}
+.theme-atlas-row-head{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:10px!important;padding:0 4px 7px!important;
+}
+.theme-atlas-row-head b,
+.theme-atlas-row-head strong{
+  font:800 8px/1 var(--grotesk)!important;
+  letter-spacing:.13em!important;color:rgba(41,70,93,.72)!important
+}
+.theme-atlas-track{
+  gap:9px!important;
+  min-height:52px!important;
+  padding:1px 28px 4px 4px!important
+}
+.theme-shelf-item{
+  flex:0 0 auto!important;
+  min-width:138px!important;
+  max-width:184px!important;
+  min-height:50px!important;
+  border-radius:16px!important;
+}
+.theme-shelf{
+  bottom:calc(88px + var(--mt-safe-bottom))!important;
+  max-height:min(72dvh,650px)!important;
+  overflow:hidden!important;
+}
+body.theme-atlas-expanded .theme-shelf{max-height:min(84dvh,760px)!important}
+.theme-group-items{max-height:calc(min(72dvh,650px) - 58px)!important}
+body.theme-atlas-expanded .theme-group-items{max-height:calc(min(84dvh,760px) - 58px)!important}
+body:has(#glassTransport.show) .theme-shelf{bottom:calc(112px + var(--mt-safe-bottom))!important}
+
+/* Audio Output: X belongs to the card, not the viewport. */
+#audioAccessorySheet{
+  display:grid!important;
+  place-items:center!important;
+  align-content:center!important;
+}
+#audioAccessorySheet .audio-accessory-card{
+  position:relative!important;
+  width:min(92vw,560px)!important;
+  max-width:calc(100vw - 20px)!important;
+  padding-top:62px!important;
+  margin:auto!important;
+  overflow:auto!important;
+}
+#audioAccessoryClose{
+  position:absolute!important;
+  inset:10px 10px auto auto!important;
+  width:42px!important;height:42px!important;
+  z-index:20!important;
+  border-radius:50%!important;
+}
+
+/* Vinyl: larger target + clearer physical affordance. */
+.vinyl-wrap{
+  position:relative!important;
+  touch-action:none!important;
+  padding:24px!important;
+  min-height:382px!important;
+  cursor:grab!important;
+}
+.vinyl-wrap.mt-vinyl-dragging{cursor:grabbing!important}
+.vinyl-wrap::after{
+  content:'DRAG RECORD TO SEEK';
+  position:absolute;left:50%;bottom:8px;translate:-50% 0;
+  color:rgba(39,57,77,.34);
+  font:760 6px/1 var(--grotesk);letter-spacing:.13em;
+  pointer-events:none
+}
+.vinyl,.vinyl-rotor,.record,.record-disc{
+  touch-action:none!important;
+  -webkit-user-select:none!important;user-select:none!important
+}
+
+/* Local passbook. */
+.passbook-sheet{z-index:1160!important}
+.passbook-panel{
+  width:min(94vw,620px)!important;
+  max-height:min(86dvh,820px)!important;
+  overflow:hidden!important;
+}
+.passbook-carousel{
+  display:flex!important;
+  gap:14px!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  padding:14px 18px 18px!important;
+}
+.passbook-card.mt-local-passbook-card{
+  position:relative;
+  flex:0 0 min(82vw,360px)!important;
+  min-height:410px!important;
+  padding:22px!important;
+  border-radius:28px!important;
+  background:
+    radial-gradient(circle at 86% 12%,rgba(255,255,255,.78),transparent 30%),
+    linear-gradient(145deg,rgba(255,255,255,.93),rgba(229,236,244,.82))!important;
+  border:1px solid rgba(255,255,255,.95)!important;
+  box-shadow:0 24px 70px rgba(31,48,68,.14)!important;
+  color:#29465d!important;
+  overflow:hidden;
+}
+.mt-pass-kicker{font:800 7px/1 var(--grotesk);letter-spacing:.15em;color:rgba(41,70,93,.45);margin-bottom:14px}
+.mt-pass-code{font:900 clamp(34px,10vw,58px)/.88 var(--grotesk);letter-spacing:-.05em;margin:0 0 12px}
+.mt-pass-theme{font:800 13px/1.18 var(--grotesk);letter-spacing:.03em;margin:0 0 8px}
+.mt-pass-description{font:560 12px/1.55 var(--serif);color:rgba(41,70,93,.68);min-height:58px;margin:0 0 18px}
+.mt-pass-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}
+.mt-pass-meta div{padding:10px;border-radius:14px;background:rgba(255,255,255,.58);border:1px solid rgba(41,70,93,.06)}
+.mt-pass-meta small{display:block;font:800 6px/1 var(--grotesk);letter-spacing:.12em;color:rgba(41,70,93,.38);margin-bottom:5px}
+.mt-pass-meta b{display:block;font:760 9px/1.2 var(--grotesk);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mt-pass-actions{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:16px}
+.mt-pass-actions button{
+  min-height:38px;border-radius:12px;border:1px solid rgba(41,70,93,.09);
+  background:rgba(255,255,255,.72);color:#29465d;
+  font:800 7px/1 var(--grotesk);letter-spacing:.1em
+}
+.mt-pass-actions .mt-pass-delete{width:38px;padding:0;color:rgba(82,48,48,.62)}
+.mt-passbook-empty{
+  flex:1 0 100%;display:grid;place-items:center;min-height:280px;text-align:center;
+  color:rgba(41,70,93,.46);font:700 9px/1.6 var(--grotesk);letter-spacing:.08em
+}
+
+@media(max-width:700px){
+  #localLibraryFab{top:calc(var(--mt-safe-top) + 4px)!important;left:10px!important;height:40px!important;min-width:88px!important;padding-inline:10px!important}
+  #passbookOpen,.mt-passbook-open{top:calc(var(--mt-safe-top) + 4px)!important;left:106px!important;height:40px!important;min-width:78px!important}
+  .theme-shelf{left:7px!important;right:7px!important;max-height:68dvh!important;border-radius:24px!important}
+  .theme-group-items{max-height:calc(68dvh - 56px)!important;gap:12px!important}
+  body.theme-atlas-expanded .theme-shelf{max-height:82dvh!important}
+  body.theme-atlas-expanded .theme-group-items{max-height:calc(82dvh - 56px)!important}
+  .theme-shelf-item{min-width:132px!important;max-width:164px!important}
+  .vinyl-wrap{padding:30px 22px 34px!important;min-height:400px!important}
+  .vinyl,.vinyl-rotor,.record,.record-disc{max-width:min(84vw,346px)!important;max-height:min(84vw,346px)!important}
+  #audioAccessorySheet .audio-accessory-card{width:calc(100vw - 18px)!important;max-height:calc(100dvh - var(--mt-safe-top) - var(--mt-safe-bottom) - 16px)!important}
 }
