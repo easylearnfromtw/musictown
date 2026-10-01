@@ -13,6 +13,8 @@ name: R9.3 · 101 themes / 3300 placements · Hybrid Deploy
       - "build_limited_theme_packs.py"
       - "verify_music_install.py"
       - "prepare_audio_site.py"
+      - "index.html"
+      - "404.html"
       - ".github/workflows/install-1150-music-and-deploy.yml"
 
 permissions:
