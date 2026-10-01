@@ -59,11 +59,13 @@ def direct_audio_from_page(url,title):
     if not verify_cc0(h,url):
         raise RuntimeError("source no longer shows CC0 1.0 Universal")
     soup=BeautifulSoup(h,"html.parser")
-    # visible Download link
+    # Visible Download link. Some audited Nullrights records use a
+    # redirect endpoint without a filename extension; the track page itself
+    # has already passed the explicit CC0 hard gate above.
     for a in soup.find_all("a",href=True):
         label=a.get_text(" ",strip=True).lower()
         href=urljoin(url,a["href"])
-        if "download" in label and re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",href,re.I):
+        if "download" in label and href.startswith(("https://","http://")):
             return href
     # media/src links
     for node in soup.find_all(["audio","source","a"],src=True):
