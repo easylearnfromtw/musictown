@@ -381,7 +381,7 @@ def main():
             t["shareId"]=f"{folder}-{i:03d}"
             t["freshCity"]=True
             t["curatedTheme"]=city
-            t["vibe"]=f"{profile['label']} · {t['genre']}"
+            t["vibe"]=f"{profile['label']} · {t.get('genre') or t.get('_catalogDrawer') or 'CC0 Music'}"
 
             print(f"  [{i:02d}/{args.per_city}] {t['artist']} — {t['title']} · {tier}")
             if args.streaming:
