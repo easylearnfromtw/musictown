@@ -13,7 +13,7 @@ data=json.loads(m.group(1))
 LIMITED=json.loads((ROOT/"limited_theme_profiles.json").read_text(encoding="utf-8")) if (ROOT/"limited_theme_profiles.json").exists() else {}
 FRESH=json.loads((ROOT/"fresh_city_profiles.json").read_text(encoding="utf-8")) if (ROOT/"fresh_city_profiles.json").exists() else {}
 THEMES=json.loads((ROOT/"theme_profiles.json").read_text(encoding="utf-8")) if (ROOT/"theme_profiles.json").exists() else {}
-EXPECTED_BASE_DRAWERS=5+len(FRESH)+len(THEMES)
+EXPECTED_BASE_DRAWERS=len(FRESH)+len(THEMES)
 EXPECTED_LIMITED_DRAWERS=len(LIMITED)
 EXPECTED_DRAWERS=EXPECTED_BASE_DRAWERS+EXPECTED_LIMITED_DRAWERS
 EXPECTED_TOTAL=EXPECTED_BASE_DRAWERS*50+sum(int(v.get("track_count",25)) for v in LIMITED.values())
