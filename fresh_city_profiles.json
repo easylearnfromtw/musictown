@@ -1,4 +1,292 @@
 {
+  "TAIPEI DREAM": {
+    "slug": "taipei-dream",
+    "label": "Taipei Dream · Indie / Lo-fi / Rainy Night",
+    "queries": [
+      "indie vocal",
+      "bedroom pop vocal",
+      "lofi vocal",
+      "folk vocal mellow",
+      "dream pop vocal",
+      "soft pop vocal"
+    ],
+    "genres": [
+      "Pop",
+      "Folk",
+      "Chill-out",
+      "Experimental Pop"
+    ],
+    "keywords": [
+      "indie",
+      "bedroom",
+      "lofi",
+      "lo-fi",
+      "dream",
+      "soft",
+      "mellow",
+      "rain",
+      "night",
+      "folk",
+      "pop",
+      "chill"
+    ],
+    "required_any": [
+      "indie",
+      "bedroom",
+      "lofi",
+      "lo-fi",
+      "dream",
+      "folk",
+      "pop",
+      "chill"
+    ],
+    "reject": [
+      "hard techno",
+      "metal",
+      "corporate"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "OLD TOKYO": {
+    "slug": "old-tokyo",
+    "label": "Old Tokyo · Retro / Synth / City Pop-adjacent",
+    "queries": [
+      "synth pop vocal",
+      "retro pop vocal",
+      "disco vocal",
+      "funk pop vocal",
+      "synthwave vocal",
+      "electronic pop vocal"
+    ],
+    "genres": [
+      "Pop",
+      "Electronic",
+      "Funk / Soul"
+    ],
+    "keywords": [
+      "synth",
+      "retro",
+      "disco",
+      "funk",
+      "pop",
+      "electronic",
+      "night",
+      "vaporwave",
+      "synthwave",
+      "dance"
+    ],
+    "required_any": [
+      "synth",
+      "retro",
+      "disco",
+      "funk",
+      "pop",
+      "electronic",
+      "night",
+      "synthwave",
+      "dance"
+    ],
+    "reject": [
+      "meditation",
+      "sacred",
+      "corporate"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "SPLENDOR SHANGHAI": {
+    "slug": "splendor-shanghai",
+    "label": "Splendor Shanghai · Jazz / Soul / Vintage",
+    "queries": [
+      "jazz vocal",
+      "soul vocal",
+      "blues vocal",
+      "swing vocal",
+      "vintage vocal",
+      "lounge vocal"
+    ],
+    "genres": [
+      "Jazz",
+      "Funk / Soul",
+      "Blues"
+    ],
+    "keywords": [
+      "jazz",
+      "soul",
+      "blues",
+      "swing",
+      "vintage",
+      "lounge",
+      "ballroom",
+      "slow",
+      "romantic"
+    ],
+    "required_any": [
+      "jazz",
+      "soul",
+      "blues",
+      "swing",
+      "vintage",
+      "lounge",
+      "ballroom"
+    ],
+    "reject": [
+      "hard techno",
+      "metal",
+      "corporate"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "VANCOUVER": {
+    "slug": "vancouver",
+    "label": "Vancouver · Pacific Rain / Coastal Indie",
+    "queries": [
+      "folk vocal",
+      "acoustic vocal",
+      "indie folk vocal",
+      "dreamy vocal",
+      "mellow vocal",
+      "ambient vocal"
+    ],
+    "genres": [
+      "Folk",
+      "Chill-out",
+      "Ambient",
+      "Pop"
+    ],
+    "keywords": [
+      "folk",
+      "acoustic",
+      "dream",
+      "mellow",
+      "ambient",
+      "slow",
+      "relaxing",
+      "indie",
+      "rain",
+      "nature"
+    ],
+    "required_any": [
+      "folk",
+      "acoustic",
+      "dream",
+      "mellow",
+      "ambient",
+      "indie",
+      "rain",
+      "nature"
+    ],
+    "reject": [
+      "hard techno",
+      "industrial",
+      "corporate"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "VAPOR LONDON": {
+    "slug": "vapor-london",
+    "label": "Vapor London · Post-Punk / Art Pop / Mist",
+    "queries": [
+      "post punk vocal",
+      "art pop vocal",
+      "indie rock vocal",
+      "new wave vocal",
+      "alternative rock vocal",
+      "experimental pop vocal"
+    ],
+    "genres": [
+      "Rock",
+      "Experimental Pop",
+      "Pop"
+    ],
+    "keywords": [
+      "post-punk",
+      "post punk",
+      "art pop",
+      "indie",
+      "rock",
+      "alternative",
+      "new wave",
+      "experimental",
+      "punk"
+    ],
+    "required_any": [
+      "post-punk",
+      "post punk",
+      "art pop",
+      "indie",
+      "rock",
+      "alternative",
+      "new wave",
+      "experimental",
+      "punk"
+    ],
+    "reject": [
+      "corporate",
+      "meditation"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "NEW YORK": {
+    "slug": "new-york",
+    "label": "New York · Downtown / Soul / Jazz-Funk",
+    "queries": [
+      "soul vocal",
+      "funk vocal",
+      "jazz funk vocal",
+      "urban pop vocal",
+      "hip hop vocal",
+      "rnb vocal"
+    ],
+    "genres": [
+      "Funk / Soul",
+      "Jazz",
+      "Hip Hop",
+      "Pop"
+    ],
+    "keywords": [
+      "soul",
+      "funk",
+      "jazz",
+      "urban",
+      "hip hop",
+      "groove",
+      "r&b",
+      "rnb",
+      "downtown",
+      "city",
+      "pop"
+    ],
+    "required_any": [
+      "soul",
+      "funk",
+      "jazz",
+      "urban",
+      "hip hop",
+      "groove",
+      "r&b",
+      "rnb",
+      "city",
+      "pop"
+    ],
+    "reject": [
+      "meditation",
+      "sacred",
+      "corporate"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
   "TROPICAL HAWAII": {
     "slug": "tropical-hawaii",
     "label": "Tropical Hawaii · Island / Surf / Reggae",
