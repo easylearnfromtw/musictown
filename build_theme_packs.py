@@ -22,7 +22,8 @@ TIMEOUT=45
 RATE_LOCK=threading.Lock()
 LAST_REQUEST_AT=0.0
 RATE_BLOCK_UNTIL=0.0
-MIN_REQUEST_INTERVAL=0.22
+MIN_REQUEST_INTERVAL=0.18
+TRACK_HTML_CACHE={}
 
 def get(url,tries=6):
     global LAST_REQUEST_AT,RATE_BLOCK_UNTIL
@@ -57,7 +58,7 @@ def norm(s):
 def key(title,artist):
     return f"{norm(artist).casefold()}||{norm(title).casefold()}"
 
-def discover(query,max_pages=14):
+def discover(query,max_pages=5):
     found=[]
     for p in range(1,max_pages+1):
         url=f"{NULLRIGHTS}/search?q={quote_plus(query)}&page={p}"
@@ -68,7 +69,7 @@ def discover(query,max_pages=14):
         found.extend(urljoin(NULLRIGHTS,x) for x in links)
     return list(dict.fromkeys(found))
 
-def discover_genre(genre,max_pages=10):
+def discover_genre(genre,max_pages=4):
     found=[]
     for p in range(1,max_pages+1):
         url=f"{NULLRIGHTS}/genre/{quote_plus(genre)}?page={p}"
@@ -80,7 +81,10 @@ def discover_genre(genre,max_pages=10):
     return list(dict.fromkeys(found))
 
 def parse_track(url,profile):
-    h=get(url).text
+    h=TRACK_HTML_CACHE.get(url)
+    if h is None:
+        h=get(url).text
+        TRACK_HTML_CACHE[url]=h
     soup=BeautifulSoup(h,"html.parser")
     txt=norm(soup.get_text(" ",strip=True))
     low=txt.casefold()
@@ -256,9 +260,9 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--per-theme",type=int,default=50)
     ap.add_argument("--bitrate",default="64k")
-    ap.add_argument("--max-candidates",type=int,default=420)
+    ap.add_argument("--max-candidates",type=int,default=220)
     ap.add_argument("--max-per-artist",type=int,default=4)
-    ap.add_argument("--workers",type=int,default=3)
+    ap.add_argument("--workers",type=int,default=4)
     ap.add_argument("--streaming",action="store_true",help="Keep verified remote audio URLs instead of packaging MP3 files into GitHub Pages.")
     args=ap.parse_args()
 
@@ -267,6 +271,14 @@ def main():
 
     _,_,data=read_catalog(index)
     by_name={d["t"]:d for d in data}
+    catalog_fallback=[]
+    for d in data:
+        for src in d.get("tracks",[]):
+            if not src.get("licenseVerified") or not src.get("audioSrc"):continue
+            clone=dict(src)
+            clone["download"]=clone.get("download") or clone.get("audioSrc")
+            clone["_catalogDrawer"]=d.get("t")
+            catalog_fallback.append(clone)
 
     # Protect the 11 established drawers. Newly curated city packs are a soft
     # exclusion: avoid them first, but allow controlled reuse as a fallback.
@@ -419,7 +431,24 @@ def main():
                 if len(selected)>=args.per_theme:break
 
         if len(selected)<args.per_theme:
-            raise RuntimeError(f"{theme}: only {len(selected)} verified CC0 tracks available in its own query/genre pool")
+            fallback=[]
+            for src in catalog_fallback:
+                t=dict(src)
+                k=key(t.get("title"),t.get("artist"))
+                if k in selected_keys:continue
+                try:score(t,p)
+                except Exception:continue
+                fallback.append(t)
+            fallback.sort(key=lambda t:(-t.get("_score",0),hashlib.sha1((theme+str(t.get("shareId",""))).encode()).hexdigest()))
+            for t in fallback:
+                k=key(t.get("title"),t.get("artist"))
+                if k in selected_keys:continue
+                t["_curationTier"]="verified-catalog-fallback"
+                selected.append(t);selected_keys.add(k)
+                if len(selected)>=args.per_theme:break
+
+        if len(selected)<args.per_theme:
+            raise RuntimeError(f"{theme}: only {len(selected)} verified CC0 tracks available after catalog fallback")
 
         folder=p["slug"]
         target=ROOT/folder
