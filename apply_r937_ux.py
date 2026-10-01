@@ -10,12 +10,12 @@ for name in ("index.html","404.html"):
     style='<style id="r937-ux-layer">\n'+css+'\n</style>'
     script='<script id="r937-ux-script">\n'+js+'\n</script>'
     if re.search(r'<style id="r937-ux-layer">[\s\S]*?</style>',text):
-        text=re.sub(r'<style id="r937-ux-layer">[\s\S]*?</style>',style,text,count=1)
+        text=re.sub(r'<style id="r937-ux-layer">[\s\S]*?</style>',lambda _m:style,text,count=1)
     else:
         if "</head>" not in text: raise RuntimeError(name+": missing </head>")
         text=text.replace("</head>",style+"\n</head>",1)
     if re.search(r'<script id="r937-ux-script">[\s\S]*?</script>',text):
-        text=re.sub(r'<script id="r937-ux-script">[\s\S]*?</script>',script,text,count=1)
+        text=re.sub(r'<script id="r937-ux-script">[\s\S]*?</script>',lambda _m:script,text,count=1)
     else:
         if "</body>" not in text: raise RuntimeError(name+": missing </body>")
         text=text.replace("</body>",script+"\n</body>",1)
