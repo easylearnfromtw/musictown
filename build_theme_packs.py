@@ -142,7 +142,11 @@ def parse_track(url,profile):
     for a in soup.find_all("a",href=True):
         label=norm(a.get_text(" ",strip=True)).casefold()
         href=urljoin(url,a["href"])
-        if "download" in label and re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",href,re.I):
+        # Nullrights increasingly serves verified downloads through HTTPS
+        # redirect endpoints without a filename extension. The page itself has
+        # already passed the CC0 hard gate above, so a visible Download action
+        # is a valid transport candidate even when the URL is extensionless.
+        if "download" in label and href.startswith(("https://","http://")):
             download=href;break
     if not download:
         for a in soup.find_all("a",href=True):
