@@ -13,6 +13,9 @@ name: R9.3 FINAL · 101 themes / 3300 placements · Fast Hybrid Deploy
       - "build_limited_theme_packs.py"
       - "verify_music_install.py"
       - "prepare_audio_site.py"
+      - "resolve_verified_audio_streams.py"
+      - "verified_audio_manifest.json"
+      - "fetch_verified_audio.py"
       - "index.html"
       - "404.html"
       - ".github/workflows/install-1150-music-and-deploy.yml"
@@ -53,6 +56,15 @@ jobs:
 
       - name: Install Python deps
         run: python -m pip install -r requirements.txt
+
+      - name: Restore audited stream URL cache
+        uses: actions/cache@v4
+        with:
+          path: _resolved_verified_streams.json
+          key: musicetown-r93-stream-map-${{ hashFiles('verified_audio_manifest.json') }}
+
+      - name: Resolve audited base 5 to verified HTTPS streams
+        run: python resolve_verified_audio_streams.py
 
       - name: Curate 9 core music themes as verified streams
         run: python build_theme_packs.py --per-theme 50 --streaming
