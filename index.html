@@ -7642,9 +7642,15 @@ html,body{max-width:100%;overflow-x:hidden!important}
   left:auto!important;right:12px!important;top:12px!important;bottom:auto!important;
   transform:none!important;translate:none!important;margin:0!important;z-index:100!important;
 }
-.vinyl-wrap{touch-action:pan-y pinch-zoom!important}
+.vinyl-wrap{
+  touch-action:none!important;
+  overscroll-behavior:contain!important;
+  position:relative!important;
+  padding:14px!important;
+  margin:-14px!important;
+}
 .vinyl{
-  width:min(264px,78vw)!important;
+  width:min(272px,82vw)!important;
   touch-action:none!important;
   -webkit-user-select:none!important;user-select:none!important;
   -webkit-tap-highlight-color:transparent!important;
@@ -11708,8 +11714,9 @@ function setVinylAudioTime(audio,next){
 function wireVinylTransport(audio,t){
   const vinyl=$('vinylDisc');
   const rotor=$('vinylRotor')||vinyl;
+  const dragSurface=vinyl?.closest('.vinyl-wrap')||vinyl;
   const seek=$('deckSeek');
-  if(!audio||!vinyl)return;
+  if(!audio||!vinyl||!dragSurface)return;
 
   const c=vinylColorForTrack(t);
   vinyl.style.setProperty('--vinyl',c.hex);
@@ -11747,10 +11754,14 @@ function wireVinylTransport(audio,t){
     if(vinyl.closest('.musicetown-deck')?.classList.contains('fallback-mode'))return;
     if(e.pointerType==='mouse'&&e.button!==0)return;
     if(e.cancelable)e.preventDefault();
+    const rect=vinyl.getBoundingClientRect();
+    const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
+    const hitRadius=rect.width*.58;
+    if(Math.hypot(e.clientX-cx,e.clientY-cy)>hitRadius)return;
     vinylDragging=true;
     dragPointerId=e.pointerId;
     vinyl.classList.add('dragging');
-    try{vinyl.setPointerCapture?.(e.pointerId)}catch(_){}
+    try{dragSurface.setPointerCapture?.(e.pointerId)}catch(_){}
     vinylWasPlaying=!audio.paused;
     audio.pause();
     freezeAtAudioTime();
@@ -11788,7 +11799,7 @@ function wireVinylTransport(audio,t){
     paintScratch();
     vinylDragging=false;
     vinyl.classList.remove('dragging');
-    try{vinyl.releasePointerCapture?.(dragPointerId??e.pointerId)}catch(_){}
+    try{dragSurface.releasePointerCapture?.(dragPointerId??e.pointerId)}catch(_){}
     dragPointerId=null;
     pendingTime=null;
     vinylLastPointerX=null;
@@ -11799,10 +11810,10 @@ function wireVinylTransport(audio,t){
     else audio.pause();
   };
 
-  vinyl.addEventListener('pointerdown',begin,{passive:false});
-  vinyl.addEventListener('pointermove',move,{passive:false});
-  vinyl.addEventListener('pointerup',end,{passive:false});
-  vinyl.addEventListener('pointercancel',end,{passive:false});
+  dragSurface.addEventListener('pointerdown',begin,{passive:false});
+  dragSurface.addEventListener('pointermove',move,{passive:false});
+  dragSurface.addEventListener('pointerup',end,{passive:false});
+  dragSurface.addEventListener('pointercancel',end,{passive:false});
   wireSmoothSeek(seek,audio,$('deckSeekFeedback'),()=>{paintVinylFromAudio(audio);updateGlassUI();});
 
   audio.addEventListener('loadedmetadata',()=>freezeAtAudioTime());
