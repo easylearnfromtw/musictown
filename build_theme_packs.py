@@ -288,6 +288,13 @@ def main():
     report={"generatedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"themes":{}}
 
     for theme,p in PROFILES.items():
+        existing=list((by_name.get(theme) or {}).get("tracks") or [])
+        if len(existing)>=args.per_theme:
+            print(f"\n=== {theme}: preserve existing {len(existing)} ready tracks ===")
+            report["themes"][theme]=existing[:args.per_theme]
+            by_name[theme]["installPending"]=False
+            continue
+
         print(f"\n=== {theme}: live curation ===")
         urls=[]
         for q in p["queries"]:urls.extend(discover(q))
