@@ -22,7 +22,7 @@ name: R9.3 FINAL · 101 themes / 3300 placements · Audited Stable Deploy
       - ".github/workflows/install-1150-music-and-deploy.yml"
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -76,6 +76,18 @@ jobs:
 
       - name: Verify 101-theme / 3300-placement hybrid catalog
         run: python verify_music_install.py
+
+      - name: Persist audited 3300-placement catalog to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html 404.html
+          if git diff --cached --quiet; then
+            echo "Audited catalog already persisted."
+          else
+            git commit -m "Persist audited 3300-placement catalog [skip ci]"
+            git push origin HEAD:main
+          fi
 
       - name: Prepare lightweight Pages artifact
         run: python prepare_audio_site.py
