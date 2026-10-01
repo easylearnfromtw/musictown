@@ -712,5 +712,384 @@
     "vocal_mode": "preferred",
     "fallback_min_keyword_matches": 1,
     "fallback_min_score": -112
+  },
+  "BARCELONA": {
+    "slug": "barcelona",
+    "label": "BARCELONA · 聖城巴賽隆納 · Sacred / Gaudí / Mediterranean",
+    "queries": [
+      "flamenco vocal",
+      "spanish guitar vocal",
+      "mediterranean folk vocal",
+      "latin acoustic vocal",
+      "sacred choral vocal",
+      "art pop vocal"
+    ],
+    "genres": [
+      "Folk",
+      "Pop",
+      "Latin",
+      "Classical"
+    ],
+    "keywords": [
+      "flamenco",
+      "spanish",
+      "guitar",
+      "mediterranean",
+      "latin",
+      "folk",
+      "sacred",
+      "choral",
+      "acoustic",
+      "art"
+    ],
+    "required_any": [
+      "flamenco",
+      "spanish",
+      "guitar",
+      "mediterranean",
+      "latin",
+      "folk",
+      "sacred",
+      "acoustic"
+    ],
+    "reject": [
+      "industrial noise",
+      "corporate",
+      "hard techno"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "RUSTY DETROIT": {
+    "slug": "rusty-detroit",
+    "label": "RUSTY DETROIT · 鐵鏽底特律 · Industrial / Rock / Motor City",
+    "queries": [
+      "garage rock vocal",
+      "industrial rock vocal",
+      "blues rock vocal",
+      "soul vocal detroit",
+      "punk rock vocal",
+      "motorik rock vocal"
+    ],
+    "genres": [
+      "Rock",
+      "Blues",
+      "Funk / Soul",
+      "Punk"
+    ],
+    "keywords": [
+      "garage",
+      "industrial",
+      "rock",
+      "blues",
+      "soul",
+      "punk",
+      "motor",
+      "gritty",
+      "raw",
+      "guitar",
+      "factory"
+    ],
+    "required_any": [
+      "garage",
+      "industrial",
+      "rock",
+      "blues",
+      "soul",
+      "punk",
+      "guitar"
+    ],
+    "reject": [
+      "meditation",
+      "children",
+      "corporate"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "SYDNEY STREET": {
+    "slug": "sydney-street",
+    "label": "SYDNEY STREET · 雪梨街頭 · Coastal / Street / Indie",
+    "queries": [
+      "indie rock vocal",
+      "street funk vocal",
+      "surf rock vocal",
+      "australian indie vocal",
+      "electronic pop vocal",
+      "summer rock vocal"
+    ],
+    "genres": [
+      "Rock",
+      "Pop",
+      "Funk / Soul",
+      "Electronic"
+    ],
+    "keywords": [
+      "indie",
+      "street",
+      "surf",
+      "rock",
+      "funk",
+      "summer",
+      "coast",
+      "electronic",
+      "pop",
+      "guitar"
+    ],
+    "required_any": [
+      "indie",
+      "street",
+      "surf",
+      "rock",
+      "funk",
+      "summer",
+      "electronic",
+      "pop"
+    ],
+    "reject": [
+      "sacred",
+      "meditation",
+      "dark drone"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "TIANJING": {
+    "slug": "tianjing",
+    "label": "TIANJING · 天京望京 · Imperial / Chinese / Metropolitan",
+    "queries": [
+      "chinese traditional music",
+      "chinese electronic music",
+      "guzheng modern",
+      "erhu electronic",
+      "orchestral chinese",
+      "ceremonial folk"
+    ],
+    "genres": [
+      "Folk",
+      "Classical",
+      "Electronic",
+      "Experimental"
+    ],
+    "keywords": [
+      "chinese",
+      "traditional",
+      "guzheng",
+      "erhu",
+      "orchestral",
+      "ceremonial",
+      "electronic",
+      "imperial",
+      "folk"
+    ],
+    "required_any": [
+      "chinese",
+      "traditional",
+      "guzheng",
+      "erhu",
+      "orchestral",
+      "ceremonial",
+      "electronic",
+      "folk"
+    ],
+    "reject": [
+      "corporate",
+      "children",
+      "podcast"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "ROTTERDAM": {
+    "slug": "rotterdam",
+    "label": "ROTTERDAM · 方塊鹿特丹 · Minimal / Techno / Architecture",
+    "queries": [
+      "minimal electronic",
+      "minimal techno",
+      "deep house vocal",
+      "industrial electronic",
+      "ambient techno",
+      "electro vocal"
+    ],
+    "genres": [
+      "Electronic",
+      "Ambient",
+      "Experimental"
+    ],
+    "keywords": [
+      "minimal",
+      "techno",
+      "house",
+      "industrial",
+      "electronic",
+      "ambient",
+      "geometry",
+      "deep",
+      "urban"
+    ],
+    "required_any": [
+      "minimal",
+      "techno",
+      "house",
+      "industrial",
+      "electronic",
+      "ambient"
+    ],
+    "reject": [
+      "acoustic ballad",
+      "children"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "LAS VEGAS": {
+    "slug": "las-vegas",
+    "label": "LAS VEGAS · 紙醉金迷之城 · Casino / Neon / Excess",
+    "queries": [
+      "casino lounge vocal",
+      "electro swing vocal",
+      "edm vocal",
+      "nightclub house vocal",
+      "glam rock vocal",
+      "synth pop vocal"
+    ],
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Jazz",
+      "Rock"
+    ],
+    "keywords": [
+      "casino",
+      "lounge",
+      "swing",
+      "edm",
+      "club",
+      "house",
+      "glam",
+      "synth",
+      "neon",
+      "night",
+      "dance"
+    ],
+    "required_any": [
+      "lounge",
+      "swing",
+      "edm",
+      "club",
+      "house",
+      "glam",
+      "synth",
+      "dance"
+    ],
+    "reject": [
+      "meditation",
+      "sleep",
+      "children"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "FREEZE HOKKAIDO": {
+    "slug": "freeze-hokkaido",
+    "label": "FREEZE HOKKAIDO · 凍城北海道 · Snow / Ambient / Northern Japan",
+    "queries": [
+      "winter ambient",
+      "snow ambient",
+      "japanese folk music",
+      "dream pop vocal",
+      "cold electronic",
+      "acoustic winter vocal"
+    ],
+    "genres": [
+      "Ambient",
+      "Folk",
+      "Pop",
+      "Electronic"
+    ],
+    "keywords": [
+      "winter",
+      "snow",
+      "cold",
+      "ambient",
+      "japanese",
+      "folk",
+      "dream",
+      "acoustic",
+      "ice",
+      "quiet"
+    ],
+    "required_any": [
+      "winter",
+      "snow",
+      "cold",
+      "ambient",
+      "japanese",
+      "folk",
+      "dream",
+      "acoustic"
+    ],
+    "reject": [
+      "tropical",
+      "reggae",
+      "hard club"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
+  },
+  "MEXICO": {
+    "slug": "mexico",
+    "label": "MEXICO · 阿茲特克的餘暉 · Latin / Folk / Ritual",
+    "queries": [
+      "latin folk vocal",
+      "mexican folk vocal",
+      "mariachi vocal",
+      "cumbia vocal",
+      "latin rock vocal",
+      "ritual percussion"
+    ],
+    "genres": [
+      "Latin",
+      "Folk",
+      "Rock",
+      "World"
+    ],
+    "keywords": [
+      "latin",
+      "mexican",
+      "mariachi",
+      "cumbia",
+      "folk",
+      "ritual",
+      "percussion",
+      "guitar",
+      "sun",
+      "world"
+    ],
+    "required_any": [
+      "latin",
+      "mexican",
+      "mariachi",
+      "cumbia",
+      "folk",
+      "ritual",
+      "percussion",
+      "guitar",
+      "world"
+    ],
+    "reject": [
+      "corporate",
+      "meditation drone"
+    ],
+    "vocal_mode": "preferred",
+    "fallback_min_keyword_matches": 1,
+    "fallback_min_score": -112
   }
 }
