@@ -66,10 +66,10 @@ jobs:
 
 
       - name: Curate 9 core music themes as verified streams
-        run: python build_theme_packs.py --per-theme 50 --max-candidates 90 --workers 4 --streaming
+        run: python build_theme_packs.py --per-theme 50 --max-candidates 36 --workers 4 --streaming
 
       - name: Curate 22 city themes as verified streams
-        run: python build_fresh_city_packs.py --per-city 50 --max-candidates 70 --workers 4 --streaming
+        run: python build_fresh_city_packs.py --per-city 50 --max-candidates 32 --workers 4 --streaming
 
       - name: Build 70 limited 25-track themes
         run: python build_limited_theme_packs.py
