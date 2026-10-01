@@ -244,8 +244,15 @@ def main():
     for city in CITY_NAMES:
         profile=PROFILES[city]
         existing=list((by_name.get(city) or {}).get("tracks") or [])
-        if len(existing)>=args.per_city:
-            print(f"\n=== {city}: preserve existing {len(existing)} ready tracks ===")
+        existing_ready=len(existing)>=args.per_city and all(
+            bool(t.get("audioSrc")) and (
+                re.match(r"^https?://",str(t.get("audioSrc"))) is not None
+                or (ROOT/str(t.get("audioSrc"))).exists()
+            )
+            for t in existing[:args.per_city]
+        )
+        if existing_ready:
+            print(f"\n=== {city}: preserve existing {len(existing)} playable tracks ===")
             report["cities"][city]=existing[:args.per_city]
             by_name[city]["installPending"]=False
             continue
