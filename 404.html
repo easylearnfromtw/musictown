@@ -9213,7 +9213,22 @@ const CITY_PASS_THEMES={
   'TRADITIONAL BEIJING':{slug:'traditional-beijing',code:'BJS',country:'CN',aliases:['beijing','beijing city'],qr:'assets/city-pass-qr/traditional-beijing.png',summary:'京劇唱腔、鑼鼓、嗩吶與傳統戲曲舞台感。TRADITIONAL BEIJING 把京味戲劇張力與古典器樂聲響集中在一起。'}
 };
 for(const d of DATA){
-  if(d?.cityPass)CITY_PASS_THEMES[d.t]={...d.cityPass,qr:d.cityPass.qr||'assets/city-pass-qr/taipei-style.png'};
+  if(d?.cityPass)CITY_PASS_THEMES[d.t]={...d.cityPass};
+}
+function cityPassVisual(config){
+  if(config?.qr)return config.qr;
+  const code=String(config?.code||'MT').slice(0,8).toUpperCase();
+  const label=config?.kind==='university'?'CAMPUS PASS':'LIMITED PASS';
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+    <rect width="240" height="240" rx="42" fill="#f7fafc"/>
+    <rect x="9" y="9" width="222" height="222" rx="34" fill="none" stroke="#29465d" stroke-opacity=".18" stroke-width="2"/>
+    <circle cx="120" cy="100" r="54" fill="none" stroke="#29465d" stroke-opacity=".72" stroke-width="3"/>
+    <path d="M75 100h90M120 55v90M84 72c19 18 53 18 72 0M84 128c19-18 53-18 72 0" fill="none" stroke="#29465d" stroke-opacity=".38" stroke-width="2"/>
+    <text x="120" y="106" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="18" font-weight="800" letter-spacing="2" fill="#29465d">${code.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</text>
+    <text x="120" y="183" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="10" font-weight="700" letter-spacing="2" fill="#29465d" opacity=".56">MUSICTOWN</text>
+    <text x="120" y="200" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="8" font-weight="700" letter-spacing="1.2" fill="#29465d" opacity=".38">${label}</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 }
 
 let cityPassGeoPromise=null;
@@ -9349,7 +9364,7 @@ function renderCityPass(drawer,geo){
   if($('cityPassPrivacyText'))$('cityPassPrivacyText').textContent=campus
     ?'校園資格只在你的裝置上即時判斷；musicetown 不儲存或上傳精確 GPS 座標。'
     :'城市資格依公開 IP 的約略城市判定；musicetown 不保存完整 IP 位址。';
-  document.querySelectorAll('.city-pass-qr-img').forEach(img=>img.src=config.qr||'assets/city-pass-qr/taipei-style.png');
+  document.querySelectorAll('.city-pass-qr-img').forEach(img=>img.src=cityPassVisual(config));
   const list=$('cityPassHotList');
   if(list){
     list.innerHTML=tracks.length?tracks.map((t,i)=>`
@@ -9439,7 +9454,7 @@ async function buildCityPassCanvas(){
   const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#F8FBFD');bg.addColorStop(.56,'#F0F4F8');bg.addColorStop(1,'#E8EDF3');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
   ctx.save();ctx.globalAlpha=.18;const glow=ctx.createRadialGradient(160,110,0,160,110,620);glow.addColorStop(0,ui.accent||'#719aa0');glow.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);ctx.restore();
   roundRectPath(ctx,64,60,952,1600,48);ctx.fillStyle='rgba(255,255,255,.88)';ctx.fill();ctx.strokeStyle='rgba(36,63,86,.10)';ctx.lineWidth=2;ctx.stroke();
-  let qr=null;try{qr=await loadCityPassImage(config.qr||'assets/city-pass-qr/taipei-style.png')}catch(_){}
+  let qr=null;try{qr=await loadCityPassImage(cityPassVisual(config))}catch(_){}
   if(qr)ctx.drawImage(qr,105,105,210,210);
   ctx.fillStyle=ui.ink||'#29465d';ctx.textAlign='left';ctx.font='700 28px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText('MUSICTOWN',360,142);
   ctx.font='700 15px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.globalAlpha=.50;ctx.fillText(campus?'CAMPUS LIMITED MUSIC PASS':'CITY LIMITED MUSIC PASS',360,177);ctx.globalAlpha=1;
