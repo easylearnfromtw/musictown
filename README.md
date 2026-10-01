@@ -1,24 +1,20 @@
-# musicetown R8.4
+# musicetown R8.6
 
-## Share Atelier
-- Share button opens a branded preview instead of immediately throwing a system share sheet.
-- Theme-colored glass playlist cover.
-- Transparent vinyl + circular type + musicetown globe mark.
-- Native share / Copy Link / Copy Tracklist / Preview recipient page.
-- Received playlists have a matching designed player/library surface.
-- Mobile uses a bottom-sheet treatment.
+Changes:
+1. Homepage 3D drawer opens on the first touch/pointer-up; no second tap required.
+2. OPEN CTA is touch-stable and no longer shifts under the global press animation.
+3. MY LIBRARY mobile rows use a two-line constrained text layout with no overflow.
+4. Playback buttons use custom musicetown SVG icons (play/pause/previous/next).
+5. Share controls use custom SVG icons; no Unicode/emoji-style share glyphs.
+6. Realtime subtitle/music-sync UI and LRC/VTT sync controls are removed.
+7. Vinyl palette adds translucent CHAMPAGNE PURPLE and OXBLOOD RED.
+8. R8.5 site-cloud MP3 deployment architecture is preserved.
 
-## Vinyl
-- Vinyl colors are substantially more translucent.
-- Center label uses circular typography.
-- Existing musicetown globe mark is integrated into the record label.
-- Rotation now happens on a dedicated `.vinyl-rotor`, so button press/hover transforms cannot override record rotation.
-- Local audio rotation follows `audio.currentTime`.
-- Online fallback mode gets a slow visual rotation because cross-origin iframe playback time is inaccessible.
-- Scratch/seek still changes real local audio currentTime.
+Playback remains:
+GitHub Pages website MP3 → user → native HTML audio.
 
-All R8.3 fixes remain:
-- shared WebGL drawer on the second page
-- thick-border playing state
-- locked MY LIBRARY modal
-- hybrid playback fallback
+
+## R8.6.1
+- softened the mobile/detail-page background
+- removed the harsh split-looking panel wash
+- added natural glass blur transitions for detail / drawer / archive panels
