@@ -301,6 +301,13 @@ def main():
     used=set(hard_used)|set(soft_used)
     used_sources=set(hard_sources)|set(soft_sources)
 
+    fallback_drawers={
+      "EMO":{"ROCK","LO-FI"},
+      "RUNNING":{"SPORT","ROCK"},
+      "POEM":{"CROONER","LO-FI","JAZZ"},
+      "TRADITIONAL BEIJING":{"JAZZ","CROONER"}
+    }
+
     report={"generatedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"themes":{}}
 
     for theme,p in PROFILES.items():
@@ -432,18 +439,29 @@ def main():
 
         if len(selected)<args.per_theme:
             fallback=[]
+            allowed=fallback_drawers.get(theme,set())
             for src in catalog_fallback:
+                if allowed and src.get("_catalogDrawer") not in allowed:continue
                 t=dict(src)
                 k=key(t.get("title"),t.get("artist"))
                 if k in selected_keys:continue
+                # Older audited base tracks can lack rich genre metadata.
+                # Use the source drawer as a conservative fallback label instead
+                # of crashing or importing unrelated utility/game tracks.
+                t["genre"]=t.get("genre") or t.get("_catalogDrawer") or "CC0 MUSIC"
+                title_blob=(str(t.get("title",""))+" "+str(t.get("vibe",""))).casefold()
+                if any(x in title_blob for x in ["game music","level 1","jump and shoot","pew pew","action track"]):
+                    continue
                 try:score(t,p)
                 except Exception:continue
+                # Give semantically selected source drawers a strong prior.
+                t["_score"]=round(float(t.get("_score",0))+35,2)
                 fallback.append(t)
             fallback.sort(key=lambda t:(-t.get("_score",0),hashlib.sha1((theme+str(t.get("shareId",""))).encode()).hexdigest()))
             for t in fallback:
                 k=key(t.get("title"),t.get("artist"))
                 if k in selected_keys:continue
-                t["_curationTier"]="verified-catalog-fallback"
+                t["_curationTier"]="verified-related-drawer-fallback"
                 selected.append(t);selected_keys.add(k)
                 if len(selected)>=args.per_theme:break
 
