@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, html, json, re, shutil, subprocess, tempfile
+import argparse, html, json, re, shutil, subprocess, tempfile, time
 from pathlib import Path
 from urllib.parse import urljoin
 import requests
@@ -14,10 +14,24 @@ S=requests.Session()
 S.headers.update({"User-Agent":"musicetown-audio-installer/8.7.3"})
 TIMEOUT=45
 
-def get(url):
-    r=S.get(url,timeout=TIMEOUT)
-    r.raise_for_status()
-    return r
+def get(url,tries=5):
+    last=None
+    for n in range(tries):
+        try:
+            r=S.get(url,timeout=TIMEOUT)
+            if r.status_code==429:
+                raw=r.headers.get("Retry-After","")
+                try:wait=float(raw)
+                except Exception:wait=min(16,2.5*(n+1))
+                time.sleep(max(2,min(30,wait)))
+                last=requests.HTTPError("429 Too Many Requests",response=r)
+                continue
+            r.raise_for_status()
+            return r
+        except Exception as e:
+            last=e
+            if n+1<tries:time.sleep(min(8,1.5*(n+1)))
+    raise last
 
 def verify_cc0(page_text, source):
     low=page_text.lower()
