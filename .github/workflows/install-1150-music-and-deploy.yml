@@ -12,6 +12,8 @@ name: R9.3 FINAL · 101 themes / 3300 placements · Audited Stable Deploy
       - "build_theme_packs.py"
       - "build_limited_theme_packs.py"
       - "apply_r937_ux.py"
+      - "r937_ux.js"
+      - "r937_ux.css"
       - "build_audited_release_packs.py"
       - "resolve_verified_audio_streams.py"
       - "verified_audio_manifest.json"
