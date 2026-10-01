@@ -338,10 +338,11 @@
       "children",
       "game music"
     ],
-    "vocal_mode": "required",
+    "vocal_mode": "preferred",
     "min_strong_matches": 1,
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "RUNNING": {
     "slug": "running",
@@ -401,10 +402,11 @@
       "slow folk",
       "podcast"
     ],
-    "vocal_mode": "required",
+    "vocal_mode": "preferred",
     "min_strong_matches": 1,
     "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "fallback_min_score": -112,
+    "allow_instrumental": true
   },
   "POEM": {
     "slug": "poem",
