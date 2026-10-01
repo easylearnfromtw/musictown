@@ -1,4 +1,4 @@
-name: R9.1 · Curate 1150 musicetown tracks + Hybrid Deploy
+name: R9.2 · Curate 1875 musicetown placements + Campus Pass Deploy
 
 "on":
   workflow_dispatch:
@@ -14,8 +14,10 @@ name: R9.1 · Curate 1150 musicetown tracks + Hybrid Deploy
     paths:
       - "fresh_city_profiles.json"
       - "theme_profiles.json"
+      - "limited_theme_profiles.json"
       - "build_fresh_city_packs.py"
       - "build_theme_packs.py"
+      - "build_limited_theme_packs.py"
       - "verify_music_install.py"
       - "prepare_audio_site.py"
       - ".github/workflows/install-1150-music-and-deploy.yml"
@@ -56,9 +58,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: _master_audio
-          key: musicetown-r910-base-${{ env.BASE_BITRATE }}-${{ hashFiles('verified_audio_manifest.json') }}
+          key: musicetown-r920-base-${{ env.BASE_BITRATE }}-${{ hashFiles('verified_audio_manifest.json') }}
           restore-keys: |
-            musicetown-r910-base-${{ env.BASE_BITRATE }}-
+            musicetown-r920-base-${{ env.BASE_BITRATE }}-
 
       - name: Install base 5 local collections
         run: python fetch_verified_audio.py --bitrate "$BASE_BITRATE"
@@ -69,7 +71,10 @@ jobs:
       - name: Curate 4 music themes as verified streams
         run: python build_theme_packs.py --per-theme 50 --streaming
 
-      - name: Verify 23 × 50 hybrid catalog
+      - name: Re-curate 29 limited city and university themes
+        run: python build_limited_theme_packs.py
+
+      - name: Verify 52-theme hybrid catalog
         run: python verify_music_install.py
 
       - name: Prepare sub-1GB Pages artifact
