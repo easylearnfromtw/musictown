@@ -8443,7 +8443,19 @@ html.mt-track-scrolling .music-panel{
   }
 }
 
-</style>\n</head>
+</style>\n<style id="r9312-final-touch">
+/* R9.3.12 · final touch interaction polish */
+.pass-welcome-title{max-width:16ch;margin-inline:auto;text-wrap:balance;line-height:.93!important}
+.pass-welcome-zh{max-width:28ch;margin-inline:auto;text-align:center;text-wrap:balance}
+.vinyl-wrap{cursor:grab!important}
+.vinyl-wrap.mt-vinyl-dragging,.vinyl-wrap:has(.vinyl.dragging){cursor:grabbing!important}
+.vinyl-wrap>.vinyl{pointer-events:auto!important}
+@media(max-width:700px){
+  .pass-welcome-title{font-size:clamp(27px,9vw,44px)!important}
+  .vinyl-wrap{min-height:364px!important;padding:30px 14px 46px!important}
+}
+</style>
+</head>
 <body>
 
 <div id="welcome" class="welcome-active" aria-modal="true" role="dialog" aria-labelledby="welcomeTitle">
@@ -10476,9 +10488,9 @@ function passWelcomeDestination(drawer,geo,config){
   return geo?.city||config?.fullName||drawer?.t||config?.code||'MUSICETOWN';
 }
 function passWelcomeKindCopy(config){
-  if(config?.kind==='university')return {eyebrow:'WELCOME TO CAMPUS · GPS VERIFIED',zh:'歡迎來到大學校園',copy:'CAMPUS VERIFIED · YOUR CAMPUS PASS IS READY'};
-  if(config?.kind==='landmark')return {eyebrow:'WELCOME TO LANDMARK · GPS VERIFIED',zh:'歡迎來到限定景點',copy:'LANDMARK VERIFIED · YOUR LANDMARK PASS IS READY'};
-  return {eyebrow:'WELCOME TO THE CITY · LOCATION VERIFIED',zh:'歡迎來到這座城市',copy:'CITY VERIFIED · YOUR CITY PASS IS READY'};
+  if(config?.kind==='university')return {eyebrow:'CAMPUS ARRIVAL · GPS VERIFIED',zh:'大學校園',copy:'CAMPUS VERIFIED · YOUR CAMPUS PASS IS READY'};
+  if(config?.kind==='landmark')return {eyebrow:'LANDMARK ARRIVAL · GPS VERIFIED',zh:'限定景點',copy:'LANDMARK VERIFIED · YOUR LANDMARK PASS IS READY'};
+  return {eyebrow:'CITY ARRIVAL · LOCATION VERIFIED',zh:'城市',copy:'CITY VERIFIED · YOUR CITY PASS IS READY'};
 }
 function closePassWelcome(){
   clearTimeout(passWelcomeTimer);
@@ -10520,9 +10532,10 @@ function showPassWelcome(drawer,geo,{auto=false}={}){
     card.style.setProperty('--welcome-soft',ui.soft||'rgba(120,152,170,.17)');
     card.style.setProperty('--welcome-ink',ui.ink||'#29465d');
   }
+  const welcomeDestination=String(destination||drawer.t);
   if($('passWelcomeEyebrow'))$('passWelcomeEyebrow').textContent=kind.eyebrow;
-  if($('passWelcomeTitle'))$('passWelcomeTitle').textContent=String(destination||drawer.t).toUpperCase();
-  if($('passWelcomeZh'))$('passWelcomeZh').textContent=kind.zh;
+  if($('passWelcomeTitle'))$('passWelcomeTitle').textContent=`WELCOME TO ${welcomeDestination.toUpperCase()}`;
+  if($('passWelcomeZh'))$('passWelcomeZh').textContent=`歡迎來到 ${welcomeDestination}`;
   if($('passWelcomeCopy'))$('passWelcomeCopy').textContent=kind.copy;
   if($('passWelcomeSeal'))$('passWelcomeSeal').src=cityPassVisual(config);
   sheet?.classList.remove('open');
@@ -12553,9 +12566,7 @@ function wireVinylTransport(audio,t){
     if(e.pointerType==='mouse'&&e.button!==0)return;
     if(e.cancelable)e.preventDefault();
     const rect=vinyl.getBoundingClientRect();
-    const cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
-    const hitRadius=Math.max(rect.width*1.18,rect.width/2+116);
-    if(Math.hypot(e.clientX-cx,e.clientY-cy)>hitRadius)return;
+    if(!rect.width||!rect.height)return;
     vinylDragging=true;
     dragPointerId=e.pointerId;
     vinyl.classList.add('dragging');
@@ -12582,7 +12593,7 @@ function wireVinylTransport(audio,t){
     const dx=vinylLastPointerX==null?0:e.clientX-vinylLastPointerX;
     vinylLastPointerX=e.clientX;
     const angularSeconds=(delta/360)*SCRUB_SECONDS_PER_TURN;
-    const linearSeconds=dx*1.55;
+    const linearSeconds=dx*1.85;
     const blend=Math.max(0,Math.min(.62,(radius-rect.width*.16)/(rect.width*.52)));
     const stepSeconds=linearSeconds*(1-blend)+angularSeconds*blend;
     const base=pendingTime==null?(Number(audio.currentTime)||0):pendingTime;
@@ -12615,7 +12626,7 @@ function wireVinylTransport(audio,t){
       e.preventDefault();e.stopPropagation();
     }
   },true);
-  dragSurface.addEventListener('pointerdown',begin,{passive:false});
+  dragSurface.addEventListener('pointerdown',begin,{passive:false,capture:true});
   dragSurface.addEventListener('pointermove',move,{passive:false});
   dragSurface.addEventListener('pointerup',end,{passive:false});
   dragSurface.addEventListener('pointercancel',end,{passive:false});
