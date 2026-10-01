@@ -15,7 +15,7 @@
       const y=Number(document.body.dataset.mtLockY||lockY)||0;
       ['position','top','left','right','width'].forEach(k=>document.body.style[k]='');
       delete document.body.dataset.mtLockY;
-      window.scrollTo({top:y,left:0,behavior:'instant'});
+      window.scrollTo(0,y);
     }
   };
 
@@ -59,6 +59,14 @@
     bar.querySelector('[data-pass-next]')?.addEventListener('click',()=>stepPassbook(1));
   };
   ensurePager();
+  const passPanel=document.querySelector('#passbookSheet .passbook-panel');
+  if(passPanel&&!byId('passbookLocalNote')){
+    const note=document.createElement('div');
+    note.id='passbookLocalNote';note.className='passbook-local-note';
+    note.innerHTML='<b>LOCAL PASSBOOK</b><span>THIS DEVICE · SWIPE · SAVE · SHARE</span>';
+    const carousel=byId('passbookCarousel');
+    if(carousel)passPanel.insertBefore(note,carousel);else passPanel.appendChild(note);
+  }
   const carousel=byId('passbookCarousel');
   if(carousel){
     let timer=0;
@@ -74,6 +82,14 @@
 
   /* Lightweight scrolling state for the multi-row theme atlas. */
   const atlas=byId('themeGroupItems');
+  const trackList=byId('trackList');
+  if(trackList){
+    let trackTimer=0;
+    trackList.addEventListener('scroll',()=>{
+      document.documentElement.classList.add('mt-track-scrolling');
+      clearTimeout(trackTimer);trackTimer=setTimeout(()=>document.documentElement.classList.remove('mt-track-scrolling'),100);
+    },{passive:true});
+  }
   if(atlas){
     let timer=0;
     atlas.addEventListener('scroll',()=>{
@@ -101,61 +117,81 @@
   audioObserver.observe(document.body,{childList:true,subtree:true});
   window.visualViewport?.addEventListener('resize',pinAudioClose,{passive:true});
 
-  /* Vinyl scrub assist.
-     Captures the record plus a 52 px halo so one-finger scrubbing works reliably on iPhone. */
+  /* R9.3.11 vinyl scrub assist.
+     Any horizontal drag across the record zone seeks predictably on iPhone.
+     Capture-phase handling prevents the legacy circular handler from competing. */
   const installVinylAssist=()=>{
     document.querySelectorAll('.vinyl-wrap').forEach(wrap=>{
-      if(wrap.dataset.mtVinylAssist)return;
-      wrap.dataset.mtVinylAssist='1';
-      let state=null;
-      const disc=()=>wrap.querySelector('.vinyl,.vinyl-rotor,.record,.record-disc')||wrap;
+      if(wrap.dataset.mtVinylAssist==='r9311')return;
+      wrap.dataset.mtVinylAssist='r9311';
+      let state=null,raf=0,pending=null;
       const audio=()=>document.querySelector('#playerBody audio,#playerSheet audio,.player-sheet audio,audio');
-      const angle=(e,el)=>{
-        const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
-        return Math.atan2(e.clientY-cy,e.clientX-cx)*180/Math.PI;
+      const fmt=v=>{
+        const sign=v>=0?'+':'−',n=Math.abs(v);
+        if(n<60)return sign+n.toFixed(n<10?1:0)+'s';
+        const m=Math.floor(n/60),s=Math.round(n%60);
+        return sign+m+':'+String(s).padStart(2,'0');
       };
-      const norm=v=>{while(v>180)v-=360;while(v<-180)v+=360;return v};
-
-      wrap.addEventListener('pointerdown',e=>{
-        if(e.button!=null&&e.button!==0)return;
-        if(e.target.closest('button,input,a'))return;
-        const a=audio();if(!a||!Number.isFinite(a.duration)||a.duration<=0)return;
-        const d=disc(),r=d.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
-        const radius=Math.hypot(e.clientX-cx,e.clientY-cy);
-        if(radius>Math.max(r.width,r.height)/2+52)return;
-        e.stopPropagation();e.preventDefault();
-        state={id:e.pointerId,last:angle(e,d),start:a.currentTime||0,wasPlaying:!a.paused};
-        if(state.wasPlaying)a.pause();
-        wrap.classList.add('mt-vinyl-dragging');
-        try{wrap.setPointerCapture(e.pointerId)}catch(_){}
-      },true);
-
-      wrap.addEventListener('pointermove',e=>{
-        if(!state||e.pointerId!==state.id)return;
-        const a=audio(),d=disc();if(!a)return;
-        e.preventDefault();
-        const next=angle(e,d),delta=norm(next-state.last);state.last=next;
-        const target=Math.max(0,Math.min(a.duration,(a.currentTime||0)+(delta/360)*14));
+      const paint=()=>{
+        raf=0;
+        if(!state||pending==null)return;
+        const a=audio();if(!a)return;
+        const target=pending;pending=null;
         try{a.currentTime=target}catch(_){}
-        const seek=byId('deckSeek');if(seek)seek.value=String(target);
+        const deck=byId('deckSeek'),glass=byId('glassSeek');
+        if(deck)deck.value=String(target);
+        if(glass)glass.value=String(target);
+        const cur=byId('deckCurrent');if(cur)cur.textContent=Math.floor(target/60)+':'+String(Math.floor(target%60)).padStart(2,'0');
+        const diff=target-state.startTime;
         const feedback=byId('deckSeekFeedback');
         if(feedback){
-          const diff=target-state.start;
-          feedback.textContent=(diff>=0?'+':'−')+Math.abs(diff).toFixed(1)+'s';
-          feedback.classList.add('show');
+          feedback.textContent=fmt(diff);feedback.classList.add('show');
           clearTimeout(feedback.__hideTimer);
-          feedback.__hideTimer=setTimeout(()=>feedback.classList.remove('show'),520);
+          feedback.__hideTimer=setTimeout(()=>feedback.classList.remove('show'),500);
         }
-      },{passive:false});
-
-      const end=e=>{
-        if(!state||e.pointerId!==state.id)return;
-        const wasPlaying=state.wasPlaying;state=null;
-        wrap.classList.remove('mt-vinyl-dragging');
-        const a=audio();if(wasPlaying&&a)a.play().catch(()=>{});
+        const rotor=wrap.querySelector('#vinylRotor,.vinyl-rotor,.vinyl,.record,.record-disc');
+        if(rotor)rotor.style.setProperty('--record-angle',(target*24)+'deg');
       };
-      wrap.addEventListener('pointerup',end);
-      wrap.addEventListener('pointercancel',end);
+      const finish=e=>{
+        if(!state||e.pointerId!==state.id)return;
+        e.preventDefault();e.stopImmediatePropagation();
+        if(raf){cancelAnimationFrame(raf);raf=0}paint();
+        const resume=state.wasPlaying;state=null;pending=null;
+        wrap.classList.remove('mt-vinyl-dragging');
+        try{wrap.releasePointerCapture?.(e.pointerId)}catch(_){}
+        const a=audio();if(resume&&a)a.play().catch(()=>{});
+      };
+      wrap.addEventListener('pointerdown',e=>{
+        if(e.button!=null&&e.button!==0)return;
+        if(e.target.closest('button,input,a,.deck-info'))return;
+        const a=audio();
+        const duration=Number(a?.duration);
+        if(!a||!Number.isFinite(duration)||duration<=0)return;
+        e.preventDefault();e.stopImmediatePropagation();
+        const rect=wrap.getBoundingClientRect();
+        state={
+          id:e.pointerId,
+          startX:e.clientX,
+          startTime:Number(a.currentTime)||0,
+          duration,
+          span:Math.max(180,rect.width*.82),
+          sweep:Math.min(duration,180),
+          wasPlaying:!a.paused
+        };
+        pending=state.startTime;
+        if(state.wasPlaying)a.pause();
+        wrap.classList.add('mt-vinyl-dragging');
+        try{wrap.setPointerCapture?.(e.pointerId)}catch(_){}
+      },true);
+      wrap.addEventListener('pointermove',e=>{
+        if(!state||e.pointerId!==state.id)return;
+        e.preventDefault();e.stopImmediatePropagation();
+        const dx=e.clientX-state.startX;
+        pending=Math.max(0,Math.min(state.duration,state.startTime+(dx/state.span)*state.sweep));
+        if(!raf)raf=requestAnimationFrame(paint);
+      },true);
+      wrap.addEventListener('pointerup',finish,true);
+      wrap.addEventListener('pointercancel',finish,true);
     });
   };
   installVinylAssist();
