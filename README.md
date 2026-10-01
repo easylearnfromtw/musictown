@@ -56,3 +56,15 @@ R8.6.6 changes architecture:
 - shared WebGL canvas stays mounted inside the detail drawer
 - mobile blur load is reduced to avoid compositor jank
 - returning home restores the locked WebGL viewport
+
+
+## R8.6.8 Player Boot Fix
+Root cause fixed:
+`stopCaptionClock()` was removed with the realtime subtitle engine, but two calls
+remained in `openTrack()` / `closeTrack()`. Clicking a song therefore threw a
+ReferenceError before audio transport initialization.
+
+R8.6.8:
+- removes both dead calls
+- hardens transport initialization
+- forces the mobile Liquid Glass dock visible whenever a track is activated
