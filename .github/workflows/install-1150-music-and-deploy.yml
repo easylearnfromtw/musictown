@@ -2,13 +2,6 @@ name: R9.3 · 101 themes / 3300 placements · Hybrid Deploy
 
 "on":
   workflow_dispatch:
-    inputs:
-      bitrate:
-        description: Base 5 local MP3 bitrate
-        required: true
-        default: "64k"
-        type: choice
-        options: ["48k","64k","80k"]
   push:
     branches: ["main"]
     paths:
@@ -38,8 +31,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    env:
-      BASE_BITRATE: ${{ inputs.bitrate || '64k' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -48,38 +39,22 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install ffmpeg + Python deps
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
-          python -m pip install -r requirements.txt
+      - name: Install Python deps
+        run: python -m pip install -r requirements.txt
 
-      - name: Restore base audio cache
-        uses: actions/cache@v4
-        with:
-          path: _master_audio
-          key: musicetown-r930-base-${{ env.BASE_BITRATE }}-${{ hashFiles('verified_audio_manifest.json') }}
-          restore-keys: |
-            musicetown-r920-base-${{ env.BASE_BITRATE }}-
-            musicetown-r910-base-${{ env.BASE_BITRATE }}-
-            musicetown-r890-${{ env.BASE_BITRATE }}-
-
-      - name: Install base 5 local collections
-        run: python fetch_verified_audio.py --bitrate "$BASE_BITRATE"
+      - name: Curate 9 core music themes as verified streams
+        run: python build_theme_packs.py --per-theme 50 --streaming
 
       - name: Curate 22 city themes as verified streams
         run: python build_fresh_city_packs.py --per-city 50 --streaming
 
-      - name: Curate 4 music themes as verified streams
-        run: python build_theme_packs.py --per-theme 50 --streaming
-
       - name: Build 70 limited 25-track themes
         run: python build_limited_theme_packs.py
 
-      - name: Verify 101-theme hybrid catalog
+      - name: Verify 101-theme / 3300-placement hybrid catalog
         run: python verify_music_install.py
 
-      - name: Prepare sub-1GB Pages artifact
+      - name: Prepare lightweight Pages artifact
         run: python prepare_audio_site.py
 
       - name: Upload Pages artifact
