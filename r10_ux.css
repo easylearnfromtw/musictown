@@ -1685,3 +1685,61 @@ body.mt-lyrics-full{overflow:hidden!important;overscroll-behavior:none!important
   #welcome.mt-onboard-v4 .mt-onboard-trust span{padding:6px 8px}
 }
 /* ================= /CITYMUSIC ONBOARDING V4 ================= */
+
+
+/* ================= CITYMUSIC HOME V2 ================= */
+#mtShelf.mt-reco-shelf{
+  border:1px solid rgba(255,255,255,.78)!important;
+  background:linear-gradient(180deg,rgba(252,253,255,.82),rgba(247,249,253,.70))!important;
+  box-shadow:0 24px 60px -42px rgba(30,36,66,.62),inset 0 1px 0 rgba(255,255,255,.92)!important;
+}
+#mtShelf .mt-home-signal{
+  display:flex;align-items:center;justify-content:space-between;padding:0 14px 8px;margin-bottom:2px;
+  font:800 8px/1 var(--mt-ui);letter-spacing:.14em;color:var(--mt-ink-3);
+}
+#mtShelf .mt-home-signal span{display:flex;align-items:center;gap:7px}
+#mtShelf .mt-home-signal span i{width:6px;height:6px;border-radius:50%;background:var(--mt-accent);box-shadow:0 0 0 5px color-mix(in srgb,var(--mt-accent) 11%,transparent)}
+#mtShelf .mt-home-signal b{font:850 8px/1 var(--mt-ui);letter-spacing:.12em;color:var(--mt-accent-ink)}
+#mtShelf .mt-theme-card>i{
+  display:grid!important;place-items:center!important;width:22px!important;height:22px!important;border-radius:50%!important;
+  background:rgba(47,52,82,.055)!important;font:850 7.5px/1 var(--mt-ui)!important;letter-spacing:.03em!important;color:var(--mt-ink-3)!important;
+}
+#mtShelf .mt-theme-card:hover{transform:translateY(-1px)!important}
+#mtShelf .mt-text-btn{font-size:10px!important;opacity:.78}
+@media(max-width:760px){
+  #mtShelf .mt-home-signal{padding:0 12px 7px}
+}
+/* ================= /CITYMUSIC HOME V2 ================= */
+
+
+/* ================= CITYMUSIC RETRO MODE ================= */
+#playerSheet .mt-retro-panel{
+  position:relative;margin:18px 0 4px;padding:14px 15px 13px;border-radius:20px;
+  background:radial-gradient(circle at 94% 2%,rgba(244,223,187,calc(.08 + .18 * var(--retro,0))),transparent 38%),rgba(249,250,253,.76)!important;
+  border:1px solid rgba(255,255,255,.84);overflow:hidden;
+}
+#playerSheet .mt-retro-panel::after{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:calc(.06 + .14 * var(--retro,0));
+  background-image:radial-gradient(circle at 30% 20%,rgba(48,43,35,.18) 0 .7px,transparent .8px);background-size:7px 7px;mix-blend-mode:multiply;
+}
+#playerSheet .mt-retro-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#playerSheet .mt-retro-head small{display:block;font:850 7.5px/1 var(--mt-ui);letter-spacing:.15em;color:#8a6d4e}
+#playerSheet .mt-retro-head b{display:block;margin-top:4px;font:820 14px/1 var(--mt-ui);color:var(--mt-ink)}
+#playerSheet .mt-retro-head>span{padding:6px 9px;border-radius:999px;background:rgba(82,66,49,.075);font:800 9px/1 var(--mt-ui);color:#765f48}
+#playerSheet .mt-retro-panel>p{position:relative;z-index:1;margin:9px 0 12px;font:550 10.5px/1.55 var(--mt-ui);color:var(--mt-ink-3)}
+#playerSheet .mt-retro-range{position:relative;z-index:1;display:grid;grid-template-columns:1fr 48px;gap:10px;align-items:center}
+#playerSheet #mtRetroRange{width:100%;accent-color:#82684d}
+#playerSheet #mtRetroValue{font:850 11px/1 var(--mt-ui);font-variant-numeric:tabular-nums;text-align:right;color:#6e5944}
+#playerSheet .mt-retro-presets{position:relative;z-index:1;display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:6px;margin-top:10px}
+#playerSheet .mt-retro-presets button{appearance:none;border:0;height:30px;border-radius:999px;background:rgba(65,57,49,.055);color:var(--mt-ink-2);font:800 9px/1 var(--mt-ui);cursor:pointer}
+#playerSheet .mt-retro-presets button.active{background:#5e5145;color:#fff}
+#playerSheet .mt-retro-features{position:relative;z-index:1;display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+#playerSheet .mt-retro-features span{padding:5px 7px;border-radius:999px;background:rgba(91,75,59,.05);font:800 7px/1 var(--mt-ui);letter-spacing:.09em;color:#85715d}
+body.mt-retro-on #playerSheet .vinyl{filter:sepia(calc(.08 * var(--mt-retro))) saturate(calc(1 - .06 * var(--mt-retro))) contrast(calc(1 + .02 * var(--mt-retro)))}
+@media(max-width:760px){
+  #playerSheet .mt-retro-panel{margin:14px 0 4px;padding:13px;border-radius:18px}
+  #playerSheet .mt-retro-panel>p{font-size:10px}
+  #playerSheet .mt-retro-presets{grid-template-columns:1.3fr repeat(4,1fr);gap:5px}
+  #playerSheet .mt-retro-presets button{padding:0 4px;font-size:8.5px}
+}
+/* ================= /CITYMUSIC RETRO MODE ================= */

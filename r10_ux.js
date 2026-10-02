@@ -903,14 +903,15 @@ document.addEventListener('mt:track',e=>{
   if(t)requestAnimationFrame(()=>renderRecoShelf(activeRecoMode));
 });
 
-/* ----- replacement home shelf: Daily / Weekly / MT + real theme groups ----- */
+/* ----- CITYMUSIC HOME V2 · Daily / Weekly / CT editorial home ----- */
 let activeRecoMode='daily';
 const legacyShelf=$('themeShelf');
 if(legacyShelf)legacyShelf.setAttribute('aria-hidden','true');
 let recoShelf=$('mtShelf');
 if(!recoShelf){
   recoShelf=h('section','mt-shelf mt-glass mt-reco-shelf',`
-    <div class="mt-shelf-head"><div class="mt-shelf-title"><em class="mt-brand-kicker">CITYMUSIC CURATED</em><b id="mtRecoTitle">為你探索</b><span id="themeShelfCount">根據你的偏好與使用紀錄</span></div><button id="mtAtlasAll" class="mt-text-btn" type="button">全部主題</button></div>
+    <div class="mt-home-signal"><span><i></i>CITYMUSIC TODAY</span><b id="mtHomeClock">FOR YOU</b></div>
+    <div class="mt-shelf-head"><div class="mt-shelf-title"><em class="mt-brand-kicker">CITYMUSIC CURATED</em><b id="mtRecoTitle">為你探索</b><span id="themeShelfCount">根據你的偏好與使用紀錄</span></div><button id="mtAtlasAll" class="mt-text-btn" type="button">瀏覽全部</button></div>
     <div class="mt-shelf-chips" id="mtRecoChips"></div>
     <div class="mt-shelf-cards" id="mtRecoCards"></div>`);
   recoShelf.id='mtShelf';
@@ -919,6 +920,12 @@ if(!recoShelf){
 const recoChips=$('mtRecoChips')||recoShelf?.querySelector('.mt-shelf-chips');
 const recoCards=$('mtRecoCards')||recoShelf?.querySelector('.mt-shelf-cards');
 const QUICK_GROUPS=Object.entries(MT.HOME_GROUPS||{}).filter(([k,g])=>g?.items?.length).slice(0,5);
+function updateHomeSignal(){
+  const el=$('mtHomeClock');if(!el)return;
+  const h=new Date().getHours();
+  el.textContent=h<11?'MORNING MIX':h<17?'DAYLIGHT MIX':h<21?'EVENING MIX':'NIGHT MIX';
+}
+updateHomeSignal();setInterval(updateHomeSignal,60000);
 function shelfChip(key,label,active,mode='group'){return `<button type="button" class="mt-chip${active?' is-active':''}" data-${mode==='reco'?'reco-mode':'group-key'}="${esc(key)}">${esc(label)}</button>`}
 function renderRecoShelf(mode='daily'){
   if(!recoShelf||!recoCards||!recoChips)return;
@@ -1199,6 +1206,144 @@ document.addEventListener('mt:track',()=>{
   n.addEventListener('scroll',()=>{const y=n.scrollTop||0,dy=y-y0;if(Math.abs(dy)>10){if(dy>0&&y>120)body.classList.add('mt-compact');else if(dy<0)body.classList.remove('mt-compact');y0=y}}, {passive:true});
 });
 
+
+
+/* =====================================================================
+   CITYMUSIC RETRO MODE · adjustable analog character in expanded player
+   ===================================================================== */
+const RETRO_KEY='citymusic.retro.amount';
+let retroAmount=0,retroCtx=null,retroNoise=null,retroNoiseGain=null,retroCrackleTimer=0;
+const retroGraphs=new WeakMap();
+try{retroAmount=Math.max(0,Math.min(100,Number(localStorage.getItem(RETRO_KEY)||0)||0))}catch(_){}
+
+function retroPercent(){return Math.round(retroAmount)}
+function retroLabel(v=retroAmount){
+  if(v<8)return '原音';
+  if(v<32)return '輕復古';
+  if(v<62)return '暖色唱片';
+  if(v<84)return '老唱機';
+  return '深度復古';
+}
+function retroCurve(drive){
+  const n=1024,c=new Float32Array(n),k=Math.max(0,drive);
+  for(let i=0;i<n;i++){const x=i*2/(n-1)-1;c[i]=(1+k)*x/(1+k*Math.abs(x))}
+  return c;
+}
+function ensureRetroContext(){
+  if(retroCtx)return retroCtx;
+  const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;
+  try{
+    retroCtx=new AC({latencyHint:'interactive'});
+    const len=Math.max(4096,Math.floor(retroCtx.sampleRate*4));
+    const buf=retroCtx.createBuffer(1,len,retroCtx.sampleRate),ch=buf.getChannelData(0);
+    let brown=0;
+    for(let i=0;i<len;i++){
+      const white=Math.random()*2-1;brown=.965*brown+.035*white;
+      let v=brown*.78+white*.06;
+      if(Math.random()<0.0018)v+=(Math.random()>.5?1:-1)*(1.2+Math.random()*2.2);
+      ch[i]=Math.max(-1,Math.min(1,v));
+    }
+    const src=retroCtx.createBufferSource();src.buffer=buf;src.loop=true;
+    const bp=retroCtx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=2850;bp.Q.value=.22;
+    retroNoiseGain=retroCtx.createGain();retroNoiseGain.gain.value=0;
+    src.connect(bp);bp.connect(retroNoiseGain);retroNoiseGain.connect(retroCtx.destination);src.start();
+    retroNoise=src;
+  }catch(e){console.warn('[CITYMUSIC retro] context unavailable',e);retroCtx=null}
+  return retroCtx;
+}
+function ensureRetroGraph(audio){
+  if(!audio)return null;
+  const cached=retroGraphs.get(audio);if(cached)return cached;
+  const ctx=ensureRetroContext();if(!ctx)return null;
+  try{
+    const source=ctx.createMediaElementSource(audio);
+    const low=ctx.createBiquadFilter();low.type='lowshelf';low.frequency.value=185;
+    const high=ctx.createBiquadFilter();high.type='lowpass';
+    const shaper=ctx.createWaveShaper();shaper.oversample='2x';
+    const split=ctx.createChannelSplitter(2),merge=ctx.createChannelMerger(2);
+    const ll=ctx.createGain(),lr=ctx.createGain(),rr=ctx.createGain(),rl=ctx.createGain();
+    const comp=ctx.createDynamicsCompressor(),gain=ctx.createGain();
+    source.connect(low);low.connect(high);high.connect(shaper);shaper.connect(split);
+    split.connect(ll,0);split.connect(lr,0);split.connect(rr,1);split.connect(rl,1);
+    ll.connect(merge,0,0);rl.connect(merge,0,0);rr.connect(merge,0,1);lr.connect(merge,0,1);
+    merge.connect(comp);comp.connect(gain);gain.connect(ctx.destination);
+    const g={audio,low,high,shaper,ll,lr,rr,rl,comp,gain,baseRate:Number(audio.playbackRate)||1};
+    retroGraphs.set(audio,g);
+    return g;
+  }catch(e){console.warn('[CITYMUSIC retro] media graph unavailable',e);return null}
+}
+function applyRetroGraph(g,p){
+  if(!g||!retroCtx)return;
+  const t=retroCtx.currentTime,cross=.24*Math.pow(p,1.15),own=1-cross;
+  g.low.gain.setTargetAtTime(2.8*p,t,.05);
+  g.high.frequency.setTargetAtTime(21000-13700*Math.pow(p,.8),t,.06);
+  g.high.Q.setTargetAtTime(.18+.42*p,t,.05);
+  g.shaper.curve=retroCurve(.42*p);
+  g.ll.gain.setTargetAtTime(own,t,.04);g.rr.gain.setTargetAtTime(own,t,.04);
+  g.lr.gain.setTargetAtTime(cross,t,.04);g.rl.gain.setTargetAtTime(cross,t,.04);
+  g.comp.threshold.setTargetAtTime(-16-9*p,t,.05);
+  g.comp.ratio.setTargetAtTime(1.15+1.55*p,t,.05);
+  g.comp.attack.setTargetAtTime(.014,t,.05);g.comp.release.setTargetAtTime(.2,t,.05);
+  g.gain.gain.setTargetAtTime(1-.045*p,t,.05);
+}
+function tickRetroWow(){
+  const audio=MT.audio||$('nativeAudioPlayer');if(!audio)return;
+  const g=retroGraphs.get(audio);if(!g)return;
+  const p=retroAmount/100;
+  if(p<.04){if(Math.abs(audio.playbackRate-g.baseRate)>.0001)audio.playbackRate=g.baseRate;return}
+  if(audio.paused)return;
+  const t=performance.now()/1000;
+  const wow=Math.sin(t*2.05)*.00145*Math.pow(p,1.6);
+  const flutter=Math.sin(t*8.7+.9)*.00055*Math.pow(p,1.8);
+  audio.playbackRate=g.baseRate*(1+wow+flutter);
+}
+setInterval(tickRetroWow,70);
+
+function setRetroAmount(v,{persist=true}={}){
+  retroAmount=Math.max(0,Math.min(100,Number(v)||0));
+  if(persist)try{localStorage.setItem(RETRO_KEY,String(Math.round(retroAmount)))}catch(_){}
+  const p=retroAmount/100,a=MT.audio||$('nativeAudioPlayer');
+  if(retroAmount>0){
+    const ctx=ensureRetroContext();if(ctx?.state==='suspended')ctx.resume().catch(()=>{});
+    const g=ensureRetroGraph(a);applyRetroGraph(g,p);
+  }else{
+    const g=a?retroGraphs.get(a):null;if(g){applyRetroGraph(g,0);a.playbackRate=g.baseRate}
+  }
+  if(retroNoiseGain&&retroCtx)retroNoiseGain.gain.setTargetAtTime(p<.03?0:.002+.0155*Math.pow(p,1.45),retroCtx.currentTime,.06);
+  body.classList.toggle('mt-retro-on',retroAmount>=8);
+  body.style.setProperty('--mt-retro',String(p));
+  paintRetroPanel();
+}
+function retroPanelHtml(){
+  return '<section class="mt-retro-panel mt-glass" id="mtRetroPanel" aria-label="復古播放模式">'+
+    '<div class="mt-retro-head"><div><small>RETRO PLAYBACK</small><b>復古模式</b></div><span id="mtRetroState">'+esc(retroLabel())+'</span></div>'+
+    '<p>加入黑膠底噪與 crackle、暖色 EQ、高頻收斂、些微 saturation、立體聲收窄與輕微 wow / flutter。0% 保留原音。</p>'+
+    '<div class="mt-retro-range"><input id="mtRetroRange" type="range" min="0" max="100" step="1" value="'+retroPercent()+'" aria-label="復古模式強度"><output id="mtRetroValue">'+retroPercent()+'%</output></div>'+
+    '<div class="mt-retro-presets"><button type="button" data-retro="0">原音</button><button type="button" data-retro="25">25</button><button type="button" data-retro="50">50</button><button type="button" data-retro="75">75</button><button type="button" data-retro="100">100</button></div>'+
+    '<div class="mt-retro-features"><span>NOISE</span><span>WARM EQ</span><span>WOW</span><span>WIDTH</span></div>'+
+  '</section>';
+}
+function mountRetroPanel(){
+  const deck=document.querySelector('#playerSheet .musicetown-deck');if(!deck||$('mtRetroPanel'))return;
+  const info=deck.querySelector('.deck-info'),tmp=document.createElement('div');tmp.innerHTML=retroPanelHtml();
+  const panel=tmp.firstElementChild;
+  if(info?.parentNode)info.parentNode.insertBefore(panel,info.nextSibling);else deck.appendChild(panel);
+  panel.querySelector('#mtRetroRange')?.addEventListener('input',e=>setRetroAmount(e.target.value));
+  panel.addEventListener('click',e=>{const b=e.target.closest('[data-retro]');if(b)setRetroAmount(b.dataset.retro)});
+  paintRetroPanel();
+}
+function paintRetroPanel(){
+  const panel=$('mtRetroPanel');if(!panel)return;
+  const r=$('mtRetroRange'),v=$('mtRetroValue'),s=$('mtRetroState');
+  if(r&&Number(r.value)!==retroPercent())r.value=retroPercent();
+  if(v)v.textContent=retroPercent()+'%';if(s)s.textContent=retroLabel();
+  panel.style.setProperty('--retro',String(retroAmount/100));
+  panel.querySelectorAll('[data-retro]').forEach(b=>b.classList.toggle('active',Number(b.dataset.retro)===retroPercent()));
+}
+new MutationObserver(()=>requestAnimationFrame(mountRetroPanel)).observe(document.body,{childList:true,subtree:true});
+document.addEventListener('mt:track',()=>setTimeout(()=>{mountRetroPanel();setRetroAmount(retroAmount,{persist:false})},0));
+document.addEventListener('pointerdown',()=>{if(retroAmount>0)ensureRetroContext()?.resume?.().catch(()=>{})},{capture:true});
+setTimeout(()=>{mountRetroPanel();setRetroAmount(retroAmount,{persist:false})},160);
 
 /* =====================================================================
    boot

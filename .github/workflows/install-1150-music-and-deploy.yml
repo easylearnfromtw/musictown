@@ -141,6 +141,8 @@ jobs:
                   "CT 推薦",
                   "citymusic-brand-runtime",
                   "CITYMUSIC ONBOARDING V4",
+                  "CITYMUSIC RETRO MODE",
+                  "CITYMUSIC HOME V2",
                   "CITYMUSIC CD SCRUB SFX",
               ]
               missing=[x for x in required if x not in s]
