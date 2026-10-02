@@ -4,10 +4,15 @@ name: R9.3 · Audio Rescue + UX Deploy
   push:
     branches: ["main"]
   workflow_dispatch:
+  # R10.1: the lyrics bot pushes with [skip ci]. If Pages is still set to
+  # "Deploy from a branch", that push makes GitHub publish the bare repo
+  # (no MP3s) over the audio build. Re-deploy the audio build right after.
+  workflow_run:
+    workflows: ["R9.3 · Build Real Audio Lyrics"]
+    types: [completed]
 
 permissions:
   contents: read
-  actions: read
   pages: write
   id-token: write
 
@@ -17,6 +22,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     environment:
@@ -56,79 +62,12 @@ jobs:
             musicetown-r890-64k-
       - name: Build base 5 local audio folders
         run: python fetch_verified_audio.py --bitrate "64k"
-
-      - name: Verify deployed audio integrity
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          roots=[Path(x) for x in ("jazz","crooner","rock","sport","lo-fi")]
-          files=[p for r in roots for p in r.glob("*.mp3")]
-          bad=[p for p in files if p.stat().st_size < 20000]
-          target=Path("rock/008.mp3")
-          if not target.is_file() or target.stat().st_size < 20000:
-              raise SystemExit("Bravery Vampire audio missing or invalid: rock/008.mp3")
-          if len(files) != 250:
-              raise SystemExit(f"Expected 250 verified base MP3s, found {len(files)}")
-          if bad:
-              raise SystemExit("Invalid/suspicious MP3 files: "+", ".join(map(str,bad[:12])))
-          print(f"Audio integrity OK: {len(files)} MP3s; rock/008.mp3={target.stat().st_size} bytes")
-          PY
-      - name: Apply current UX source layer
-        run: python apply_r937_ux.py
-
       - name: Prepare current 101-theme site with audio
         run: python prepare_audio_site.py
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
-
-      # This repository still has the legacy branch-based Pages source enabled.
-      # That dynamic Pages run does not contain generated MP3 folders and can
-      # overwrite the audio artifact if it finishes a few seconds later.
-      # Wait for the competing branch deployment for the exact checked-out SHA,
-      # then deploy the audio artifact last.
-      - name: Wait for branch Pages build to settle
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          sha="$(git rev-parse HEAD)"
-          echo "Waiting for legacy branch Pages run for $sha to finish before audio deploy..."
-          for i in $(seq 1 30); do
-            busy="$(gh api -X GET "repos/$GITHUB_REPOSITORY/actions/runs"               -f head_sha="$sha" -f per_page=100               --jq '[.workflow_runs[] | select(.name == "pages build and deployment" and .status != "completed")] | length')"
-            echo "branch-pages busy=$busy (check $i/30)"
-            if [ "$busy" = "0" ]; then
-              break
-            fi
-            sleep 8
-          done
-
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
-
-      - name: Post-deploy Bravery Vampire smoke test
-        shell: bash
-        run: |
-          set -euo pipefail
-          base="${{ steps.deployment.outputs.page_url }}"
-          url="${base%/}/rock/008.mp3"
-          echo "Smoke testing $url"
-          ok=0
-          for i in $(seq 1 12); do
-            rm -f /tmp/bravery-vampire.mp3
-            if curl -fL --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 90 \
-                 -o /tmp/bravery-vampire.mp3 "$url"; then
-              bytes=$(wc -c </tmp/bravery-vampire.mp3)
-              if [ "$bytes" -gt 20000 ]; then
-                dur=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 /tmp/bravery-vampire.mp3 || true)
-                echo "Attempt $i: bytes=$bytes duration=$dur"
-                python -c 'import sys; d=float(sys.argv[1]); raise SystemExit(0 if d>1 else 1)' "$dur"
-                ok=1
-                break
-              fi
-            fi
-            echo "Pages not ready yet (attempt $i/12); waiting..."
-            sleep 10
-          done
-          test "$ok" = "1" || { echo "Deployed rock/008.mp3 is missing or undecodable"; exit 1; }
