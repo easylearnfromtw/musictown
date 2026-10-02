@@ -21,3 +21,12 @@ for name in ("index.html","404.html"):
         text=text.replace("</body>",script+"\n</body>",1)
     p.write_text(text,encoding="utf-8")
     print(name,"R9.3 UX layer refreshed")
+
+# R10: keep the Flow & Glass shell last in <head>/<body> after the R9.3 layer refresh.
+try:
+    sys_dont_write = __import__("sys"); sys_dont_write.dont_write_bytecode = True
+    import apply_r10_ux
+    for _name in ("index.html", "404.html"):
+        apply_r10_ux.apply(ROOT / _name)
+except FileNotFoundError:
+    pass
