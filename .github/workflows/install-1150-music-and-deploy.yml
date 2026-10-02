@@ -1,4 +1,4 @@
-name: R9.3.14 · 101 themes / 3300 placements · Local Audio Stable Deploy
+name: CITYMUSIC · 101 themes / 3300 visible / 9900 searchable · Weekly Adaptive Deploy
 
 "on":
   workflow_dispatch:
@@ -25,6 +25,7 @@ name: R9.3.14 · 101 themes / 3300 placements · Local Audio Stable Deploy
       - "r10_ux.js"
       - "r10_ux.css"
       - "verify_music_install.py"
+      - "validate_theme_format.py"
       - "prepare_audio_site.py"
       - ".github/workflows/install-1150-music-and-deploy.yml"
 
@@ -102,10 +103,10 @@ jobs:
       - name: Restore catalog to local verified MP3 paths
         run: python restore_verified_local_audio.py
 
-      - name: Build 31 audited core and city themes deterministically
+      - name: Build 31 audited core/city 3x pools
         run: python build_audited_release_packs.py
 
-      - name: Build 70 limited 25-track themes
+      - name: Build 70 limited 3x pools
         run: python build_limited_theme_packs.py
 
       - name: Apply cached real lyrics manifest
@@ -147,6 +148,8 @@ jobs:
                   "CITYMUSIC VISUAL QUALITY V1",
                   "CITYMUSIC APPLE UX V1",
                   "CITYMUSIC APPLE UX V1.1",
+                  "CITYMUSIC TRACK POOL V1",
+                  "CITYMUSIC WEEKLY TRACK MIX V1",
                   "CITYMUSIC CD SCRUB SFX",
               ]
               missing=[x for x in required if x not in s]
@@ -160,10 +163,10 @@ jobs:
       - name: Validate user-defined CITYMUSIC theme format
         run: python validate_theme_format.py
 
-      - name: Verify 101-theme / 3300-placement catalog
+      - name: Verify 101-theme / 3300 visible / 9900 searchable catalog
         run: python verify_music_install.py
 
-      - name: Persist stable 3300-placement catalog to main
+      - name: Persist stable 3x searchable catalog to main
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -171,7 +174,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Stable catalog already persisted."
           else
-            git commit -m "Persist stable local-audio 3300 catalog [skip ci]"
+            git commit -m "Persist CITYMUSIC 3300 visible / 9900 searchable catalog [skip ci]"
             if ! git push origin HEAD:main; then
               echo "main advanced during the build; rebasing generated catalog once…"
               git fetch origin main

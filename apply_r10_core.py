@@ -12,6 +12,34 @@ import re
 ROOT=Path(__file__).resolve().parent
 START='/* ================= R10.2 CORE BRIDGE START ================= */'
 END='/* ================= R10.2 CORE BRIDGE END ================= */'
+POOL_START='/* ================= CITYMUSIC TRACK POOL V1 START ================= */'
+POOL_END='/* ================= CITYMUSIC TRACK POOL V1 END ================= */'
+
+POOL_RUNTIME=r'''/* ================= CITYMUSIC TRACK POOL V1 START ================= */
+function hydrateCitymusicTrackPools(data){
+  const master=new Map(),masterNames=new Set(['JAZZ','CROONER','ROCK','SPORT','LO-FI']);
+  for(const d of data){
+    if(!masterNames.has(d.t))continue;
+    (d.tracks||[]).slice(0,50).forEach((t,i)=>{const ref=String(t.masterRef||d.t+':'+i);t.masterRef=ref;master.set(ref,{...t})});
+  }
+  for(const d of data){
+    const refs=Array.isArray(d.poolRefs)?d.poolRefs:[];if(!refs.length)continue;
+    const existing=new Map((d.tracks||[]).map(t=>[String(t.shareId||''),t])),expanded=[];
+    for(let i=0;i<refs.length;i++){
+      const e=refs[i]||{},ref=String(e.r||''),base=master.get(ref);if(!base)continue;
+      const sid=String(e.id||base.shareId||ref),t=existing.get(sid)||{...base};
+      t.shareId=sid;t.trackNo=i+1;t.masterRef=ref;t.curatedTheme=d.t;t.curationScore=Number(e.q??t.curationScore??t.limitedCurationScore??0);
+      t.curatedFromDrawer=e.src||t.curatedFromDrawer||ref.split(':')[0];t.poolRank=i+1;t.poolSize=refs.length;
+      if(d.limitedTheme){t.limitedTheme=true;t.limitedSourceTheme=e.src||t.limitedSourceTheme||''}
+      if(!existing.has(sid))t.vibe=(d.key||d.sub||d.t)+' · '+(base.genre||base.vibe||e.src||'CC0 Music');
+      expanded.push(t);
+    }
+    const target=Math.max(1,Number(d.targetTracks||50)||50);
+    if(expanded.length>=target){d.tracks=expanded;d.poolSize=expanded.length;d.searchableTracks=expanded.length}
+  }
+}
+hydrateCitymusicTrackPools(DATA);
+/* ================= CITYMUSIC TRACK POOL V1 END ================= */'''
 
 # R10.2.4 · AUDIO / HOME FRAME
 # CITYMUSIC VISUAL QUALITY V1 · Retina-aware WebGL quality with mobile safety caps
@@ -132,10 +160,10 @@ function mtStageCustom(names){
 }
 function mtPlayTheme(i,{shuffle=false}={}){
   const d=DATA[i];if(!d?.tracks?.length)return;
-  const bad=mtReadBadAudio();
-  const pool=d.tracks.filter(t=>!isDisliked(t)&&!bad.has(t.shareId||t.audioSrc));
-  const list=pool.length?pool:d.tracks.filter(t=>!bad.has(t.shareId||t.audioSrc));
-  const use=list.length?list:d.tracks;
+  const bad=mtReadBadAudio(),weekly=mtVisibleTracks(i);
+  const pool=weekly.filter(t=>!isDisliked(t)&&!bad.has(t.shareId||t.audioSrc));
+  const list=pool.length?pool:weekly.filter(t=>!bad.has(t.shareId||t.audioSrc));
+  const use=list.length?list:(weekly.length?weekly:d.tracks);
   const t=shuffle?use[Math.floor(Math.random()*use.length)]:use[0];
   if(!autoNextEnabled&&typeof mtSetAutoNext==='function')mtSetAutoNext(true);
   openTrack(t,true);
@@ -155,6 +183,67 @@ function mtLastTrack(){
     return t?{track:t,index:gi}:null;
   }catch(_){return null}
 }
+
+/* ================= CITYMUSIC WEEKLY TRACK MIX V1 ================= */
+const MT_TRACK_SIGNAL_KEY='citymusic.r10.5.trackSignals';
+let mtTrackSignalSession=null;
+function mtTrackKey(t){return String(t?.masterRef||t?.originalLocalAudio||t?.originalAudioSrc||t?.audioSrc||t?.source||((t?.artist||'')+'|'+(t?.title||'')))}
+function mtTrackSignals(){try{const x=JSON.parse(localStorage.getItem(MT_TRACK_SIGNAL_KEY)||'{}');return x&&typeof x==='object'?x:{}}catch(_){return {}}}
+function mtSaveTrackSignals(x){try{localStorage.setItem(MT_TRACK_SIGNAL_KEY,JSON.stringify(x))}catch(_){}}
+function mtBumpTrackSignal(t,kind){
+  if(!t)return;const k=mtTrackKey(t),all=mtTrackSignals(),r=all[k]||{plays:0,finishes:0,skips:0,last:0,artist:''};
+  if(kind==='play')r.plays=(r.plays||0)+1;if(kind==='finish')r.finishes=(r.finishes||0)+1;if(kind==='skip')r.skips=(r.skips||0)+1;
+  r.last=Date.now();r.artist=String(t.artist||'');all[k]=r;
+  const keys=Object.keys(all);if(keys.length>700)keys.sort((a,b)=>(all[b].last||0)-(all[a].last||0)).slice(700).forEach(x=>delete all[x]);
+  mtSaveTrackSignals(all);
+}
+function mtCloseTrackSignalSession(){
+  const s=mtTrackSignalSession;if(!s||s.closed)return;s.closed=true;
+  const sec=Number(s.audio?.currentTime||0),dur=Number(s.audio?.duration||0);
+  if(s.finished)return;
+  if((Number.isFinite(dur)&&dur>0&&sec/dur>=.82)||sec>=150){s.finished=true;mtBumpTrackSignal(s.track,'finish')}
+  else if(sec<25)mtBumpTrackSignal(s.track,'skip');
+}
+function mtStartTrackSignal(t,a){
+  if(!t)return;const key=mtTrackKey(t);
+  if(mtTrackSignalSession&&!mtTrackSignalSession.closed&&mtTrackSignalSession.key===key)return;
+  const s={key,track:t,audio:a,closed:false,finished:false};mtTrackSignalSession=s;mtBumpTrackSignal(t,'play');
+  a?.addEventListener?.('ended',()=>{if(!s.finished){s.finished=true;s.closed=true;mtBumpTrackSignal(t,'finish')}},{once:true});
+}
+window.addEventListener('pagehide',mtCloseTrackSignalSession,{passive:true});
+function mtWeekSeed(){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function mtHash32(s){let h=2166136261>>>0;for(const ch of String(s)){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function mtSeed01(s){return mtHash32(s)/4294967295}
+function mtVisibleTrackIndexes(gi){
+  const d=DATA[gi];if(!d?.tracks?.length)return [];const target=Math.min(themeTrackTarget(d),d.tracks.length),week=mtWeekSeed(),sig=mtTrackSignals();
+  const favs=typeof loadFavoriteKeys==='function'?loadFavoriteKeys():new Set(),dis=typeof loadDislikeKeys==='function'?loadDislikeKeys():new Set(),bad=typeof mtReadBadAudio==='function'?mtReadBadAudio():new Set(),aff={};
+  for(const r of Object.values(sig)){const a=String(r?.artist||'').trim().toLowerCase();if(a)aff[a]=(aff[a]||0)+Math.max(-4,(r.finishes||0)*2.4-(r.skips||0)*1.7+Math.log1p(r.plays||0))}
+  const rows=d.tracks.map((t,i)=>{
+    const key=mtTrackKey(t),r=sig[key]||{},artist=String(t.artist||'').trim().toLowerCase();let q=Number(t.curationScore??t.limitedCurationScore??0);if(!Number.isFinite(q))q=0;
+    let score=q*.075+Math.log1p(r.plays||0)*1.8+(r.finishes||0)*5.2-(r.skips||0)*4.4;
+    if((r.plays||0)>0)score+=Math.max(-5,Math.min(7,((r.finishes||0)-(r.skips||0))/(r.plays||1)*5));
+    if(typeof favoriteKey==='function'&&favs.has(favoriteKey(t)))score+=28;score+=Math.max(-3,Math.min(8,(aff[artist]||0)*.7));
+    const age=Date.now()-Number(r.last||0);if(r.last&&age<86400000)score-=5.5;else if(r.last&&age<604800000)score-=2;
+    score+=mtSeed01(week+'|p|'+d.t+'|'+key)*.75;
+    return {i,t,key,q,score,disliked:typeof dislikeKey==='function'&&dis.has(dislikeKey(t)),bad:bad.has(typeof mtAudioId==='function'?mtAudioId(t):'')};
+  });
+  let usable=rows.filter(x=>!x.disliked&&!x.bad);if(usable.length<target)usable=rows.filter(x=>!x.bad);if(usable.length<target)usable=rows;
+  usable.sort((a,b)=>b.score-a.score||b.q-a.q||a.i-b.i);
+  const pc=Math.min(target,Math.max(1,Math.round(target*.70))),personal=usable.slice(0,pc),chosen=new Set(personal.map(x=>x.i));
+  const rest=usable.filter(x=>!chosen.has(x.i)).sort((a,b)=>b.q-a.q||b.score-a.score).slice(0,Math.min(usable.length,Math.max(target,Math.round(target*1.65))));
+  rest.sort((a,b)=>mtSeed01(week+'|x|'+d.t+'|'+a.key)-mtSeed01(week+'|x|'+d.t+'|'+b.key));
+  const out=[...personal,...rest.slice(0,target-personal.length)];
+  if(out.length<target)for(const x of usable){if(!out.some(y=>y.i===x.i)){out.push(x);if(out.length>=target)break}}
+  return out.slice(0,target).map(x=>x.i);
+}
+function mtVisibleTracks(i){const d=DATA[i];return mtVisibleTrackIndexes(i).map(x=>d.tracks[x]).filter(Boolean)}
+function mtRenderWeeklyTracks(gi,query=''){
+  const d=DATA[gi],q=String(query||'').trim().toLowerCase();
+  const idx=q?d.tracks.map((t,i)=>({t,i})).filter(x=>(String(x.t.title||'')+' '+String(x.t.artist||'')+' '+String(x.t.vibe||'')).toLowerCase().includes(q)).map(x=>x.i):mtVisibleTrackIndexes(gi);
+  $('trackList').innerHTML=idx.map((i,n)=>{const t=d.tracks[i],saved=isFavorite(t),disliked=isDisliked(t);return '<div class="track-row '+(disliked?'disliked':'')+'" data-genre-index="'+gi+'" data-track-index="'+i+'" tabindex="0" role="button" aria-label="開啟 '+esc(t.title)+'"><div class="track-no">'+String(n+1).padStart(2,'0')+'</div><div><div class="track-name">'+esc(t.title)+'</div><div class="track-note">'+esc(t.artist)+' · '+esc(t.vibe)+'</div></div><div class="track-actions"><span class="cc0-badge">'+esc(t.license)+'</span><button class="favorite-btn '+(saved?'saved':'')+'" type="button" data-genre-index="'+gi+'" data-track-index="'+i+'">'+(saved?'♥':'♡')+'</button><button class="dislike-btn '+(disliked?'disliked':'')+'" type="button" data-genre-index="'+gi+'" data-track-index="'+i+'">'+(disliked?'−':'⊘')+'</button><button class="play-dot" type="button" tabindex="-1" aria-hidden="true">'+musicetownIcon('play')+'</button></div></div>'}).join('')||'<div class="track-note" style="padding:20px">找不到符合的歌曲</div>';
+}
+function mtPaintThemePoolCounts(){document.querySelectorAll('.theme-shelf-item[data-theme-index]').forEach(el=>{const i=Number(el.dataset.themeIndex),d=DATA[i],s=el.querySelector('span');if(d&&s)s.textContent=themeTrackTarget(d)+' 本週 · '+d.tracks.length+' 曲池'})}
+/* ================= /CITYMUSIC WEEKLY TRACK MIX V1 ================= */
 
 /* R10.2.4 audio reliability.
    - never render the legacy source-page / iframe fallback
@@ -269,6 +358,8 @@ if(typeof mountOnlinePlaybackFallback==='function'){
 /* Emit a stable event layer without forcing the legacy app to know R10. */
 const mtOpenTrackCore=openTrack;
 openTrack=function(t,userGesture=true,opts={}){
+  const sameSignal=!!(mtTrackSignalSession&&!mtTrackSignalSession.closed&&mtTrackSignalSession.key===mtTrackKey(t));
+  if(!sameSignal)mtCloseTrackSignalSession();
   const out=mtOpenTrackCore(t,userGesture,opts);
   try{
     activeTrack=t||activeTrack;
@@ -276,6 +367,7 @@ openTrack=function(t,userGesture=true,opts={}){
     if(t&&gi>=0)localStorage.setItem('musicetown.r10.lastTrack',JSON.stringify({id:t.shareId||t.audioSrc,theme:DATA[gi].t,at:Date.now()}));
     const a=activeAudio||$('nativeAudioPlayer');
     if(a)a.dataset.mtRetryIndex='0';
+    if(!sameSignal)mtStartTrackSignal(t,a);
     mtEmit('track',{track:t,audio:a,index:gi});
     if(a&&t){
       const check=()=>{if(a.readyState===0&&!a.error&&a.networkState!==HTMLMediaElement.NETWORK_NO_SOURCE)mountOnlinePlaybackFallback(t)};
@@ -285,17 +377,17 @@ openTrack=function(t,userGesture=true,opts={}){
   return out;
 };
 const mtShowDetailCore=showDetail;
-showDetail=function(i){const out=mtShowDetailCore(i);mtEmit('view',{view:'detail',index:Number(i),theme:DATA[Number(i)]?.t});return out};
+showDetail=function(i){const out=mtShowDetailCore(i),d=DATA[Number(i)];if(d){const target=themeTrackTarget(d),pool=d.tracks?.length||target;if($('archivePoolLabel'))$('archivePoolLabel').textContent=target+' 本週精選 · '+pool+' 可搜尋';if($('all50Btn'))$('all50Btn').textContent=DATA.reduce((n,x)=>n+themeTrackTarget(x),0)+' 本週 · '+DATA.reduce((n,x)=>n+(x.tracks?.length||0),0)+' 曲池';if($('musicMeta')&&!$('musicMeta').querySelector('.mt-weekly-chip'))$('musicMeta').insertAdjacentHTML('beforeend','<span class="music-chip mt-weekly-chip">WEEKLY ADAPTIVE</span>');if($('rightsNote'))$('rightsNote').innerHTML='<strong>每週自適應：</strong>約 70% 依收藏、聽完、播放與略過行為排序；其餘約 30% 每週固定換一批。搜尋仍可找到完整 '+pool+' 首曲池。'}mtEmit('view',{view:'detail',index:Number(i),theme:d?.t});return out};
 const mtBackToStageCore=backToStage;
 backToStage=function(){const out=mtBackToStageCore();mtEmit('view',{view:'home'});return out};
 if(typeof setHomeGroup==='function'){
   const mtSetHomeGroupCore=setHomeGroup;
   setHomeGroup=function(key,opts={}){const out=mtSetHomeGroupCore(key,opts);mtEmit('group',{key,items:[...(HOME_GROUPS[key]?.items||[])]});return out};
 }
-if(typeof renderTracks==='function'){
-  const mtRenderTracksCore=renderTracks;
-  renderTracks=function(...args){const out=mtRenderTracksCore(...args);requestAnimationFrame(mtHideBadTrackRows);return out};
-}
+if(typeof renderTracks==='function'){const mtRenderTracksCore=renderTracks;renderTracks=function(gi,q=''){const out=mtRenderWeeklyTracks(Number(gi),q);requestAnimationFrame(mtHideBadTrackRows);return out}}
+if(typeof renderBranchDrawer==='function'){const mtRenderBranchDrawerCore=renderBranchDrawer;renderBranchDrawer=function(gi){const d=DATA[Number(gi)];if(!d)return mtRenderBranchDrawerCore(gi);const all=d.tracks,weekly=mtVisibleTracks(Number(gi));d.tracks=weekly.length?weekly:all;try{return mtRenderBranchDrawerCore(gi)}finally{d.tracks=all;if($('drawerPoolMeta'))$('drawerPoolMeta').textContent=d.t+' · WEEKLY MIX · RANDOM '+Math.min(5,weekly.length||all.length)}}}
+if(typeof nextTrackFrom==='function'){const mtNextTrackFromCore=nextTrackFrom;nextTrackFrom=function(t,dir=1){const p=findTrackPosition(t);if(!p||p.local)return mtNextTrackFromCore(t,dir);const weekly=mtVisibleTracks(p.gi),at=weekly.indexOf(t);if(at>=0)return nextAllowedTrack(weekly,at,dir)||mtNextTrackFromCore(t,dir);return mtNextTrackFromCore(t,dir)}}
+if(typeof renderThemeShelf==='function'){const mtRenderThemeShelfCore=renderThemeShelf;renderThemeShelf=function(...args){const out=mtRenderThemeShelfCore(...args);requestAnimationFrame(mtPaintThemePoolCounts);return out}}
 if(typeof finishWelcome==='function'){
   const mtFinishWelcomeCore=finishWelcome;
   finishWelcome=function(...args){const out=mtFinishWelcomeCore(...args);mtEmit('welcome',{done:true});return out};
@@ -341,6 +433,9 @@ window.MT=Object.freeze({
   shareTheme:i=>{const d=DATA[i];if(d)openShareComposer(currentDrawerTracks?.length?currentDrawerTracks:d.tracks.slice(0,12),d.t)},
   toast:showClickToast,icon:musicetownIcon,esc,
   audioIsBad:mtAudioIsBad,
+  visibleTracks:i=>mtVisibleTracks(Number(i)),
+  visibleTrackIndexes:i=>mtVisibleTrackIndexes(Number(i)),
+  trackWeekKey:mtWeekSeed,
   recoverAudio:(t=activeTrack,a=activeAudio||$('nativeAudioPlayer'))=>mtTryAudioRecovery(t,a)
 });
 queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{view:'detail',index:window.__genreIndex??-1,theme:DATA[window.__genreIndex??-1]?.t}:{view:'home'});mtHideBadTrackRows()});
@@ -348,9 +443,11 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
 
 OLD_BRIDGE=re.compile(r'/\* ================= R10 · bridge for the navigation shell =================[\s\S]*?mtEmit\(\'ready\',\{\}\);\s*',re.M)
 CURRENT=re.compile(re.escape(START)+r'[\s\S]*?'+re.escape(END))
+POOL_CURRENT=re.compile(re.escape(POOL_START)+r'[\s\S]*?'+re.escape(POOL_END))
 
 def patch(text:str,name:str)->str:
     text=CURRENT.sub('',text)
+    text=POOL_CURRENT.sub('',text)
     text=OLD_BRIDGE.sub('',text)
 
     # Strip the legacy source-page/iframe fallback completely. R10.2.4 handles
@@ -406,6 +503,13 @@ let W=1,H=1,cssW=1,cssH=1,dpr=1,T=null;"""
         text=text.replace(samples_old,samples_new,1)
     elif samples_new not in text:
         raise RuntimeError(f'{name}: MSAA quality marker not found')
+
+    pool_anchor='hydrateLaunchThemePools(DATA);'
+    if pool_anchor not in text:
+        raise RuntimeError(f'{name}: theme-pool hydration anchor not found')
+    text=text.replace(pool_anchor,pool_anchor+'\n'+POOL_RUNTIME,1)
+    text=text.replace('trackHits.length<32','trackHits.length<96')
+    text=text.replace("trackHits.length>=32?' +'","trackHits.length>=96?' +'")
 
     # Reinstall the safe-band camera on every generated catalog. Builders can
     # rewrite the legacy WebGL block, so this must live in the source pipeline.
