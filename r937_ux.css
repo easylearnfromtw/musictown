@@ -576,3 +576,197 @@ html.mt-vinyl-page-lock .vinyl-wrap,.vinyl-wrap.mt-vinyl-dragging{
   #glassTransport .glass-btn{width:34px!important;height:34px!important;min-width:34px!important;padding:0!important;margin:0!important}
   #glassTransport .glass-play{width:38px!important;height:38px!important;min-width:38px!important}
 }
+
+/* =========================================================
+   musicetown R9.3.15 · MOBILE VIEWPORT / NO HORIZONTAL SWIPE
+   ========================================================= */
+html,body{
+  max-width:100%;
+  overflow-x:clip!important;
+  overscroll-behavior-x:none;
+}
+@supports not (overflow:clip){
+  html,body{overflow-x:hidden!important}
+}
+
+@media(max-width:700px){
+  html,body{width:100%;min-width:0!important;max-width:100%!important}
+
+  /* Every page/sheet is bounded to the visual viewport. */
+  #welcome,.detail,.player-sheet,.library-sheet,.share-sheet,.share-compose-sheet,
+  .city-pass-sheet,.audio-accessory-sheet,.global-search-sheet,.passbook-sheet{
+    width:100%!important;
+    max-width:100vw!important;
+    overflow-x:hidden!important;
+    box-sizing:border-box!important;
+  }
+  #welcome .welcome-card,.player-card,.library-panel,.share-panel,.share-compose-panel,
+  .city-pass-ticket,.audio-accessory-card,.global-search-panel,.passbook-panel{
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  img,video{max-width:100%;height:auto}
+  svg,canvas{max-width:100%}
+
+  /* Homepage atlas: vertical page gesture only; cards wrap into the viewport. */
+  .theme-group-items{overflow-x:hidden!important;overscroll-behavior-x:none!important}
+  .theme-atlas-row{min-height:0!important}
+  .theme-atlas-track{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+    overflow-y:visible!important;
+    padding:2px 4px 6px!important;
+    scroll-snap-type:none!important;
+    scroll-padding:0!important;
+    overscroll-behavior-x:none!important;
+    touch-action:pan-y pinch-zoom!important;
+  }
+  .theme-shelf-item{
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+    height:52px!important;
+    min-height:52px!important;
+    scroll-snap-align:none!important;
+  }
+  .theme-shelf-item b,.theme-shelf-item span{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  /* Search suggestions and local collections wrap instead of becoming side rails. */
+  .global-search-suggest{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    gap:6px!important;
+    overflow-x:hidden!important;
+    overflow-y:visible!important;
+    overscroll-behavior-x:none!important;
+    touch-action:pan-y pinch-zoom!important;
+  }
+  .global-search-suggest button{flex:0 1 auto!important;max-width:100%;white-space:normal!important}
+  .library-collection-list{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:7px!important;
+    overflow-x:hidden!important;
+    overflow-y:visible!important;
+    overscroll-behavior-x:none!important;
+    touch-action:pan-y pinch-zoom!important;
+  }
+  .library-collection-tab{width:100%!important;min-width:0!important;max-width:none!important}
+
+  /* Legacy rails never widen the document if an older state is restored. */
+  .links.music-nav{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+    flex-wrap:wrap!important;
+    white-space:normal!important;
+  }
+  .links.music-nav button{min-width:0!important;white-space:normal!important}
+  .order-scroll{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    touch-action:pan-y pinch-zoom!important;
+  }
+  .order-item{min-width:0!important;max-width:100%!important}
+
+  /* Passbook keeps button navigation, but finger swiping cannot drag the page sideways. */
+  .passbook-panel{overflow-x:hidden!important}
+  .passbook-carousel{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+    overflow-y:hidden!important;
+    overscroll-behavior-x:none!important;
+    touch-action:pan-y pinch-zoom!important;
+    scroll-snap-type:x mandatory!important;
+    padding-left:12px!important;
+    padding-right:12px!important;
+  }
+  .passbook-card{
+    flex:0 0 100%!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .passbook-card-top{grid-template-columns:58px minmax(0,1fr)!important}
+  .passbook-code{grid-column:1/-1;justify-self:end;font-size:clamp(18px,9vw,34px)!important}
+  .passbook-ticket-body{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .passbook-actions{display:grid!important;grid-template-columns:1fr!important;width:100%}
+  .passbook-actions button{width:100%!important;max-width:100%!important}
+
+  /* City Pass: reflow wide desktop rows into phone-safe columns. */
+  .city-pass-ticket{width:100%!important;overflow-x:hidden!important}
+  .city-pass-header{padding-left:16px!important;padding-right:16px!important}
+  .city-pass-hero{
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+    padding-left:16px!important;
+    padding-right:16px!important;
+  }
+  .city-pass-city-code{min-width:0!important;font-size:clamp(42px,18vw,68px)!important}
+  .city-pass-hero h2{font-size:clamp(28px,10vw,42px)!important;overflow-wrap:anywhere}
+  .city-pass-meta-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    margin-left:16px!important;
+    margin-right:16px!important;
+  }
+  .city-pass-meta-grid>div:nth-child(2n){border-right:0!important}
+  .city-pass-hot,.city-pass-footer{padding-left:16px!important;padding-right:16px!important}
+  .city-pass-actions{max-width:100%;flex-wrap:wrap!important}
+
+  /* Audio / search / library controls can shrink but never push the viewport wider. */
+  .aa-topline,.aa-now-playing,.audio-accessory-status-row,
+  .global-search-head,.global-search-box,.global-search-results,
+  .library-tools,.library-list,.library-drop,.library-privacy,
+  .music-grid,.music-panel,.track-list,.track-row,.local-track-row{
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  .audio-accessory-card{overflow-x:hidden!important}
+  .aa-thread-left{left:24px!important}.aa-thread-right{right:24px!important}
+  .bud-left{left:26px!important}.bud-right{right:26px!important}
+  .track-name,.track-note,.local-track-title,.local-track-artist{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* Lighter mobile compositing: same hierarchy, less iOS GPU pressure. */
+  body{background-attachment:scroll!important}
+  html.mt-perf-mobile .theme-shelf,
+  html.mt-perf-mobile .passbook-panel,
+  html.mt-perf-mobile .global-search-panel,
+  html.mt-perf-mobile .audio-accessory-card,
+  html.mt-perf-mobile .city-pass-ticket{
+    -webkit-backdrop-filter:blur(8px) saturate(106%)!important;
+    backdrop-filter:blur(8px) saturate(106%)!important;
+  }
+  html.mt-perf-mobile .passbook-backdrop,
+  html.mt-perf-mobile .global-search-backdrop,
+  html.mt-perf-mobile .audio-accessory-backdrop,
+  html.mt-perf-mobile .city-pass-backdrop{
+    -webkit-backdrop-filter:blur(7px) saturate(103%)!important;
+    backdrop-filter:blur(7px) saturate(103%)!important;
+  }
+  html.mt-perf-mobile .aa-aurora{filter:blur(18px)!important}
+}
+
+@media(max-width:360px){
+  .theme-atlas-track{grid-template-columns:1fr!important}
+  .library-collection-list{grid-template-columns:1fr!important}
+  .global-search-box{grid-template-columns:17px minmax(0,1fr)!important}
+  .global-search-box>span{display:none!important}
+  .city-pass-logo span{display:none!important}
+  .bud-left{left:14px!important}.bud-right{right:14px!important}
+}
+
