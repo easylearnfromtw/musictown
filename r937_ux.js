@@ -285,9 +285,10 @@
   };
   bindVinylLocks();
   new MutationObserver(()=>requestAnimationFrame(bindVinylLocks)).observe(document.body,{childList:true,subtree:true});
+  /* CITYMUSIC VINYL SCRUB EASY V2 · lower gesture threshold, more immediate thumb response. */
   /* CITYMUSIC CD SCRUB SFX · native Web Audio, synced to direction + drag speed.
      No remote dependency: the sound is synthesized locally so first drag stays responsive on iPhone. */
-  const CD_SCRUB_MIN_MOVE=.012;
+  const CD_SCRUB_MIN_MOVE=.007;
   let scrubCtx=null,scrubNoise=null,lastScrubBurst=0;
   const ensureScrubAudio=()=>{
     if(scrubCtx)return scrubCtx;
@@ -371,7 +372,7 @@
         if(da>Math.PI)da-=Math.PI*2;
         else if(da<-Math.PI)da+=Math.PI*2;
         const dx=e.clientX-state.x,dt=Math.max(8,now-state.t);
-        const meaningful=Math.abs(da)>=CD_SCRUB_MIN_MOVE||Math.abs(dx)>=2.5;
+        const meaningful=Math.abs(da)>=CD_SCRUB_MIN_MOVE||Math.abs(dx)>=1.5;
         if(!meaningful)return;
         state.moved=true;
         const direction=Math.abs(da)>=CD_SCRUB_MIN_MOVE?Math.sign(da):Math.sign(dx);
