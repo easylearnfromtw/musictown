@@ -3,13 +3,6 @@ name: R9.3 · Audio Rescue + UX Deploy
 "on":
   push:
     branches: ["main"]
-    paths:
-      - "index.html"
-      - "404.html"
-      - ".github/workflows/audio-rescue-deploy.yml"
-      - "prepare_audio_site.py"
-      - "verified_audio_manifest.json"
-      - "fetch_verified_audio.py"
   workflow_dispatch:
 
 permissions:
@@ -30,6 +23,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Pin rescue deploy to latest main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+          echo "Rescuing $(git rev-parse HEAD)"
+
       - uses: actions/configure-pages@v5
       - uses: actions/setup-python@v5
         with:
