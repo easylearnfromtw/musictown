@@ -997,4 +997,12 @@ installOnboardV2();
 /* =====================================================================
    boot
    ===================================================================== */
-body.classList.add(MT.view==='branch'?'mt-view-detail':'mt-view-home');
+body.classList.add(MT.view==='branch'?'mt-view-detail':'mt-view-home');paintTabs();paintMini();measure();
+syncPageState();syncModalState();
+document.addEventListener('mt:welcome',()=>{updateResume();requestAnimationFrame(measure)});
+addEventListener('load',()=>{
+  measure();
+  setTimeout(()=>{openInitialRoute();updateResume();measure();},200);
+});
+if(document.readyState==='complete')setTimeout(()=>{openInitialRoute();updateResume();measure();},200);
+})();
