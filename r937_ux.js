@@ -161,6 +161,19 @@
         String(t?.originalAudioSrc||'').trim()
       ].filter(Boolean);
       const picked=candidates[0]||raw;
+
+      /* GitHub project Pages must resolve verified local MP3s from the
+         repository sub-path, even when the current URL is a 404/deep link or
+         lacks a trailing slash. This keeps the first iPhone play attempt
+         inside the original user-activation stack instead of failing once
+         and retrying asynchronously. */
+      const local=String(picked).match(/(?:^|\/)((?:jazz|crooner|rock|sport|lo-fi)\/\d{3}\.mp3)(?:[?#].*)?$/i);
+      if(local&&location.hostname.endsWith('.github.io')){
+        const pathParts=location.pathname.split('/').filter(Boolean);
+        const project=(pathParts[0]&&pathParts[0].toLowerCase()!=='404.html')?pathParts[0]:'musictown';
+        return new URL('/'+project+'/'+local[1],location.origin).href;
+      }
+
       try{return new URL(picked,document.baseURI).href}catch(_){return originalResolve(t)}
     };
   }
@@ -478,3 +491,73 @@
   },true);
 })();
 
+
+
+;(()=>{
+  'use strict';
+  /* R10.2.3 · canonical mobile player state
+     Full player first. Compact liquid-glass transport appears only after the
+     user has scrolled the full player far enough that its own controls are no
+     longer visible. */
+  const body=document.body;
+  const mobile=()=>matchMedia('(max-width:760px)').matches;
+  const byId=id=>document.getElementById(id);
+  let boundCard=null;
+  let raf=0;
+
+  const sync=()=>{
+    raf=0;
+    const sheet=byId('playerSheet');
+    const card=sheet?.querySelector('.player-card');
+    const open=!!sheet?.classList.contains('open');
+    body.classList.toggle('mt-player-open',open);
+
+    if(!mobile()||!open||!card){
+      body.classList.remove('mt-glass-compact','mt-player-controls-in-view');
+      return;
+    }
+
+    const controls=card.querySelector('.local-player-controls')||
+                   card.querySelector('.deck-seek-wrap')||
+                   card.querySelector('.vinyl-wrap');
+    const y=card.scrollTop||0;
+    let controlsVisible=true;
+
+    if(controls){
+      const cr=controls.getBoundingClientRect();
+      const rr=card.getBoundingClientRect();
+      controlsVisible=cr.bottom>rr.top+24 && cr.top<rr.bottom-24;
+    }
+
+    body.classList.toggle('mt-player-controls-in-view',controlsVisible);
+
+    /* Stable state by position, not by scroll direction:
+       - near the top / controls visible: no floating dock
+       - controls scrolled away: compact dock */
+    const compact=!controlsVisible && y>130;
+    body.classList.toggle('mt-glass-compact',compact);
+  };
+
+  const queue=()=>{
+    if(raf)return;
+    raf=requestAnimationFrame(sync);
+  };
+
+  const bind=()=>{
+    const card=document.querySelector('#playerSheet .player-card');
+    if(card&&card!==boundCard){
+      boundCard=card;
+      card.addEventListener('scroll',queue,{passive:true});
+    }
+    queue();
+  };
+
+  const sheet=byId('playerSheet');
+  if(sheet)new MutationObserver(bind).observe(sheet,{attributes:true,attributeFilter:['class']});
+  const host=byId('playerBody');
+  if(host)new MutationObserver(bind).observe(host,{childList:true,subtree:true});
+  window.visualViewport?.addEventListener('resize',queue,{passive:true});
+  window.addEventListener('orientationchange',()=>setTimeout(queue,120),{passive:true});
+  document.addEventListener('DOMContentLoaded',bind);
+  bind();
+})();

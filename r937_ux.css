@@ -992,3 +992,86 @@ html,body{
   }
 }
 
+
+
+/* =========================================================
+   musicetown R10.2.3 · FINAL MOBILE GLASS GEOMETRY
+   ========================================================= */
+@media(max-width:760px){
+  /* Full player at its normal/top position uses only the built-in deck. */
+  body.mt-player-open:not(.mt-glass-compact) #glassTransport.glass-transport.show{
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+    left:50%!important;
+    right:auto!important;
+    inset-inline:auto!important;
+    bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;
+    transform:translate(-50%,18px)!important;
+  }
+
+  /* Only after the full-player controls have scrolled away. */
+  body.mt-player-open.mt-glass-compact #glassTransport.glass-transport.show{
+    position:fixed!important;
+    left:50%!important;
+    right:auto!important;
+    inset-inline:auto!important;
+    top:auto!important;
+    bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;
+    width:max-content!important;
+    min-width:196px!important;
+    max-width:calc(100vw - max(20px,env(safe-area-inset-left,0px) + env(safe-area-inset-right,0px)))!important;
+    height:54px!important;
+    margin:0!important;
+    padding:6px 8px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:5px!important;
+    border-radius:999px!important;
+    transform:translateX(-50%)!important;
+    translate:none!important;
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    z-index:2000!important;
+  }
+
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-track{
+    flex:0 0 34px!important;
+    width:34px!important;min-width:34px!important;max-width:34px!important;
+    height:34px!important;padding:0!important;margin:0!important;
+    border:0!important;background:transparent!important;box-shadow:none!important;
+  }
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-disc{
+    display:block!important;width:34px!important;height:34px!important;min-width:34px!important;
+  }
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-copy,
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-sliders,
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-output,
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-dislike,
+  body.mt-player-open.mt-glass-compact #glassTransport .auto-next-toggle{
+    display:none!important;
+  }
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-center{
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    gap:4px!important;flex:0 0 auto!important;
+  }
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-btn{
+    display:grid!important;place-items:center!important;
+    width:34px!important;height:34px!important;min-width:34px!important;padding:0!important;margin:0!important;
+  }
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-play{
+    width:40px!important;height:40px!important;min-width:40px!important;
+  }
+
+  /* Full liquid glass remains the closed-player / persistent transport state. */
+  body:not(.mt-player-open):not(.mt-glass-compact) #glassTransport.glass-transport.show{
+    left:max(10px,env(safe-area-inset-left,0px))!important;
+    right:max(10px,env(safe-area-inset-right,0px))!important;
+    inset-inline:auto!important;
+    bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+    transform:none!important;
+    translate:none!important;
+  }
+}
