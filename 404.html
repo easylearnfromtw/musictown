@@ -15554,6 +15554,14 @@ setTimeout(()=>{
   },{passive:true});
 
   /* ---------- iPhone / GitHub Pages audio rescue ---------- */
+  const mtAudioSession='r1022-'+Date.now().toString(36);
+  const withAudioBust=url=>{
+    try{
+      const u=new URL(url,document.baseURI);
+      u.searchParams.set('mtAudio',mtAudioSession);
+      return u.href;
+    }catch(_){return url}
+  };
   const audioCandidates=a=>{
     const raw=[
       a?.querySelector('source')?.getAttribute('src'),
@@ -15565,7 +15573,13 @@ setTimeout(()=>{
     const add=u=>{if(u&&!out.includes(u))out.push(u)};
     for(const src0 of raw){
       const src=String(src0).trim();
-      try{add(new URL(src,document.baseURI).href)}catch(_){}
+      try{
+        const abs=new URL(src,document.baseURI).href;
+        /* Failed media requests can stay sticky in iOS Safari. Retry the
+           same verified MP3 with a session URL before falling back. */
+        add(withAudioBust(abs));
+        add(abs);
+      }catch(_){}
       try{
         const u=new URL(src,location.href);
         const m=u.pathname.match(/\/((?:jazz|crooner|rock|sport|lo-fi)\/\d{3}\.mp3)$/i);
@@ -15573,9 +15587,13 @@ setTimeout(()=>{
           const rel=m[1];
           if(location.hostname.endsWith('.github.io')){
             const first=location.pathname.split('/').filter(Boolean)[0]||'musictown';
-            add(new URL('/'+first+'/'+rel,location.origin).href);
+            const projectUrl=new URL('/'+first+'/'+rel,location.origin).href;
+            add(withAudioBust(projectUrl));
+            add(projectUrl);
           }
-          add(new URL('/'+rel,location.origin).href);
+          const rootUrl=new URL('/'+rel,location.origin).href;
+          add(withAudioBust(rootUrl));
+          add(rootUrl);
         }
       }catch(_){}
     }
