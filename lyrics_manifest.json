@@ -1,0 +1,1036 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-02T01:24:55Z",
+  "model": "faster-whisper/base",
+  "masters": {
+    "c382eefddb7a1be7": {
+      "status": "error",
+      "title": "Tunez",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+      "audio": "jazz/001.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "3bf87f7de0723c79": {
+      "status": "error",
+      "title": "Eat.mp3",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+      "audio": "jazz/002.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "12bc4c2a561db919": {
+      "status": "error",
+      "title": "Golden Woman From A Dream V2",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+      "audio": "jazz/003.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "70de2761986520f3": {
+      "status": "error",
+      "title": "Take Your Time",
+      "artist": "Tadz",
+      "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+      "audio": "jazz/004.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "24f8478e07f5a18d": {
+      "status": "error",
+      "title": "Just A Little Bit More",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/fatal-1",
+      "audio": "jazz/005.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "2755a0b0f1e6d803": {
+      "status": "error",
+      "title": "Garden Eyes",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+      "audio": "jazz/006.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "3f98116bb32f0ef0": {
+      "status": "error",
+      "title": "soirée.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/quiet-music",
+      "audio": "jazz/007.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "730cca7af5399d92": {
+      "status": "error",
+      "title": "Sing of the Life of Love",
+      "artist": "Bob A. Feldman",
+      "source": "https://nullrights.com/track/euprupk1y6",
+      "audio": "jazz/008.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "63e52167f2c11ff8": {
+      "status": "error",
+      "title": "Autumns Rusted Junky",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+      "audio": "jazz/009.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "408a9ba12d2b4770": {
+      "status": "error",
+      "title": "memories of a sweeter season. (little britannia)",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/outlet",
+      "audio": "jazz/010.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "ee02a8a879545456": {
+      "status": "error",
+      "title": "Gloria Morning",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+      "audio": "jazz/011.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "be4ad1c6f1b7d99d": {
+      "status": "error",
+      "title": "Expolirng Tomorrow Part 3",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+      "audio": "jazz/012.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "4a769b20286429e4": {
+      "status": "error",
+      "title": "Breath",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+      "audio": "jazz/013.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "c689d3b965d0284a": {
+      "status": "error",
+      "title": "Georgia",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+      "audio": "jazz/014.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "e93eeab4e6d164b5": {
+      "status": "error",
+      "title": "Mama Afriqa",
+      "artist": "Tadz",
+      "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+      "audio": "jazz/015.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "bdc76eab1cce156a": {
+      "status": "error",
+      "title": "Cure",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/fatal-1",
+      "audio": "jazz/016.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "1e6db2d0415159fc": {
+      "status": "error",
+      "title": "Eden",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+      "audio": "jazz/017.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "cc6cb51716c4d819": {
+      "status": "error",
+      "title": "harmonies du soir.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/quiet-music",
+      "audio": "jazz/018.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "a6d2f626f5bc3b87": {
+      "status": "error",
+      "title": "Hanging Over The Days",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+      "audio": "jazz/019.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "a85fae2705859fe2": {
+      "status": "error",
+      "title": "cutie patootie.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/outlet",
+      "audio": "jazz/020.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "f99d9c5c8cabae1b": {
+      "status": "error",
+      "title": "Dear Old Dad",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+      "audio": "jazz/021.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "cd166ea7ea90b6d8": {
+      "status": "error",
+      "title": "Swingin' Richards",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+      "audio": "jazz/022.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "ded6d43f619edbc1": {
+      "status": "error",
+      "title": "Sleep",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+      "audio": "jazz/023.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "5e1410de95727013": {
+      "status": "error",
+      "title": "Call Of The Void",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+      "audio": "jazz/024.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "f65913a9364c9f78": {
+      "status": "error",
+      "title": "You (I Just Wanna)",
+      "artist": "Tadz",
+      "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+      "audio": "jazz/025.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "96448d1096aa8bf5": {
+      "status": "error",
+      "title": "Make You Happy",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/fatal-1",
+      "audio": "jazz/026.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "f75d8cf1f1765e43": {
+      "status": "error",
+      "title": "Your Nature",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+      "audio": "jazz/027.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "1bfaca1edb3b61a8": {
+      "status": "error",
+      "title": "dimanche à 11h45.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/quiet-music",
+      "audio": "jazz/028.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "3ef676dd15b51372": {
+      "status": "error",
+      "title": "Make-Shift Salvation",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+      "audio": "jazz/029.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "df98dc629a758bbc": {
+      "status": "error",
+      "title": "absurdes.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/outlet",
+      "audio": "jazz/030.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "316af033798b5404": {
+      "status": "error",
+      "title": "Foggy Minded World",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+      "audio": "jazz/031.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "14e598b197ffa0b0": {
+      "status": "error",
+      "title": "Waves",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+      "audio": "jazz/032.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "28366c62c9427835": {
+      "status": "error",
+      "title": "Make Love",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+      "audio": "jazz/033.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "998ac75a1a1ce4b2": {
+      "status": "error",
+      "title": "So This Is Life",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+      "audio": "jazz/034.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "b14f72041a579696": {
+      "status": "error",
+      "title": "Rose Petals & Candles",
+      "artist": "Tadz",
+      "source": "https://freemusicarchive.org/music/tadz/the-motherland",
+      "audio": "jazz/035.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "e11966938394743b": {
+      "status": "error",
+      "title": "Lie To Me",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/fatal-1",
+      "audio": "jazz/036.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "ac6f14082456e84f": {
+      "status": "error",
+      "title": "Won't Need Money Where I'm Going",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
+      "audio": "jazz/037.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "56c82e136127f626": {
+      "status": "error",
+      "title": "(esperanza) linda aflição.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/quiet-music",
+      "audio": "jazz/038.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "68053d86c5e56f8c": {
+      "status": "error",
+      "title": "Georgia Bound.",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+      "audio": "jazz/039.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "48f9637bc6f70fff": {
+      "status": "error",
+      "title": "hangover & despair.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/outlet",
+      "audio": "jazz/040.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "7e2bebb96d19387f": {
+      "status": "error",
+      "title": "White Trash Blues",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+      "audio": "jazz/041.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "e12d0b08511deab5": {
+      "status": "error",
+      "title": "Exploring Tomorrow Part 1",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+      "audio": "jazz/042.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "38b5170f57708d62": {
+      "status": "error",
+      "title": "Make Money",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+      "audio": "jazz/043.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "70a2c556470cba02": {
+      "status": "error",
+      "title": "Hard To Love",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+      "audio": "jazz/044.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "b16a391440a7692e": {
+      "status": "error",
+      "title": "Birthday",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/fatal-1",
+      "audio": "jazz/045.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "f688ef81e917c347": {
+      "status": "error",
+      "title": "overwhelm.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/quiet-music",
+      "audio": "jazz/046.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "09549f9461fd8e8c": {
+      "status": "error",
+      "title": "Shut In",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+      "audio": "jazz/047.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "0fd37d950986587e": {
+      "status": "error",
+      "title": "duet / idée. (en sol mineur)",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/outlet",
+      "audio": "jazz/048.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "59fce4e964ffd50b": {
+      "status": "error",
+      "title": "Sweetheart",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+      "audio": "jazz/049.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "a0d4fb164d7564e9": {
+      "status": "error",
+      "title": "How Can Things Be",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+      "audio": "jazz/050.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "7197f929d42d42fd": {
+      "status": "error",
+      "title": "Dopamine Hits",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/iv",
+      "audio": "crooner/005.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "8732132c76985da7": {
+      "status": "error",
+      "title": "Ants In My Pants",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ii",
+      "audio": "crooner/006.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "5720540e5e11281d": {
+      "status": "error",
+      "title": "Summer Song",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ix",
+      "audio": "crooner/011.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "beeb042a9072c64d": {
+      "status": "error",
+      "title": "This Is What We Live For",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/iv",
+      "audio": "crooner/016.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "c6ca6c081445b1d6": {
+      "status": "error",
+      "title": "Like Us",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ii",
+      "audio": "crooner/017.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "52cfeabfaeae904a": {
+      "status": "error",
+      "title": "Summer High",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ix",
+      "audio": "crooner/021.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "83657afa16bdbace": {
+      "status": "error",
+      "title": "Hyperreal",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/iv",
+      "audio": "crooner/026.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "56303d04340a8b28": {
+      "status": "error",
+      "title": "Drinks On Me",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ii",
+      "audio": "crooner/027.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "400315958e6f04ce": {
+      "status": "error",
+      "title": "Bikinis & Swimshorts",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ix",
+      "audio": "crooner/031.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "b0af4e501b31f948": {
+      "status": "error",
+      "title": "Lip Gloss",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ii",
+      "audio": "crooner/036.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "9201e816fd713bea": {
+      "status": "error",
+      "title": "2K22",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ix",
+      "audio": "crooner/040.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "2ce025506971090f": {
+      "status": "error",
+      "title": "Miss You",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ii",
+      "audio": "crooner/043.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "a34bf1d37a70443f": {
+      "status": "error",
+      "title": "Sunday",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ix",
+      "audio": "crooner/047.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "d51631882cd6d774": {
+      "status": "error",
+      "title": "You're My Everything",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/fatal-1",
+      "audio": "crooner/048.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "f87bdf7e6a2db959": {
+      "status": "error",
+      "title": "Monster",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+      "audio": "crooner/049.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "9081eb16d6dfeeb2": {
+      "status": "error",
+      "title": "Supermodel",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ii",
+      "audio": "crooner/050.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "09162eebd68ac9ff": {
+      "status": "error",
+      "title": "Goodbye Good Times",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+      "audio": "rock/002.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "2dcffacdfdd6fdbd": {
+      "status": "error",
+      "title": "lovely bluesy ditty.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+      "audio": "rock/005.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "fcaae3a04a695ea7": {
+      "status": "error",
+      "title": "Baisse pas la tête",
+      "artist": "Stenifer",
+      "source": "https://nullrights.com/track/jwn7xrzq1s",
+      "audio": "rock/006.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "e63e4d01510345d4": {
+      "status": "error",
+      "title": "Bravery Demon",
+      "artist": "MintoDog",
+      "source": "https://nullrights.com/track/aud8c99prl",
+      "audio": "rock/007.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "4f8685fa19f479cb": {
+      "status": "error",
+      "title": "Bravery Vampire",
+      "artist": "MintoDog",
+      "source": "https://nullrights.com/track/6hdglern2k",
+      "audio": "rock/008.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "28c50d33670261e2": {
+      "status": "error",
+      "title": "The End - Day 30",
+      "artist": "Zane Little Music",
+      "source": "https://nullrights.com/track/4vtiesno4u",
+      "audio": "rock/009.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "e63ed9dd72a80fce": {
+      "status": "error",
+      "title": "Wicked beast",
+      "artist": "tricksntraps",
+      "source": "https://nullrights.com/track/qllv8kwa3p",
+      "audio": "rock/010.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "735d79399db8069b": {
+      "status": "error",
+      "title": "Shotgun",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/xii",
+      "audio": "rock/011.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "b7f12b91911eb114": {
+      "status": "error",
+      "title": "Makes-Shift Salvation",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+      "audio": "rock/014.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "92a5a802bdf65233": {
+      "status": "error",
+      "title": "tabulation III.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+      "audio": "rock/017.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "678983eb3b447a27": {
+      "status": "error",
+      "title": "Talk",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/xii",
+      "audio": "rock/018.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "b7490bce2e8d286c": {
+      "status": "error",
+      "title": "A Cloud Dog named Sky",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+      "audio": "rock/021.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "facd4c28eefc107e": {
+      "status": "error",
+      "title": "tabulation II.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+      "audio": "rock/024.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "256f89890e2dd153": {
+      "status": "error",
+      "title": "Fashionably Late",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/xii",
+      "audio": "rock/025.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "2e2db71e8be155ab": {
+      "status": "error",
+      "title": "A Small Town On Pluto",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+      "audio": "rock/028.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "b98fa9760cc08cb3": {
+      "status": "error",
+      "title": "tabulation I.",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/non-edible-sounds",
+      "audio": "rock/031.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "daaefb6e7f491d4a": {
+      "status": "error",
+      "title": "LOL",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/xii",
+      "audio": "rock/032.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "08ff42f0188a7030": {
+      "status": "error",
+      "title": "The Wind That Whistled Through The Wicker Chair",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+      "audio": "rock/035.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "3b604eac4e838c6c": {
+      "status": "error",
+      "title": "Wishing",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/xii",
+      "audio": "rock/038.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "59fd1fd3e8024800": {
+      "status": "error",
+      "title": "Ballad Of Ishmael",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+      "audio": "rock/040.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "486d8ea24aa694b4": {
+      "status": "error",
+      "title": "Iron Skies",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/makeshift-salvation",
+      "audio": "rock/041.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "135cc5a9533aef72": {
+      "status": "error",
+      "title": "Old Testament God",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+      "audio": "rock/042.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "72053db12768ba97": {
+      "status": "error",
+      "title": "Zoom Zoom",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/xii",
+      "audio": "rock/044.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "5c2db7086a36c829": {
+      "status": "error",
+      "title": "Oh Little Brother",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/shooting-ghost-dirty-driving-death-part-2",
+      "audio": "rock/046.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "715d52288d0ffd35": {
+      "status": "error",
+      "title": "The Old Haunt",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/all-the-years-ive-haunted-part-1",
+      "audio": "rock/047.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "f8f3ff56399009e0": {
+      "status": "error",
+      "title": "Stoned Memories",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
+      "audio": "rock/048.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "bcf7d511489ae387": {
+      "status": "error",
+      "title": "Funky Fresh",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/xii",
+      "audio": "rock/049.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "c8d8dde29df5dbb5": {
+      "status": "error",
+      "title": "There Ain't Nothin",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/orphaned-media",
+      "audio": "rock/050.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "a9375fb991119a53": {
+      "status": "error",
+      "title": "Zodiac $ign",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/iii",
+      "audio": "sport/003.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "54323ca2aa4a36b5": {
+      "status": "error",
+      "title": "Blow My High",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+      "audio": "sport/004.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "bdfeb2fc69bce2f4": {
+      "status": "error",
+      "title": "brute force loop",
+      "artist": "vitalezzz",
+      "source": "https://nullrights.com/track/9wpskpn722",
+      "audio": "sport/009.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "dbf6eb063ebf7d5a": {
+      "status": "error",
+      "title": "Action Figure",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/iii",
+      "audio": "sport/015.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "de11cf8edcbc9c94": {
+      "status": "error",
+      "title": "Jailbreak",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+      "audio": "sport/016.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "7c7bff2534782e78": {
+      "status": "error",
+      "title": "Friends With Benz",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/iii",
+      "audio": "sport/022.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "4435b81a799c2938": {
+      "status": "error",
+      "title": "Life & Death",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+      "audio": "sport/023.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "1b425c4afab2ee9d": {
+      "status": "error",
+      "title": "Umbrella",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/iii",
+      "audio": "sport/029.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "5832ad756c21a3e0": {
+      "status": "error",
+      "title": "Missed Call",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+      "audio": "sport/030.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "c45a89277f4302c3": {
+      "status": "error",
+      "title": "Dirt Bikes",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/iii",
+      "audio": "sport/036.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "714eb22da13eaebc": {
+      "status": "error",
+      "title": "Friday",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+      "audio": "sport/037.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "7750be4bed4c691b": {
+      "status": "error",
+      "title": "Hey Friends",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ix",
+      "audio": "sport/041.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "cf90f872929417c1": {
+      "status": "error",
+      "title": "In God I Must",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/iii",
+      "audio": "sport/043.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "76feac01b33f646d": {
+      "status": "error",
+      "title": "Pool Party",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/pop-sensation",
+      "audio": "sport/044.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "69d3e8bc18b96216": {
+      "status": "error",
+      "title": "Make Funk",
+      "artist": "HoliznaCC0",
+      "source": "https://freemusicarchive.org/music/holiznacc0/bassic",
+      "audio": "sport/047.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "83afe38a9ffdeebf": {
+      "status": "error",
+      "title": "Splish Splash",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ix",
+      "audio": "sport/048.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "598be5e88e2fbd51": {
+      "status": "error",
+      "title": "Stimulant",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/ii",
+      "audio": "sport/049.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "70df20683f3ddfc3": {
+      "status": "error",
+      "title": "Jet Lag",
+      "artist": "SUPERARE",
+      "source": "https://freemusicarchive.org/music/superare/iii",
+      "audio": "sport/050.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "499657ecd30836fc": {
+      "status": "error",
+      "title": "changes ?",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/quiet-music",
+      "audio": "lo-fi/045.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    },
+    "27deb059257cd4d2": {
+      "status": "error",
+      "title": "ah vous dirais-je maman...",
+      "artist": "oji",
+      "source": "https://freemusicarchive.org/music/oji/outlet",
+      "audio": "lo-fi/046.mp3",
+      "error": "open() got an unexpected keyword argument 'metadata_errors'",
+      "syncedLyrics": []
+    }
+  },
+  "summary": {
+    "error": 114
+  }
+}
