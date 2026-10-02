@@ -135,12 +135,12 @@ jobs:
                   "每日推薦",
                   "每週推薦",
                   "mt-lyrics-preview",
-                  "musicetown.r10.3.onboarded",
+                  "musicetown.r10.4.onboarded",
                   "R10.2.4 EXPERIENCE STABILIZER",
                   "CITYMUSIC",
                   "CT 推薦",
                   "citymusic-brand-runtime",
-                  "CITYMUSIC ONBOARDING V3",
+                  "CITYMUSIC ONBOARDING V4",
                   "CITYMUSIC CD SCRUB SFX",
               ]
               missing=[x for x in required if x not in s]
