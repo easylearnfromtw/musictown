@@ -35,7 +35,12 @@ def apply(path: Path) -> None:
     body_at = text.rindex("</body>")
     text = text[:body_at] + script + text[body_at:]
     path.write_text(text, encoding="utf-8")
-    print(f"{path.name}: R10 Flow & Glass shell applied")
+    try:
+        import apply_citymusic_brand
+        apply_citymusic_brand.apply(path)
+    except FileNotFoundError:
+        pass
+    print(f"{path.name}: R10 Flow & Glass shell applied + CITYMUSIC brand")
 
 
 def apply_core_bridge_once() -> None:

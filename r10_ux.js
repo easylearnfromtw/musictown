@@ -1,5 +1,5 @@
 /* =====================================================================
-   musicetown R10 · Flow & Glass shell
+   CITYMUSIC R10 · Flow & Glass shell
    ---------------------------------------------------------------------
    Talks to the app only through window.MT and the mt:* events
    (mt:ready, mt:view, mt:group, mt:track, mt:welcome, mt:segment).
@@ -9,7 +9,7 @@
 (()=>{
 'use strict';
 const MT=window.MT;
-if(!MT){console.warn('[musicetown R10] window.MT missing; shell disabled');return}
+if(!MT){console.warn('[CITYMUSIC R10] window.MT missing; shell disabled');return}
 
 const $=id=>document.getElementById(id);
 const body=document.body,root=document.documentElement;
@@ -65,8 +65,9 @@ body.appendChild(top);
 const logo=$('logo');
 if(logo){
   logo.className='mt-logo mt-glass';
-  logo.setAttribute('aria-label','musicetown · 回到探索');
-  logo.querySelector('.logo-wordmark')?.setAttribute('class','mt-logo-word');
+  logo.setAttribute('aria-label','CITYMUSIC · 回到探索');
+  const cityWord=logo.querySelector('.logo-wordmark,.mt-logo-word');
+  if(cityWord){cityWord.setAttribute('class','mt-logo-word');cityWord.textContent='CITYMUSIC';}
   $('mtBrand').prepend(logo);
   /* the core click handler calls backToStage(); route it through history instead */
   logo.addEventListener('click',e=>{e.stopImmediatePropagation();goHome();},true);
@@ -470,7 +471,7 @@ function paintMini(){
   body.classList.toggle('mt-has-track',!!t);
   if(!t){return}
   const theme=trackTheme(t);
-  $('mtMiniTitle').textContent=t.title||'musicetown';
+  $('mtMiniTitle').textContent=t.title||'CITYMUSIC';
   $('mtMiniSub').textContent=[t.artist,theme?MT.splitThemeName(theme).main:(t.localPersonal?'本機音樂':'')].filter(Boolean).join(' · ');
   mini.style.setProperty('--mini-vinyl',theme?MT.genreUiFor(theme).accent:'#8f8bbb');
   const playing=!!a&&!a.paused;
@@ -538,7 +539,7 @@ function buildPlayerOnce(){
     const tool=b.dataset.tool;
     if(tool==='autonext'){MT.setAutoNext(!MT.autoNext);paintTools();decoratePlayer();}
     if(tool==='output')MT.openAudioOutput();
-    if(tool==='share'&&MT.track){const t=MT.track;MT.shareTracks([t],t.title||'musicetown');}
+    if(tool==='share'&&MT.track){const t=MT.track;MT.shareTracks([t],t.title||'CITYMUSIC');}
   });
   up.addEventListener('click',e=>{
     const b=e.target.closest('[data-up]');if(!b)return;
@@ -909,7 +910,7 @@ if(legacyShelf)legacyShelf.setAttribute('aria-hidden','true');
 let recoShelf=$('mtShelf');
 if(!recoShelf){
   recoShelf=h('section','mt-shelf mt-glass mt-reco-shelf',`
-    <div class="mt-shelf-head"><div class="mt-shelf-title"><b id="mtRecoTitle">為你探索</b><span id="themeShelfCount">根據你的偏好與使用紀錄</span></div><button id="mtAtlasAll" class="mt-text-btn" type="button">全部主題</button></div>
+    <div class="mt-shelf-head"><div class="mt-shelf-title"><em class="mt-brand-kicker">CITYMUSIC CURATED</em><b id="mtRecoTitle">為你探索</b><span id="themeShelfCount">根據你的偏好與使用紀錄</span></div><button id="mtAtlasAll" class="mt-text-btn" type="button">全部主題</button></div>
     <div class="mt-shelf-chips" id="mtRecoChips"></div>
     <div class="mt-shelf-cards" id="mtRecoCards"></div>`);
   recoShelf.id='mtShelf';
@@ -922,7 +923,7 @@ function shelfChip(key,label,active,mode='group'){return `<button type="button" 
 function renderRecoShelf(mode='daily'){
   if(!recoShelf||!recoCards||!recoChips)return;
   activeRecoMode=mode;
-  const special=[['daily','每日推薦'],['weekly','每週推薦'],['mt','MT 推薦榜']];
+  const special=[['daily','每日推薦'],['weekly','每週推薦'],['mt','CT 推薦']];
   recoChips.innerHTML=special.map(([k,l])=>shelfChip(k,l,mode===k,'reco')).join('')+QUICK_GROUPS.map(([k,g])=>shelfChip(k,g.short||g.label||k,mode===`group:${k}`)).join('');
   let rows,title,sub;
   if(mode.startsWith('group:')){
@@ -932,12 +933,12 @@ function renderRecoShelf(mode='daily'){
     MT.stageGroup?.(key);
   }else{
     rows=recommendThemes(mode,9);
-    title=mode==='daily'?'每日推薦':mode==='weekly'?'每週推薦':'MT 推薦榜';
-    sub=mode==='daily'?'依你的喜好、收藏與最近播放':mode==='weekly'?'加入更多探索性，週一更新':'曲庫完整度＋你的偏好綜合排序';
+    title=mode==='daily'?'每日推薦':mode==='weekly'?'每週推薦':'CT 推薦';
+    sub=mode==='daily'?'依你的喜好、收藏與最近播放':mode==='weekly'?'加入更多探索性，週一更新':'CITYMUSIC 編輯排序＋你的偏好綜合權重';
     MT.stageCustom?.(rows.map(x=>MT.DATA[x.i].t));
   }
   $('mtRecoTitle').textContent=title;$('themeShelfCount').textContent=sub;
-  recoCards.innerHTML=rows.map((x,k)=>{const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),ui=MT.genreUiFor(d.t);return `<button type="button" class="mt-theme-card${mode.startsWith('group:')?'':' is-algo'}" data-theme-index="${x.i}" data-score-label="${mode==='mt'?'MT PICK':mode==='weekly'?'WEEK':'TODAY'}" style="--card-accent:${ui.accent}"><i>${String(k+1).padStart(2,'0')}</i><b>${esc(nm.main)}</b><span>${esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))}</span></button>`}).join('');
+  recoCards.innerHTML=rows.map((x,k)=>{const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),ui=MT.genreUiFor(d.t);return `<button type="button" class="mt-theme-card${mode.startsWith('group:')?'':' is-algo'}" data-theme-index="${x.i}" data-score-label="${mode==='mt'?'CT PICK':mode==='weekly'?'WEEKLY':'TODAY'}" style="--card-accent:${ui.accent}"><i>${String(k+1).padStart(2,'0')}</i><b>${esc(nm.main)}</b><span>${esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))}</span></button>`}).join('');
   requestAnimationFrame(measure);
 }
 recoShelf?.addEventListener('click',e=>{
@@ -951,7 +952,7 @@ renderRecoShelf('daily');
 /* ----- beautiful library overview, updated from the real library DOM ----- */
 function ensureLibraryHero(){
   const panel=$('libraryPanel');if(!panel||panel.querySelector('.mt-library-hero'))return;
-  const hero=h('section','mt-library-hero',`<div class="mt-library-eyebrow">YOUR SOUND ARCHIVE</div><h2 class="mt-library-title">我的音樂庫</h2><p class="mt-library-sub">收藏、匯入與整理你真正想再聽一次的聲音。所有個人資料仍只留在這個瀏覽器。</p><div class="mt-library-stats"><div class="mt-library-stat"><b id="mtLibTracks">0</b><span>收藏歌曲</span></div><div class="mt-library-stat"><b id="mtLibCollections">0</b><span>音樂庫</span></div><div class="mt-library-stat"><b id="mtLibPlaying">—</b><span>正在播放</span></div></div>`);
+  const hero=h('section','mt-library-hero',`<div class="mt-library-eyebrow">CITYMUSIC LIBRARY</div><h2 class="mt-library-title">我的音樂庫</h2><p class="mt-library-sub">收藏、匯入與整理你真正想再聽一次的聲音。所有個人資料仍只留在這個瀏覽器。</p><div class="mt-library-stats"><div class="mt-library-stat"><b id="mtLibTracks">0</b><span>收藏歌曲</span></div><div class="mt-library-stat"><b id="mtLibCollections">0</b><span>音樂庫</span></div><div class="mt-library-stat"><b id="mtLibPlaying">—</b><span>正在播放</span></div></div>`);
   panel.prepend(hero);
 }
 function updateLibraryHero(){ensureLibraryHero();const panel=$('libraryPanel');if(!panel)return;$('mtLibTracks').textContent=String(panel.querySelectorAll('.local-track-row').length||MT.libraryCount?.()||0);$('mtLibCollections').textContent=String(panel.querySelectorAll('.library-collection-tab').length||1);$('mtLibPlaying').textContent=MT.track?'1':'—'}
@@ -960,7 +961,7 @@ if($('libraryPanel'))new MutationObserver(()=>requestAnimationFrame(updateLibrar
 document.addEventListener('mt:track',updateLibraryHero);
 
 /* ----- lyrics full preview ----- */
-const lyricsPreview=h('div','mt-lyrics-preview',`<section class="mt-lyrics-preview-panel" role="dialog" aria-modal="true" aria-labelledby="mtLyricsPreviewTitle"><header class="mt-lyrics-preview-head"><div><small>FULL LYRICS · VERTICAL VIEW</small><b id="mtLyricsPreviewTitle">歌詞</b></div><button class="mt-lyrics-preview-close" type="button" aria-label="關閉歌詞">${ICON.close}</button></header><div class="mt-lyrics-preview-lines" id="mtLyricsPreviewLines"></div></section>`);
+const lyricsPreview=h('div','mt-lyrics-preview',`<section class="mt-lyrics-preview-panel" role="dialog" aria-modal="true" aria-labelledby="mtLyricsPreviewTitle"><header class="mt-lyrics-preview-head"><div><small>CITYMUSIC · FULL LYRICS</small><b id="mtLyricsPreviewTitle">歌詞</b></div><button class="mt-lyrics-preview-close" type="button" aria-label="關閉歌詞">${ICON.close}</button></header><div class="mt-lyrics-preview-lines" id="mtLyricsPreviewLines"></div></section>`);
 body.appendChild(lyricsPreview);
 let lyricsAudio=null,lyricsSync=null;
 function closeLyricsPreview(){lyricsPreview.classList.remove('open');if(lyricsAudio&&lyricsSync)lyricsAudio.removeEventListener('timeupdate',lyricsSync);lyricsAudio=null;lyricsSync=null}
@@ -980,7 +981,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&lyricsPreview.classList.cont
 
 /* ----- onboarding v2: eight focused screens that actually seed the algorithm ----- */
 const ONBOARD_STEPS=[
-  {k:'intro',title:'歡迎來到 MUSICTOWN',copy:'先用幾個很短的選擇建立你的初始聲音輪廓。之後實際播放、收藏、聽完與快速略過，會持續修正推薦。'},
+  {k:'intro',title:'歡迎來到 CITYMUSIC',copy:'先用幾個很短的選擇建立你的初始聲音輪廓。之後實際播放、收藏、聽完與快速略過，會持續修正推薦。'},
   {k:'moments',title:'你通常在什麼時候聽？',copy:'可以複選。情境會影響每日推薦的熟悉感、節奏與氛圍。'},
   {k:'moods',title:'你現在比較常找哪種心情？',copy:'可以複選。這讓演算法知道同一個曲風裡，你偏好的情緒方向。'},
   {k:'energy',title:'你喜歡多大的能量？',copy:'決定推薦主題的推進感與刺激程度。'},
@@ -990,7 +991,7 @@ const ONBOARD_STEPS=[
   {k:'worlds',title:'你想先從哪種世界出發？',copy:'城市、校園與景點可以混在同一份推薦裡。'},
   {k:'discovery',title:'你希望推薦多敢探索？',copy:'熟悉優先會回到你常聽的世界；探索模式會主動提高新城市與跨風格主題。'},
   {k:'seeds',title:'挑幾個你願意先試的主題',copy:'最多選四個作為起點；之後行為訊號會逐漸取代初始選擇。'},
-  {k:'summary',title:'你的推薦輪廓準備好了',copy:'完成後直接回到主頁，先看到每日推薦；每週推薦與 MT 推薦榜會用不同權重重新排序。'}
+  {k:'summary',title:'你的推薦輪廓準備好了',copy:'完成後直接回到主頁，先看到每日推薦；每週推薦與 CT 推薦會用不同權重重新排序。'}
 ];
 const ONBOARD_OPTIONS={
   moments:[['focus','專注 / 工作','安靜、穩定、不搶注意力'],['night','夜晚','城市夜色、較深的氛圍'],['drive','通勤 / 開車','有流動感與節奏'],['workout','運動','更高能量與推進感'],['chill','放空','柔軟、慢一些'],['social','聚會','容易進入狀態的聲音']],
@@ -1023,7 +1024,7 @@ function onboardSummaryHtml(){
   ].filter(x=>x[1].filter(Boolean).length);
   return '<div class="mt-onboard-summary"><div class="mt-onboard-summary-grid">'+
     rows.map(r=>'<section><small>'+esc(r[0])+'</small><b>'+r[1].filter(Boolean).map(esc).join(' · ')+'</b></section>').join('')+
-    '</div><p>之後「聽完」會提高權重，太快略過會降低權重；每日、每週與 MT 榜會用不同探索比例重新排序。</p></div>';
+    '</div><p>之後「聽完」會提高權重，太快略過會降低權重；每日、每週與 CT 推薦會用不同探索比例重新排序。</p></div>';
 }
 function renderOnboard(){
   const welcome=$('welcome');if(!welcome)return;
@@ -1034,7 +1035,7 @@ function renderOnboard(){
   back.disabled=onboardStep===0;
   let options='';
   if(st.k==='intro'){
-    options='<div class="mt-onboard-intro-card"><b>推薦不是一次設定完就不變</b><span>這裡只建立初始輪廓；實際播放、收藏、完整聽完與快速略過會繼續修正權重。</span><div><i>每日推薦</i><i>每週推薦</i><i>MT 推薦榜</i></div></div>';
+    options='<div class="mt-onboard-intro-card"><b>推薦不是一次設定完就不變</b><span>這裡只建立初始輪廓；實際播放、收藏、完整聽完與快速略過會繼續修正權重。</span><div><i>每日推薦</i><i>每週推薦</i><i>CT 推薦</i></div></div>';
   }else if(st.k==='seeds'){
     options='<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{
       const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),sel=optionSelected('seeds',d.t);
@@ -1049,7 +1050,7 @@ function renderOnboard(){
     }).join('')+'</div>';
   }
   const heading=onboardStep===0?'h1':'h2';
-  bodyEl.innerHTML='<div class="mt-onboard-kicker">'+String(onboardStep+1).padStart(2,'0')+' · PERSONALIZE</div><'+heading+'>'+st.title+'</'+heading+'><p>'+st.copy+'</p>'+options;
+  bodyEl.innerHTML='<div class="mt-onboard-kicker">CITYMUSIC · '+String(onboardStep+1).padStart(2,'0')+' · PERSONALIZE</div><'+heading+'>'+st.title+'</'+heading+'><p>'+st.copy+'</p>'+options;
   next.textContent=st.k==='summary'?'進入主頁':'下一步';
   next.disabled=false;
   bodyEl.scrollTop=0;
@@ -1066,7 +1067,7 @@ function installOnboardV2(){
   let done=false;try{done=localStorage.getItem(ALG_ONBOARD_KEY)==='1'}catch(_){}
   if(done)return;
   welcome.style.display='grid';welcome.classList.remove('is-out','finalizing','previewing');welcome.classList.add('welcome-active','mt-onboard-v2');body.classList.add('welcome-active');
-  welcome.innerHTML=`<div class="welcome-card"><header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>musicetown</span></div><div class="mt-onboard-progress"><span class="mt-onboard-counter">1 / ${ONBOARD_STEPS.length}</span><i></i></div></header><main class="mt-onboard-body"></main><footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">先略過</button><button class="mt-onboard-next" type="button">下一步</button></footer></div>`;
+  welcome.innerHTML=`<div class="welcome-card"><header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>CITYMUSIC</span></div><div class="mt-onboard-progress"><span class="mt-onboard-counter">1 / ${ONBOARD_STEPS.length}</span><i></i></div></header><main class="mt-onboard-body"></main><footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">先略過</button><button class="mt-onboard-next" type="button">下一步</button></footer></div>`;
   welcome.addEventListener('click',e=>{const o=e.target.closest('[data-ob-value]');if(!o)return;const k=ONBOARD_STEPS[onboardStep].k;toggleOnboard(k,o.dataset.obValue);renderOnboard()});
   welcome.querySelector('.mt-onboard-back').addEventListener('click',()=>{if(onboardStep>0){onboardStep--;renderOnboard()}});
   welcome.querySelector('.mt-onboard-skip').addEventListener('click',()=>finishOnboard(true));

@@ -211,7 +211,7 @@
     if(!parsed.lines.length){
       return '<section class="live-lyrics live-lyrics-empty" aria-label="歌詞">'+
         '<div class="live-lyrics-head"><b>LYRICS</b><span>NOT PROVIDED BY SOURCE</span></div>'+
-        '<div class="live-lyrics-lines"><p class="live-lyric-line active">此曲來源目前沒有提供可驗證的實際歌詞；musicetown 不會用 AI 介紹文字冒充歌詞。</p></div>'+
+        '<div class="live-lyrics-lines"><p class="live-lyric-line active">此曲來源目前沒有提供可驗證的實際歌詞；CITYMUSIC 不會用 AI 介紹文字冒充歌詞。</p></div>'+
       '</section>';
     }
     return '<section class="live-lyrics" aria-label="歌詞">'+

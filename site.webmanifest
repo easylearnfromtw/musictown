@@ -1,0 +1,17 @@
+{
+  "name": "CITYMUSIC",
+  "short_name": "CITYMUSIC",
+  "description": "A personal music atlas shaped by cities, moods and listening behavior.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f8fc",
+  "theme_color": "#f7f8fc",
+  "icons": [
+    {
+      "src": "assets/citymusic-app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

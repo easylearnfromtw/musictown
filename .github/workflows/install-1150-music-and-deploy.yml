@@ -18,6 +18,9 @@ name: R9.3.14 · 101 themes / 3300 placements · Local Audio Stable Deploy
       - "r937_ux.css"
       - "apply_r10_core.py"
       - "apply_r10_ux.py"
+      - "apply_citymusic_brand.py"
+      - "site.webmanifest"
+      - "assets/citymusic-*"
       - "r10_ux.js"
       - "r10_ux.css"
       - "verify_music_install.py"
@@ -135,6 +138,9 @@ jobs:
                   "mt-lyrics-preview",
                   "musicetown.r10.2.4.onboarded",
                   "R10.2.4 EXPERIENCE STABILIZER",
+                  "CITYMUSIC",
+                  "CT 推薦",
+                  "citymusic-brand-runtime",
               ]
               missing=[x for x in required if x not in s]
               if missing:

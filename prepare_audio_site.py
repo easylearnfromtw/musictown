@@ -15,7 +15,7 @@ SITE.mkdir()
 for name in [
     "index.html", "404.html", ".nojekyll", "MUSIC_INSTALL_REPORT.json",
     "fresh_city_manifest.json", "theme_curation_manifest.json",
-    "limited_theme_manifest.json", "limited_theme_profiles.json",
+    "limited_theme_manifest.json", "limited_theme_profiles.json", "site.webmanifest",
 ]:
     p = ROOT / name
     if p.exists():
