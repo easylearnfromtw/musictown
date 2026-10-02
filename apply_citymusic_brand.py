@@ -11,6 +11,10 @@ RUNTIME_END="<!-- CITYMUSIC BRAND RUNTIME END -->"
 META=r'''<!-- CITYMUSIC BRAND META START -->
 <meta name="application-name" content="CITYMUSIC">
 <meta name="apple-mobile-web-app-title" content="CITYMUSIC">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
 <meta name="theme-color" content="#f7f8fc">
 <meta name="description" content="CITYMUSIC — a personal music atlas shaped by cities, moods and the way you actually listen.">
 <meta property="og:type" content="website">
@@ -23,7 +27,7 @@ META=r'''<!-- CITYMUSIC BRAND META START -->
 <meta name="twitter:description" content="A personal music atlas shaped by cities, rituals, moods and listening behavior.">
 <meta name="twitter:image" content="https://easylearnfromtw.github.io/musictown/assets/citymusic-share.svg">
 <link rel="icon" type="image/svg+xml" href="./assets/citymusic-logo.svg">
-<link rel="apple-touch-icon" href="./assets/citymusic-app-icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
 <link rel="manifest" href="./site.webmanifest">
 <!-- CITYMUSIC BRAND META END -->'''
 

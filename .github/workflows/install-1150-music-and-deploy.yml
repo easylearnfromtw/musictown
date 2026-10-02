@@ -21,6 +21,7 @@ name: R9.3.14 · 101 themes / 3300 placements · Local Audio Stable Deploy
       - "apply_citymusic_brand.py"
       - "site.webmanifest"
       - "assets/citymusic-*"
+      - "assets/apple-touch-icon.png"
       - "r10_ux.js"
       - "r10_ux.css"
       - "verify_music_install.py"
@@ -144,6 +145,7 @@ jobs:
                   "CITYMUSIC RETRO MODE",
                   "CITYMUSIC HOME V2",
                   "CITYMUSIC VISUAL QUALITY V1",
+                  "CITYMUSIC APPLE UX V1",
                   "CITYMUSIC CD SCRUB SFX",
               ]
               missing=[x for x in required if x not in s]

@@ -673,3 +673,56 @@
   document.addEventListener('DOMContentLoaded',bind);
   bind();
 })();
+
+
+;(()=>{
+  'use strict';
+  /* ================= CITYMUSIC APPLE UX V1 ================= */
+  const root=document.documentElement;
+  const ua=navigator.userAgent||'';
+  const appleTouch=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  root.classList.toggle('mt-apple-touch',appleTouch);
+  root.classList.toggle('mt-standalone',standalone());
+
+  const syncAppleViewport=()=>{
+    const vv=window.visualViewport;
+    const w=Math.max(1,Math.round(vv?.width||window.innerWidth||document.documentElement.clientWidth||1));
+    const h=Math.max(1,Math.round(vv?.height||window.innerHeight||document.documentElement.clientHeight||1));
+    root.style.setProperty('--mt-vvw',w+'px');
+    root.style.setProperty('--mt-vvh',h+'px');
+    root.style.setProperty('--mt-vv-top',Math.round(vv?.offsetTop||0)+'px');
+    root.style.setProperty('--mt-vv-left',Math.round(vv?.offsetLeft||0)+'px');
+  };
+  syncAppleViewport();
+  window.visualViewport?.addEventListener('resize',syncAppleViewport,{passive:true});
+  window.visualViewport?.addEventListener('scroll',syncAppleViewport,{passive:true});
+  window.addEventListener('resize',syncAppleViewport,{passive:true});
+  window.addEventListener('orientationchange',()=>setTimeout(syncAppleViewport,80),{passive:true});
+  window.addEventListener('pageshow',syncAppleViewport,{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden){root.classList.toggle('mt-standalone',standalone());setTimeout(syncAppleViewport,40)}});
+
+  const hydrateInlineMedia=()=>{
+    document.querySelectorAll('audio,video').forEach(m=>{
+      m.setAttribute('playsinline','');
+      m.setAttribute('webkit-playsinline','');
+    });
+  };
+  hydrateInlineMedia();
+  new MutationObserver(()=>requestAnimationFrame(hydrateInlineMedia)).observe(document.body,{childList:true,subtree:true});
+
+  const keyboardField=el=>el?.matches?.('input,textarea,[contenteditable="true"]');
+  document.addEventListener('focusin',e=>{
+    if(!appleTouch||!keyboardField(e.target))return;
+    root.classList.add('mt-ios-keyboard');
+    requestAnimationFrame(syncAppleViewport);
+  },true);
+  document.addEventListener('focusout',e=>{
+    if(!appleTouch||!keyboardField(e.target))return;
+    setTimeout(()=>{root.classList.remove('mt-ios-keyboard');syncAppleViewport()},180);
+  },true);
+
+  const displayMode=matchMedia('(display-mode: standalone)');
+  displayMode.addEventListener?.('change',()=>root.classList.toggle('mt-standalone',standalone()));
+  /* ================= /CITYMUSIC APPLE UX V1 ================= */
+})();

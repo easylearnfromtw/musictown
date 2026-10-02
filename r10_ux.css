@@ -1779,3 +1779,91 @@ img[src*="city-pass-qr"]{
   :root{--mt-glass-filter:blur(18px) saturate(176%)}
 }
 /* ================= /CITYMUSIC VISUAL QUALITY V1 ================= */
+
+
+/* ================= CITYMUSIC APPLE UX V1 ================= */
+:root{
+  --mt-vvh:100dvh;
+  --mt-vvw:100vw;
+  --mt-vv-top:0px;
+  --mt-vv-left:0px;
+}
+html.mt-apple-touch{
+  -webkit-text-size-adjust:100%;
+  color-scheme:light;
+}
+html.mt-apple-touch body{
+  min-height:var(--mt-vvh);
+  -webkit-touch-callout:none;
+}
+html.mt-apple-touch button,
+html.mt-apple-touch a,
+html.mt-apple-touch [role="button"],
+html.mt-apple-touch input[type="range"]{
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+html.mt-apple-touch .live-lyrics,
+html.mt-apple-touch .live-lyrics *,
+html.mt-apple-touch .mt-lyrics-preview-lines,
+html.mt-apple-touch .mt-lyrics-preview-lines *{
+  -webkit-touch-callout:default;
+  -webkit-user-select:text;
+  user-select:text;
+}
+html.mt-apple-touch #playerSheet .player-card,
+html.mt-apple-touch #welcome .welcome-card{
+  max-height:calc(var(--mt-vvh) - max(6px,var(--mt-safe-t)) - max(6px,var(--mt-safe-b)) - 8px)!important;
+}
+html.mt-apple-touch #globalSearchSheet .global-search-panel,
+html.mt-apple-touch #localLibrarySheet #libraryPanel,
+html.mt-apple-touch #passbookSheet .passbook-panel{
+  max-height:calc(var(--mt-vvh) - max(8px,var(--mt-safe-t)) - max(8px,var(--mt-safe-b)))!important;
+}
+html.mt-apple-touch .player-card,
+html.mt-apple-touch .library-panel,
+html.mt-apple-touch .global-search-results,
+html.mt-apple-touch .passbook-panel,
+html.mt-apple-touch .mt-onboard-body,
+html.mt-apple-touch .mt-lyrics-preview-lines{
+  -webkit-overflow-scrolling:touch;
+}
+html.mt-standalone body{
+  overscroll-behavior-y:none;
+}
+html.mt-standalone #mtTop{
+  padding-top:calc(max(8px,var(--mt-safe-t)) + 6px);
+}
+html.mt-standalone #mtDock{
+  padding-bottom:max(0px,var(--mt-safe-b));
+}
+html.mt-apple-touch.mt-ios-keyboard #mtDock{
+  opacity:0!important;
+  pointer-events:none!important;
+  transform:translateY(calc(100% + var(--mt-safe-b)))!important;
+}
+@media(pointer:coarse){
+  html.mt-apple-touch .mt-icon-btn,
+  html.mt-apple-touch .mt-mini-btn,
+  html.mt-apple-touch .mt-back,
+  html.mt-apple-touch #glassPlay,
+  html.mt-apple-touch #localPlay,
+  html.mt-apple-touch .player-close,
+  html.mt-apple-touch .mt-lyrics-preview-close,
+  html.mt-apple-touch #audioAccessoryClose{
+    min-width:44px!important;
+    min-height:44px!important;
+  }
+  html.mt-apple-touch input[type="search"],
+  html.mt-apple-touch input[type="text"],
+  html.mt-apple-touch input[type="email"],
+  html.mt-apple-touch input[type="url"],
+  html.mt-apple-touch textarea,
+  html.mt-apple-touch select{
+    font-size:16px!important;
+  }
+}
+@media(display-mode:standalone){
+  html,body{min-height:100dvh}
+}
+/* ================= /CITYMUSIC APPLE UX V1 ================= */

@@ -13,5 +13,12 @@
       "type": "image/svg+xml",
       "purpose": "any"
     }
+  ],
+  "id": "./",
+  "scope": "./",
+  "lang": "zh-Hant",
+  "categories": [
+    "music",
+    "entertainment"
   ]
 }
