@@ -153,6 +153,9 @@ jobs:
           print("R10.2.4 + CITYMUSIC interaction contract OK")
           PY
 
+      - name: Validate user-defined CITYMUSIC theme format
+        run: python validate_theme_format.py
+
       - name: Verify 101-theme / 3300-placement catalog
         run: python verify_music_install.py
 
