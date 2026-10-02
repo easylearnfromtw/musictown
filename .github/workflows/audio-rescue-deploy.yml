@@ -1,8 +1,6 @@
 name: R9.3 · Audio Rescue + UX Deploy
 
 "on":
-  push:
-    branches: ["main"]
   workflow_run:
     workflows:
       - "pages build and deployment"
@@ -16,10 +14,8 @@ permissions:
   id-token: write
 
 concurrency:
-  # Failed/cancelled/skipped workflow_run events must never cancel a valid
-  # push/success rescue that is about to publish the MP3 artifact.
-  group: musicetown-audio-rescue-${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success' && format('ignored-{0}', github.run_id) || 'deploy' }}
-  cancel-in-progress: true
+  group: musicetown-audio-rescue
+  cancel-in-progress: false
 
 jobs:
   deploy:
