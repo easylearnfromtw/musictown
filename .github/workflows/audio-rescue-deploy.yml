@@ -126,14 +126,7 @@ jobs:
               if [ "$bytes" -gt 20000 ]; then
                 dur=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 /tmp/bravery-vampire.mp3 || true)
                 echo "Attempt $i: bytes=$bytes duration=$dur"
-                python - "$dur" <<'PY'
-import sys
-try:
-    d=float(sys.argv[1])
-except Exception:
-    raise SystemExit(1)
-raise SystemExit(0 if d>1 else 1)
-PY
+                python -c 'import sys; d=float(sys.argv[1]); raise SystemExit(0 if d>1 else 1)' "$dur"
                 ok=1
                 break
               fi
