@@ -17,7 +17,9 @@ permissions:
   id-token: write
 
 concurrency:
-  group: musicetown-audio-rescue
+  # Failed/cancelled/skipped workflow_run events must never cancel a valid
+  # push/success rescue that is about to publish the MP3 artifact.
+  group: musicetown-audio-rescue-${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success' && format('ignored-{0}', github.run_id) || 'deploy' }}
   cancel-in-progress: true
 
 jobs:
