@@ -202,7 +202,7 @@
       '</section>';
     }
     return '<section class="live-lyrics" aria-label="歌詞">'+
-      '<div class="live-lyrics-head"><b>LYRICS</b><span>'+(parsed.synced?'SOURCE-SYNCED':'SOURCE LYRICS')+'</span></div>'+
+      '<div class="live-lyrics-head"><b>LYRICS</b><span>'+(track?.lyricsSource==='audio-transcription'?'AUDIO TRANSCRIPTION':parsed.synced?'SOURCE-SYNCED':'SOURCE LYRICS')+'</span></div>'+
       '<div class="live-lyrics-lines" id="liveLyricsLines">'+
       parsed.lines.map((x,i)=>'<p class="live-lyric-line'+(i===0?' active':'')+'" data-li="'+i+'"'+(x.time!=null?' data-time="'+x.time+'"':'')+'>'+String(x.text).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))+'</p>').join('')+
       '</div></section>';
