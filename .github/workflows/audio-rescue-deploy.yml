@@ -17,7 +17,9 @@ permissions:
   id-token: write
 
 concurrency:
-  group: musicetown-audio-rescue
+  # Keep push-rescue and workflow-run-rescue independent: a skipped lyrics
+  # workflow must never cancel the push run that is rebuilding the MP3 artifact.
+  group: musicetown-audio-rescue-${{ github.event_name }}
   cancel-in-progress: true
 
 jobs:
