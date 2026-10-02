@@ -1,10 +1,8 @@
 name: R9.3 · Audio Rescue + UX Deploy
 
 "on":
-  workflow_run:
-    workflows:
-      - "pages build and deployment"
-    types: [completed]
+  push:
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -15,11 +13,10 @@ permissions:
 
 concurrency:
   group: musicetown-audio-rescue
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     environment:
