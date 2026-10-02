@@ -5,6 +5,12 @@ name: R9.3 · Build Real Audio Lyrics
     workflows:
       - "R9.3.14 · 101 themes / 3300 placements · Local Audio Stable Deploy"
     types: [completed]
+  push:
+    branches: ["main"]
+    paths:
+      - "transcribe_cc0_lyrics.py"
+      - "apply_lyrics_manifest.py"
+      - ".github/workflows/build-real-lyrics.yml"
   workflow_dispatch:
     inputs:
       model:
@@ -19,7 +25,7 @@ permissions:
 
 concurrency:
   group: musicetown-real-lyrics
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   transcribe:
@@ -93,10 +99,18 @@ jobs:
           print("TIMED LYRIC LINES", lines)
           PY
 
+      - name: Re-apply lyrics onto latest main
+        run: |
+          cp lyrics_manifest.json /tmp/musicetown-lyrics-manifest.json
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/musicetown-lyrics-manifest.json lyrics_manifest.json
+          python apply_lyrics_manifest.py
+
       - name: Persist lyrics to main
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "418982774+github-actions[bot]@users.noreply.github.com"
           git add lyrics_manifest.json index.html 404.html
           if git diff --cached --quiet; then
             echo "No lyrics changes to persist."
