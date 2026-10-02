@@ -12003,6 +12003,8 @@ hydrateCitymusicTrackPools(DATA);
 
 
 
+
+
 function themeTrackTarget(d){return Math.max(1,Number(d?.targetTracks||50)||50)}
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const MT_COARSE=matchMedia('(pointer:coarse)').matches;
@@ -12432,6 +12434,14 @@ function uploadCardTextures(){
 }
 
 /* render targets */
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
 /* CITYMUSIC HQ render tier */
 const MT_RENDER_DM=Number(navigator.deviceMemory||0);
 const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
@@ -16952,6 +16962,12 @@ setTimeout(()=>{
 
 
 
+
+
+
+
+
+
 /* ================= R10.2 CORE BRIDGE START ================= */
 /* R10.2 exposes only the navigation/player surface the external shell needs. */
 function mtEmit(name,detail){
@@ -20080,38 +20096,83 @@ const $=id=>document.getElementById(id);
 const body=document.body,root=document.documentElement;
 const mobile=()=>matchMedia('(max-width:760px)').matches;
 /* Playback recovery is exclusively owned by the R10.2.4 core state machine. */
-let playerBound=false;
-function playerScrollY(){
-  const sheet=$('playerSheet'),card=sheet?.querySelector('.player-card');
-  return Math.max(Number(card?.scrollTop||0),Number(sheet?.scrollTop||0));
+/* CITYMUSIC PLAYER SCROLL COMPACT V2 · one authoritative direction controller */
+let playerBound=false,playerCompact=false,playerTouchY=null,playerCompactRAF=0;
+const playerScrollPos=new WeakMap();
+function applyPlayerCompact(on){
+  const sheet=$('playerSheet'),open=!!sheet?.classList.contains('open');
+  on=!!on&&mobile()&&open&&body.classList.contains('mt-has-track');
+  playerCompact=on;
+  body.classList.toggle('mt-player-scrolled',on);
+  body.classList.toggle('mt-compact',on);
+  body.classList.toggle('mt-glass-compact',on);
 }
 function syncPlayerCompact(){
   const sheet=$('playerSheet'),open=!!sheet?.classList.contains('open');
-  if(!mobile()||!open){
-    body.classList.remove('mt-player-scrolled');
-    if(open)body.classList.remove('mt-compact');
-    return;
+  if(!mobile()||!open){applyPlayerCompact(false);return}
+  applyPlayerCompact(playerCompact);
+}
+function resetPlayerCompact(){
+  playerCompact=false;
+  applyPlayerCompact(false);
+  const sheet=$('playerSheet');
+  if(sheet){
+    [sheet,sheet.querySelector('.player-card'),$('playerBody')].filter(Boolean).forEach(n=>playerScrollPos.set(n,Number(n.scrollTop||0)));
   }
-  const y=playerScrollY(),deck=sheet.querySelector('.musicetown-deck,.vinyl-wrap,.deck-info');
-  const viewportTop=window.visualViewport?.offsetTop||0;
-  const compact=y>130&&(!deck||deck.getBoundingClientRect().bottom<(viewportTop+118));
-  body.classList.toggle('mt-player-scrolled',compact);
-  body.classList.toggle('mt-compact',compact);
+}
+function compactFromScrollTarget(target){
+  if(!target||!$('playerSheet')?.classList.contains('open'))return;
+  const y=Number(target.scrollTop||0);
+  const prev=playerScrollPos.has(target)?Number(playerScrollPos.get(target)):y;
+  const dy=y-prev;
+  playerScrollPos.set(target,y);
+  if(y<=18){applyPlayerCompact(false);return}
+  if(Math.abs(dy)<2)return;
+  applyPlayerCompact(dy>0);
+}
+function queuePlayerScroll(target){
+  if(playerCompactRAF)return;
+  playerCompactRAF=requestAnimationFrame(()=>{playerCompactRAF=0;compactFromScrollTarget(target)});
 }
 function bindPlayerScroll(){
   if(playerBound)return;
-  const sheet=$('playerSheet'),card=sheet?.querySelector('.player-card');if(!sheet)return;
+  const sheet=$('playerSheet');if(!sheet)return;
   playerBound=true;
-  const onScroll=()=>requestAnimationFrame(syncPlayerCompact);
-  sheet.addEventListener('scroll',onScroll,{passive:true});
-  card?.addEventListener('scroll',onScroll,{passive:true});
-  new MutationObserver(()=>requestAnimationFrame(syncPlayerCompact)).observe(sheet,{attributes:true,attributeFilter:['class']});
+
+  /* Capture nested scroll containers too (lyrics / deck / card). */
+  sheet.addEventListener('scroll',e=>queuePlayerScroll(e.target),{passive:true,capture:true});
+
+  /* Safari fallback: gesture direction wins even when the nested scroller
+     consumes the scroll event before the card's scrollTop changes. */
+  sheet.addEventListener('touchstart',e=>{
+    if(e.target.closest?.('.vinyl-wrap,input[type="range"]')){playerTouchY=null;return}
+    playerTouchY=e.touches?.[0]?.clientY??null;
+  },{passive:true});
+  sheet.addEventListener('touchmove',e=>{
+    if(playerTouchY==null||e.target.closest?.('.vinyl-wrap,input[type="range"]'))return;
+    const y=e.touches?.[0]?.clientY;if(!Number.isFinite(y))return;
+    const fingerDelta=playerTouchY-y;
+    if(Math.abs(fingerDelta)>=12){
+      /* finger up = content moves down = compact; finger down = return full */
+      applyPlayerCompact(fingerDelta>0);
+      playerTouchY=y;
+    }
+  },{passive:true});
+  sheet.addEventListener('touchend',()=>{playerTouchY=null},{passive:true});
+  sheet.addEventListener('touchcancel',()=>{playerTouchY=null},{passive:true});
+  sheet.addEventListener('wheel',e=>{
+    if(Math.abs(e.deltaY)<4)return;
+    applyPlayerCompact(e.deltaY>0);
+  },{passive:true});
+
+  new MutationObserver(()=>{
+    const open=sheet.classList.contains('open');
+    if(open)resetPlayerCompact();else applyPlayerCompact(false);
+  }).observe(sheet,{attributes:true,attributeFilter:['class']});
 }
 bindPlayerScroll();
-document.addEventListener('mt:track',()=>{
-  body.classList.remove('mt-player-scrolled','mt-compact');
-  requestAnimationFrame(syncPlayerCompact);
-});
+document.addEventListener('mt:track',resetPlayerCompact);
+document.addEventListener('mt:view',()=>{if(!$('playerSheet')?.classList.contains('open'))applyPlayerCompact(false)});
 addEventListener('resize',()=>requestAnimationFrame(syncPlayerCompact),{passive:true});
 window.visualViewport?.addEventListener('resize',()=>requestAnimationFrame(syncPlayerCompact),{passive:true});
 let bandRAF=0;
