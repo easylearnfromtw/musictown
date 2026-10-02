@@ -370,21 +370,24 @@ def patch(text:str,name:str)->str:
     # these replacements intentionally run against the generated HTML.
     gl_old="const gl = canvas.getContext('webgl2',{antialias:false,alpha:false,depth:false,stencil:false,powerPreference:'high-performance'});"
     gl_new="const gl = canvas.getContext('webgl2',{antialias:true,alpha:false,depth:false,stencil:false,powerPreference:'high-performance'});"
-    if gl_old not in text:
+    if gl_old in text:
+        text=text.replace(gl_old,gl_new,1)
+    elif gl_new not in text:
         raise RuntimeError(f'{name}: WebGL context quality marker not found')
-    text=text.replace(gl_old,gl_new,1)
 
     tex_old="const S=768, cv=document.createElement('canvas'); cv.width=cv.height=S; const x=cv.getContext('2d');"
     tex_new="const S=MT_PERF_MOBILE?768:1024, cv=document.createElement('canvas'); cv.width=cv.height=S; const x=cv.getContext('2d',{alpha:false}); x.imageSmoothingEnabled=true; x.imageSmoothingQuality='high';"
-    if tex_old not in text:
+    if tex_old in text:
+        text=text.replace(tex_old,tex_new,1)
+    elif tex_new not in text:
         raise RuntimeError(f'{name}: card texture quality marker not found')
-    text=text.replace(tex_old,tex_new,1)
 
     aniso_old="Math.min(8,gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT))"
     aniso_new="Math.min(16,gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT))"
-    if aniso_old not in text:
+    if aniso_old in text:
+        text=text.replace(aniso_old,aniso_new,1)
+    elif aniso_new not in text:
         raise RuntimeError(f'{name}: anisotropy quality marker not found')
-    text=text.replace(aniso_old,aniso_new,1)
 
     rt_old="let W=1,H=1,cssW=1,cssH=1,dpr=1,T=null;"
     rt_new="""/* CITYMUSIC HQ render tier */
@@ -392,15 +395,17 @@ const MT_RENDER_DM=Number(navigator.deviceMemory||0);
 const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
 const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
 let W=1,H=1,cssW=1,cssH=1,dpr=1,T=null;"""
-    if rt_old not in text:
+    if rt_old in text:
+        text=text.replace(rt_old,rt_new,1)
+    elif "const MT_RENDER_LOW_POWER=" not in text:
         raise RuntimeError(f'{name}: render-target quality marker not found')
-    text=text.replace(rt_old,rt_new,1)
 
     samples_old="const samples=Math.min(((navigator.deviceMemory||4)<=4||cssW<700)?2:4,gl.getParameter(gl.MAX_SAMPLES)||0);"
     samples_new="const samples=Math.min(MT_RENDER_LOW_POWER?2:4,gl.getParameter(gl.MAX_SAMPLES)||0);"
-    if samples_old not in text:
+    if samples_old in text:
+        text=text.replace(samples_old,samples_new,1)
+    elif samples_new not in text:
         raise RuntimeError(f'{name}: MSAA quality marker not found')
-    text=text.replace(samples_old,samples_new,1)
 
     # Reinstall the safe-band camera on every generated catalog. Builders can
     # rewrite the legacy WebGL block, so this must live in the source pipeline.
