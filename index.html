@@ -10456,6 +10456,88 @@ body.mt-view-home:not(.detail-open){overflow:hidden!important}
   #mtShelf.mt-reco-shelf{left:8px!important;right:8px!important;width:auto!important;max-width:none!important;transform:none!important;bottom:calc(var(--mt-dock-h) + 8px)!important}
   #playerSheet .live-lyrics,#playerSheet .live-lyrics-lines,.mt-lyrics-preview,.mt-lyrics-preview-panel,.mt-lyrics-preview-lines{max-width:100vw!important;overflow-x:hidden!important;overscroll-behavior-x:none!important}
 }
+
+/* =====================================================================
+   R10.2.2 · PHONE / LIBRARY / ONBOARDING POLISH
+   ===================================================================== */
+#playerSheet .online-fallback{display:none!important}
+
+/* Intro is explanatory, not a fake selectable option. */
+.mt-onboard-intro-card{
+  margin-top:22px;padding:18px;border-radius:20px;
+  background:linear-gradient(145deg,#fff,color-mix(in srgb,var(--mt-accent-soft) 46%,#fff));
+  box-shadow:var(--mt-paper-shadow);border:1px solid rgba(255,255,255,.9);
+}
+.mt-onboard-intro-card>b{display:block;font:800 17px/1.2 var(--mt-read);color:var(--mt-ink)}
+.mt-onboard-intro-card>span{display:block;margin-top:8px;font:500 12.5px/1.6 var(--mt-ui);color:var(--mt-ink-2)}
+.mt-onboard-intro-card>div{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.mt-onboard-intro-card i{font:800 9px/1 var(--mt-ui);font-style:normal;letter-spacing:.05em;padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.76);color:var(--mt-accent-ink)}
+
+/* Library is an editorial collection surface, not a dense settings panel. */
+#libraryPanel .library-collection-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;flex-wrap:wrap!important}
+#libraryPanel .library-collection-controls{display:flex!important;flex-wrap:wrap!important;gap:6px!important}
+#libraryPanel .library-collection-controls button{
+  min-height:34px!important;padding:0 11px!important;border:0!important;border-radius:999px!important;
+  background:var(--mt-mist)!important;color:var(--mt-ink-2)!important;font:800 9px/1 var(--mt-ui)!important;
+}
+#libraryPanel .library-actions{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;
+}
+#libraryPanel .library-actions #libraryImportFiles{grid-column:1/-1!important;background:var(--mt-ink)!important;color:#fff!important}
+#libraryPanel .library-actions>.library-stat{grid-column:1/-1!important;text-align:center!important;margin:0!important;padding-top:4px!important}
+#libraryPanel .library-drop{
+  margin:10px 0!important;min-height:82px!important;border:1px dashed color-mix(in srgb,var(--mt-accent) 34%,transparent)!important;
+  border-radius:18px!important;background:rgba(255,255,255,.5)!important;
+}
+#libraryPanel .library-tools{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8px!important}
+#libraryPanel .library-clear{border-radius:999px!important;padding-inline:14px!important}
+
+@media(max-width:760px){
+  /* Correct safe-area dock geometry. Full at rest; pill only after downward scroll. */
+  #mtDock{
+    left:50%!important;right:auto!important;
+    bottom:calc(max(10px,var(--mt-safe-b)) + 2px)!important;
+    width:calc(100vw - 18px)!important;max-width:460px!important;
+    transform:translateX(-50%)!important;
+  }
+  body:not(.mt-compact).mt-has-track #mtDock{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:7px!important}
+  body:not(.mt-compact).mt-has-track #mtMini{order:1!important;width:100%!important;height:58px!important;border-radius:21px!important}
+  body:not(.mt-compact).mt-has-track #mtTabs{order:2!important;width:100%!important;height:var(--mt-tabs-h)!important;border-radius:999px!important}
+  body.mt-compact.mt-has-track #mtDock{display:flex!important;flex-direction:row!important;align-items:center!important;gap:7px!important}
+  body.mt-compact.mt-has-track #mtMini{order:1!important;flex:1 1 auto!important;min-width:0!important;height:52px!important;border-radius:999px!important}
+  body.mt-compact.mt-has-track #mtTabs{order:2!important;flex:0 0 52px!important;width:52px!important;min-width:52px!important;height:52px!important;border-radius:50%!important}
+
+  /* Welcome: fixed header/body/footer grid. No overlap even on short iPhones. */
+  #welcome.mt-onboard-v2 .welcome-card{
+    width:100%!important;height:calc(100dvh - max(12px,var(--mt-safe-t)) - max(12px,var(--mt-safe-b)) - 12px)!important;
+    max-height:760px!important;border-radius:26px!important;
+  }
+  .mt-onboard-head{min-width:0!important;padding:14px 15px 10px!important}
+  .mt-onboard-brand{min-width:0!important}.mt-onboard-brand span{white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  .mt-onboard-progress{flex:none!important}.mt-onboard-progress i{width:54px!important}
+  .mt-onboard-body{padding:20px 16px 16px!important}
+  .mt-onboard-body h1,.mt-onboard-body h2{font-size:clamp(28px,9vw,42px)!important}
+  .mt-onboard-foot{
+    grid-template-columns:1fr 1fr!important;grid-template-rows:46px auto!important;
+    gap:7px!important;padding:9px 12px calc(9px + var(--mt-safe-b))!important;
+  }
+  .mt-onboard-back{grid-column:1!important;grid-row:1!important;width:100%!important}
+  .mt-onboard-next{grid-column:2!important;grid-row:1!important;width:100%!important;min-width:0!important}
+  .mt-onboard-skip{grid-column:1/-1!important;grid-row:2!important;height:30px!important;justify-self:center!important}
+  .mt-onboard-seeds{grid-template-columns:1fr 1fr!important}
+
+  #libraryPanel .library-actions{grid-template-columns:1fr 1fr!important}
+  #libraryPanel .library-tools{grid-template-columns:minmax(0,1fr)!important}
+  #libraryPanel .library-clear{width:100%!important;min-height:40px!important}
+}
+@media(max-width:390px){
+  .mt-onboard-seeds{grid-template-columns:1fr!important}
+  .mt-onboard-brand span{display:none!important}
+  #libraryPanel .library-actions{grid-template-columns:1fr!important}
+  #libraryPanel .library-actions #libraryImportFiles,
+  #libraryPanel .library-actions>.library-stat{grid-column:1!important}
+}
+
 </style>
 </head>
 <body>
@@ -11220,22 +11302,27 @@ function makeTargets(){
 
 /* camera */
 let VP=null, invVP=null, eye=[0,0,0];
+/* R10.2.2: keep the 3D drawer inside the visible band between top chrome
+   and the recommendation/dock stack while the WebGL canvas still covers
+   the whole viewport. */
+function sceneSafeBand(){
+  if(state.view!=='stage'||canvas.parentNode===$('detailSceneMount'))return null;
+  const cs=getComputedStyle(document.documentElement);
+  const top=parseFloat(cs.getPropertyValue('--mt-scene-top'))||0;
+  const bottom=parseFloat(cs.getPropertyValue('--mt-scene-bottom'))||0;
+  if(top+bottom<=0||cssH-top-bottom<140)return null;
+  return {top,bottom,h:cssH-top-bottom};
+}
 function layoutCamera(){
-  const asp=cssW/cssH;
+  const band=sceneSafeBand();
+  const asp=cssW/(band?band.h:cssH);
 
-  // Responsive camera:
-  // desktop keeps the original visual weight;
-  // tablet / split-screen / ChatGPT preview zooms OUT so the whole drawer
-  // remains visible above the order dock and below the top navigation.
   let half=CAM.half;
   if(cssW < 1180) half*=1.16;
   if(cssW < 980)  half*=1.15;
   if(cssW < 760)  half*=1.12;
-
-  // Extra vertical breathing room when the viewport is tall/narrow.
   if(asp < 1.18) half*=1.08;
 
-  // Preserve enough horizontal room for the 3D box + card fan.
   const needHalfW = cssW < 980 ? 320 : 285;
   if(asp*half < needHalfW) half=needHalfW/asp;
 
@@ -11245,9 +11332,6 @@ function layoutCamera(){
     Math.sin(CAM.phi),
     Math.cos(CAM.psi)*Math.cos(CAM.phi)
   ];
-
-  // Shift the subject slightly upward on compact screens because the order
-  // controls occupy the bottom edge.
   const compactShift = cssW < 980 ? 22 : (cssW < 1180 ? 12 : 0);
   const tg=[
     CAM.target[0],
@@ -11264,6 +11348,10 @@ function layoutCamera(){
     persp(CAM.fov,asp,dist-1100,dist+1100),
     lookAt(eye,tg,[0,1,0])
   );
+  if(band){
+    const sy=band.h/cssH, ty=1-2*(band.top+band.h/2)/cssH;
+    VP=mul(new Float32Array([1,0,0,0, 0,sy,0,0, 0,0,1,0, 0,ty,0,1]),VP);
+  }
   invVP=inv(VP);
 }
 
@@ -15008,107 +15096,7 @@ function remoteSearchUrl(t){
   return `https://nullrights.com/search?q=${encodeURIComponent(`${t?.title||''} ${t?.artist||''}`.trim())}`;
 }
 function mountOnlinePlaybackFallback(t){
-  const deck=document.querySelector('.musicetown-deck');
-  const info=deck?.querySelector('.deck-info');
-  if(!deck||!info||info.querySelector('.online-fallback'))return;
-
-  deck.classList.add('remote-mode','fallback-mode');
-  $('vinylDisc')?.classList.remove('remote-spinning');
-
-  // Source fallback must not erase the active track or compact transport.
-  try{
-    const native=$('nativeAudioPlayer');
-    if(native){
-      activeAudio=native;
-      activeTrack=t;
-      activeTrackPosition=findTrackPosition(t);
-    }
-    $('glassTransport')?.classList.add('show');
-    updateGlassUI();
-  }catch(_){}
-
-  if('mediaSession' in navigator){
-    try{navigator.mediaSession.playbackState='none'}catch(_){}
-  }
-  mediaSessionTrack=null;
-  mediaSessionAudio=null;
-
-  const badge=deck.querySelector('.cloud-audio-badge');
-  if(badge) badge.textContent='SOURCE PAGE FALLBACK';
-  const flow=deck.querySelector('.cloud-audio-flow');
-  if(flow){
-    flow.innerHTML='<b class="cloud-audio-badge fallback">SOURCE PAGE FALLBACK</b><span>網站雲端 MP3 缺少</span><i>→</i><span>改用來源頁 / 官方 CC0 Player</span>';
-  }
-
-  const cur=$('deckCurrent'),dur=$('deckDuration'),seek=$('deckSeek');
-  if(cur) cur.textContent='0:00';
-  if(dur) dur.textContent='0:00';
-  if(seek){
-    seek.value='0';
-    seek.max='0';
-    seek.disabled=true;
-    seek.classList.add('disabled');
-  }
-
-  ['localPlay','localPrev','localNext','localPickFile'].forEach(id=>{
-    const el=$(id);
-    if(el){
-      el.disabled=true;
-      el.classList.add('disabled');
-    }
-  });
-
-  const id=nullrightsEmbedId(t);
-  const source=String(t?.source||'').trim();
-  const box=document.createElement('div');
-  box.className='online-fallback';
-
-  if(id){
-    box.innerHTML=`
-      <div class="online-fallback-head">
-        <b>ONLINE CC0 PLAYER</b>
-        <span>LOCAL MP3 FALLBACK</span>
-      </div>
-      <iframe class="online-player-frame"
-              src="https://nullrights.com/embed/${encodeURIComponent(id)}"
-              title="${esc(t.title)} online player"
-              loading="eager"
-              allow="autoplay"></iframe>
-      <div class="online-fallback-actions">
-        <a href="${esc(source)}" target="_blank" rel="noopener">SOURCE / LICENSE</a>
-      </div>
-      <div class="online-fallback-note">
-        找不到本地 MP3，已切換成 Nullrights 官方 CC0 player。
-      </div>`;
-  }else{
-    box.innerHTML=`
-      <div class="online-fallback-head">
-        <b>ONLINE SOURCE</b>
-        <span>LOCAL MP3 NOT FOUND</span>
-      </div>
-      ${source?`
-      <iframe class="online-source-frame"
-              src="${esc(source)}"
-              title="${esc(t.title)} source page"
-              loading="eager"></iframe>`:''}
-      <div class="online-fallback-actions">
-        ${source?`<a href="${esc(source)}" target="_blank" rel="noopener">開啟原始播放頁</a>`:''}
-        <a href="${esc(remoteSearchUrl(t))}" target="_blank" rel="noopener">在 Nullrights 找這首</a>
-      </div>
-      <div class="online-fallback-note">
-        此曲目前沒有打包成本地 MP3。若來源網站不允許 iframe，請按「開啟原始播放頁」。
-      </div>`;
-  }
-
-  info.appendChild(box);
-
-  const status=$('localMp3Status');
-  if(status){
-    status.className='local-mp3-status ready';
-    status.innerHTML='<i></i><span>網站雲端 MP3 缺少 · 暫時切換來源頁</span>';
-  }
-  $('playerLegal').textContent=
-    'Source-page fallback · 目前音訊串流不可用，已改用官方 CC0 Player / 來源頁。';
+  try{document.querySelectorAll('.online-fallback').forEach(n=>n.remove())}catch(_){}
 }
 
 let mtWarmAudio=null,mtWarmUrl='';
@@ -15648,6 +15636,12 @@ setTimeout(()=>{
 
 
 
+
+
+
+
+
+
 /* ================= R10.2 CORE BRIDGE START ================= */
 /* R10.2 exposes only the navigation/player surface the external shell needs. */
 function mtEmit(name,detail){
@@ -15706,57 +15700,113 @@ function mtLastTrack(){
   }catch(_){return null}
 }
 
-/* Broken audio is retried once with a cache-busting URL.  If it still fails,
-   silently remove it from the local rotation instead of showing ONLINE SOURCE. */
-const MT_BAD_AUDIO_KEY='musicetown.r10.badAudio';
+/* R10.2.2 audio reliability.
+   - never render the legacy source-page / iframe fallback
+   - resolve project-page MP3s from the repository root
+   - retry same-origin MP3s with cache busting
+   - bad-audio state is short-lived per tab, never permanent */
+const MT_BAD_AUDIO_KEY='musicetown.r10.2.2.badAudio';
+const MT_BAD_AUDIO_TTL=120000;
+function mtAudioId(t){return String(t?.shareId||t?.audioSrc||'').trim()}
+function mtReadBadAudioMap(){
+  try{return JSON.parse(sessionStorage.getItem(MT_BAD_AUDIO_KEY)||'{}')||{}}catch(_){return {}}
+}
+function mtWriteBadAudioMap(map){try{sessionStorage.setItem(MT_BAD_AUDIO_KEY,JSON.stringify(map))}catch(_){}}
 function mtReadBadAudio(){
-  try{return new Set(JSON.parse(localStorage.getItem(MT_BAD_AUDIO_KEY)||'[]'))}catch(_){return new Set()}
+  const now=Date.now(),map=mtReadBadAudioMap(),out=new Set();let dirty=false;
+  for(const [id,at] of Object.entries(map)){
+    if(now-Number(at||0)<MT_BAD_AUDIO_TTL)out.add(id);
+    else{delete map[id];dirty=true}
+  }
+  if(dirty)mtWriteBadAudioMap(map);
+  return out;
 }
 function mtMarkBadAudio(t){
-  const id=String(t?.shareId||t?.audioSrc||'').trim();if(!id)return;
-  const s=mtReadBadAudio();s.add(id);try{localStorage.setItem(MT_BAD_AUDIO_KEY,JSON.stringify([...s].slice(-80)))}catch(_){}
+  const id=mtAudioId(t);if(!id)return;
+  const map=mtReadBadAudioMap();map[id]=Date.now();mtWriteBadAudioMap(map);
+  setTimeout(()=>{mtHideBadTrackRows()},MT_BAD_AUDIO_TTL+80);
 }
-function mtAudioIsBad(t){return mtReadBadAudio().has(String(t?.shareId||t?.audioSrc||''))}
+function mtClearBadAudio(t){
+  const id=mtAudioId(t);if(!id)return;
+  const map=mtReadBadAudioMap();if(map[id]){delete map[id];mtWriteBadAudioMap(map);mtHideBadTrackRows()}
+}
+function mtAudioIsBad(t){return mtReadBadAudio().has(mtAudioId(t))}
 function mtHideBadTrackRows(){
   document.querySelectorAll('.track-row[data-genre-index][data-track-index]').forEach(row=>{
     const gi=Number(row.dataset.genreIndex),ti=Number(row.dataset.trackIndex),t=DATA[gi]?.tracks?.[ti];
     row.hidden=!!t&&mtAudioIsBad(t);
   });
 }
+function mtSiteRoot(){
+  try{
+    if(location.protocol==='file:')return new URL('./',document.baseURI).href;
+    if(/\.github\.io$/i.test(location.hostname)){
+      const first=location.pathname.split('/').filter(Boolean)[0];
+      return new URL('/'+(first?first+'/':''),location.origin).href;
+    }
+    return new URL('/',location.origin).href;
+  }catch(_){return document.baseURI}
+}
+const mtResolveSiteCloudAudioCore=resolveSiteCloudAudio;
+resolveSiteCloudAudio=function(t){
+  const raw=String(t?.audioSrc||'').trim();
+  if(raw&&!/^[a-z][a-z0-9+.-]*:/i.test(raw)&&!raw.startsWith('//')){
+    try{return new URL(raw.replace(/^\/+/,''),mtSiteRoot()).href}catch(_){}
+  }
+  return mtResolveSiteCloudAudioCore(t);
+};
+function mtAudioCandidates(t){
+  const raws=[t?.audioSrc,t?.originalLocalAudio,t?.originalAudioSrc,t?.download].map(x=>String(x||'').trim()).filter(Boolean);
+  const out=[];
+  for(const raw of raws){
+    try{
+      const u=/^[a-z][a-z0-9+.-]*:/i.test(raw)||raw.startsWith('//')
+        ?new URL(raw,document.baseURI)
+        :new URL(raw.replace(/^\/+/,''),mtSiteRoot());
+      if(!out.includes(u.href))out.push(u.href);
+    }catch(_){}
+  }
+  return out;
+}
+function mtTryAudioRecovery(t,a){
+  if(!a||!t)return false;
+  const urls=mtAudioCandidates(t);
+  let n=Math.max(0,Number(a.dataset.mtRetryIndex||0));
+  if(n>=urls.length)return false;
+  try{
+    const u=new URL(urls[n]);
+    a.dataset.mtRetryIndex=String(n+1);
+    if(u.origin===location.origin)u.searchParams.set('mt_audio','r1022-'+Date.now().toString(36));
+    a.src=u.href;a.preload='auto';a.load();
+    const p=a.play();if(p?.catch)p.catch(()=>{});
+    try{showClickToast('重新連線音訊…')}catch(_){}
+    return true;
+  }catch(_){return false}
+}
 let mtAudioFallbackBusy=false;
 if(typeof mountOnlinePlaybackFallback==='function'){
   mountOnlinePlaybackFallback=function(t){
     document.querySelectorAll('.online-fallback').forEach(n=>n.remove());
     const a=$('nativeAudioPlayer');
-    if(a&&t&&!t.__mtCacheRetry){
-      t.__mtCacheRetry=true;
-      try{
-        const raw=String(t.audioSrc||t.originalLocalAudio||t.originalAudioSrc||'').trim();
-        if(raw){
-          const u=new URL(raw,document.baseURI);u.searchParams.set('mt_audio','r102');
-          a.src=u.href;a.preload='auto';a.load();
-          const p=a.play();if(p?.catch)p.catch(()=>{});
-          showClickToast?.('重新連線音訊…');
-          return;
-        }
-      }catch(_){}
-    }
+    if(mtTryAudioRecovery(t,a))return;
+
     mtMarkBadAudio(t);mtHideBadTrackRows();
     if(mtAudioFallbackBusy)return;
     let nxt=t;
-    for(let i=0;i<18;i++){
+    for(let i=0;i<24;i++){
       nxt=nextTrackFrom(nxt,1);
       if(nxt&&nxt!==t&&!mtAudioIsBad(nxt)&&nxt.audioSrc)break;
     }
     if(!nxt||nxt===t||mtAudioIsBad(nxt)){
-      try{showClickToast('這首音訊暫時不可用，已從清單隱藏')}catch(_){}
+      try{showClickToast('這首音訊暫時不可用，已從清單暫時隱藏')}catch(_){}
       return;
     }
     mtAudioFallbackBusy=true;
-    try{showClickToast('音訊來源失效，已自動略過')}catch(_){}
+    try{showClickToast('音訊載入失敗，已自動換下一首')}catch(_){}
     setTimeout(()=>{
-      try{openTrack(nxt,true,{reveal:$('playerSheet')?.classList.contains('open')!==false})}finally{mtAudioFallbackBusy=false}
-    },90);
+      try{openTrack(nxt,true,{reveal:$('playerSheet')?.classList.contains('open')!==false})}
+      finally{mtAudioFallbackBusy=false}
+    },120);
   };
 }
 
@@ -15795,7 +15845,7 @@ if(typeof finishWelcome==='function'){
 }
 
 window.MT=Object.freeze({
-  version:'R10.2',
+  version:'R10.2.2',
   DATA,HOME_GROUPS,
   get view(){return state?.view==='branch'?'branch':'stage'},
   get modalOpen(){return state?.modal!=null},
@@ -17849,7 +17899,7 @@ if('ResizeObserver' in window){
    ===================================================================== */
 const ALG_PROFILE_KEY='musicetown.r10.2.profile';
 const ALG_STATE_KEY='musicetown.r10.2.signals';
-const ALG_ONBOARD_KEY='musicetown.r10.2.onboarded';
+const ALG_ONBOARD_KEY='musicetown.r10.2.2.onboarded';
 function readJson(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(_){return fallback}}
 function writeJson(key,v){try{localStorage.setItem(key,JSON.stringify(v))}catch(_){}}
 function algProfile(){return Object.assign({moments:[],energy:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]},readJson(ALG_PROFILE_KEY,{}))}
@@ -18001,7 +18051,7 @@ lyricsPreview.querySelector('.mt-lyrics-preview-close').addEventListener('click'
 lyricsPreview.addEventListener('click',e=>{if(e.target===lyricsPreview)closeLyricsPreview()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&lyricsPreview.classList.contains('open'))closeLyricsPreview()});
 
-/* ----- onboarding v2: seven focused screens that actually seed the algorithm ----- */
+/* ----- onboarding v2: eight focused screens that actually seed the algorithm ----- */
 const ONBOARD_STEPS=[
   {k:'intro',title:'歡迎來到 MUSICTOWN',copy:'這裡不是一次性的歌單。先用幾個很短的選擇告訴我們你怎麼聽音樂，之後每日推薦、每週推薦與 MT 推薦榜都會從這份偏好開始。'},
   {k:'moments',title:'你通常在什麼時候聽？',copy:'可以複選。演算法會用「情境」決定探索與熟悉感的比例。'},
@@ -18029,7 +18079,7 @@ function renderOnboard(){
   const bodyEl=welcome.querySelector('.mt-onboard-body'),counter=welcome.querySelector('.mt-onboard-counter'),bar=welcome.querySelector('.mt-onboard-progress i'),next=welcome.querySelector('.mt-onboard-next'),back=welcome.querySelector('.mt-onboard-back');
   counter.textContent=`${onboardStep+1} / ${ONBOARD_STEPS.length}`;bar.style.setProperty('--p',`${((onboardStep+1)/ONBOARD_STEPS.length)*100}%`);back.disabled=onboardStep===0;
   let options='';
-  if(st.k==='intro')options='<div class="mt-onboard-options"><button class="mt-onboard-option selected" type="button"><b>用你的選擇開始</b><span>偏好只存在這個瀏覽器，可隨著使用自然更新。</span></button></div>';
+  if(st.k==='intro')options='<div class="mt-onboard-intro-card"><b>你的 MUSICTOWN 會越聽越準</b><span>接下來每頁只問一件事；偏好只存在這個瀏覽器，之後播放、收藏、不喜歡與略過都會繼續調整推薦。</span><div><i>每日推薦</i><i>每週推薦</i><i>MT 推薦榜</i></div></div>';
   else if(st.k==='seeds')options='<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),sel=optionSelected('seeds',d.t);return `<button class="mt-onboard-option mt-onboard-seed${sel?' selected':''}" data-ob-value="${esc(d.t)}" type="button"><small>RECOMMENDED ${i+1}</small><b>${esc(nm.main)}</b><span>${esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))}</span></button>`}).join('')+'</div>';
   else options='<div class="mt-onboard-options">'+(ONBOARD_OPTIONS[st.k]||[]).map(([v,b,s])=>`<button class="mt-onboard-option${optionSelected(st.k,v)?' selected':''}" data-ob-value="${v}" type="button"><b>${b}</b><span>${s}</span></button>`).join('')+'</div>';
   bodyEl.innerHTML=`<div class="mt-onboard-kicker">${String(onboardStep+1).padStart(2,'0')} · PERSONALIZE</div><h${onboardStep===0?'1':'2'}>${st.title}</h${onboardStep===0?'1':'2'}><p>${st.copy}</p>${options}`;
@@ -18049,7 +18099,7 @@ function installOnboardV2(){
   let done=false;try{done=localStorage.getItem(ALG_ONBOARD_KEY)==='1'}catch(_){}
   if(done)return;
   welcome.style.display='grid';welcome.classList.remove('is-out','finalizing','previewing');welcome.classList.add('welcome-active','mt-onboard-v2');body.classList.add('welcome-active');
-  welcome.innerHTML=`<div class="welcome-card"><header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>musicetown</span></div><div class="mt-onboard-progress"><span class="mt-onboard-counter">1 / 7</span><i></i></div></header><main class="mt-onboard-body"></main><footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">先略過</button><button class="mt-onboard-next" type="button">下一步</button></footer></div>`;
+  welcome.innerHTML=`<div class="welcome-card"><header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>musicetown</span></div><div class="mt-onboard-progress"><span class="mt-onboard-counter">1 / ${ONBOARD_STEPS.length}</span><i></i></div></header><main class="mt-onboard-body"></main><footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">先略過</button><button class="mt-onboard-next" type="button">下一步</button></footer></div>`;
   welcome.addEventListener('click',e=>{const o=e.target.closest('[data-ob-value]');if(!o)return;const k=ONBOARD_STEPS[onboardStep].k;toggleOnboard(k,o.dataset.obValue);renderOnboard()});
   welcome.querySelector('.mt-onboard-back').addEventListener('click',()=>{if(onboardStep>0){onboardStep--;renderOnboard()}});
   welcome.querySelector('.mt-onboard-skip').addEventListener('click',()=>finishOnboard(true));
@@ -18057,6 +18107,13 @@ function installOnboardV2(){
   renderOnboard();
 }
 installOnboardV2();
+
+/* R10.2.2 · new tracks always start in full dock.
+   Compact glass is a scroll state, never the initial playback state. */
+document.addEventListener('mt:track',()=>{
+  body.classList.remove('mt-compact');
+  requestAnimationFrame(()=>{paintMini();measure()});
+});
 
 /* detail/library scroll is the canonical mobile compact trigger. */
 [$('detail'),$('libraryPanel'),$('globalSearchResults')].filter(Boolean).forEach(n=>{
