@@ -17,7 +17,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: musicetown-audio-rescue-${{ github.event_name }}
+  group: musicetown-audio-rescue
   cancel-in-progress: true
 
 jobs:
