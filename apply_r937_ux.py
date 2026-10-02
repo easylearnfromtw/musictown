@@ -25,6 +25,7 @@ for name in ("index.html","404.html"):
 # R10: keep the Flow & Glass shell last in <head>/<body> after the R9.3 layer refresh.
 try:
     sys_dont_write = __import__("sys"); sys_dont_write.dont_write_bytecode = True
+    import apply_r10_core  # installs/refreshes the in-app compatibility bridge first
     import apply_r10_ux
     for _name in ("index.html", "404.html"):
         apply_r10_ux.apply(ROOT / _name)
