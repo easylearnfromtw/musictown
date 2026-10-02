@@ -779,7 +779,7 @@ if('ResizeObserver' in window){
    ===================================================================== */
 const ALG_PROFILE_KEY='musicetown.r10.2.profile';
 const ALG_STATE_KEY='musicetown.r10.2.signals';
-const ALG_ONBOARD_KEY='musicetown.r10.2.4.onboarded';
+const ALG_ONBOARD_KEY='musicetown.r10.3.onboarded';
 function readJson(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(_){return fallback}}
 function writeJson(key,v){try{localStorage.setItem(key,JSON.stringify(v))}catch(_){}}
 function algProfile(){return Object.assign({moments:[],moods:[],energy:'mid',tempo:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]},readJson(ALG_PROFILE_KEY,{}))}
@@ -979,102 +979,195 @@ lyricsPreview.querySelector('.mt-lyrics-preview-close').addEventListener('click'
 lyricsPreview.addEventListener('click',e=>{if(e.target===lyricsPreview)closeLyricsPreview()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&lyricsPreview.classList.contains('open'))closeLyricsPreview()});
 
-/* ----- onboarding v2: eight focused screens that actually seed the algorithm ----- */
+/* ----- CITYMUSIC ONBOARDING V3 · three-stage, fast personalization ----- */
 const ONBOARD_STEPS=[
-  {k:'intro',title:'歡迎來到 CITYMUSIC',copy:'先用幾個很短的選擇建立你的初始聲音輪廓。之後實際播放、收藏、聽完與快速略過，會持續修正推薦。'},
-  {k:'moments',title:'你通常在什麼時候聽？',copy:'可以複選。情境會影響每日推薦的熟悉感、節奏與氛圍。'},
-  {k:'moods',title:'你現在比較常找哪種心情？',copy:'可以複選。這讓演算法知道同一個曲風裡，你偏好的情緒方向。'},
-  {k:'energy',title:'你喜歡多大的能量？',copy:'決定推薦主題的推進感與刺激程度。'},
-  {k:'tempo',title:'你偏好的速度感？',copy:'不是硬性 BPM 篩選，而是排序訊號。'},
-  {k:'vocal',title:'你對人聲的偏好？',copy:'人聲只是權重，不會把其他歌曲完全排除。'},
-  {k:'textures',title:'先選一些聲音質地',copy:'可以複選。Jazz、Rock、Lo-fi、城市感等會成為初始偏好。'},
-  {k:'worlds',title:'你想先從哪種世界出發？',copy:'城市、校園與景點可以混在同一份推薦裡。'},
-  {k:'discovery',title:'你希望推薦多敢探索？',copy:'熟悉優先會回到你常聽的世界；探索模式會主動提高新城市與跨風格主題。'},
-  {k:'seeds',title:'挑幾個你願意先試的主題',copy:'最多選四個作為起點；之後行為訊號會逐漸取代初始選擇。'},
-  {k:'summary',title:'你的推薦輪廓準備好了',copy:'完成後直接回到主頁，先看到每日推薦；每週推薦與 CT 推薦會用不同權重重新排序。'}
+  {k:'intro',stage:'start',stageLabel:'WELCOME',title:'讓 CITYMUSIC 先認識你的耳朵',copy:'用幾個很短的選擇建立第一版推薦。大約 30 秒，之後會再用你真正的播放、收藏、聽完與略過持續修正。'},
+  {k:'moments',stage:'profile',stageLabel:'LISTENING LIFE',multi:true,max:3,required:true,title:'你最常在哪些時刻打開音樂？',copy:'選 1–3 個。這會先決定每日推薦的使用情境。'},
+  {k:'moods',stage:'profile',stageLabel:'MOOD',multi:true,max:3,required:true,title:'你希望音樂帶來什麼感覺？',copy:'選 1–3 個你最常找的情緒，不用想太久。'},
+  {k:'energy',stage:'profile',stageLabel:'ENERGY',auto:true,title:'你喜歡多大的能量？',copy:'選一個最接近平常的狀態。之後還會依播放行為調整。'},
+  {k:'tempo',stage:'profile',stageLabel:'PACE',auto:true,title:'速度感偏哪一邊？',copy:'這只是排序權重，不會把其他速度的歌完全排除。'},
+  {k:'vocal',stage:'profile',stageLabel:'VOCAL',auto:true,title:'人聲對你有多重要？',copy:'選最接近的偏好，CITYMUSIC 仍會保留探索空間。'},
+  {k:'textures',stage:'profile',stageLabel:'SOUND',multi:true,max:3,required:true,title:'哪些聲音最容易讓你停下來？',copy:'選 1–3 種聲音質地，這會直接影響第一批推薦。'},
+  {k:'worlds',stage:'profile',stageLabel:'WORLD',multi:true,max:2,title:'想先從哪裡開始探索？',copy:'最多選 2 個。城市、校園與地景之後仍會互相穿插。'},
+  {k:'discovery',stage:'profile',stageLabel:'DISCOVERY',auto:true,title:'你想讓推薦多敢冒險？',copy:'決定熟悉感與新鮮感的比例。'},
+  {k:'seeds',stage:'tune',stageLabel:'TUNE',multi:true,max:3,title:'這幾個主題，你會先點哪幾個？',copy:'這是最後一個校準。最多選 3 個，讓第一版推薦更快進入狀態。'},
+  {k:'summary',stage:'ready',stageLabel:'READY',title:'你的第一版聲音輪廓完成',copy:'這不是定案。CITYMUSIC 會從你真正的使用行為繼續學，下面先給你今天最可能想點開的方向。'}
 ];
 const ONBOARD_OPTIONS={
-  moments:[['focus','專注 / 工作','安靜、穩定、不搶注意力'],['night','夜晚','城市夜色、較深的氛圍'],['drive','通勤 / 開車','有流動感與節奏'],['workout','運動','更高能量與推進感'],['chill','放空','柔軟、慢一些'],['social','聚會','容易進入狀態的聲音']],
+  moments:[['focus','專注 / 工作','穩定、不搶注意力'],['night','夜晚','城市夜色、較深氛圍'],['drive','通勤 / 開車','有流動感與節奏'],['workout','運動','更高能量與推進感'],['chill','放空','柔軟、慢一些'],['social','聚會','容易進入狀態']],
   moods:[['warm','溫暖','Soul、Acoustic、柔和爵士'],['dreamy','夢幻','Ambient、Lo-fi、夜色感'],['bright','明亮','Pop、城市、夏日感'],['dark','深色','Night、Punk、Cinematic'],['intense','強烈','Rock、Sport、Metal'],['nostalgic','懷舊','Vintage、Retro、老城市']],
-  energy:[['low','低能量','安靜、留白多'],['mid','中等','耐聽、節奏適中'],['high','高能量','更直接、更有衝擊']],
-  tempo:[['slow','偏慢','適合放空、專注與深夜'],['mid','中速','耐聽、適合長時間播放'],['fast','偏快','更有推進感與節奏']],
-  vocal:[['instrumental','偏器樂','人聲不是重點'],['soft','柔和人聲','輕、近、低刺激'],['clear','清楚人聲','旋律與歌唱感明顯'],['strong','強人聲','搖滾、龐克、張力更高'],['mixed','都可以','讓行為慢慢決定']],
+  energy:[['low','低能量','留白多、刺激少'],['mid','中等','耐聽、節奏適中'],['high','高能量','直接、有衝擊']],
+  tempo:[['slow','偏慢','放空、專注、深夜'],['mid','中速','耐聽、適合久播'],['fast','偏快','推進感與節奏更明顯']],
+  vocal:[['instrumental','偏器樂','人聲不是重點'],['soft','柔和人聲','輕、近、低刺激'],['clear','清楚人聲','旋律與歌唱感明顯'],['strong','強人聲','搖滾、龐克、張力高'],['mixed','都可以','讓使用行為慢慢決定']],
   textures:[['jazz','Jazz / Blues','爵士、藍調、groove'],['rock','Rock / Guitar','吉他、龐克、搖滾'],['lofi','Lo-fi / Ambient','低彩度、環境感'],['city','City Sound','城市、indie、都會'],['cinematic','Cinematic','場景感與旅行感'],['campus','Campus','校園與年輕感']],
   worlds:[['taiwan','台灣','城市、景點、校園'],['asia','亞洲','東京、上海、首爾等'],['world','世界城市','歐美與世界地景'],['campus','大學','各地校園限定'],['landmark','景點','地標與旅行主題']],
-  discovery:[['familiar','熟悉優先','多一點你已經喜歡的聲音與核心主題'],['balanced','平衡探索','熟悉與新鮮大約各半'],['explore','多給我驚喜','提高限定主題、城市與跨風格探索']]
+  discovery:[['familiar','熟悉優先','更多你已經喜歡的聲音'],['balanced','平衡探索','熟悉與新鮮大約各半'],['explore','多給我驚喜','提高新城市與跨風格比例']]
 };
-let onboardStep=0,onboard=algProfile();
+const ONBOARD_PROFILE_KEYS=['moments','moods','energy','tempo','vocal','textures','worlds','discovery'];
+let onboardStep=0,onboard=algProfile(),onboardAdvanceTimer=0;
+function onboardCurrent(){return ONBOARD_STEPS[onboardStep]}
 function optionSelected(k,v){const cur=onboard[k];return Array.isArray(cur)?cur.includes(v):cur===v}
-function toggleOnboard(k,v){if(['moments','moods','textures','worlds','seeds'].includes(k)){const a=Array.isArray(onboard[k])?[...onboard[k]]:[];const i=a.indexOf(v);if(i>=0)a.splice(i,1);else a.push(v);onboard[k]=a.slice(0,k==='seeds'?4:5)}else onboard[k]=v}
-function onboardSeedRows(){const prev=readJson(ALG_PROFILE_KEY,null);writeJson(ALG_PROFILE_KEY,onboard);const rows=recommendThemes('daily',6);if(prev)writeJson(ALG_PROFILE_KEY,prev);else try{localStorage.removeItem(ALG_PROFILE_KEY)}catch(_){}return rows}
+function onboardSelectionCount(k){const cur=onboard[k];return Array.isArray(cur)?cur.length:(cur?1:0)}
+function toggleOnboard(k,v){
+  const st=onboardCurrent();
+  if(st?.multi){
+    const a=Array.isArray(onboard[k])?[...onboard[k]]:[];
+    const i=a.indexOf(v);
+    if(i>=0)a.splice(i,1);
+    else if(a.length<(st.max||3))a.push(v);
+    onboard[k]=a;
+  }else onboard[k]=v;
+}
+function onboardStepReady(st=onboardCurrent()){
+  if(!st?.required)return true;
+  return onboardSelectionCount(st.k)>0;
+}
+function onboardSeedRows(){
+  const prev=readJson(ALG_PROFILE_KEY,null);
+  writeJson(ALG_PROFILE_KEY,onboard);
+  const rows=recommendThemes('daily',6);
+  if(prev)writeJson(ALG_PROFILE_KEY,prev);else try{localStorage.removeItem(ALG_PROFILE_KEY)}catch(_){}
+  return rows;
+}
+function onboardPreviewRows(){
+  const prev=readJson(ALG_PROFILE_KEY,null);
+  writeJson(ALG_PROFILE_KEY,onboard);
+  const rows=recommendThemes('daily',3);
+  if(prev)writeJson(ALG_PROFILE_KEY,prev);else try{localStorage.removeItem(ALG_PROFILE_KEY)}catch(_){}
+  return rows;
+}
 function onboardLabel(k,v){
   const row=(ONBOARD_OPTIONS[k]||[]).find(x=>x[0]===v);
   return row?.[1]||String(v||'');
 }
+function onboardStageMeta(st){
+  if(st.stage==='start')return {label:'WELCOME',count:'30 SEC SETUP',p:0};
+  if(st.stage==='ready')return {label:'READY',count:'PROFILE READY',p:100};
+  const profileSteps=ONBOARD_STEPS.filter(x=>x.stage==='profile'||x.stage==='tune');
+  const i=profileSteps.findIndex(x=>x.k===st.k);
+  return {label:st.stageLabel||'PERSONALIZE',count:(i+1)+' / '+profileSteps.length,p:Math.round(((i+1)/profileSteps.length)*92)+4};
+}
+function onboardSelectionNote(st){
+  if(!st.multi)return '';
+  const n=onboardSelectionCount(st.k),max=st.max||3;
+  const req=st.required?'至少選 1 個':'可略過';
+  return '<div class="mt-onboard-selection-note"><span>'+req+'</span><b>'+n+' / '+max+'</b></div>';
+}
+function onboardIntroHtml(){
+  return '<div class="mt-onboard-hero">'+
+    '<div class="mt-onboard-orbit" aria-hidden="true"><span></span><i></i><b></b></div>'+
+    '<div class="mt-onboard-promise"><section><small>01</small><b>先建立輪廓</b><span>情境、心情、聲音與探索程度</span></section>'+
+    '<section><small>02</small><b>再從行為學習</b><span>播放、聽完、收藏與快速略過</span></section>'+
+    '<section><small>03</small><b>每天重新排序</b><span>每日推薦、每週推薦與 CT 推薦</span></section></div>'+
+    '<div class="mt-onboard-trust"><span>約 30 秒</span><span>可隨時再調整</span><span>不會鎖死曲風</span></div>'+
+  '</div>';
+}
 function onboardSummaryHtml(){
-  const rows=[
-    ['情境',(onboard.moments||[]).map(v=>onboardLabel('moments',v))],
-    ['心情',(onboard.moods||[]).map(v=>onboardLabel('moods',v))],
-    ['能量',[onboardLabel('energy',onboard.energy)]],
-    ['速度',[onboardLabel('tempo',onboard.tempo)]],
-    ['人聲',[onboardLabel('vocal',onboard.vocal)]],
-    ['質地',(onboard.textures||[]).map(v=>onboardLabel('textures',v))],
-    ['世界',(onboard.worlds||[]).map(v=>onboardLabel('worlds',v))],
+  const compact=[
+    ['情境',(onboard.moments||[]).slice(0,3).map(v=>onboardLabel('moments',v))],
+    ['心情',(onboard.moods||[]).slice(0,3).map(v=>onboardLabel('moods',v))],
+    ['聲音',(onboard.textures||[]).slice(0,3).map(v=>onboardLabel('textures',v))],
     ['探索',[onboardLabel('discovery',onboard.discovery)]]
   ].filter(x=>x[1].filter(Boolean).length);
-  return '<div class="mt-onboard-summary"><div class="mt-onboard-summary-grid">'+
-    rows.map(r=>'<section><small>'+esc(r[0])+'</small><b>'+r[1].filter(Boolean).map(esc).join(' · ')+'</b></section>').join('')+
-    '</div><p>之後「聽完」會提高權重，太快略過會降低權重；每日、每週與 CT 推薦會用不同探索比例重新排序。</p></div>';
+  const recos=onboardPreviewRows();
+  const recoHtml=recos.map((x,i)=>{
+    const d=MT.DATA[x.i],nm=MT.splitThemeName(d?.t||'');
+    return '<button class="mt-onboard-preview-card" type="button" data-preview-theme="'+esc(String(x.i))+'">'+
+      '<small>DAILY '+String(i+1).padStart(2,'0')+'</small><b>'+esc(nm.main||d?.t||'CITYMUSIC')+'</b>'+
+      '<span>'+esc(nm.sub||groupKeyOfTheme(d?.t||'').replaceAll('_',' '))+'</span></button>';
+  }).join('');
+  return '<div class="mt-onboard-ready">'+
+    '<div class="mt-onboard-profile-strip">'+compact.map(r=>'<span><small>'+esc(r[0])+'</small><b>'+r[1].filter(Boolean).map(esc).join(' · ')+'</b></span>').join('')+'</div>'+
+    '<div class="mt-onboard-preview-head"><div><small>YOUR FIRST DAILY MIX</small><b>先從這三個方向開始</b></div><span>會持續變動</span></div>'+
+    '<div class="mt-onboard-preview-grid">'+recoHtml+'</div>'+
+    '<p class="mt-onboard-learning-note">完整聽完會提高相近推薦；太快換歌會降低權重。你不用回來重新填問卷，CITYMUSIC 會自己更新。</p>'+
+  '</div>';
 }
 function renderOnboard(){
   const welcome=$('welcome');if(!welcome)return;
-  const st=ONBOARD_STEPS[onboardStep];
-  const bodyEl=welcome.querySelector('.mt-onboard-body'),counter=welcome.querySelector('.mt-onboard-counter'),bar=welcome.querySelector('.mt-onboard-progress i'),next=welcome.querySelector('.mt-onboard-next'),back=welcome.querySelector('.mt-onboard-back');
-  counter.textContent=(onboardStep+1)+' / '+ONBOARD_STEPS.length;
-  bar.style.setProperty('--p',(((onboardStep+1)/ONBOARD_STEPS.length)*100)+'%');
-  back.disabled=onboardStep===0;
+  const st=onboardCurrent(),meta=onboardStageMeta(st);
+  welcome.dataset.onboardStep=st.k;welcome.dataset.onboardStage=st.stage;
+  const bodyEl=welcome.querySelector('.mt-onboard-body'),counter=welcome.querySelector('.mt-onboard-counter'),stage=welcome.querySelector('.mt-onboard-stage'),bar=welcome.querySelector('.mt-onboard-progress i'),next=welcome.querySelector('.mt-onboard-next'),back=welcome.querySelector('.mt-onboard-back'),skip=welcome.querySelector('.mt-onboard-skip');
+  counter.textContent=meta.count;stage.textContent=meta.label;bar.style.setProperty('--p',meta.p+'%');
+  back.hidden=st.k==='intro';back.disabled=st.k==='intro';
+  skip.hidden=st.k!=='intro';
   let options='';
   if(st.k==='intro'){
-    options='<div class="mt-onboard-intro-card"><b>推薦不是一次設定完就不變</b><span>這裡只建立初始輪廓；實際播放、收藏、完整聽完與快速略過會繼續修正權重。</span><div><i>每日推薦</i><i>每週推薦</i><i>CT 推薦</i></div></div>';
+    options=onboardIntroHtml();
   }else if(st.k==='seeds'){
-    options='<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{
+    options=onboardSelectionNote(st)+'<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{
       const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),sel=optionSelected('seeds',d.t);
-      return '<button class="mt-onboard-option mt-onboard-seed'+(sel?' selected':'')+'" data-ob-value="'+esc(d.t)+'" type="button"><small>SEED '+(i+1)+'</small><b>'+esc(nm.main)+'</b><span>'+esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))+'</span></button>';
+      return '<button class="mt-onboard-option mt-onboard-seed'+(sel?' selected':'')+'" data-ob-value="'+esc(d.t)+'" type="button"><small>SEED '+String(i+1).padStart(2,'0')+'</small><b>'+esc(nm.main)+'</b><span>'+esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))+'</span></button>';
     }).join('')+'</div>';
   }else if(st.k==='summary'){
     options=onboardSummaryHtml();
   }else{
-    options='<div class="mt-onboard-options">'+(ONBOARD_OPTIONS[st.k]||[]).map(row=>{
+    options=onboardSelectionNote(st)+'<div class="mt-onboard-options">'+(ONBOARD_OPTIONS[st.k]||[]).map(row=>{
       const v=row[0],b=row[1],s=row[2];
       return '<button class="mt-onboard-option'+(optionSelected(st.k,v)?' selected':'')+'" data-ob-value="'+v+'" type="button"><b>'+b+'</b><span>'+s+'</span></button>';
     }).join('')+'</div>';
   }
-  const heading=onboardStep===0?'h1':'h2';
-  bodyEl.innerHTML='<div class="mt-onboard-kicker">CITYMUSIC · '+String(onboardStep+1).padStart(2,'0')+' · PERSONALIZE</div><'+heading+'>'+st.title+'</'+heading+'><p>'+st.copy+'</p>'+options;
-  next.textContent=st.k==='summary'?'進入主頁':'下一步';
-  next.disabled=false;
+  const heading=st.k==='intro'?'h1':'h2';
+  bodyEl.innerHTML='<div class="mt-onboard-kicker">CITYMUSIC · '+st.stageLabel+'</div><'+heading+'>'+st.title+'</'+heading+'><p>'+st.copy+'</p>'+options;
+  if(st.k==='intro')next.textContent='開始設定';
+  else if(st.k==='summary')next.textContent='看看我的首頁';
+  else if(st.multi)next.textContent=onboardStepReady(st)?'選好了，下一步':'先選一個';
+  else next.textContent='下一步';
+  next.disabled=!onboardStepReady(st);
   bodyEl.scrollTop=0;
 }
-function finishOnboard(skip=false){
-  if(skip)onboard={moments:[],moods:[],energy:'mid',tempo:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]};
-  writeJson(ALG_PROFILE_KEY,onboard);try{localStorage.setItem(ALG_ONBOARD_KEY,'1');localStorage.setItem('musicetown.r10.onboarded','1');localStorage.setItem('musicetown.r10.2.4.onboarded','1')}catch(_){}
-  const welcome=$('welcome');welcome?.classList.add('is-out');welcome?.classList.remove('welcome-active','finalizing','previewing');body.classList.remove('welcome-active');
-  setTimeout(()=>{if(welcome)welcome.style.display='none'},360);
-  renderRecoShelf('daily');requestAnimationFrame(measure);document.dispatchEvent(new CustomEvent('mt:welcome',{detail:{done:true,profile:onboard}}));
+function advanceOnboard(){
+  clearTimeout(onboardAdvanceTimer);
+  const st=onboardCurrent();
+  if(!onboardStepReady(st))return;
+  if(onboardStep<ONBOARD_STEPS.length-1){onboardStep++;renderOnboard()}
+  else finishOnboard(false);
 }
-function installOnboardV2(){
+function finishOnboard(skip=false){
+  if(skip){
+    const saved=readJson(ALG_PROFILE_KEY,null);
+    onboard=saved?algProfile():{moments:[],moods:[],energy:'mid',tempo:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]};
+  }
+  writeJson(ALG_PROFILE_KEY,onboard);
+  try{
+    localStorage.setItem(ALG_ONBOARD_KEY,'1');
+    localStorage.setItem('musicetown.r10.onboarded','1');
+    localStorage.setItem('musicetown.r10.2.4.onboarded','1');
+    localStorage.setItem('musicetown.r10.3.onboarded','1');
+  }catch(_){}
+  const welcome=$('welcome');
+  welcome?.classList.add('is-out');welcome?.classList.remove('welcome-active','finalizing','previewing');body.classList.remove('welcome-active');
+  setTimeout(()=>{if(welcome)welcome.style.display='none'},360);
+  renderRecoShelf('daily');requestAnimationFrame(measure);
+  document.dispatchEvent(new CustomEvent('mt:welcome',{detail:{done:true,profile:onboard}}));
+}
+function installOnboardV3(){
   const welcome=$('welcome');if(!welcome)return;
   let done=false;try{done=localStorage.getItem(ALG_ONBOARD_KEY)==='1'}catch(_){}
   if(done)return;
-  welcome.style.display='grid';welcome.classList.remove('is-out','finalizing','previewing');welcome.classList.add('welcome-active','mt-onboard-v2');body.classList.add('welcome-active');
-  welcome.innerHTML=`<div class="welcome-card"><header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>CITYMUSIC</span></div><div class="mt-onboard-progress"><span class="mt-onboard-counter">1 / ${ONBOARD_STEPS.length}</span><i></i></div></header><main class="mt-onboard-body"></main><footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">先略過</button><button class="mt-onboard-next" type="button">下一步</button></footer></div>`;
-  welcome.addEventListener('click',e=>{const o=e.target.closest('[data-ob-value]');if(!o)return;const k=ONBOARD_STEPS[onboardStep].k;toggleOnboard(k,o.dataset.obValue);renderOnboard()});
-  welcome.querySelector('.mt-onboard-back').addEventListener('click',()=>{if(onboardStep>0){onboardStep--;renderOnboard()}});
+  onboardStep=0;onboard=algProfile();
+  welcome.style.display='grid';welcome.classList.remove('is-out','finalizing','previewing');welcome.classList.add('welcome-active','mt-onboard-v2','mt-onboard-v3');body.classList.add('welcome-active');
+  welcome.innerHTML='<div class="welcome-card">'+
+    '<header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>CITYMUSIC</span></div>'+
+    '<div class="mt-onboard-progress"><div><span class="mt-onboard-stage">WELCOME</span><span class="mt-onboard-counter">30 SEC SETUP</span></div><i></i></div></header>'+
+    '<main class="mt-onboard-body"></main>'+
+    '<footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">直接進入 CITYMUSIC</button><button class="mt-onboard-next" type="button">開始設定</button></footer></div>';
+  welcome.addEventListener('click',e=>{
+    const preview=e.target.closest('[data-preview-theme]');
+    if(preview){const i=Number(preview.dataset.previewTheme);if(Number.isInteger(i)&&MT.DATA[i]){finishOnboard(false);setTimeout(()=>MT.openTheme?.(i),380)}return}
+    const o=e.target.closest('[data-ob-value]');if(!o)return;
+    const st=onboardCurrent();toggleOnboard(st.k,o.dataset.obValue);renderOnboard();
+    if(st.auto){
+      welcome.classList.add('is-advancing');
+      onboardAdvanceTimer=setTimeout(()=>{welcome.classList.remove('is-advancing');advanceOnboard()},230);
+    }
+  });
+  welcome.querySelector('.mt-onboard-back').addEventListener('click',()=>{clearTimeout(onboardAdvanceTimer);if(onboardStep>0){onboardStep--;renderOnboard()}});
   welcome.querySelector('.mt-onboard-skip').addEventListener('click',()=>finishOnboard(true));
-  welcome.querySelector('.mt-onboard-next').addEventListener('click',()=>{if(onboardStep<ONBOARD_STEPS.length-1){onboardStep++;renderOnboard()}else finishOnboard(false)});
+  welcome.querySelector('.mt-onboard-next').addEventListener('click',advanceOnboard);
   renderOnboard();
 }
-installOnboardV2();
+installOnboardV3();
 
 /* R10.2.2 · new tracks always start in full dock.
    Compact glass is a scroll state, never the initial playback state. */
