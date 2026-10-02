@@ -13,11 +13,11 @@ ROOT=Path(__file__).resolve().parent
 START='/* ================= R10.2 CORE BRIDGE START ================= */'
 END='/* ================= R10.2 CORE BRIDGE END ================= */'
 
-# R10.2.2 · AUDIO / HOME FRAME
+# R10.2.3 · AUDIO / HOME FRAME
 
 CAMERA=r'''/* camera */
 let VP=null, invVP=null, eye=[0,0,0];
-/* R10.2.2: keep the 3D drawer inside the visible band between top chrome
+/* R10.2.3: keep the 3D drawer inside the visible band between top chrome
    and the recommendation/dock stack while the WebGL canvas still covers
    the whole viewport. */
 function sceneSafeBand(){
@@ -130,12 +130,12 @@ function mtLastTrack(){
   }catch(_){return null}
 }
 
-/* R10.2.2 audio reliability.
+/* R10.2.3 audio reliability.
    - never render the legacy source-page / iframe fallback
    - resolve project-page MP3s from the repository root
    - retry same-origin MP3s with cache busting
    - bad-audio state is short-lived per tab, never permanent */
-const MT_BAD_AUDIO_KEY='musicetown.r10.2.2.badAudio';
+const MT_BAD_AUDIO_KEY='musicetown.r10.2.3.badAudio';
 const MT_BAD_AUDIO_TTL=120000;
 function mtAudioId(t){return String(t?.shareId||t?.audioSrc||'').trim()}
 function mtReadBadAudioMap(){
@@ -275,7 +275,7 @@ if(typeof finishWelcome==='function'){
 }
 
 window.MT=Object.freeze({
-  version:'R10.2.2',
+  version:'R10.2.3',
   DATA,HOME_GROUPS,
   get view(){return state?.view==='branch'?'branch':'stage'},
   get modalOpen(){return state?.modal!=null},
@@ -325,7 +325,7 @@ def patch(text:str,name:str)->str:
     text=CURRENT.sub('',text)
     text=OLD_BRIDGE.sub('',text)
 
-    # Strip the legacy source-page/iframe fallback completely. R10.2.2 handles
+    # Strip the legacy source-page/iframe fallback completely. R10.2.3 handles
     # recovery inside the bridge and never exposes ONLINE SOURCE to users.
     fb_start=text.find('function mountOnlinePlaybackFallback(t){')
     fb_end=text.find('\nlet mtWarmAudio=',fb_start)
