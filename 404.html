@@ -12005,6 +12005,8 @@ hydrateCitymusicTrackPools(DATA);
 
 
 
+
+
 function themeTrackTarget(d){return Math.max(1,Number(d?.targetTracks||50)||50)}
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const MT_COARSE=matchMedia('(pointer:coarse)').matches;
@@ -12434,6 +12436,14 @@ function uploadCardTextures(){
 }
 
 /* render targets */
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
 /* CITYMUSIC HQ render tier */
 const MT_RENDER_DM=Number(navigator.deviceMemory||0);
 const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
@@ -15854,13 +15864,13 @@ function wireVinylTransport(audio,t){
   vinyl.style.setProperty('--vinyl',c.hex);
   vinyl.dataset.dark=c.dark?'true':'false';
   vinyl.dataset.material=c.material||'solid';
-  vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。按住唱片即可平滑快轉或倒轉。`);
+  vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。輕拖唱片任意方向即可快轉或倒轉。`);
 
   let dragPointerId=null;
   let pendingTime=null;
   let scratchRAF=0;
   let vinylLastPointerX=null;
-  const SCRUB_SECONDS_PER_TURN=96;
+  const SCRUB_SECONDS_PER_TURN=150; /* CITYMUSIC VINYL SCRUB EASY V2 */
 
   const freezeAtAudioTime=()=>{
     stopVinylRAF();
@@ -15916,8 +15926,8 @@ function wireVinylTransport(audio,t){
     const dx=vinylLastPointerX==null?0:e.clientX-vinylLastPointerX;
     vinylLastPointerX=e.clientX;
     const angularSeconds=(delta/360)*SCRUB_SECONDS_PER_TURN;
-    const linearSeconds=dx*.62;
-    const blend=Math.max(0,Math.min(.34,(radius-rect.width*.14)/(rect.width*.58)));
+    const linearSeconds=dx*(matchMedia('(pointer:coarse)').matches?1.05:.88);
+    const blend=Math.max(.12,Math.min(.72,(radius-rect.width*.10)/(rect.width*.46)));
     const stepSeconds=linearSeconds*(1-blend)+angularSeconds*blend;
     const base=pendingTime==null?(Number(audio.currentTime)||0):pendingTime;
     pendingTime=base+stepSeconds;
@@ -16849,6 +16859,12 @@ setTimeout(()=>{
   $('bootHint').classList.remove('show');
   if(!state.ready) $('stageFallback').classList.add('show');
 },1800);
+
+
+
+
+
+
 
 
 
@@ -18201,9 +18217,10 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
   };
   bindVinylLocks();
   new MutationObserver(()=>requestAnimationFrame(bindVinylLocks)).observe(document.body,{childList:true,subtree:true});
+  /* CITYMUSIC VINYL SCRUB EASY V2 · lower gesture threshold, more immediate thumb response. */
   /* CITYMUSIC CD SCRUB SFX · native Web Audio, synced to direction + drag speed.
      No remote dependency: the sound is synthesized locally so first drag stays responsive on iPhone. */
-  const CD_SCRUB_MIN_MOVE=.012;
+  const CD_SCRUB_MIN_MOVE=.007;
   let scrubCtx=null,scrubNoise=null,lastScrubBurst=0;
   const ensureScrubAudio=()=>{
     if(scrubCtx)return scrubCtx;
@@ -18287,7 +18304,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
         if(da>Math.PI)da-=Math.PI*2;
         else if(da<-Math.PI)da+=Math.PI*2;
         const dx=e.clientX-state.x,dt=Math.max(8,now-state.t);
-        const meaningful=Math.abs(da)>=CD_SCRUB_MIN_MOVE||Math.abs(dx)>=2.5;
+        const meaningful=Math.abs(da)>=CD_SCRUB_MIN_MOVE||Math.abs(dx)>=1.5;
         if(!meaningful)return;
         state.moved=true;
         const direction=Math.abs(da)>=CD_SCRUB_MIN_MOVE?Math.sign(da):Math.sign(dx);
