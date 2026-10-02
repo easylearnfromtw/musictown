@@ -465,3 +465,171 @@
   syncNewTrack();
 })();
 
+;(()=>{
+  'use strict';
+  /* R10.2.1 · mobile glass state + iPhone audio rescue */
+  const body=document.body;
+  const root=document.documentElement;
+  const mobile=()=>matchMedia('(max-width:760px)').matches;
+  const $=id=>document.getElementById(id);
+
+  let playerIO=null;
+  let lastWindowY=window.scrollY||0;
+  let lastCardY=0;
+
+  const setCompact=on=>{
+    if(!mobile())on=false;
+    body.classList.toggle('mt-glass-compact',!!on);
+  };
+
+  const syncPlayerObserver=()=>{
+    const sheet=$('playerSheet');
+    const card=sheet?.querySelector('.player-card');
+    const open=!!sheet?.classList.contains('open');
+    body.classList.toggle('mt-player-open',open);
+    if(playerIO){playerIO.disconnect();playerIO=null}
+    body.classList.remove('mt-player-controls-in-view');
+    if(!open||!card){lastCardY=0;return}
+
+    const controls=card.querySelector('.local-player-controls')||
+                   card.querySelector('.deck-seek-wrap')||
+                   card.querySelector('.vinyl-wrap');
+    if(!controls)return;
+
+    playerIO=new IntersectionObserver(entries=>{
+      const e=entries[0];
+      const visible=!!e?.isIntersecting && e.intersectionRatio>.12;
+      body.classList.toggle('mt-player-controls-in-view',visible);
+      if(visible)setCompact(false);
+      else if(card.scrollTop>120)setCompact(true);
+    },{root:card,threshold:[0,.12,.35,.65]});
+    playerIO.observe(controls);
+    lastCardY=card.scrollTop||0;
+  };
+
+  const onCardScroll=e=>{
+    const card=e.currentTarget;
+    const y=card.scrollTop||0,dy=y-lastCardY;
+    if(y<70)setCompact(false);
+    if(Math.abs(dy)>8){
+      if(dy>0&&y>135&&!body.classList.contains('mt-player-controls-in-view'))setCompact(true);
+      else if(dy<0)setCompact(false);
+      lastCardY=y;
+    }
+  };
+
+  const bindPlayerCard=()=>{
+    const card=document.querySelector('#playerSheet .player-card');
+    if(!card||card.dataset.mtGlassScroll==='1')return;
+    card.dataset.mtGlassScroll='1';
+    card.addEventListener('scroll',onCardScroll,{passive:true});
+  };
+
+  const syncAll=()=>{bindPlayerCard();syncPlayerObserver()};
+  const sheet=$('playerSheet');
+  if(sheet)new MutationObserver(()=>requestAnimationFrame(syncAll)).observe(sheet,{attributes:true,attributeFilter:['class']});
+  const bodyHost=$('playerBody');
+  if(bodyHost)new MutationObserver(()=>requestAnimationFrame(syncAll)).observe(bodyHost,{childList:true,subtree:true});
+  window.addEventListener('resize',()=>{if(!mobile())setCompact(false);requestAnimationFrame(syncAll)},{passive:true});
+  document.addEventListener('DOMContentLoaded',syncAll);
+  requestAnimationFrame(syncAll);
+
+  window.addEventListener('scroll',()=>{
+    if(!mobile()||body.classList.contains('mt-player-open'))return;
+    const y=window.scrollY||0,dy=y-lastWindowY;
+    if(y<70)setCompact(false);
+    if(Math.abs(dy)>8){
+      if(dy>0&&y>150&&$('glassTransport')?.classList.contains('show'))setCompact(true);
+      else if(dy<0)setCompact(false);
+      lastWindowY=y;
+    }
+  },{passive:true});
+
+  /* ---------- iPhone / GitHub Pages audio rescue ---------- */
+  const audioCandidates=a=>{
+    const raw=[
+      a?.querySelector('source')?.getAttribute('src'),
+      a?.getAttribute('src'),
+      a?.currentSrc,
+      a?.src
+    ].filter(Boolean);
+    const out=[];
+    const add=u=>{if(u&&!out.includes(u))out.push(u)};
+    for(const src0 of raw){
+      const src=String(src0).trim();
+      try{add(new URL(src,document.baseURI).href)}catch(_){}
+      try{
+        const u=new URL(src,location.href);
+        const m=u.pathname.match(/\/((?:jazz|crooner|rock|sport|lo-fi)\/\d{3}\.mp3)$/i);
+        if(m){
+          const rel=m[1];
+          if(location.hostname.endsWith('.github.io')){
+            const first=location.pathname.split('/').filter(Boolean)[0]||'musictown';
+            add(new URL('/'+first+'/'+rel,location.origin).href);
+          }
+          add(new URL('/'+rel,location.origin).href);
+        }
+      }catch(_){}
+    }
+    return out;
+  };
+
+  const nextAudioSource=(a,{play=true}={})=>{
+    if(!a)return false;
+    const list=audioCandidates(a);
+    if(!list.length)return false;
+    let i=Number(a.dataset.mtAudioCandidate||'-1');
+    i=Number.isFinite(i)?i+1:0;
+    if(i>=list.length)i=0;
+    const src=list[i];
+    if(!src)return false;
+    a.dataset.mtAudioCandidate=String(i);
+    a.setAttribute('playsinline','');
+    try{
+      if(a.src!==src)a.src=src;
+      a.preload='auto';
+      a.load();
+      if(play)a.play().catch(()=>{});
+      return true;
+    }catch(_){return false}
+  };
+
+  const bindAudioRescue=a=>{
+    if(!a||a.dataset.mtAudioRescue==='1')return;
+    a.dataset.mtAudioRescue='1';
+    a.setAttribute('playsinline','');
+    a.addEventListener('loadedmetadata',()=>{a.dataset.mtAudioCandidate='0'},{passive:true});
+    a.addEventListener('error',()=>{
+      const tries=Number(a.dataset.mtAudioErrors||'0')+1;
+      a.dataset.mtAudioErrors=String(tries);
+      if(tries<=3)nextAudioSource(a,{play:true});
+    });
+    a.addEventListener('stalled',()=>{
+      if(a.readyState<1&&Number(a.dataset.mtAudioErrors||'0')<2)nextAudioSource(a,{play:!a.paused});
+    });
+  };
+
+  const scanAudio=()=>{
+    const a=$('nativeAudioPlayer');
+    if(a)bindAudioRescue(a);
+  };
+  if(bodyHost)new MutationObserver(()=>requestAnimationFrame(scanAudio)).observe(bodyHost,{childList:true,subtree:true});
+  document.addEventListener('DOMContentLoaded',scanAudio);
+  requestAnimationFrame(scanAudio);
+
+  /* Capture only the broken/no-metadata case so the core handler remains the
+     source of truth during normal playback. */
+  document.addEventListener('click',e=>{
+    const ctl=e.target.closest?.('#localPlay,#vinylDisc,#glassPlay');
+    if(!ctl)return;
+    const a=$('nativeAudioPlayer');
+    if(!a)return;
+    bindAudioRescue(a);
+    if(a.readyState<1 || a.error || a.networkState===HTMLMediaElement.NETWORK_NO_SOURCE){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      nextAudioSource(a,{play:true});
+    }
+  },true);
+})();
+
