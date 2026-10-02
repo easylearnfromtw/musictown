@@ -77,6 +77,23 @@ jobs:
       - name: Restore catalog to local verified MP3 paths
         run: python restore_verified_local_audio.py
 
+      - name: Verify deployed audio integrity
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          roots=[Path(x) for x in ("jazz","crooner","rock","sport","lo-fi")]
+          files=[p for r in roots for p in r.glob("*.mp3")]
+          bad=[p for p in files if p.stat().st_size < 20000]
+          target=Path("rock/008.mp3")
+          if not target.is_file() or target.stat().st_size < 20000:
+              raise SystemExit("Bravery Vampire audio missing or invalid: rock/008.mp3")
+          if len(files) != 250:
+              raise SystemExit(f"Expected 250 verified base MP3s, found {len(files)}")
+          if bad:
+              raise SystemExit("Invalid/suspicious MP3 files: "+", ".join(map(str,bad[:12])))
+          print(f"Audio integrity OK: {len(files)} MP3s; rock/008.mp3={target.stat().st_size} bytes")
+          PY
+
       - name: Build 31 audited core and city themes deterministically
         run: python build_audited_release_packs.py
 
