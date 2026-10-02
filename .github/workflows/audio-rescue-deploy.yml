@@ -5,7 +5,6 @@ name: R9.3 · Audio Rescue + UX Deploy
     branches: ["main"]
   workflow_run:
     workflows:
-      - "R9.3 · Build Real Audio Lyrics"
       - "pages build and deployment"
     types: [completed]
   workflow_dispatch:
