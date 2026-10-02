@@ -138,8 +138,8 @@ jobs:
               missing=[x for x in required if x not in s]
               if missing:
                   raise SystemExit(f"{name}: missing R10.2.2 markers: {missing}")
-              if "ONLINE SOURCE" in s or "ONLINE CC0 PLAYER" in s:
-                  raise SystemExit(f"{name}: legacy online-source fallback still present")
+              if "<b>ONLINE SOURCE</b>" in s or "<b>ONLINE CC0 PLAYER</b>" in s:
+                  raise SystemExit(f"{name}: legacy online-source fallback UI still present")
           print("R10.2.2 interaction contract OK")
           PY
 

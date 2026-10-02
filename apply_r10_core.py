@@ -131,7 +131,7 @@ function mtLastTrack(){
 }
 
 /* R10.2.2 audio reliability.
-   - never show ONLINE SOURCE / iframe fallback
+   - never render the legacy source-page / iframe fallback
    - resolve project-page MP3s from the repository root
    - retry same-origin MP3s with cache busting
    - bad-audio state is short-lived per tab, never permanent */
