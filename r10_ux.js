@@ -1109,15 +1109,7 @@ const MT=window.MT;if(!MT)return;
 const $=id=>document.getElementById(id);
 const body=document.body,root=document.documentElement;
 const mobile=()=>matchMedia('(max-width:760px)').matches;
-function prepareBrokenAudio(){
-  const a=MT.audio||$('nativeAudioPlayer'),t=MT.track;if(!a||!t)return;
-  const noSource=!a.currentSrc||a.networkState===HTMLMediaElement.NETWORK_NO_SOURCE;
-  if(noSource||a.error)MT.recoverAudio?.(t,a);
-}
-document.addEventListener('pointerdown',e=>{
-  if(!e.target.closest('#localPlay,[data-mini="play"],#mtMiniOpen,.deck-seek,#vinylDisc'))return;
-  prepareBrokenAudio();
-},{capture:true,passive:true});
+/* Playback recovery is exclusively owned by the R10.2.4 core state machine. */
 let playerBound=false;
 function playerScrollY(){
   const sheet=$('playerSheet'),card=sheet?.querySelector('.player-card');
