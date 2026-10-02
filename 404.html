@@ -11051,6 +11051,113 @@ body.mt-lyrics-full{overflow:hidden!important;overscroll-behavior:none!important
 }
 /* ================= /CITYMUSIC ONBOARDING V3 ================= */
 
+
+/* ================= CITYMUSIC ONBOARDING V4 ================= */
+#welcome.mt-onboard-v4 .mt-onboard-body.mt-step-enter{
+  animation:mtOnboardStepIn .34s cubic-bezier(.2,.72,.2,1) both;
+}
+@keyframes mtOnboardStepIn{
+  from{opacity:.25;transform:translateY(8px)}
+  to{opacity:1;transform:none}
+}
+#welcome.mt-onboard-v4 .welcome-card{
+  overflow:hidden!important;
+}
+#welcome.mt-onboard-v4 .welcome-card::before{
+  content:'';position:absolute;inset:-22% -12% auto auto;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(214,229,255,.62),rgba(214,229,255,0) 70%);pointer-events:none;
+}
+#welcome.mt-onboard-v4 .mt-onboard-orbit-wrap{
+  position:relative;display:grid;place-items:center;min-height:128px;margin-bottom:6px;
+}
+#welcome.mt-onboard-v4 .mt-onboard-cityline{
+  position:absolute;left:50%;bottom:6px;transform:translateX(-50%);width:210px;height:44px;
+  display:flex;align-items:end;justify-content:center;gap:5px;opacity:.18;
+}
+#welcome.mt-onboard-v4 .mt-onboard-cityline i{
+  width:18px;border-radius:4px 4px 0 0;background:var(--mt-ink);
+}
+#welcome.mt-onboard-v4 .mt-onboard-cityline i:nth-child(1){height:18px}
+#welcome.mt-onboard-v4 .mt-onboard-cityline i:nth-child(2){height:34px}
+#welcome.mt-onboard-v4 .mt-onboard-cityline i:nth-child(3){height:25px}
+#welcome.mt-onboard-v4 .mt-onboard-cityline i:nth-child(4){height:42px}
+#welcome.mt-onboard-v4 .mt-onboard-cityline i:nth-child(5){height:29px}
+#welcome.mt-onboard-v4 .mt-onboard-cityline i:nth-child(6){height:16px}
+#welcome.mt-onboard-v4 .mt-onboard-tagline{
+  text-align:center;max-width:520px;margin:0 auto 18px;
+}
+#welcome.mt-onboard-v4 .mt-onboard-tagline small{
+  display:block;font:850 8px/1 var(--mt-ui);letter-spacing:.18em;color:var(--mt-accent-ink);
+}
+#welcome.mt-onboard-v4 .mt-onboard-tagline b{
+  display:block;margin-top:9px;font:820 clamp(19px,3.4vw,28px)/1.16 var(--mt-ui);letter-spacing:-.03em;color:var(--mt-ink);
+}
+#welcome.mt-onboard-v4 .mt-onboard-option{
+  padding-top:12px!important;
+}
+#welcome.mt-onboard-v4 .mt-onboard-option-badge{
+  display:inline-flex;align-items:center;justify-content:center;min-width:42px;height:20px;margin:0 0 8px;
+  padding:0 7px;border-radius:999px;background:rgba(49,54,84,.06);color:var(--mt-ink-3);
+  font:850 7.5px/1 var(--mt-ui);font-style:normal;letter-spacing:.12em;
+}
+#welcome.mt-onboard-v4 .mt-onboard-option.selected .mt-onboard-option-badge{
+  background:var(--mt-ink);color:#fff;
+}
+#welcome.mt-onboard-v4 .mt-onboard-persona{
+  position:relative;overflow:hidden;margin:0 0 12px;padding:18px 18px 17px;border-radius:20px;
+  background:
+    radial-gradient(circle at 88% 18%,rgba(225,236,255,.92),transparent 34%),
+    radial-gradient(circle at 12% 100%,rgba(255,226,237,.72),transparent 36%),
+    linear-gradient(145deg,#fff,#f8f9fd);
+  border:1px solid rgba(255,255,255,.92);
+  box-shadow:0 18px 42px -34px rgba(34,40,72,.58);
+}
+#welcome.mt-onboard-v4 .mt-onboard-persona::after{
+  content:'';position:absolute;right:-26px;bottom:-34px;width:110px;height:110px;border:1px solid rgba(47,52,78,.08);border-radius:50%;
+  box-shadow:0 0 0 18px rgba(47,52,78,.025),0 0 0 36px rgba(47,52,78,.018);
+}
+#welcome.mt-onboard-v4 .mt-onboard-persona small{
+  display:block;font:850 8px/1 var(--mt-ui);letter-spacing:.15em;color:var(--mt-accent-ink);
+}
+#welcome.mt-onboard-v4 .mt-onboard-persona b{
+  display:block;margin-top:9px;font:850 clamp(23px,4.5vw,34px)/1.05 var(--mt-ui);letter-spacing:-.04em;color:var(--mt-ink);
+}
+#welcome.mt-onboard-v4 .mt-onboard-persona span{
+  display:block;max-width:420px;margin-top:8px;font:550 10.5px/1.5 var(--mt-ui);color:var(--mt-ink-3);
+}
+#welcome.mt-onboard-v4 .mt-onboard-next{
+  box-shadow:0 10px 26px -18px rgba(29,33,58,.72);
+}
+#welcome.mt-onboard-v4 .mt-onboard-next:not(:disabled):active{
+  transform:scale(.985);
+}
+#welcome.mt-onboard-v4 .mt-onboard-progress i::after{
+  box-shadow:0 0 10px color-mix(in srgb,var(--mt-accent) 35%,transparent);
+}
+@media(max-width:760px){
+  #welcome.mt-onboard-v4 .mt-onboard-body{
+    padding-top:17px!important;
+  }
+  #welcome.mt-onboard-v4 .mt-onboard-orbit-wrap{min-height:102px;margin-top:-2px}
+  #welcome.mt-onboard-v4 .mt-onboard-cityline{width:170px;height:35px}
+  #welcome.mt-onboard-v4 .mt-onboard-tagline{margin-bottom:13px}
+  #welcome.mt-onboard-v4 .mt-onboard-tagline b{font-size:20px}
+  #welcome.mt-onboard-v4 .mt-onboard-promise section{
+    display:grid;grid-template-columns:26px auto 1fr;align-items:center;gap:6px;
+  }
+  #welcome.mt-onboard-v4 .mt-onboard-promise section small,
+  #welcome.mt-onboard-v4 .mt-onboard-promise section b,
+  #welcome.mt-onboard-v4 .mt-onboard-promise section span{margin:0!important}
+  #welcome.mt-onboard-v4 .mt-onboard-option-badge{margin-bottom:6px}
+  #welcome.mt-onboard-v4 .mt-onboard-persona{padding:15px;border-radius:17px}
+  #welcome.mt-onboard-v4 .mt-onboard-persona b{font-size:25px}
+}
+@media(max-width:390px){
+  #welcome.mt-onboard-v4 .mt-onboard-tagline b{font-size:18px}
+  #welcome.mt-onboard-v4 .mt-onboard-trust span{padding:6px 8px}
+}
+/* ================= /CITYMUSIC ONBOARDING V4 ================= */
+
 </style>
 <!-- CITYMUSIC BRAND META START -->
 <meta name="application-name" content="CITYMUSIC">
@@ -16215,6 +16322,12 @@ setTimeout(()=>{
 
 
 
+
+
+
+
+
+
 /* ================= R10.2 CORE BRIDGE START ================= */
 /* R10.2 exposes only the navigation/player surface the external shell needs. */
 function mtEmit(name,detail){
@@ -18587,7 +18700,7 @@ if('ResizeObserver' in window){
    ===================================================================== */
 const ALG_PROFILE_KEY='musicetown.r10.2.profile';
 const ALG_STATE_KEY='musicetown.r10.2.signals';
-const ALG_ONBOARD_KEY='musicetown.r10.3.onboarded';
+const ALG_ONBOARD_KEY='musicetown.r10.4.onboarded';
 function readJson(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(_){return fallback}}
 function writeJson(key,v){try{localStorage.setItem(key,JSON.stringify(v))}catch(_){}}
 function algProfile(){return Object.assign({moments:[],moods:[],energy:'mid',tempo:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]},readJson(ALG_PROFILE_KEY,{}))}
@@ -18787,7 +18900,7 @@ lyricsPreview.querySelector('.mt-lyrics-preview-close').addEventListener('click'
 lyricsPreview.addEventListener('click',e=>{if(e.target===lyricsPreview)closeLyricsPreview()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&lyricsPreview.classList.contains('open'))closeLyricsPreview()});
 
-/* ----- CITYMUSIC ONBOARDING V3 · three-stage, fast personalization ----- */
+/* ----- CITYMUSIC ONBOARDING V4 · three-stage, fast personalization ----- */
 const ONBOARD_STEPS=[
   {k:'intro',stage:'start',stageLabel:'WELCOME',title:'讓 CITYMUSIC 先認識你的耳朵',copy:'用幾個很短的選擇建立第一版推薦。大約 30 秒，之後會再用你真正的播放、收藏、聽完與略過持續修正。'},
   {k:'moments',stage:'profile',stageLabel:'LISTENING LIFE',multi:true,max:3,required:true,title:'你最常在哪些時刻打開音樂？',copy:'選 1–3 個。這會先決定每日推薦的使用情境。'},
@@ -18802,14 +18915,14 @@ const ONBOARD_STEPS=[
   {k:'summary',stage:'ready',stageLabel:'READY',title:'你的第一版聲音輪廓完成',copy:'這不是定案。CITYMUSIC 會從你真正的使用行為繼續學，下面先給你今天最可能想點開的方向。'}
 ];
 const ONBOARD_OPTIONS={
-  moments:[['focus','專注 / 工作','穩定、不搶注意力'],['night','夜晚','城市夜色、較深氛圍'],['drive','通勤 / 開車','有流動感與節奏'],['workout','運動','更高能量與推進感'],['chill','放空','柔軟、慢一些'],['social','聚會','容易進入狀態']],
-  moods:[['warm','溫暖','Soul、Acoustic、柔和爵士'],['dreamy','夢幻','Ambient、Lo-fi、夜色感'],['bright','明亮','Pop、城市、夏日感'],['dark','深色','Night、Punk、Cinematic'],['intense','強烈','Rock、Sport、Metal'],['nostalgic','懷舊','Vintage、Retro、老城市']],
-  energy:[['low','低能量','留白多、刺激少'],['mid','中等','耐聽、節奏適中'],['high','高能量','直接、有衝擊']],
-  tempo:[['slow','偏慢','放空、專注、深夜'],['mid','中速','耐聽、適合久播'],['fast','偏快','推進感與節奏更明顯']],
-  vocal:[['instrumental','偏器樂','人聲不是重點'],['soft','柔和人聲','輕、近、低刺激'],['clear','清楚人聲','旋律與歌唱感明顯'],['strong','強人聲','搖滾、龐克、張力高'],['mixed','都可以','讓使用行為慢慢決定']],
-  textures:[['jazz','Jazz / Blues','爵士、藍調、groove'],['rock','Rock / Guitar','吉他、龐克、搖滾'],['lofi','Lo-fi / Ambient','低彩度、環境感'],['city','City Sound','城市、indie、都會'],['cinematic','Cinematic','場景感與旅行感'],['campus','Campus','校園與年輕感']],
-  worlds:[['taiwan','台灣','城市、景點、校園'],['asia','亞洲','東京、上海、首爾等'],['world','世界城市','歐美與世界地景'],['campus','大學','各地校園限定'],['landmark','景點','地標與旅行主題']],
-  discovery:[['familiar','熟悉優先','更多你已經喜歡的聲音'],['balanced','平衡探索','熟悉與新鮮大約各半'],['explore','多給我驚喜','提高新城市與跨風格比例']]
+  moments:[['focus','專注 / 工作','穩定、不搶注意力','FOCUS'],['night','夜晚','城市夜色、較深氛圍','NIGHT'],['drive','通勤 / 開車','有流動感與節奏','MOVE'],['workout','運動','更高能量與推進感','PULSE'],['chill','放空','柔軟、慢一些','CHILL'],['social','聚會','容易進入狀態','SOCIAL']],
+  moods:[['warm','溫暖','Soul、Acoustic、柔和爵士','WARM'],['dreamy','夢幻','Ambient、Lo-fi、夜色感','DREAM'],['bright','明亮','Pop、城市、夏日感','LIGHT'],['dark','深色','Night、Punk、Cinematic','DARK'],['intense','強烈','Rock、Sport、Metal','HEAT'],['nostalgic','懷舊','Vintage、Retro、老城市','RETRO']],
+  energy:[['low','低能量','留白多、刺激少','01'],['mid','中等','耐聽、節奏適中','02'],['high','高能量','直接、有衝擊','03']],
+  tempo:[['slow','偏慢','放空、專注、深夜','SLOW'],['mid','中速','耐聽、適合久播','MID'],['fast','偏快','推進感與節奏更明顯','FAST']],
+  vocal:[['instrumental','偏器樂','人聲不是重點','INST'],['soft','柔和人聲','輕、近、低刺激','SOFT'],['clear','清楚人聲','旋律與歌唱感明顯','VOICE'],['strong','強人聲','搖滾、龐克、張力高','POWER'],['mixed','都可以','讓使用行為慢慢決定','MIX']],
+  textures:[['jazz','Jazz / Blues','爵士、藍調、groove','JAZZ'],['rock','Rock / Guitar','吉他、龐克、搖滾','ROCK'],['lofi','Lo-fi / Ambient','低彩度、環境感','LO-FI'],['city','City Sound','城市、indie、都會','CITY'],['cinematic','Cinematic','場景感與旅行感','CINE'],['campus','Campus','校園與年輕感','YOUTH']],
+  worlds:[['taiwan','台灣','城市、景點、校園','TW'],['asia','亞洲','東京、上海、首爾等','ASIA'],['world','世界城市','歐美與世界地景','WORLD'],['campus','大學','各地校園限定','CAMPUS'],['landmark','景點','地標與旅行主題','PLACE']],
+  discovery:[['familiar','熟悉優先','更多你已經喜歡的聲音','HOME'],['balanced','平衡探索','熟悉與新鮮大約各半','50/50'],['explore','多給我驚喜','提高新城市與跨風格比例','NEW']]
 };
 const ONBOARD_PROFILE_KEYS=['moments','moods','energy','tempo','vocal','textures','worlds','discovery'];
 let onboardStep=0,onboard=algProfile(),onboardAdvanceTimer=0;
@@ -18863,12 +18976,22 @@ function onboardSelectionNote(st){
 }
 function onboardIntroHtml(){
   return '<div class="mt-onboard-hero">'+
-    '<div class="mt-onboard-orbit" aria-hidden="true"><span></span><i></i><b></b></div>'+
-    '<div class="mt-onboard-promise"><section><small>01</small><b>先建立輪廓</b><span>情境、心情、聲音與探索程度</span></section>'+
-    '<section><small>02</small><b>再從行為學習</b><span>播放、聽完、收藏與快速略過</span></section>'+
-    '<section><small>03</small><b>每天重新排序</b><span>每日推薦、每週推薦與 CT 推薦</span></section></div>'+
-    '<div class="mt-onboard-trust"><span>約 30 秒</span><span>可隨時再調整</span><span>不會鎖死曲風</span></div>'+
+    '<div class="mt-onboard-orbit-wrap"><div class="mt-onboard-orbit" aria-hidden="true"><span></span><i></i><b></b></div><div class="mt-onboard-cityline" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>'+
+    '<div class="mt-onboard-tagline"><small>YOUR CITY · YOUR SOUND</small><b>不是先選曲風。<br>先讓音樂知道你怎麼生活。</b></div>'+
+    '<div class="mt-onboard-promise"><section><small>01</small><b>建立輪廓</b><span>情境、心情與聲音偏好</span></section>'+
+    '<section><small>02</small><b>持續學習</b><span>播放、收藏、聽完與略過</span></section>'+
+    '<section><small>03</small><b>每天更新</b><span>每日、每週與 CT 推薦重新排序</span></section></div>'+
+    '<div class="mt-onboard-trust"><span>約 30 秒</span><span>不用登入</span><span>越聽越準</span></div>'+
   '</div>';
+}
+function onboardPersona(){
+  const mood=(onboard.moods||[])[0]||'balanced';
+  const texture=(onboard.textures||[])[0]||'city';
+  const energy=onboard.energy||'mid';
+  const moodMap={warm:'暖色',dreamy:'夢遊',bright:'日光',dark:'午夜',intense:'高壓',nostalgic:'復古'};
+  const textureMap={jazz:'爵士',rock:'吉他',lofi:'低彩',city:'都會',cinematic:'電影',campus:'青春'};
+  const energyMap={low:'慢行',mid:'流動',high:'疾行'};
+  return (moodMap[mood]||'城市')+'・'+(textureMap[texture]||'聲景')+'・'+(energyMap[energy]||'流動');
 }
 function onboardSummaryHtml(){
   const compact=[
@@ -18885,6 +19008,7 @@ function onboardSummaryHtml(){
       '<span>'+esc(nm.sub||groupKeyOfTheme(d?.t||'').replaceAll('_',' '))+'</span></button>';
   }).join('');
   return '<div class="mt-onboard-ready">'+
+    '<div class="mt-onboard-persona"><small>YOUR CITY PROFILE</small><b>'+esc(onboardPersona())+'</b><span>這只是第一版，之後會跟著你真正的聆聽行為變動。</span></div>'+
     '<div class="mt-onboard-profile-strip">'+compact.map(r=>'<span><small>'+esc(r[0])+'</small><b>'+r[1].filter(Boolean).map(esc).join(' · ')+'</b></span>').join('')+'</div>'+
     '<div class="mt-onboard-preview-head"><div><small>YOUR FIRST DAILY MIX</small><b>先從這三個方向開始</b></div><span>會持續變動</span></div>'+
     '<div class="mt-onboard-preview-grid">'+recoHtml+'</div>'+
@@ -18905,24 +19029,29 @@ function renderOnboard(){
   }else if(st.k==='seeds'){
     options=onboardSelectionNote(st)+'<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{
       const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),sel=optionSelected('seeds',d.t);
-      return '<button class="mt-onboard-option mt-onboard-seed'+(sel?' selected':'')+'" data-ob-value="'+esc(d.t)+'" type="button"><small>SEED '+String(i+1).padStart(2,'0')+'</small><b>'+esc(nm.main)+'</b><span>'+esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))+'</span></button>';
+      return '<button class="mt-onboard-option mt-onboard-seed'+(sel?' selected':'')+'" data-ob-value="'+esc(d.t)+'" type="button" aria-pressed="'+(sel?'true':'false')+'"><i class="mt-onboard-option-badge">SEED '+String(i+1).padStart(2,'0')+'</i><b>'+esc(nm.main)+'</b><span>'+esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))+'</span></button>';
     }).join('')+'</div>';
   }else if(st.k==='summary'){
     options=onboardSummaryHtml();
   }else{
     options=onboardSelectionNote(st)+'<div class="mt-onboard-options">'+(ONBOARD_OPTIONS[st.k]||[]).map(row=>{
       const v=row[0],b=row[1],s=row[2];
-      return '<button class="mt-onboard-option'+(optionSelected(st.k,v)?' selected':'')+'" data-ob-value="'+v+'" type="button"><b>'+b+'</b><span>'+s+'</span></button>';
+      const badge=row[3]||String(b).slice(0,4).toUpperCase();
+      return '<button class="mt-onboard-option'+(optionSelected(st.k,v)?' selected':'')+'" data-ob-value="'+v+'" type="button" aria-pressed="'+(optionSelected(st.k,v)?'true':'false')+'"><i class="mt-onboard-option-badge">'+esc(badge)+'</i><b>'+b+'</b><span>'+s+'</span></button>';
     }).join('')+'</div>';
   }
   const heading=st.k==='intro'?'h1':'h2';
   bodyEl.innerHTML='<div class="mt-onboard-kicker">CITYMUSIC · '+st.stageLabel+'</div><'+heading+'>'+st.title+'</'+heading+'><p>'+st.copy+'</p>'+options;
-  if(st.k==='intro')next.textContent='開始設定';
-  else if(st.k==='summary')next.textContent='看看我的首頁';
-  else if(st.multi)next.textContent=onboardStepReady(st)?'選好了，下一步':'先選一個';
-  else next.textContent='下一步';
+  if(st.k==='intro')next.textContent='開始建立我的聲音';
+  else if(st.k==='summary')next.textContent='進入我的 CITYMUSIC';
+  else if(st.multi){
+    const n=onboardSelectionCount(st.k);
+    next.textContent=onboardStepReady(st)?('繼續'+(n?' · '+n+' 已選':'')):'先選一個';
+  }else next.textContent='下一步';
   next.disabled=!onboardStepReady(st);
   bodyEl.scrollTop=0;
+  bodyEl.classList.remove('mt-step-enter');
+  requestAnimationFrame(()=>bodyEl.classList.add('mt-step-enter'));
 }
 function advanceOnboard(){
   clearTimeout(onboardAdvanceTimer);
@@ -18942,6 +19071,7 @@ function finishOnboard(skip=false){
     localStorage.setItem('musicetown.r10.onboarded','1');
     localStorage.setItem('musicetown.r10.2.4.onboarded','1');
     localStorage.setItem('musicetown.r10.3.onboarded','1');
+    localStorage.setItem('musicetown.r10.4.onboarded','1');
   }catch(_){}
   const welcome=$('welcome');
   welcome?.classList.add('is-out');welcome?.classList.remove('welcome-active','finalizing','previewing');body.classList.remove('welcome-active');
@@ -18949,12 +19079,12 @@ function finishOnboard(skip=false){
   renderRecoShelf('daily');requestAnimationFrame(measure);
   document.dispatchEvent(new CustomEvent('mt:welcome',{detail:{done:true,profile:onboard}}));
 }
-function installOnboardV3(){
+function installOnboardV4(){
   const welcome=$('welcome');if(!welcome)return;
   let done=false;try{done=localStorage.getItem(ALG_ONBOARD_KEY)==='1'}catch(_){}
   if(done)return;
   onboardStep=0;onboard=algProfile();
-  welcome.style.display='grid';welcome.classList.remove('is-out','finalizing','previewing');welcome.classList.add('welcome-active','mt-onboard-v2','mt-onboard-v3');body.classList.add('welcome-active');
+  welcome.style.display='grid';welcome.classList.remove('is-out','finalizing','previewing');welcome.classList.add('welcome-active','mt-onboard-v2','mt-onboard-v3','mt-onboard-v4');body.classList.add('welcome-active');
   welcome.innerHTML='<div class="welcome-card">'+
     '<header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>CITYMUSIC</span></div>'+
     '<div class="mt-onboard-progress"><div><span class="mt-onboard-stage">WELCOME</span><span class="mt-onboard-counter">30 SEC SETUP</span></div><i></i></div></header>'+
@@ -18975,7 +19105,7 @@ function installOnboardV3(){
   welcome.querySelector('.mt-onboard-next').addEventListener('click',advanceOnboard);
   renderOnboard();
 }
-installOnboardV3();
+installOnboardV4();
 
 /* R10.2.2 · new tracks always start in full dock.
    Compact glass is a scroll state, never the initial playback state. */
