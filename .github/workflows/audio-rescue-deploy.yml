@@ -3,6 +3,10 @@ name: R9.3 · Audio Rescue + UX Deploy
 "on":
   push:
     branches: ["main"]
+  workflow_run:
+    workflows:
+      - "R9.3 · Build Real Audio Lyrics"
+    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -16,6 +20,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     environment:
