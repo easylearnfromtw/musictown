@@ -8853,6 +8853,118 @@ html,body{
   .bud-left{left:14px!important}.bud-right{right:14px!important}
 }
 
+/* =========================================================
+   musicetown R9.3.16 · MOBILE COMPACT PLAYER STATE
+   Full player at top; compact glass appears only after scroll.
+   ========================================================= */
+@media(max-width:700px){
+  #glassTransport.glass-transport{
+    position:fixed!important;
+    left:50%!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+    inset-inline:auto!important;
+    inset-block-start:auto!important;
+    width:min(236px,calc(100vw - 24px))!important;
+    min-width:0!important;
+    max-width:calc(100vw - 24px)!important;
+    height:56px!important;
+    padding:7px 9px!important;
+    margin:0!important;
+    display:grid!important;
+    grid-template-columns:36px minmax(0,1fr)!important;
+    grid-template-areas:"track center"!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:6px!important;
+    border-radius:999px!important;
+    transform:translate(-50%,14px)!important;
+    translate:none!important;
+    z-index:1450!important;
+    overflow:hidden!important;
+    box-sizing:border-box!important;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:
+      opacity .22s ease,
+      transform .28s cubic-bezier(.16,1,.3,1),
+      visibility .22s ease!important;
+  }
+  #glassTransport.glass-transport.show{
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    transform:translate(-50%,0)!important;
+  }
+  body.mt-player-top-zone #glassTransport.glass-transport.show{
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+    transform:translate(-50%,12px)!important;
+  }
+
+  #glassTransport .glass-track{
+    grid-area:track!important;
+    width:36px!important;
+    min-width:36px!important;
+    max-width:36px!important;
+    height:36px!important;
+    padding:0!important;
+    margin:0!important;
+    border:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    display:grid!important;
+    place-items:center!important;
+  }
+  #glassTransport .glass-disc{
+    width:34px!important;
+    height:34px!important;
+    min-width:34px!important;
+    margin:0!important;
+  }
+  #glassTransport .glass-copy,
+  #glassTransport .glass-sliders,
+  #glassTransport .glass-output,
+  #glassTransport .glass-dislike,
+  #glassTransport .auto-next-toggle{
+    display:none!important;
+  }
+  #glassTransport .glass-center{
+    grid-area:center!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:4px!important;
+    min-width:0!important;
+  }
+  #glassTransport .glass-btn{
+    width:34px!important;
+    height:34px!important;
+    min-width:34px!important;
+    min-height:34px!important;
+    padding:0!important;
+    margin:0!important;
+  }
+  #glassTransport .glass-btn.glass-play{
+    width:40px!important;
+    height:40px!important;
+    min-width:40px!important;
+    min-height:40px!important;
+  }
+
+  /* The player card itself owns vertical scrolling; no horizontal drift. */
+  #playerSheet .player-card{
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    overscroll-behavior-x:none!important;
+    touch-action:pan-y pinch-zoom!important;
+    scroll-padding-bottom:calc(82px + env(safe-area-inset-bottom,0px))!important;
+  }
+}
+
 
 </style>\n<style id="r9312-final-touch">
 /* R9.3.12 · final touch interaction polish */
@@ -15250,6 +15362,70 @@ setTimeout(()=>{
   new MutationObserver(()=>requestAnimationFrame(hydrateAudioSrc)).observe(document.body,{childList:true,subtree:true});
   document.addEventListener('DOMContentLoaded',hydrateAudioSrc);
 })();
+
+;(()=>{
+  'use strict';
+  /* R9.3.16 mobile compact-player state
+     Full player owns the top state. The glass dock appears only after the
+     user has meaningfully scrolled down inside the player, with hysteresis
+     so it does not flicker near the threshold. */
+  const byId=id=>document.getElementById(id);
+  const sheet=byId('playerSheet');
+  const card=sheet?.querySelector('.player-card');
+  const body=document.body;
+  if(!sheet||!card||!body)return;
+
+  let compact=false,raf=0;
+  const hasTrack=()=>{
+    try{
+      if(typeof activeTrack!=='undefined'&&activeTrack)return true;
+      return !!window.activeTrack;
+    }catch(_){return !!window.activeTrack}
+  };
+  const sync=()=>{
+    raf=0;
+    const open=sheet.classList.contains('open');
+    const y=Math.max(0,card.scrollTop||0);
+
+    if(!open){
+      compact=hasTrack();
+      body.classList.remove('mt-player-top-zone');
+      body.classList.toggle('mt-player-compact-ready',compact);
+      if(compact)byId('glassTransport')?.classList.add('show');
+      return;
+    }
+
+    // Hysteresis: down past 180px enters mini-player; back near top exits.
+    if(!compact && y>=180)compact=true;
+    else if(compact && y<=72)compact=false;
+
+    // Opening a new player always begins in the full-player state.
+    if(!hasTrack())compact=false;
+
+    body.classList.toggle('mt-player-top-zone',!compact);
+    body.classList.toggle('mt-player-compact-ready',compact);
+    if(compact)byId('glassTransport')?.classList.add('show');
+  };
+  const queue=()=>{
+    if(raf)return;
+    raf=requestAnimationFrame(sync);
+  };
+
+  card.addEventListener('scroll',queue,{passive:true});
+  window.visualViewport?.addEventListener('resize',queue,{passive:true});
+  window.addEventListener('orientationchange',()=>setTimeout(queue,100),{passive:true});
+
+  new MutationObserver(()=>{
+    if(sheet.classList.contains('open') && card.scrollTop<=72)compact=false;
+    queue();
+  }).observe(sheet,{attributes:true,attributeFilter:['class']});
+
+  const playerBody=byId('playerBody');
+  if(playerBody)new MutationObserver(queue).observe(playerBody,{childList:true,subtree:true});
+
+  queue();
+})();
+
 
 </script>\n
 <script id="r9312-final-ux">
