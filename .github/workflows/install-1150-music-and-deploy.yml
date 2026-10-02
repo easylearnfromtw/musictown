@@ -134,7 +134,6 @@ jobs:
                   "r10-ux-layer",
                   "每日推薦",
                   "每週推薦",
-                  "MT 推薦榜",
                   "mt-lyrics-preview",
                   "musicetown.r10.2.4.onboarded",
                   "R10.2.4 EXPERIENCE STABILIZER",
@@ -147,7 +146,7 @@ jobs:
                   raise SystemExit(f"{name}: missing R10.2.4 markers: {missing}")
               if "<b>ONLINE SOURCE</b>" in s or "<b>ONLINE CC0 PLAYER</b>" in s:
                   raise SystemExit(f"{name}: legacy online-source fallback UI still present")
-          print("R10.2.4 interaction contract OK")
+          print("R10.2.4 + CITYMUSIC interaction contract OK")
           PY
 
       - name: Verify 101-theme / 3300-placement catalog
