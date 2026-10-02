@@ -1,0 +1,62 @@
+name: R9.3 · Audio Rescue + UX Deploy
+
+"on":
+  push:
+    branches: ["main"]
+    paths:
+      - "index.html"
+      - "404.html"
+      - ".github/workflows/audio-rescue-deploy.yml"
+      - "prepare_audio_site.py"
+      - "verified_audio_manifest.json"
+      - "fetch_verified_audio.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: musicetown-audio-rescue
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install ffmpeg + deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install -r requirements.txt
+      - name: Restore base audio cache
+        uses: actions/cache@v4
+        with:
+          path: _master_audio
+          key: musicetown-base-64k-${{ hashFiles('verified_audio_manifest.json') }}
+          restore-keys: |
+            musicetown-base-64k-
+            musicetown-r920-base-64k-
+            musicetown-r910-base-64k-
+            musicetown-r890-64k-
+      - name: Build base 5 local audio folders
+        run: python fetch_verified_audio.py --bitrate "64k"
+      - name: Prepare current 101-theme site with audio
+        run: python prepare_audio_site.py
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
