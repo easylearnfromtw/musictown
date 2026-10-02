@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-02T05:58:44Z",
+  "generatedAt": "2026-10-02T06:21:34Z",
   "model": "faster-whisper/base",
   "masters": {
     "c382eefddb7a1be7": {
