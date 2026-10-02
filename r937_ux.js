@@ -354,3 +354,114 @@
   queue();
 })();
 
+;(()=>{
+  'use strict';
+  /* R9.3.17 iOS audio cache recovery + full-player-first state */
+  const byId=id=>document.getElementById(id);
+  const bootKey=Date.now().toString(36);
+
+  /* GitHub Pages can briefly serve a branch-only build while the audio
+     artifact deploy is catching up. Avoid Safari keeping that transient
+     404 for the rest of the session. */
+  if(typeof window.resolveSiteCloudAudio==='function'){
+    const prevResolve=window.resolveSiteCloudAudio;
+    window.resolveSiteCloudAudio=function(track){
+      const resolved=prevResolve(track);
+      try{
+        const u=new URL(resolved,document.baseURI);
+        const local=u.origin===location.origin;
+        if(local && /\.mp3$/i.test(u.pathname)){
+          u.searchParams.set('mtAudio',bootKey);
+          return u.href;
+        }
+      }catch(_){}
+      return resolved;
+    };
+  }
+
+  const sheet=byId('playerSheet');
+  const card=sheet?.querySelector('.player-card');
+  const playerBody=byId('playerBody');
+  let lastNativeAudio=null;
+
+  const enterFullPlayerTop=()=>{
+    if(!sheet?.classList.contains('open'))return;
+    document.body.classList.add('mt-player-top-zone');
+    document.body.classList.remove('mt-player-compact-ready');
+    if(card && card.scrollTop>0){
+      try{card.scrollTo({top:0,left:0,behavior:'instant'})}
+      catch(_){card.scrollTop=0}
+    }
+  };
+
+  /* A newly mounted native player means a new track: always start with the
+     full player, never inherit the previous track's scrolled/compact state. */
+  const syncNewTrack=()=>{
+    const a=byId('nativeAudioPlayer');
+    if(a && a!==lastNativeAudio){
+      lastNativeAudio=a;
+      enterFullPlayerTop();
+
+      /* Direct src + load is more reliable than <source> alone on iOS. */
+      const src=a.getAttribute('src') || a.querySelector('source')?.getAttribute('src');
+      if(src){
+        try{
+          const t=(typeof activeTrack!=='undefined'&&activeTrack)?activeTrack:null;
+          const fresh=t&&typeof window.resolveSiteCloudAudio==='function'
+            ? window.resolveSiteCloudAudio(t)
+            : src;
+          a.src=fresh;
+          a.preload='auto';
+          a.setAttribute('playsinline','');
+          a.load();
+        }catch(_){}
+      }
+    }
+  };
+
+  if(playerBody){
+    new MutationObserver(()=>requestAnimationFrame(syncNewTrack))
+      .observe(playerBody,{childList:true,subtree:true});
+  }
+  new MutationObserver(()=>{
+    if(sheet?.classList.contains('open'))requestAnimationFrame(()=>{
+      syncNewTrack();
+      if((card?.scrollTop||0)<=72)enterFullPlayerTop();
+    });
+  }).observe(sheet||document.body,{attributes:true,attributeFilter:['class']});
+
+  /* If a user taps play while Safari is still holding a failed/empty source,
+     retry once with a unique URL before the normal player handler runs. */
+  document.addEventListener('click',e=>{
+    const control=e.target.closest?.('#localPlay,#glassPlay');
+    if(!control)return;
+
+    let audio=null,track=null;
+    try{
+      audio=(typeof activeAudio!=='undefined'&&activeAudio)||byId('nativeAudioPlayer');
+      track=(typeof activeTrack!=='undefined'&&activeTrack)||null;
+    }catch(_){
+      audio=byId('nativeAudioPlayer');
+    }
+    if(!audio||!track||typeof window.resolveSiteCloudAudio!=='function')return;
+
+    const empty=audio.readyState===0 || audio.networkState===HTMLMediaElement.NETWORK_NO_SOURCE || !!audio.error;
+    if(!empty)return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    try{
+      const u=new URL(window.resolveSiteCloudAudio(track),document.baseURI);
+      u.searchParams.set('mtRetry',Date.now().toString(36));
+      audio.src=u.href;
+      audio.preload='auto';
+      audio.setAttribute('playsinline','');
+      audio.load();
+      audio.play().catch(()=>{});
+    }catch(_){}
+  },true);
+
+  syncNewTrack();
+})();
+
