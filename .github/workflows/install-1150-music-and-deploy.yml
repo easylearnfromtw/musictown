@@ -22,8 +22,6 @@ name: R9.3.14 · 101 themes / 3300 placements · Local Audio Stable Deploy
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: musicetown-r9313-local-audio
@@ -33,9 +31,6 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 360
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - uses: actions/checkout@v4
@@ -48,8 +43,6 @@ jobs:
           git fetch origin main
           git reset --hard origin/main
           echo "Building $(git rev-parse HEAD)"
-
-      - uses: actions/configure-pages@v5
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -125,18 +118,3 @@ jobs:
             git commit -m "Persist stable local-audio 3300 catalog [skip ci]"
             git push origin HEAD:main
           fi
-
-      - name: Prepare Pages artifact with local audio
-        run: python prepare_audio_site.py
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
-          path: _site
-
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
