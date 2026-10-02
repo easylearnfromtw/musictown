@@ -13,11 +13,11 @@ ROOT=Path(__file__).resolve().parent
 START='/* ================= R10.2 CORE BRIDGE START ================= */'
 END='/* ================= R10.2 CORE BRIDGE END ================= */'
 
-# R10.2.3 · AUDIO / HOME FRAME
+# R10.2.4 · AUDIO / HOME FRAME
 
 CAMERA=r'''/* camera */
 let VP=null, invVP=null, eye=[0,0,0];
-/* R10.2.3: keep the 3D drawer inside the visible band between top chrome
+/* R10.2.4: keep the 3D drawer inside the visible band between top chrome
    and the recommendation/dock stack while the WebGL canvas still covers
    the whole viewport. */
 function sceneSafeBand(){
@@ -130,12 +130,12 @@ function mtLastTrack(){
   }catch(_){return null}
 }
 
-/* R10.2.3 audio reliability.
+/* R10.2.4 audio reliability.
    - never render the legacy source-page / iframe fallback
    - resolve project-page MP3s from the repository root
    - retry same-origin MP3s with cache busting
    - bad-audio state is short-lived per tab, never permanent */
-const MT_BAD_AUDIO_KEY='musicetown.r10.2.3.badAudio';
+const MT_BAD_AUDIO_KEY='musicetown.r10.2.4.badAudio';
 const MT_BAD_AUDIO_TTL=120000;
 function mtAudioId(t){return String(t?.shareId||t?.audioSrc||'').trim()}
 function mtReadBadAudioMap(){
@@ -206,7 +206,7 @@ function mtTryAudioRecovery(t,a){
   try{
     const u=new URL(urls[n]);
     a.dataset.mtRetryIndex=String(n+1);
-    if(u.origin===location.origin)u.searchParams.set('mt_audio','r1022-'+Date.now().toString(36));
+    if(u.origin===location.origin)u.searchParams.set('mt_audio','r1024-'+Date.now().toString(36));
     a.src=u.href;a.preload='auto';a.load();
     const p=a.play();if(p?.catch)p.catch(()=>{});
     try{showClickToast('重新連線音訊…')}catch(_){}
@@ -249,6 +249,7 @@ openTrack=function(t,userGesture=true,opts={}){
     const gi=t?DATA.findIndex(d=>d.tracks?.includes(t)):-1;
     if(t&&gi>=0)localStorage.setItem('musicetown.r10.lastTrack',JSON.stringify({id:t.shareId||t.audioSrc,theme:DATA[gi].t,at:Date.now()}));
     const a=activeAudio||$('nativeAudioPlayer');
+    if(a)a.dataset.mtRetryIndex='0';
     mtEmit('track',{track:t,audio:a,index:gi});
     if(a&&t){
       const check=()=>{if(a.readyState===0&&!a.error&&a.networkState!==HTMLMediaElement.NETWORK_NO_SOURCE)mountOnlinePlaybackFallback(t)};
@@ -275,7 +276,7 @@ if(typeof finishWelcome==='function'){
 }
 
 window.MT=Object.freeze({
-  version:'R10.2.3',
+  version:'R10.2.4',
   DATA,HOME_GROUPS,
   get view(){return state?.view==='branch'?'branch':'stage'},
   get modalOpen(){return state?.modal!=null},
@@ -296,7 +297,7 @@ window.MT=Object.freeze({
   openTrack:(t,gesture=true)=>openTrack(t,gesture),
   closePlayer:closeTrack,
   expandPlayer:()=>{if(!activeTrack)return false;if(!$('playerBody')?.children?.length)openTrack(activeTrack,false);$('playerSheet')?.classList.add('open');$('playerSheet')?.setAttribute('aria-hidden','false');return true},
-  togglePlay:()=>{const a=activeAudio||$('nativeAudioPlayer');if(!a)return;if(a.paused)a.play().catch(()=>{});else a.pause()},
+  togglePlay:()=>{const a=activeAudio||$('nativeAudioPlayer');if(!a)return;if(a.paused){if((!a.currentSrc||a.error||a.networkState===HTMLMediaElement.NETWORK_NO_SOURCE)&&activeTrack)mtTryAudioRecovery(activeTrack,a);else a.play().catch(()=>{})}else a.pause()},
   jump:jumpGlobal,
   upNext:(t,count=4)=>{const out=[];let cur=t;for(let k=0;k<count;k++){const nxt=cur?nextTrackFrom(cur,1):null;if(!nxt||nxt===t||out.includes(nxt))break;if(!mtAudioIsBad(nxt))out.push(nxt);cur=nxt}return out},
   themeIndexOfTrack:t=>{for(let gi=0;gi<DATA.length;gi++){if(DATA[gi].tracks?.includes(t))return gi}return -1},
@@ -313,7 +314,8 @@ window.MT=Object.freeze({
   shareTracks:(tracks,title)=>openShareComposer(tracks,title),
   shareTheme:i=>{const d=DATA[i];if(d)openShareComposer(currentDrawerTracks?.length?currentDrawerTracks:d.tracks.slice(0,12),d.t)},
   toast:showClickToast,icon:musicetownIcon,esc,
-  audioIsBad:mtAudioIsBad
+  audioIsBad:mtAudioIsBad,
+  recoverAudio:(t=activeTrack,a=activeAudio||$('nativeAudioPlayer'))=>mtTryAudioRecovery(t,a)
 });
 queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{view:'detail',index:window.__genreIndex??-1,theme:DATA[window.__genreIndex??-1]?.t}:{view:'home'});mtHideBadTrackRows()});
 /* ================= R10.2 CORE BRIDGE END ================= */'''
@@ -325,7 +327,7 @@ def patch(text:str,name:str)->str:
     text=CURRENT.sub('',text)
     text=OLD_BRIDGE.sub('',text)
 
-    # Strip the legacy source-page/iframe fallback completely. R10.2.3 handles
+    # Strip the legacy source-page/iframe fallback completely. R10.2.4 handles
     # recovery inside the bridge and never exposes ONLINE SOURCE to users.
     fb_start=text.find('function mountOnlinePlaybackFallback(t){')
     fb_end=text.find('\nlet mtWarmAudio=',fb_start)

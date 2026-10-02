@@ -118,30 +118,30 @@ jobs:
       - name: Apply R9.3 UX layer + R10.2 Flow / recommendations shell
         run: python apply_r937_ux.py
 
-      - name: Verify R10.2.3 interaction contract
+      - name: Verify R10.2.4 interaction contract
         run: |
           python - <<'PY'
           from pathlib import Path
           for name in ("index.html","404.html"):
               s=Path(name).read_text(encoding="utf-8")
               required=[
-                  "version:'R10.2.3'",
+                  "version:'R10.2.4'",
                   "function sceneSafeBand()",
-                  "musicetown.r10.2.3.badAudio",
+                  "musicetown.r10.2.4.badAudio",
                   "r10-ux-layer",
                   "每日推薦",
                   "每週推薦",
                   "MT 推薦榜",
                   "mt-lyrics-preview",
-                  "musicetown.r10.2.3.onboarded",
-                  "R10.2.3 FINAL MOBILE POLISH",
+                  "musicetown.r10.2.4.onboarded",
+                  "R10.2.4 EXPERIENCE STABILIZER",
               ]
               missing=[x for x in required if x not in s]
               if missing:
-                  raise SystemExit(f"{name}: missing R10.2.3 markers: {missing}")
+                  raise SystemExit(f"{name}: missing R10.2.4 markers: {missing}")
               if "<b>ONLINE SOURCE</b>" in s or "<b>ONLINE CC0 PLAYER</b>" in s:
                   raise SystemExit(f"{name}: legacy online-source fallback UI still present")
-          print("R10.2.3 interaction contract OK")
+          print("R10.2.4 interaction contract OK")
           PY
 
       - name: Verify 101-theme / 3300-placement catalog

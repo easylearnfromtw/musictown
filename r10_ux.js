@@ -778,11 +778,11 @@ if('ResizeObserver' in window){
    ===================================================================== */
 const ALG_PROFILE_KEY='musicetown.r10.2.profile';
 const ALG_STATE_KEY='musicetown.r10.2.signals';
-const ALG_ONBOARD_KEY='musicetown.r10.2.3.onboarded';
+const ALG_ONBOARD_KEY='musicetown.r10.2.4.onboarded';
 function readJson(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(_){return fallback}}
 function writeJson(key,v){try{localStorage.setItem(key,JSON.stringify(v))}catch(_){}}
-function algProfile(){return Object.assign({moments:[],energy:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]},readJson(ALG_PROFILE_KEY,{}))}
-function algSignals(){return readJson(ALG_STATE_KEY,{views:{},plays:{},lastThemes:[]})}
+function algProfile(){return Object.assign({moments:[],moods:[],energy:'mid',tempo:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]},readJson(ALG_PROFILE_KEY,{}))}
+function algSignals(){return readJson(ALG_STATE_KEY,{views:{},plays:{},finishes:{},skips:{},lastThemes:[]})}
 function hash32(str){let h=2166136261>>>0;for(const ch of String(str)){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 function seeded01(str){let x=hash32(str)||1;x^=x<<13;x^=x>>>17;x^=x<<5;return (x>>>0)/4294967295}
 function dateKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
@@ -791,7 +791,9 @@ function groupKeyOfTheme(name){for(const [k,g] of Object.entries(MT.HOME_GROUPS|
 function themeBlob(d){return [d?.t,d?.sub,d?.key,groupKeyOfTheme(d?.t),...(d?.tracks||[]).slice(0,16).flatMap(t=>[t?.vibe,t?.artist,t?.title])].filter(Boolean).join(' ').toLowerCase()}
 const ALG_TERMS={
   moments:{focus:['lo-fi','jazz','study','university','quiet','ambient'],night:['night','tokyo','taipei','vapor','jazz','crooner','midnight'],drive:['rock','new york','city','road','sport'],workout:['sport','rock','energy','punk','metal'],chill:['lo-fi','vancouver','jazz','soft','acoustic'],social:['crooner','pop','city','jazz','festival']},
+  moods:{warm:['warm','soul','acoustic','crooner','jazz'],dreamy:['dream','ambient','lo-fi','vapor','night'],bright:['pop','city','summer','festival','dance'],dark:['dark','night','metal','punk','cinematic'],intense:['rock','sport','punk','metal','energy'],nostalgic:['vintage','retro','old','crooner','tokyo','shanghai']},
   energy:{low:['lo-fi','ambient','quiet','soft','slow','acoustic'],mid:['jazz','crooner','city','pop','groove'],high:['rock','sport','punk','metal','energy','dance']},
+  tempo:{slow:['slow','ambient','lo-fi','ballad','quiet'],mid:['jazz','groove','city','pop','crooner'],fast:['rock','sport','punk','dance','energy']},
   vocal:{instrumental:['instrumental','ambient','lo-fi','jazz'],soft:['soft','crooner','acoustic','dream'],clear:['vocal','pop','crooner'],strong:['rock','punk','metal','anthem'],mixed:['jazz','city','indie','pop']},
   textures:{jazz:['jazz','swing','blues'],rock:['rock','punk','guitar','metal'],lofi:['lo-fi','ambient','study'],city:['city','tokyo','taipei','shanghai','new york','london'],cinematic:['cinematic','landmark','world','journey'],campus:['university','college','campus','ntu','mit','oxford']},
   worlds:{taiwan:['taiwan','taipei','ntu','nthu','ncku','landmark_tw'],asia:['asia','tokyo','shanghai','hong','seoul','kyoto','nus'],world:['world','new york','london','europe','sydney','rio','sahara'],campus:['university','campus','college'],landmark:['landmark','spot','temple','museum','bridge','square']}
@@ -802,12 +804,15 @@ function themeScore(di,mode='daily'){
   const p=algProfile(),sig=algSignals(),blob=themeBlob(d),name=d.t;
   let score=0;
   for(const x of p.moments||[])score+=termScore(blob,ALG_TERMS.moments[x],2.7);
+  for(const x of p.moods||[])score+=termScore(blob,ALG_TERMS.moods[x],2.15);
   score+=termScore(blob,ALG_TERMS.energy[p.energy],2.1);
+  score+=termScore(blob,ALG_TERMS.tempo[p.tempo],1.7);
   score+=termScore(blob,ALG_TERMS.vocal[p.vocal],1.8);
   for(const x of p.textures||[])score+=termScore(blob,ALG_TERMS.textures[x],2.4);
   for(const x of p.worlds||[])score+=termScore(blob,ALG_TERMS.worlds[x],1.8);
   if((p.seeds||[]).includes(name))score+=5.5;
-  score+=Math.log1p(sig.views?.[name]||0)*1.5+Math.log1p(sig.plays?.[name]||0)*2.2;
+  score+=Math.log1p(sig.views?.[name]||0)*1.25+Math.log1p(sig.plays?.[name]||0)*2.1;
+  score+=Math.log1p(sig.finishes?.[name]||0)*2.8-Math.log1p(sig.skips?.[name]||0)*2.5;
   const discovery=p.discovery||'balanced',group=groupKeyOfTheme(name),recent=(sig.lastThemes||[]).indexOf(name);
   if(discovery==='explore'){
     if(recent>=0)score-=4/(recent+1);
@@ -845,13 +850,56 @@ function recommendThemes(mode='daily',count=9){
   for(const c of out){if(picked.length>=count)break;picked.push(c);seen[c.group]=(seen[c.group]||0)+1;}
   return picked;
 }
-function recordThemeSignal(kind,name){if(!name)return;const s=algSignals();const bag=kind==='view'?s.views:s.plays;bag[name]=(bag[name]||0)+1;s.lastThemes=[name,...(s.lastThemes||[]).filter(x=>x!==name)].slice(0,12);writeJson(ALG_STATE_KEY,s)}
-document.addEventListener('mt:view',e=>{if(e.detail?.view==='detail')recordThemeSignal('view',e.detail.theme||MT.DATA[e.detail.index]?.t);requestAnimationFrame(()=>renderRecoShelf(activeRecoMode))});
-let algoBoundAudio=null;
+function recordThemeSignal(kind,name){
+  if(!name)return;
+  const s=algSignals();
+  const key={view:'views',play:'plays',finish:'finishes',skip:'skips'}[kind];
+  if(key){s[key]=s[key]||{};s[key][name]=(s[key][name]||0)+1}
+  if(kind==='view'||kind==='play'||kind==='finish')s.lastThemes=[name,...(s.lastThemes||[]).filter(x=>x!==name)].slice(0,16);
+  writeJson(ALG_STATE_KEY,s);
+}
+document.addEventListener('mt:view',e=>{
+  if(e.detail?.view==='detail')recordThemeSignal('view',e.detail.theme||MT.DATA[e.detail.index]?.t);
+  requestAnimationFrame(()=>renderRecoShelf(activeRecoMode));
+});
+let algoBoundAudio=null,algoSession=null;
+function accrueAlgoSession(){
+  if(!algoSession||!algoSession.playWall)return;
+  algoSession.listenedMs+=Date.now()-algoSession.playWall;
+  algoSession.playWall=0;
+}
+function closeAlgoSession(){
+  if(!algoSession)return;
+  accrueAlgoSession();
+  const sec=algoSession.listenedMs/1000;
+  if(!algoSession.finished&&sec>=2&&sec<25&&algoSession.theme)recordThemeSignal('skip',algoSession.theme);
+  algoSession=null;
+}
+function bindAlgoAudio(a){
+  if(!a||a===algoBoundAudio)return;
+  algoBoundAudio=a;
+  a.addEventListener('play',()=>{
+    const t=MT.track,theme=trackTheme(t);
+    if(algoSession&&algoSession.track!==t)closeAlgoSession();
+    if(!algoSession||algoSession.track!==t){
+      algoSession={track:t,theme,listenedMs:0,playWall:Date.now(),finished:false};
+      recordThemeSignal('play',theme);
+    }else if(!algoSession.playWall)algoSession.playWall=Date.now();
+  },{passive:true});
+  a.addEventListener('pause',()=>accrueAlgoSession(),{passive:true});
+  a.addEventListener('ended',()=>{
+    accrueAlgoSession();
+    if(algoSession&&!algoSession.finished){
+      algoSession.finished=true;
+      recordThemeSignal('finish',algoSession.theme||trackTheme(MT.track));
+    }
+  },{passive:true});
+}
 document.addEventListener('mt:track',e=>{
-  const t=e.detail?.track||MT.track,a=e.detail?.audio||MT.audio;const gi=MT.themeIndexOfTrack?.(t);const name=gi>=0?MT.DATA[gi]?.t:null;
-  if(a&&a!==algoBoundAudio){algoBoundAudio=a;a.addEventListener('play',()=>recordThemeSignal('play',trackTheme(MT.track)),{passive:true})}
-  if(name)requestAnimationFrame(()=>renderRecoShelf(activeRecoMode));
+  const t=e.detail?.track||MT.track,a=e.detail?.audio||MT.audio;
+  if(algoSession&&algoSession.track&&algoSession.track!==t)closeAlgoSession();
+  bindAlgoAudio(a);
+  if(t)requestAnimationFrame(()=>renderRecoShelf(activeRecoMode));
 });
 
 /* ----- replacement home shelf: Daily / Weekly / MT + real theme groups ----- */
@@ -932,18 +980,23 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&lyricsPreview.classList.cont
 
 /* ----- onboarding v2: eight focused screens that actually seed the algorithm ----- */
 const ONBOARD_STEPS=[
-  {k:'intro',title:'歡迎來到 MUSICTOWN',copy:'這裡不是一次性的歌單。先用幾個很短的選擇告訴我們你怎麼聽音樂，之後每日推薦、每週推薦與 MT 推薦榜都會從這份偏好開始。'},
-  {k:'moments',title:'你通常在什麼時候聽？',copy:'可以複選。演算法會用「情境」決定探索與熟悉感的比例。'},
-  {k:'energy',title:'你喜歡多大的能量？',copy:'這會影響節奏、曲風與推薦主題的排序。'},
-  {k:'vocal',title:'你對人聲的偏好？',copy:'不是硬性過濾，只是調整你最先看到的聲音。'},
-  {k:'textures',title:'先選一些聲音質地',copy:'可複選。之後你的實際播放與收藏會慢慢取代這些初始設定。'},
-  {k:'worlds',title:'你想先從哪種世界出發？',copy:'城市、校園、景點都可以混在同一份推薦裡。'},
-  {k:'discovery',title:'你希望推薦有多大的探索感？',copy:'熟悉模式會更常回到你聽過的世界；探索模式會主動把限定城市、校園與跨風格主題往前排。'},
-  {k:'seeds',title:'最後，選幾個你願意先試的主題',copy:'這些只作為起點；不喜歡、略過與收藏都會繼續調整推薦。'}
+  {k:'intro',title:'歡迎來到 MUSICTOWN',copy:'先用幾個很短的選擇建立你的初始聲音輪廓。之後實際播放、收藏、聽完與快速略過，會持續修正推薦。'},
+  {k:'moments',title:'你通常在什麼時候聽？',copy:'可以複選。情境會影響每日推薦的熟悉感、節奏與氛圍。'},
+  {k:'moods',title:'你現在比較常找哪種心情？',copy:'可以複選。這讓演算法知道同一個曲風裡，你偏好的情緒方向。'},
+  {k:'energy',title:'你喜歡多大的能量？',copy:'決定推薦主題的推進感與刺激程度。'},
+  {k:'tempo',title:'你偏好的速度感？',copy:'不是硬性 BPM 篩選，而是排序訊號。'},
+  {k:'vocal',title:'你對人聲的偏好？',copy:'人聲只是權重，不會把其他歌曲完全排除。'},
+  {k:'textures',title:'先選一些聲音質地',copy:'可以複選。Jazz、Rock、Lo-fi、城市感等會成為初始偏好。'},
+  {k:'worlds',title:'你想先從哪種世界出發？',copy:'城市、校園與景點可以混在同一份推薦裡。'},
+  {k:'discovery',title:'你希望推薦多敢探索？',copy:'熟悉優先會回到你常聽的世界；探索模式會主動提高新城市與跨風格主題。'},
+  {k:'seeds',title:'挑幾個你願意先試的主題',copy:'最多選四個作為起點；之後行為訊號會逐漸取代初始選擇。'},
+  {k:'summary',title:'你的推薦輪廓準備好了',copy:'完成後直接回到主頁，先看到每日推薦；每週推薦與 MT 推薦榜會用不同權重重新排序。'}
 ];
 const ONBOARD_OPTIONS={
   moments:[['focus','專注 / 工作','安靜、穩定、不搶注意力'],['night','夜晚','城市夜色、較深的氛圍'],['drive','通勤 / 開車','有流動感與節奏'],['workout','運動','更高能量與推進感'],['chill','放空','柔軟、慢一些'],['social','聚會','容易進入狀態的聲音']],
+  moods:[['warm','溫暖','Soul、Acoustic、柔和爵士'],['dreamy','夢幻','Ambient、Lo-fi、夜色感'],['bright','明亮','Pop、城市、夏日感'],['dark','深色','Night、Punk、Cinematic'],['intense','強烈','Rock、Sport、Metal'],['nostalgic','懷舊','Vintage、Retro、老城市']],
   energy:[['low','低能量','安靜、留白多'],['mid','中等','耐聽、節奏適中'],['high','高能量','更直接、更有衝擊']],
+  tempo:[['slow','偏慢','適合放空、專注與深夜'],['mid','中速','耐聽、適合長時間播放'],['fast','偏快','更有推進感與節奏']],
   vocal:[['instrumental','偏器樂','人聲不是重點'],['soft','柔和人聲','輕、近、低刺激'],['clear','清楚人聲','旋律與歌唱感明顯'],['strong','強人聲','搖滾、龐克、張力更高'],['mixed','都可以','讓行為慢慢決定']],
   textures:[['jazz','Jazz / Blues','爵士、藍調、groove'],['rock','Rock / Guitar','吉他、龐克、搖滾'],['lofi','Lo-fi / Ambient','低彩度、環境感'],['city','City Sound','城市、indie、都會'],['cinematic','Cinematic','場景感與旅行感'],['campus','Campus','校園與年輕感']],
   worlds:[['taiwan','台灣','城市、景點、校園'],['asia','亞洲','東京、上海、首爾等'],['world','世界城市','歐美與世界地景'],['campus','大學','各地校園限定'],['landmark','景點','地標與旅行主題']],
@@ -951,24 +1004,59 @@ const ONBOARD_OPTIONS={
 };
 let onboardStep=0,onboard=algProfile();
 function optionSelected(k,v){const cur=onboard[k];return Array.isArray(cur)?cur.includes(v):cur===v}
-function toggleOnboard(k,v){if(['moments','textures','worlds','seeds'].includes(k)){const a=Array.isArray(onboard[k])?[...onboard[k]]:[];const i=a.indexOf(v);if(i>=0)a.splice(i,1);else a.push(v);onboard[k]=a.slice(0,k==='seeds'?4:5)}else onboard[k]=v}
+function toggleOnboard(k,v){if(['moments','moods','textures','worlds','seeds'].includes(k)){const a=Array.isArray(onboard[k])?[...onboard[k]]:[];const i=a.indexOf(v);if(i>=0)a.splice(i,1);else a.push(v);onboard[k]=a.slice(0,k==='seeds'?4:5)}else onboard[k]=v}
 function onboardSeedRows(){const prev=readJson(ALG_PROFILE_KEY,null);writeJson(ALG_PROFILE_KEY,onboard);const rows=recommendThemes('daily',6);if(prev)writeJson(ALG_PROFILE_KEY,prev);else try{localStorage.removeItem(ALG_PROFILE_KEY)}catch(_){}return rows}
+function onboardLabel(k,v){
+  const row=(ONBOARD_OPTIONS[k]||[]).find(x=>x[0]===v);
+  return row?.[1]||String(v||'');
+}
+function onboardSummaryHtml(){
+  const rows=[
+    ['情境',(onboard.moments||[]).map(v=>onboardLabel('moments',v))],
+    ['心情',(onboard.moods||[]).map(v=>onboardLabel('moods',v))],
+    ['能量',[onboardLabel('energy',onboard.energy)]],
+    ['速度',[onboardLabel('tempo',onboard.tempo)]],
+    ['人聲',[onboardLabel('vocal',onboard.vocal)]],
+    ['質地',(onboard.textures||[]).map(v=>onboardLabel('textures',v))],
+    ['世界',(onboard.worlds||[]).map(v=>onboardLabel('worlds',v))],
+    ['探索',[onboardLabel('discovery',onboard.discovery)]]
+  ].filter(x=>x[1].filter(Boolean).length);
+  return '<div class="mt-onboard-summary"><div class="mt-onboard-summary-grid">'+
+    rows.map(r=>'<section><small>'+esc(r[0])+'</small><b>'+r[1].filter(Boolean).map(esc).join(' · ')+'</b></section>').join('')+
+    '</div><p>之後「聽完」會提高權重，太快略過會降低權重；每日、每週與 MT 榜會用不同探索比例重新排序。</p></div>';
+}
 function renderOnboard(){
-  const welcome=$('welcome');if(!welcome)return;const st=ONBOARD_STEPS[onboardStep];
+  const welcome=$('welcome');if(!welcome)return;
+  const st=ONBOARD_STEPS[onboardStep];
   const bodyEl=welcome.querySelector('.mt-onboard-body'),counter=welcome.querySelector('.mt-onboard-counter'),bar=welcome.querySelector('.mt-onboard-progress i'),next=welcome.querySelector('.mt-onboard-next'),back=welcome.querySelector('.mt-onboard-back');
-  counter.textContent=`${onboardStep+1} / ${ONBOARD_STEPS.length}`;bar.style.setProperty('--p',`${((onboardStep+1)/ONBOARD_STEPS.length)*100}%`);back.disabled=onboardStep===0;
+  counter.textContent=(onboardStep+1)+' / '+ONBOARD_STEPS.length;
+  bar.style.setProperty('--p',(((onboardStep+1)/ONBOARD_STEPS.length)*100)+'%');
+  back.disabled=onboardStep===0;
   let options='';
-  if(st.k==='intro')options='<div class="mt-onboard-intro-card"><b>你的 MUSICTOWN 會越聽越準</b><span>接下來每頁只問一件事；偏好只存在這個瀏覽器，之後播放、收藏、不喜歡與略過都會繼續調整推薦。</span><div><i>每日推薦</i><i>每週推薦</i><i>MT 推薦榜</i></div></div>';
-  else if(st.k==='seeds')options='<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),sel=optionSelected('seeds',d.t);return `<button class="mt-onboard-option mt-onboard-seed${sel?' selected':''}" data-ob-value="${esc(d.t)}" type="button"><small>RECOMMENDED ${i+1}</small><b>${esc(nm.main)}</b><span>${esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))}</span></button>`}).join('')+'</div>';
-  else options='<div class="mt-onboard-options">'+(ONBOARD_OPTIONS[st.k]||[]).map(([v,b,s])=>`<button class="mt-onboard-option${optionSelected(st.k,v)?' selected':''}" data-ob-value="${v}" type="button"><b>${b}</b><span>${s}</span></button>`).join('')+'</div>';
-  bodyEl.innerHTML=`<div class="mt-onboard-kicker">${String(onboardStep+1).padStart(2,'0')} · PERSONALIZE</div><h${onboardStep===0?'1':'2'}>${st.title}</h${onboardStep===0?'1':'2'}><p>${st.copy}</p>${options}`;
-  next.textContent=onboardStep===ONBOARD_STEPS.length-1?'開始探索':'下一步';
+  if(st.k==='intro'){
+    options='<div class="mt-onboard-intro-card"><b>推薦不是一次設定完就不變</b><span>這裡只建立初始輪廓；實際播放、收藏、完整聽完與快速略過會繼續修正權重。</span><div><i>每日推薦</i><i>每週推薦</i><i>MT 推薦榜</i></div></div>';
+  }else if(st.k==='seeds'){
+    options='<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{
+      const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),sel=optionSelected('seeds',d.t);
+      return '<button class="mt-onboard-option mt-onboard-seed'+(sel?' selected':'')+'" data-ob-value="'+esc(d.t)+'" type="button"><small>SEED '+(i+1)+'</small><b>'+esc(nm.main)+'</b><span>'+esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))+'</span></button>';
+    }).join('')+'</div>';
+  }else if(st.k==='summary'){
+    options=onboardSummaryHtml();
+  }else{
+    options='<div class="mt-onboard-options">'+(ONBOARD_OPTIONS[st.k]||[]).map(row=>{
+      const v=row[0],b=row[1],s=row[2];
+      return '<button class="mt-onboard-option'+(optionSelected(st.k,v)?' selected':'')+'" data-ob-value="'+v+'" type="button"><b>'+b+'</b><span>'+s+'</span></button>';
+    }).join('')+'</div>';
+  }
+  const heading=onboardStep===0?'h1':'h2';
+  bodyEl.innerHTML='<div class="mt-onboard-kicker">'+String(onboardStep+1).padStart(2,'0')+' · PERSONALIZE</div><'+heading+'>'+st.title+'</'+heading+'><p>'+st.copy+'</p>'+options;
+  next.textContent=st.k==='summary'?'進入主頁':'下一步';
   next.disabled=false;
   bodyEl.scrollTop=0;
 }
 function finishOnboard(skip=false){
-  if(skip)onboard={moments:[],energy:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]};
-  writeJson(ALG_PROFILE_KEY,onboard);try{localStorage.setItem(ALG_ONBOARD_KEY,'1');localStorage.setItem('musicetown.r10.onboarded','1');localStorage.setItem('musicetown.r10.2.3.onboarded','1')}catch(_){}
+  if(skip)onboard={moments:[],moods:[],energy:'mid',tempo:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]};
+  writeJson(ALG_PROFILE_KEY,onboard);try{localStorage.setItem(ALG_ONBOARD_KEY,'1');localStorage.setItem('musicetown.r10.onboarded','1');localStorage.setItem('musicetown.r10.2.4.onboarded','1')}catch(_){}
   const welcome=$('welcome');welcome?.classList.add('is-out');welcome?.classList.remove('welcome-active','finalizing','previewing');body.classList.remove('welcome-active');
   setTimeout(()=>{if(welcome)welcome.style.display='none'},360);
   renderRecoShelf('daily');requestAnimationFrame(measure);document.dispatchEvent(new CustomEvent('mt:welcome',{detail:{done:true,profile:onboard}}));
@@ -1014,180 +1102,96 @@ addEventListener('load',()=>{
 if(document.readyState==='complete')setTimeout(()=>{openInitialRoute();updateResume();measure();},200);
 })();
 
-/* ================= R10.2.3 FINAL MOBILE POLISH START ================= */
+/* ================= R10.2.4 EXPERIENCE STABILIZER START ================= */
 ;(()=>{
 'use strict';
 const MT=window.MT;if(!MT)return;
 const $=id=>document.getElementById(id);
 const body=document.body,root=document.documentElement;
 const mobile=()=>matchMedia('(max-width:760px)').matches;
-
-/* 1) iPhone audio source hydration.
-   Pointer-down prepares the real same-origin MP3 before the subsequent click
-   calls play(), keeping the user's activation chain intact. */
-function siteRoot(){
-  try{
-    if(location.protocol==='file:')return new URL('./',document.baseURI).href;
-    if(/\.github\.io$/i.test(location.hostname)){
-      const first=location.pathname.split('/').filter(Boolean)[0]||'musictown';
-      return new URL('/'+first+'/',location.origin).href;
-    }
-    return new URL('/',location.origin).href;
-  }catch(_){return document.baseURI}
+function prepareBrokenAudio(){
+  const a=MT.audio||$('nativeAudioPlayer'),t=MT.track;if(!a||!t)return;
+  const noSource=!a.currentSrc||a.networkState===HTMLMediaElement.NETWORK_NO_SOURCE;
+  if(noSource||a.error)MT.recoverAudio?.(t,a);
 }
-function audioCandidates(t){
-  const raw=[t?.audioSrc,t?.originalLocalAudio,t?.originalAudioSrc,t?.download]
-    .map(x=>String(x||'').trim()).filter(Boolean);
-  const out=[];
-  for(const src of raw){
-    try{
-      const u=/^[a-z][a-z0-9+.-]*:/i.test(src)||src.startsWith('//')
-        ?new URL(src,document.baseURI)
-        :new URL(src.replace(/^\/+/,''),siteRoot());
-      if(!out.includes(u.href))out.push(u.href);
-    }catch(_){}
-  }
-  return out;
-}
-function hydrateAudio(a,t,{force=false}={}){
-  if(!a||!t)return false;
-  const urls=audioCandidates(t);if(!urls.length)return false;
-  const cur=String(a.currentSrc||a.src||'');
-  const desired=urls[0];
-  if(!force&&cur&&cur.split('?')[0]===desired.split('?')[0]&&!a.error)return true;
-  try{
-    a.preload='auto';
-    a.setAttribute('playsinline','');
-    a.setAttribute('webkit-playsinline','');
-    a.src=desired;
-    a.load();
-    a.dataset.mtR1023Index='0';
-    return true;
-  }catch(_){return false}
-}
-function bindAudioRescue(a,t){
-  if(!a||!t)return;
-  const token=(t.shareId||t.audioSrc||t.title||'track');
-  if(a.dataset.mtR1023Track===token)return;
-  a.dataset.mtR1023Track=token;
-  const urls=audioCandidates(t);
-  let retry=0,timer=0;
-  const clear=()=>{clearTimeout(timer);timer=0};
-  const ready=()=>{clear();a.dataset.mtR1023Ready='1'};
-  const next=()=>{
-    if(a.readyState>=1){ready();return}
-    if(retry>=Math.max(2,urls.length+1))return;
-    let url=urls[Math.min(retry,Math.max(0,urls.length-1))];
-    retry++;
-    try{
-      const u=new URL(url);
-      if(u.origin===location.origin)u.searchParams.set('mt_audio','r1023-'+retry+'-'+Date.now().toString(36));
-      a.src=u.href;a.preload='auto';a.load();
-    }catch(_){}
-    timer=setTimeout(next,3600);
-  };
-  ['loadedmetadata','canplay','playing'].forEach(ev=>a.addEventListener(ev,ready,{passive:true}));
-  a.addEventListener('error',()=>{clear();setTimeout(next,80)},{passive:true});
-  a.addEventListener('stalled',()=>{if(a.readyState===0){clear();timer=setTimeout(next,700)}},{passive:true});
-  clear();timer=setTimeout(()=>{if(a.readyState===0)next()},2800);
-}
-function prepareCurrentAudio(){
-  const a=MT.audio||$('nativeAudioPlayer'),t=MT.track;
-  if(!a||!t)return;
-  hydrateAudio(a,t);
-  bindAudioRescue(a,t);
-}
-document.addEventListener('mt:track',()=>requestAnimationFrame(prepareCurrentAudio));
 document.addEventListener('pointerdown',e=>{
   if(!e.target.closest('#localPlay,[data-mini="play"],#mtMiniOpen,.deck-seek,#vinylDisc'))return;
-  prepareCurrentAudio();
+  prepareBrokenAudio();
 },{capture:true,passive:true});
-document.addEventListener('touchstart',e=>{
-  if(!e.target.closest?.('#localPlay,[data-mini="play"],#mtMiniOpen'))return;
-  prepareCurrentAudio();
-},{capture:true,passive:true});
-
-/* 2) Player dock state.
-   Full inline player at the top; compact Liquid Glass appears only after the
-   player is scrolled down far enough that the large controls are no longer
-   the primary control surface. */
-let playerScrollHost=null,playerLastY=0;
+let playerBound=false;
+function playerScrollY(){
+  const sheet=$('playerSheet'),card=sheet?.querySelector('.player-card');
+  return Math.max(Number(card?.scrollTop||0),Number(sheet?.scrollTop||0));
+}
 function syncPlayerCompact(){
-  const sheet=$('playerSheet');
-  const host=sheet?.querySelector('.player-card');
-  const open=!!sheet?.classList.contains('open');
-  if(!open){
-    body.classList.remove('mt-player-scrolled','mt-compact');
+  const sheet=$('playerSheet'),open=!!sheet?.classList.contains('open');
+  if(!mobile()||!open){
+    body.classList.remove('mt-player-scrolled');
+    if(open)body.classList.remove('mt-compact');
     return;
   }
-  if(host&&host!==playerScrollHost){
-    playerScrollHost=host;playerLastY=host.scrollTop||0;
-    host.addEventListener('scroll',()=>{
-      if(!mobile())return;
-      const y=host.scrollTop||0,dy=y-playerLastY;
-      if(y<90||dy<-8){
-        body.classList.remove('mt-player-scrolled','mt-compact');
-      }else if(y>150&&dy>6){
-        body.classList.add('mt-player-scrolled','mt-compact');
-      }
-      playerLastY=y;
-    },{passive:true});
-  }
-  const y=host?.scrollTop||0;
-  body.classList.toggle('mt-player-scrolled',mobile()&&y>150);
-  if(!body.classList.contains('mt-player-scrolled'))body.classList.remove('mt-compact');
+  const y=playerScrollY(),deck=sheet.querySelector('.musicetown-deck,.vinyl-wrap,.deck-info');
+  const viewportTop=window.visualViewport?.offsetTop||0;
+  const compact=y>130&&(!deck||deck.getBoundingClientRect().bottom<(viewportTop+118));
+  body.classList.toggle('mt-player-scrolled',compact);
+  body.classList.toggle('mt-compact',compact);
 }
-const ps=$('playerSheet');
-if(ps)new MutationObserver(()=>requestAnimationFrame(syncPlayerCompact))
-  .observe(ps,{attributes:true,attributeFilter:['class']});
-document.addEventListener('mt:track',()=>{body.classList.remove('mt-player-scrolled','mt-compact');requestAnimationFrame(syncPlayerCompact)});
-
-/* 3) Home safe band: derive it from the real fixed UI rectangles instead of
-   stale guessed heights. This is what keeps the 3D drawer centered on phones. */
+function bindPlayerScroll(){
+  if(playerBound)return;
+  const sheet=$('playerSheet'),card=sheet?.querySelector('.player-card');if(!sheet)return;
+  playerBound=true;
+  const onScroll=()=>requestAnimationFrame(syncPlayerCompact);
+  sheet.addEventListener('scroll',onScroll,{passive:true});
+  card?.addEventListener('scroll',onScroll,{passive:true});
+  new MutationObserver(()=>requestAnimationFrame(syncPlayerCompact)).observe(sheet,{attributes:true,attributeFilter:['class']});
+}
+bindPlayerScroll();
+document.addEventListener('mt:track',()=>{
+  body.classList.remove('mt-player-scrolled','mt-compact');
+  requestAnimationFrame(syncPlayerCompact);
+});
+addEventListener('resize',()=>requestAnimationFrame(syncPlayerCompact),{passive:true});
+window.visualViewport?.addEventListener('resize',()=>requestAnimationFrame(syncPlayerCompact),{passive:true});
 let bandRAF=0;
 function syncHomeBand(){
   bandRAF=0;if(!body.classList.contains('mt-view-home'))return;
+  const vv=window.visualViewport,viewTop=vv?.offsetTop||0;
+  const viewH=vv?.height||window.innerHeight||document.documentElement.clientHeight||0;if(!viewH)return;
   const top=$('mtTop'),dock=$('mtDock'),shelf=$('mtShelf');
-  const vh=window.innerHeight||document.documentElement.clientHeight||0;
-  if(!vh)return;
-  const topPx=Math.max(0,Math.round((top?.getBoundingClientRect().bottom||0)+4));
+  const tr=top&&getComputedStyle(top).display!=='none'?top.getBoundingClientRect():null;
+  const topPx=Math.max(0,Math.round((tr?.bottom||viewTop)-viewTop+4));
   const lower=[];
-  if(dock&&getComputedStyle(dock).display!=='none')lower.push(dock.getBoundingClientRect().top);
-  if(shelf&&getComputedStyle(shelf).display!=='none')lower.push(shelf.getBoundingClientRect().top);
-  const start=lower.filter(Number.isFinite).length?Math.min(...lower):vh;
-  const bottomPx=Math.max(0,Math.round(vh-start+8));
+  for(const n of [shelf,dock]){
+    if(!n||getComputedStyle(n).display==='none'||Number(getComputedStyle(n).opacity)===0)continue;
+    const r=n.getBoundingClientRect();if(r.height>1)lower.push(r.top);
+  }
+  const lowerTop=lower.length?Math.min(...lower):(viewTop+viewH);
+  const bottomPx=Math.max(0,Math.round((viewTop+viewH)-lowerTop+8));
   let changed=false;
   if(root.style.getPropertyValue('--mt-scene-top')!==topPx+'px'){root.style.setProperty('--mt-scene-top',topPx+'px');changed=true}
   if(root.style.getPropertyValue('--mt-scene-bottom')!==bottomPx+'px'){root.style.setProperty('--mt-scene-bottom',bottomPx+'px');changed=true}
-  if(changed)setTimeout(()=>dispatchEvent(new Event('resize')),0);
+  if(changed)requestAnimationFrame(()=>dispatchEvent(new Event('resize')));
 }
 function queueBand(){if(!bandRAF)bandRAF=requestAnimationFrame(syncHomeBand)}
 ['resize','orientationchange'].forEach(ev=>addEventListener(ev,queueBand,{passive:true}));
 window.visualViewport?.addEventListener('resize',queueBand,{passive:true});
-document.addEventListener('mt:view',queueBand);
-document.addEventListener('mt:group',queueBand);
-const shelf=$('mtShelf');if(shelf&&'ResizeObserver'in window)new ResizeObserver(queueBand).observe(shelf);
-const dock=$('mtDock');if(dock&&'ResizeObserver'in window)new ResizeObserver(queueBand).observe(dock);
-setTimeout(queueBand,60);setTimeout(queueBand,420);
-
-/* 4) Lyrics full-preview also freezes the page behind it. */
-const lyr=document.querySelector('.mt-lyrics-preview');
-if(lyr)new MutationObserver(()=>{
-  body.classList.toggle('mt-lyrics-full',lyr.classList.contains('open'));
-}).observe(lyr,{attributes:true,attributeFilter:['class']});
-
-/* 5) Never allow a stale legacy ONLINE SOURCE panel to reappear. */
+document.addEventListener('mt:view',queueBand);document.addEventListener('mt:group',queueBand);
+for(const n of [$('mtShelf'),$('mtDock')])if(n&&'ResizeObserver'in window)new ResizeObserver(queueBand).observe(n);
+setTimeout(queueBand,80);setTimeout(queueBand,500);
 function scrubOnlineSource(){
   document.querySelectorAll('.online-fallback').forEach(n=>n.remove());
-  document.querySelectorAll('#playerBody *').forEach(n=>{
-    const t=(n.textContent||'').trim();
-    if((t==='ONLINE SOURCE'||t==='ONLINE CC0 PLAYER')&&n.closest('.online-fallback'))n.closest('.online-fallback')?.remove();
+  document.querySelectorAll('#playerBody .track-row,#playerBody .source-row,#playerBody [data-track-title],#playerBody b,#playerBody small').forEach(n=>{
+    const t=(n.textContent||'').trim().toUpperCase();
+    if(t!=='ONLINE SOURCE'&&t!=='ONLINE CC0 PLAYER')return;
+    const row=n.closest('.online-fallback,.track-row,.source-row,[data-track-title]');
+    if(row)row.remove();else n.hidden=true;
   });
 }
-new MutationObserver(()=>requestAnimationFrame(scrubOnlineSource))
-  .observe(document.body,{childList:true,subtree:true});
+new MutationObserver(()=>requestAnimationFrame(scrubOnlineSource)).observe(document.body,{childList:true,subtree:true});
 scrubOnlineSource();
-
-queueMicrotask(()=>{prepareCurrentAudio();syncPlayerCompact();queueBand()});
+const lyr=document.querySelector('.mt-lyrics-preview');
+if(lyr)new MutationObserver(()=>body.classList.toggle('mt-lyrics-full',lyr.classList.contains('open')))
+  .observe(lyr,{attributes:true,attributeFilter:['class']});
+queueMicrotask(()=>{bindPlayerScroll();syncPlayerCompact();queueBand();scrubOnlineSource()});
 })();
-/* ================= R10.2.3 FINAL MOBILE POLISH END ================= */
+/* ================= R10.2.4 EXPERIENCE STABILIZER END ================= */
