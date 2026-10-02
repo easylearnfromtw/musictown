@@ -1915,3 +1915,72 @@ html.mt-apple-touch.mt-ios-keyboard #glassTransport{
 /* ================= /CITYMUSIC APPLE UX V1.1 ================= */
 
 html.mt-apple-touch .mt-ios-touching{filter:brightness(.985)}
+
+
+/* ================= CITYMUSIC LIBRARY TOP LEFT V1 ================= */
+#mtTop .mt-top-left{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+#mtTop .mt-top-library{
+  appearance:none;
+  height:44px;
+  min-width:44px;
+  border:0;
+  border-radius:999px;
+  padding:0 13px 0 11px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  color:var(--mt-ink);
+  cursor:pointer;
+  font:650 11px/1 var(--mt-ui);
+  letter-spacing:.02em;
+  white-space:nowrap;
+  transition:transform .25s var(--mt-ease),opacity .25s var(--mt-ease);
+}
+#mtTop .mt-top-library svg{
+  width:20px;
+  height:20px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+#mtTop .mt-top-library:active{transform:scale(.94)}
+body:not(.mt-view-detail) #mtTop .mt-back{
+  width:0;
+  min-width:0;
+  max-width:0;
+  padding-left:0;
+  padding-right:0;
+  overflow:hidden;
+}
+#mtTabs .mt-tabs-strip,
+#mtTabs .mt-lens-strip{
+  grid-template-columns:repeat(3,1fr);
+}
+@media(max-width:760px){
+  #mtTop .mt-top-left{gap:4px}
+  #mtTop .mt-top-library{
+    width:44px;
+    padding:0;
+  }
+  #mtTop .mt-top-library span{display:none}
+  body.mt-view-detail #mtTop .mt-back{
+    padding-right:11px;
+  }
+}
+@media(max-width:390px){
+  body.mt-view-detail #mtTop .mt-back span{display:none}
+  body.mt-view-detail #mtTop .mt-back{
+    width:44px;
+    min-width:44px;
+    padding:0;
+    justify-content:center;
+  }
+}
+/* ================= /CITYMUSIC LIBRARY TOP LEFT V1 ================= */

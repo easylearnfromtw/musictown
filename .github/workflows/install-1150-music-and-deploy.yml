@@ -150,6 +150,7 @@ jobs:
                   "CITYMUSIC APPLE UX V1.1",
                   "CITYMUSIC TRACK POOL V1",
                   "CITYMUSIC WEEKLY TRACK MIX V1",
+                  "CITYMUSIC LIBRARY TOP LEFT V1",
                   "CITYMUSIC CD SCRUB SFX",
               ]
               missing=[x for x in required if x not in s]

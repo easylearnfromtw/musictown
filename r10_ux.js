@@ -44,7 +44,6 @@ const ICON={
 const TABS=[
   {key:'explore',label:'探索'},
   {key:'search',label:'搜尋'},
-  {key:'library',label:'音樂庫'},
   {key:'passbook',label:'票夾'}
 ];
 
@@ -60,6 +59,17 @@ const top=h('header','',`
   </div>`);
 top.id='mtTop';
 body.appendChild(top);
+
+/* ================= CITYMUSIC LIBRARY TOP LEFT V1 ================= */
+const topLibrary=$('localLibraryFab');
+if(topLibrary){
+  topLibrary.className='mt-top-library mt-glass';
+  topLibrary.setAttribute('aria-label','開啟音樂庫');
+  topLibrary.setAttribute('title','音樂庫');
+  topLibrary.innerHTML=ICON.library+'<span>音樂庫</span>';
+  top.querySelector('.mt-top-left')?.prepend(topLibrary);
+}
+/* ================= /CITYMUSIC LIBRARY TOP LEFT V1 ================= */
 
 /* the animated globe logo keeps its listeners and the per-frame path update */
 const logo=$('logo');
@@ -222,6 +232,12 @@ function closePages(except){
   if(except!=='passbook'&&pageOpen('passbook'))MT.closePassbook();
 }
 function selectTab(key,{fromUser=false,wasDrag=false}={}){
+  if(key==='library'){
+    closePages('library');
+    if(!pageOpen('library'))$('localLibraryFab')?.click();
+    syncPageState();
+    return;
+  }
   const was=activeTab;
   if(key==='explore'){
     const hadPage=Object.keys(PAGES).some(pageOpen);
@@ -247,7 +263,7 @@ function syncPageState(){
   const open=Object.keys(PAGES).find(pageOpen);
   if(!!open!==body.classList.contains('mt-tabpage'))body.classList.remove('mt-compact');
   body.classList.toggle('mt-tabpage',!!open);
-  const want=open||'explore';
+  const want=open==='library'?activeTab:(open||'explore');
   if(want!==activeTab){activeTab=want;paintTabs();}
 }
 const modalIds=['shareComposerSheet','sharePlaylistSheet','libraryNameSheet','libraryPassSheet','sharedLibrarySheet','cityPassSheet','passWelcomeSheet','audioAccessorySheet'];
@@ -531,7 +547,7 @@ function buildPlayerOnce(){
   toolsEl=tools;upEl=up;placePlayerExtras();
   from.addEventListener('click',e=>{
     const b=e.target.closest('button');if(!b)return;
-    if(b.dataset.go==='library'){MT.closePlayer();selectTab('library',{fromUser:true});return}
+    if(b.dataset.go==='library'){MT.closePlayer();MT.openLibrary();return}
     const i=Number(b.dataset.go);
     MT.closePlayer();
     if(Number.isInteger(i)&&i>=0&&!(MT.view==='branch'&&MT.themeIndex===i)){closePages();MT.showTheme(i);}
