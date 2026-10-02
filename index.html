@@ -10849,6 +10849,209 @@ body.mt-lyrics-full{overflow:hidden!important;overscroll-behavior:none!important
 }
 /* ================= /CITYMUSIC BRAND DETAIL LAYER ================= */
 
+
+/* ================= CITYMUSIC ONBOARDING V3 ================= */
+#welcome.mt-onboard-v3{
+  background:
+    radial-gradient(circle at 14% 8%,rgba(209,229,255,.82),transparent 31%),
+    radial-gradient(circle at 88% 88%,rgba(255,218,232,.72),transparent 34%),
+    linear-gradient(150deg,#f7f9fe 0%,#f3f4fb 48%,#faf6f8 100%)!important;
+}
+#welcome.mt-onboard-v3 .welcome-card{
+  width:min(720px,calc(100vw - 28px))!important;
+  max-height:min(820px,calc(100dvh - 28px))!important;
+  border:1px solid rgba(255,255,255,.88)!important;
+  background:rgba(252,253,255,.88)!important;
+  backdrop-filter:blur(28px) saturate(1.16)!important;
+  -webkit-backdrop-filter:blur(28px) saturate(1.16)!important;
+  box-shadow:0 28px 90px -48px rgba(34,39,70,.52),inset 0 1px 0 rgba(255,255,255,.94)!important;
+}
+#welcome.mt-onboard-v3 .mt-onboard-head{
+  min-height:66px!important;padding:15px 18px 12px!important;
+  background:rgba(252,253,255,.66)!important;
+}
+#welcome.mt-onboard-v3 .mt-onboard-brand svg{width:28px!important;height:28px!important}
+#welcome.mt-onboard-v3 .mt-onboard-brand span{font-size:12px!important}
+#welcome.mt-onboard-v3 .mt-onboard-progress{
+  min-width:156px;display:grid!important;grid-template-columns:minmax(0,1fr) 58px!important;gap:10px!important;align-items:center!important;
+}
+#welcome.mt-onboard-v3 .mt-onboard-progress>div{display:grid;gap:3px;text-align:right}
+#welcome.mt-onboard-v3 .mt-onboard-stage{
+  font:850 8px/1 var(--mt-ui);letter-spacing:.15em;color:var(--mt-accent-ink);text-transform:uppercase;
+}
+#welcome.mt-onboard-v3 .mt-onboard-counter{
+  font:750 9px/1 var(--mt-ui);letter-spacing:.08em;color:var(--mt-ink-3);
+}
+#welcome.mt-onboard-v3 .mt-onboard-progress i{
+  position:relative;width:58px!important;height:5px!important;border-radius:99px;background:rgba(44,49,78,.08)!important;overflow:hidden;
+}
+#welcome.mt-onboard-v3 .mt-onboard-progress i::after{
+  content:'';position:absolute;inset:0 auto 0 0;width:var(--p,0%);border-radius:inherit;
+  background:linear-gradient(90deg,var(--mt-accent),color-mix(in srgb,var(--mt-accent) 55%,#ee90ae));
+  transition:width .28s ease;
+}
+#welcome.mt-onboard-v3 .mt-onboard-body{
+  padding:28px 28px 24px!important;scrollbar-width:none;
+}
+#welcome.mt-onboard-v3 .mt-onboard-body::-webkit-scrollbar{display:none}
+#welcome.mt-onboard-v3 .mt-onboard-kicker{margin-bottom:10px!important;letter-spacing:.17em!important}
+#welcome.mt-onboard-v3 .mt-onboard-body h1,
+#welcome.mt-onboard-v3 .mt-onboard-body h2{
+  max-width:620px;margin:0!important;font-size:clamp(30px,5vw,46px)!important;line-height:1.03!important;letter-spacing:-.045em!important;
+}
+#welcome.mt-onboard-v3 .mt-onboard-body>p{
+  max-width:600px;margin:12px 0 0!important;font-size:13px!important;line-height:1.65!important;color:var(--mt-ink-2)!important;
+}
+#welcome.mt-onboard-v3 .mt-onboard-selection-note{
+  display:flex;align-items:center;justify-content:space-between;margin:20px 2px 8px;padding:0 2px;
+}
+#welcome.mt-onboard-v3 .mt-onboard-selection-note span{
+  font:700 10px/1 var(--mt-ui);letter-spacing:.03em;color:var(--mt-ink-3);
+}
+#welcome.mt-onboard-v3 .mt-onboard-selection-note b{
+  min-width:42px;padding:5px 8px;border-radius:999px;background:var(--mt-mist);
+  font:850 9px/1 var(--mt-ui);text-align:center;color:var(--mt-ink-2);
+}
+#welcome.mt-onboard-v3 .mt-onboard-options{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;margin-top:0!important;
+}
+#welcome.mt-onboard-v3 .mt-onboard-option{
+  position:relative;min-height:72px!important;padding:13px 14px!important;border-radius:17px!important;text-align:left!important;
+  background:rgba(248,249,253,.84)!important;border:1px solid rgba(47,52,82,.065)!important;
+  box-shadow:0 8px 22px -22px rgba(37,42,70,.48)!important;
+  transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+#welcome.mt-onboard-v3 .mt-onboard-option:hover{transform:translateY(-1px)}
+#welcome.mt-onboard-v3 .mt-onboard-option.selected{
+  background:linear-gradient(145deg,rgba(237,244,255,.96),rgba(255,243,248,.96))!important;
+  border-color:color-mix(in srgb,var(--mt-accent) 34%,rgba(47,52,82,.08))!important;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--mt-accent) 32%,transparent),0 14px 28px -26px rgba(37,42,70,.7)!important;
+}
+#welcome.mt-onboard-v3 .mt-onboard-option.selected::after{
+  content:'✓';position:absolute;right:11px;top:10px;width:21px;height:21px;border-radius:50%;
+  display:grid;place-items:center;background:var(--mt-ink);color:white;font:800 10px/1 var(--mt-ui);
+}
+#welcome.mt-onboard-v3 .mt-onboard-option b{display:block;padding-right:24px;font-size:13px!important}
+#welcome.mt-onboard-v3 .mt-onboard-option span{display:block;margin-top:4px;font-size:10.5px!important;line-height:1.4!important;color:var(--mt-ink-3)!important}
+#welcome.mt-onboard-v3 .mt-onboard-seed small{display:block;margin-bottom:5px;font:800 8px/1 var(--mt-ui);letter-spacing:.12em;color:var(--mt-accent-ink)}
+#welcome.mt-onboard-v3[data-onboard-step="energy"] .mt-onboard-options,
+#welcome.mt-onboard-v3[data-onboard-step="tempo"] .mt-onboard-options,
+#welcome.mt-onboard-v3[data-onboard-step="discovery"] .mt-onboard-options{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+#welcome.mt-onboard-v3 .mt-onboard-hero{margin-top:24px}
+#welcome.mt-onboard-v3 .mt-onboard-orbit{
+  position:relative;width:112px;height:112px;margin:0 auto 22px;border-radius:50%;
+  background:linear-gradient(145deg,#fff,rgba(242,245,253,.9));box-shadow:0 22px 44px -32px rgba(43,48,78,.6),inset 0 0 0 1px rgba(47,52,82,.07);
+}
+#welcome.mt-onboard-v3 .mt-onboard-orbit::before{
+  content:'';position:absolute;inset:24px;border:2px solid #303348;border-radius:50%;
+}
+#welcome.mt-onboard-v3 .mt-onboard-orbit span,
+#welcome.mt-onboard-v3 .mt-onboard-orbit i{
+  position:absolute;left:50%;top:50%;border:2px solid #303348;border-radius:50%;transform:translate(-50%,-50%);
+}
+#welcome.mt-onboard-v3 .mt-onboard-orbit span{width:26px;height:64px}
+#welcome.mt-onboard-v3 .mt-onboard-orbit i{width:64px;height:26px}
+#welcome.mt-onboard-v3 .mt-onboard-orbit b{
+  position:absolute;width:8px;height:8px;border-radius:50%;background:var(--mt-accent);
+  left:83px;top:26px;box-shadow:0 0 0 6px color-mix(in srgb,var(--mt-accent) 12%,transparent);
+}
+#welcome.mt-onboard-v3 .mt-onboard-promise{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+#welcome.mt-onboard-v3 .mt-onboard-promise section{
+  min-height:96px;padding:13px;border-radius:17px;background:rgba(247,248,252,.82);border:1px solid rgba(47,52,82,.055);
+}
+#welcome.mt-onboard-v3 .mt-onboard-promise small{font:850 8px/1 var(--mt-ui);letter-spacing:.12em;color:var(--mt-accent-ink)}
+#welcome.mt-onboard-v3 .mt-onboard-promise b{display:block;margin-top:10px;font:800 12px/1.25 var(--mt-ui);color:var(--mt-ink)}
+#welcome.mt-onboard-v3 .mt-onboard-promise span{display:block;margin-top:5px;font:500 10px/1.45 var(--mt-ui);color:var(--mt-ink-3)}
+#welcome.mt-onboard-v3 .mt-onboard-trust{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:13px}
+#welcome.mt-onboard-v3 .mt-onboard-trust span{
+  padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.72);border:1px solid rgba(47,52,82,.06);
+  font:700 9px/1 var(--mt-ui);color:var(--mt-ink-3);
+}
+#welcome.mt-onboard-v3 .mt-onboard-ready{margin-top:20px}
+#welcome.mt-onboard-v3 .mt-onboard-profile-strip{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+#welcome.mt-onboard-v3 .mt-onboard-profile-strip::-webkit-scrollbar{display:none}
+#welcome.mt-onboard-v3 .mt-onboard-profile-strip>span{
+  flex:0 0 auto;max-width:230px;padding:9px 11px;border-radius:13px;background:var(--mt-mist);
+}
+#welcome.mt-onboard-v3 .mt-onboard-profile-strip small{display:block;font:800 7px/1 var(--mt-ui);letter-spacing:.12em;color:var(--mt-ink-3)}
+#welcome.mt-onboard-v3 .mt-onboard-profile-strip b{display:block;margin-top:4px;font:750 10px/1.35 var(--mt-ui);color:var(--mt-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#welcome.mt-onboard-v3 .mt-onboard-preview-head{display:flex;align-items:end;justify-content:space-between;margin:18px 1px 9px}
+#welcome.mt-onboard-v3 .mt-onboard-preview-head small{display:block;font:850 8px/1 var(--mt-ui);letter-spacing:.13em;color:var(--mt-accent-ink)}
+#welcome.mt-onboard-v3 .mt-onboard-preview-head b{display:block;margin-top:5px;font:800 14px/1.1 var(--mt-ui);color:var(--mt-ink)}
+#welcome.mt-onboard-v3 .mt-onboard-preview-head>span{font:650 9px/1 var(--mt-ui);color:var(--mt-ink-3)}
+#welcome.mt-onboard-v3 .mt-onboard-preview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#welcome.mt-onboard-v3 .mt-onboard-preview-card{
+  appearance:none;border:1px solid rgba(47,52,82,.065);min-height:94px;padding:12px;border-radius:17px;text-align:left;cursor:pointer;
+  background:linear-gradient(145deg,rgba(247,249,255,.96),rgba(255,247,250,.96));
+}
+#welcome.mt-onboard-v3 .mt-onboard-preview-card small{display:block;font:850 7px/1 var(--mt-ui);letter-spacing:.12em;color:var(--mt-accent-ink)}
+#welcome.mt-onboard-v3 .mt-onboard-preview-card b{display:block;margin-top:12px;font:800 12px/1.15 var(--mt-ui);color:var(--mt-ink)}
+#welcome.mt-onboard-v3 .mt-onboard-preview-card span{display:block;margin-top:4px;font:600 9px/1.3 var(--mt-ui);color:var(--mt-ink-3)}
+#welcome.mt-onboard-v3 .mt-onboard-learning-note{margin:12px 2px 0!important;font-size:10.5px!important;line-height:1.55!important;color:var(--mt-ink-3)!important}
+#welcome.mt-onboard-v3 .mt-onboard-foot{
+  min-height:66px!important;padding:10px 16px calc(10px + var(--mt-safe-b))!important;background:rgba(252,253,255,.82)!important;
+}
+#welcome.mt-onboard-v3 .mt-onboard-back[hidden],
+#welcome.mt-onboard-v3 .mt-onboard-skip[hidden]{display:none!important}
+#welcome.mt-onboard-v3[data-onboard-step="intro"] .mt-onboard-foot{
+  grid-template-columns:1fr auto!important;grid-template-rows:46px 28px!important;
+}
+#welcome.mt-onboard-v3[data-onboard-step="intro"] .mt-onboard-next{grid-column:1/-1!important;grid-row:1!important;width:100%!important}
+#welcome.mt-onboard-v3[data-onboard-step="intro"] .mt-onboard-skip{grid-column:1/-1!important;grid-row:2!important}
+#welcome.mt-onboard-v3.is-advancing .mt-onboard-option.selected{transform:scale(.985)}
+@media(prefers-reduced-motion:reduce){
+  #welcome.mt-onboard-v3 .mt-onboard-progress i::after,#welcome.mt-onboard-v3 .mt-onboard-option{transition:none!important}
+}
+@media(max-width:760px){
+  #welcome.mt-onboard-v3{padding:max(6px,var(--mt-safe-t)) 6px max(6px,var(--mt-safe-b))!important}
+  #welcome.mt-onboard-v3 .welcome-card{
+    width:calc(100vw - 12px)!important;height:calc(100dvh - max(6px,var(--mt-safe-t)) - max(6px,var(--mt-safe-b)) - 6px)!important;
+    max-height:none!important;border-radius:24px!important;
+  }
+  #welcome.mt-onboard-v3 .mt-onboard-head{min-height:58px!important;padding:11px 13px 9px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-progress{min-width:130px;grid-template-columns:minmax(0,1fr) 46px!important;gap:7px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-progress i{width:46px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-body{padding:20px 14px 16px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-body h1,#welcome.mt-onboard-v3 .mt-onboard-body h2{font-size:clamp(28px,9vw,39px)!important}
+  #welcome.mt-onboard-v3 .mt-onboard-body>p{font-size:12px!important;line-height:1.55!important}
+  #welcome.mt-onboard-v3 .mt-onboard-options{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-option{min-height:68px!important;padding:11px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-option b{font-size:12px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-option span{font-size:9.5px!important}
+  #welcome.mt-onboard-v3[data-onboard-step="energy"] .mt-onboard-options,
+  #welcome.mt-onboard-v3[data-onboard-step="tempo"] .mt-onboard-options,
+  #welcome.mt-onboard-v3[data-onboard-step="discovery"] .mt-onboard-options{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  #welcome.mt-onboard-v3[data-onboard-step="energy"] .mt-onboard-option,
+  #welcome.mt-onboard-v3[data-onboard-step="tempo"] .mt-onboard-option,
+  #welcome.mt-onboard-v3[data-onboard-step="discovery"] .mt-onboard-option{padding:10px 8px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-promise{grid-template-columns:1fr!important;gap:6px}
+  #welcome.mt-onboard-v3 .mt-onboard-promise section{min-height:0;padding:10px 12px}
+  #welcome.mt-onboard-v3 .mt-onboard-promise b{display:inline-block;margin:0 8px 0 9px}
+  #welcome.mt-onboard-v3 .mt-onboard-promise span{display:inline}
+  #welcome.mt-onboard-v3 .mt-onboard-orbit{width:82px;height:82px;margin-bottom:14px}
+  #welcome.mt-onboard-v3 .mt-onboard-orbit::before{inset:18px}
+  #welcome.mt-onboard-v3 .mt-onboard-orbit span{width:20px;height:46px}
+  #welcome.mt-onboard-v3 .mt-onboard-orbit i{width:46px;height:20px}
+  #welcome.mt-onboard-v3 .mt-onboard-orbit b{left:60px;top:18px}
+  #welcome.mt-onboard-v3 .mt-onboard-preview-grid{grid-template-columns:1fr!important}
+  #welcome.mt-onboard-v3 .mt-onboard-preview-card{min-height:66px;padding:10px 12px}
+  #welcome.mt-onboard-v3 .mt-onboard-preview-card b{margin-top:7px}
+  #welcome.mt-onboard-v3 .mt-onboard-foot{
+    display:grid!important;grid-template-columns:1fr 1.25fr!important;grid-template-rows:46px!important;
+    gap:7px!important;padding:8px 10px calc(8px + var(--mt-safe-b))!important;
+  }
+  #welcome.mt-onboard-v3 .mt-onboard-back{grid-column:1!important;grid-row:1!important}
+  #welcome.mt-onboard-v3 .mt-onboard-next{grid-column:2!important;grid-row:1!important}
+}
+@media(max-width:390px){
+  #welcome.mt-onboard-v3 .mt-onboard-brand span{display:inline!important;font-size:10px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-progress{min-width:112px;grid-template-columns:minmax(0,1fr) 38px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-progress i{width:38px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-body{padding-inline:12px!important}
+  #welcome.mt-onboard-v3 .mt-onboard-option{min-height:64px!important}
+}
+/* ================= /CITYMUSIC ONBOARDING V3 ================= */
+
 </style>
 <!-- CITYMUSIC BRAND META START -->
 <meta name="application-name" content="CITYMUSIC">
@@ -16001,6 +16204,12 @@ setTimeout(()=>{
 
 
 
+
+
+
+
+
+
 /* ================= R10.2 CORE BRIDGE START ================= */
 /* R10.2 exposes only the navigation/player surface the external shell needs. */
 function mtEmit(name,detail){
@@ -18261,7 +18470,7 @@ if('ResizeObserver' in window){
    ===================================================================== */
 const ALG_PROFILE_KEY='musicetown.r10.2.profile';
 const ALG_STATE_KEY='musicetown.r10.2.signals';
-const ALG_ONBOARD_KEY='musicetown.r10.2.4.onboarded';
+const ALG_ONBOARD_KEY='musicetown.r10.3.onboarded';
 function readJson(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(_){return fallback}}
 function writeJson(key,v){try{localStorage.setItem(key,JSON.stringify(v))}catch(_){}}
 function algProfile(){return Object.assign({moments:[],moods:[],energy:'mid',tempo:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]},readJson(ALG_PROFILE_KEY,{}))}
@@ -18461,102 +18670,195 @@ lyricsPreview.querySelector('.mt-lyrics-preview-close').addEventListener('click'
 lyricsPreview.addEventListener('click',e=>{if(e.target===lyricsPreview)closeLyricsPreview()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&lyricsPreview.classList.contains('open'))closeLyricsPreview()});
 
-/* ----- onboarding v2: eight focused screens that actually seed the algorithm ----- */
+/* ----- CITYMUSIC ONBOARDING V3 · three-stage, fast personalization ----- */
 const ONBOARD_STEPS=[
-  {k:'intro',title:'歡迎來到 CITYMUSIC',copy:'先用幾個很短的選擇建立你的初始聲音輪廓。之後實際播放、收藏、聽完與快速略過，會持續修正推薦。'},
-  {k:'moments',title:'你通常在什麼時候聽？',copy:'可以複選。情境會影響每日推薦的熟悉感、節奏與氛圍。'},
-  {k:'moods',title:'你現在比較常找哪種心情？',copy:'可以複選。這讓演算法知道同一個曲風裡，你偏好的情緒方向。'},
-  {k:'energy',title:'你喜歡多大的能量？',copy:'決定推薦主題的推進感與刺激程度。'},
-  {k:'tempo',title:'你偏好的速度感？',copy:'不是硬性 BPM 篩選，而是排序訊號。'},
-  {k:'vocal',title:'你對人聲的偏好？',copy:'人聲只是權重，不會把其他歌曲完全排除。'},
-  {k:'textures',title:'先選一些聲音質地',copy:'可以複選。Jazz、Rock、Lo-fi、城市感等會成為初始偏好。'},
-  {k:'worlds',title:'你想先從哪種世界出發？',copy:'城市、校園與景點可以混在同一份推薦裡。'},
-  {k:'discovery',title:'你希望推薦多敢探索？',copy:'熟悉優先會回到你常聽的世界；探索模式會主動提高新城市與跨風格主題。'},
-  {k:'seeds',title:'挑幾個你願意先試的主題',copy:'最多選四個作為起點；之後行為訊號會逐漸取代初始選擇。'},
-  {k:'summary',title:'你的推薦輪廓準備好了',copy:'完成後直接回到主頁，先看到每日推薦；每週推薦與 CT 推薦會用不同權重重新排序。'}
+  {k:'intro',stage:'start',stageLabel:'WELCOME',title:'讓 CITYMUSIC 先認識你的耳朵',copy:'用幾個很短的選擇建立第一版推薦。大約 30 秒，之後會再用你真正的播放、收藏、聽完與略過持續修正。'},
+  {k:'moments',stage:'profile',stageLabel:'LISTENING LIFE',multi:true,max:3,required:true,title:'你最常在哪些時刻打開音樂？',copy:'選 1–3 個。這會先決定每日推薦的使用情境。'},
+  {k:'moods',stage:'profile',stageLabel:'MOOD',multi:true,max:3,required:true,title:'你希望音樂帶來什麼感覺？',copy:'選 1–3 個你最常找的情緒，不用想太久。'},
+  {k:'energy',stage:'profile',stageLabel:'ENERGY',auto:true,title:'你喜歡多大的能量？',copy:'選一個最接近平常的狀態。之後還會依播放行為調整。'},
+  {k:'tempo',stage:'profile',stageLabel:'PACE',auto:true,title:'速度感偏哪一邊？',copy:'這只是排序權重，不會把其他速度的歌完全排除。'},
+  {k:'vocal',stage:'profile',stageLabel:'VOCAL',auto:true,title:'人聲對你有多重要？',copy:'選最接近的偏好，CITYMUSIC 仍會保留探索空間。'},
+  {k:'textures',stage:'profile',stageLabel:'SOUND',multi:true,max:3,required:true,title:'哪些聲音最容易讓你停下來？',copy:'選 1–3 種聲音質地，這會直接影響第一批推薦。'},
+  {k:'worlds',stage:'profile',stageLabel:'WORLD',multi:true,max:2,title:'想先從哪裡開始探索？',copy:'最多選 2 個。城市、校園與地景之後仍會互相穿插。'},
+  {k:'discovery',stage:'profile',stageLabel:'DISCOVERY',auto:true,title:'你想讓推薦多敢冒險？',copy:'決定熟悉感與新鮮感的比例。'},
+  {k:'seeds',stage:'tune',stageLabel:'TUNE',multi:true,max:3,title:'這幾個主題，你會先點哪幾個？',copy:'這是最後一個校準。最多選 3 個，讓第一版推薦更快進入狀態。'},
+  {k:'summary',stage:'ready',stageLabel:'READY',title:'你的第一版聲音輪廓完成',copy:'這不是定案。CITYMUSIC 會從你真正的使用行為繼續學，下面先給你今天最可能想點開的方向。'}
 ];
 const ONBOARD_OPTIONS={
-  moments:[['focus','專注 / 工作','安靜、穩定、不搶注意力'],['night','夜晚','城市夜色、較深的氛圍'],['drive','通勤 / 開車','有流動感與節奏'],['workout','運動','更高能量與推進感'],['chill','放空','柔軟、慢一些'],['social','聚會','容易進入狀態的聲音']],
+  moments:[['focus','專注 / 工作','穩定、不搶注意力'],['night','夜晚','城市夜色、較深氛圍'],['drive','通勤 / 開車','有流動感與節奏'],['workout','運動','更高能量與推進感'],['chill','放空','柔軟、慢一些'],['social','聚會','容易進入狀態']],
   moods:[['warm','溫暖','Soul、Acoustic、柔和爵士'],['dreamy','夢幻','Ambient、Lo-fi、夜色感'],['bright','明亮','Pop、城市、夏日感'],['dark','深色','Night、Punk、Cinematic'],['intense','強烈','Rock、Sport、Metal'],['nostalgic','懷舊','Vintage、Retro、老城市']],
-  energy:[['low','低能量','安靜、留白多'],['mid','中等','耐聽、節奏適中'],['high','高能量','更直接、更有衝擊']],
-  tempo:[['slow','偏慢','適合放空、專注與深夜'],['mid','中速','耐聽、適合長時間播放'],['fast','偏快','更有推進感與節奏']],
-  vocal:[['instrumental','偏器樂','人聲不是重點'],['soft','柔和人聲','輕、近、低刺激'],['clear','清楚人聲','旋律與歌唱感明顯'],['strong','強人聲','搖滾、龐克、張力更高'],['mixed','都可以','讓行為慢慢決定']],
+  energy:[['low','低能量','留白多、刺激少'],['mid','中等','耐聽、節奏適中'],['high','高能量','直接、有衝擊']],
+  tempo:[['slow','偏慢','放空、專注、深夜'],['mid','中速','耐聽、適合久播'],['fast','偏快','推進感與節奏更明顯']],
+  vocal:[['instrumental','偏器樂','人聲不是重點'],['soft','柔和人聲','輕、近、低刺激'],['clear','清楚人聲','旋律與歌唱感明顯'],['strong','強人聲','搖滾、龐克、張力高'],['mixed','都可以','讓使用行為慢慢決定']],
   textures:[['jazz','Jazz / Blues','爵士、藍調、groove'],['rock','Rock / Guitar','吉他、龐克、搖滾'],['lofi','Lo-fi / Ambient','低彩度、環境感'],['city','City Sound','城市、indie、都會'],['cinematic','Cinematic','場景感與旅行感'],['campus','Campus','校園與年輕感']],
   worlds:[['taiwan','台灣','城市、景點、校園'],['asia','亞洲','東京、上海、首爾等'],['world','世界城市','歐美與世界地景'],['campus','大學','各地校園限定'],['landmark','景點','地標與旅行主題']],
-  discovery:[['familiar','熟悉優先','多一點你已經喜歡的聲音與核心主題'],['balanced','平衡探索','熟悉與新鮮大約各半'],['explore','多給我驚喜','提高限定主題、城市與跨風格探索']]
+  discovery:[['familiar','熟悉優先','更多你已經喜歡的聲音'],['balanced','平衡探索','熟悉與新鮮大約各半'],['explore','多給我驚喜','提高新城市與跨風格比例']]
 };
-let onboardStep=0,onboard=algProfile();
+const ONBOARD_PROFILE_KEYS=['moments','moods','energy','tempo','vocal','textures','worlds','discovery'];
+let onboardStep=0,onboard=algProfile(),onboardAdvanceTimer=0;
+function onboardCurrent(){return ONBOARD_STEPS[onboardStep]}
 function optionSelected(k,v){const cur=onboard[k];return Array.isArray(cur)?cur.includes(v):cur===v}
-function toggleOnboard(k,v){if(['moments','moods','textures','worlds','seeds'].includes(k)){const a=Array.isArray(onboard[k])?[...onboard[k]]:[];const i=a.indexOf(v);if(i>=0)a.splice(i,1);else a.push(v);onboard[k]=a.slice(0,k==='seeds'?4:5)}else onboard[k]=v}
-function onboardSeedRows(){const prev=readJson(ALG_PROFILE_KEY,null);writeJson(ALG_PROFILE_KEY,onboard);const rows=recommendThemes('daily',6);if(prev)writeJson(ALG_PROFILE_KEY,prev);else try{localStorage.removeItem(ALG_PROFILE_KEY)}catch(_){}return rows}
+function onboardSelectionCount(k){const cur=onboard[k];return Array.isArray(cur)?cur.length:(cur?1:0)}
+function toggleOnboard(k,v){
+  const st=onboardCurrent();
+  if(st?.multi){
+    const a=Array.isArray(onboard[k])?[...onboard[k]]:[];
+    const i=a.indexOf(v);
+    if(i>=0)a.splice(i,1);
+    else if(a.length<(st.max||3))a.push(v);
+    onboard[k]=a;
+  }else onboard[k]=v;
+}
+function onboardStepReady(st=onboardCurrent()){
+  if(!st?.required)return true;
+  return onboardSelectionCount(st.k)>0;
+}
+function onboardSeedRows(){
+  const prev=readJson(ALG_PROFILE_KEY,null);
+  writeJson(ALG_PROFILE_KEY,onboard);
+  const rows=recommendThemes('daily',6);
+  if(prev)writeJson(ALG_PROFILE_KEY,prev);else try{localStorage.removeItem(ALG_PROFILE_KEY)}catch(_){}
+  return rows;
+}
+function onboardPreviewRows(){
+  const prev=readJson(ALG_PROFILE_KEY,null);
+  writeJson(ALG_PROFILE_KEY,onboard);
+  const rows=recommendThemes('daily',3);
+  if(prev)writeJson(ALG_PROFILE_KEY,prev);else try{localStorage.removeItem(ALG_PROFILE_KEY)}catch(_){}
+  return rows;
+}
 function onboardLabel(k,v){
   const row=(ONBOARD_OPTIONS[k]||[]).find(x=>x[0]===v);
   return row?.[1]||String(v||'');
 }
+function onboardStageMeta(st){
+  if(st.stage==='start')return {label:'WELCOME',count:'30 SEC SETUP',p:0};
+  if(st.stage==='ready')return {label:'READY',count:'PROFILE READY',p:100};
+  const profileSteps=ONBOARD_STEPS.filter(x=>x.stage==='profile'||x.stage==='tune');
+  const i=profileSteps.findIndex(x=>x.k===st.k);
+  return {label:st.stageLabel||'PERSONALIZE',count:(i+1)+' / '+profileSteps.length,p:Math.round(((i+1)/profileSteps.length)*92)+4};
+}
+function onboardSelectionNote(st){
+  if(!st.multi)return '';
+  const n=onboardSelectionCount(st.k),max=st.max||3;
+  const req=st.required?'至少選 1 個':'可略過';
+  return '<div class="mt-onboard-selection-note"><span>'+req+'</span><b>'+n+' / '+max+'</b></div>';
+}
+function onboardIntroHtml(){
+  return '<div class="mt-onboard-hero">'+
+    '<div class="mt-onboard-orbit" aria-hidden="true"><span></span><i></i><b></b></div>'+
+    '<div class="mt-onboard-promise"><section><small>01</small><b>先建立輪廓</b><span>情境、心情、聲音與探索程度</span></section>'+
+    '<section><small>02</small><b>再從行為學習</b><span>播放、聽完、收藏與快速略過</span></section>'+
+    '<section><small>03</small><b>每天重新排序</b><span>每日推薦、每週推薦與 CT 推薦</span></section></div>'+
+    '<div class="mt-onboard-trust"><span>約 30 秒</span><span>可隨時再調整</span><span>不會鎖死曲風</span></div>'+
+  '</div>';
+}
 function onboardSummaryHtml(){
-  const rows=[
-    ['情境',(onboard.moments||[]).map(v=>onboardLabel('moments',v))],
-    ['心情',(onboard.moods||[]).map(v=>onboardLabel('moods',v))],
-    ['能量',[onboardLabel('energy',onboard.energy)]],
-    ['速度',[onboardLabel('tempo',onboard.tempo)]],
-    ['人聲',[onboardLabel('vocal',onboard.vocal)]],
-    ['質地',(onboard.textures||[]).map(v=>onboardLabel('textures',v))],
-    ['世界',(onboard.worlds||[]).map(v=>onboardLabel('worlds',v))],
+  const compact=[
+    ['情境',(onboard.moments||[]).slice(0,3).map(v=>onboardLabel('moments',v))],
+    ['心情',(onboard.moods||[]).slice(0,3).map(v=>onboardLabel('moods',v))],
+    ['聲音',(onboard.textures||[]).slice(0,3).map(v=>onboardLabel('textures',v))],
     ['探索',[onboardLabel('discovery',onboard.discovery)]]
   ].filter(x=>x[1].filter(Boolean).length);
-  return '<div class="mt-onboard-summary"><div class="mt-onboard-summary-grid">'+
-    rows.map(r=>'<section><small>'+esc(r[0])+'</small><b>'+r[1].filter(Boolean).map(esc).join(' · ')+'</b></section>').join('')+
-    '</div><p>之後「聽完」會提高權重，太快略過會降低權重；每日、每週與 CT 推薦會用不同探索比例重新排序。</p></div>';
+  const recos=onboardPreviewRows();
+  const recoHtml=recos.map((x,i)=>{
+    const d=MT.DATA[x.i],nm=MT.splitThemeName(d?.t||'');
+    return '<button class="mt-onboard-preview-card" type="button" data-preview-theme="'+esc(String(x.i))+'">'+
+      '<small>DAILY '+String(i+1).padStart(2,'0')+'</small><b>'+esc(nm.main||d?.t||'CITYMUSIC')+'</b>'+
+      '<span>'+esc(nm.sub||groupKeyOfTheme(d?.t||'').replaceAll('_',' '))+'</span></button>';
+  }).join('');
+  return '<div class="mt-onboard-ready">'+
+    '<div class="mt-onboard-profile-strip">'+compact.map(r=>'<span><small>'+esc(r[0])+'</small><b>'+r[1].filter(Boolean).map(esc).join(' · ')+'</b></span>').join('')+'</div>'+
+    '<div class="mt-onboard-preview-head"><div><small>YOUR FIRST DAILY MIX</small><b>先從這三個方向開始</b></div><span>會持續變動</span></div>'+
+    '<div class="mt-onboard-preview-grid">'+recoHtml+'</div>'+
+    '<p class="mt-onboard-learning-note">完整聽完會提高相近推薦；太快換歌會降低權重。你不用回來重新填問卷，CITYMUSIC 會自己更新。</p>'+
+  '</div>';
 }
 function renderOnboard(){
   const welcome=$('welcome');if(!welcome)return;
-  const st=ONBOARD_STEPS[onboardStep];
-  const bodyEl=welcome.querySelector('.mt-onboard-body'),counter=welcome.querySelector('.mt-onboard-counter'),bar=welcome.querySelector('.mt-onboard-progress i'),next=welcome.querySelector('.mt-onboard-next'),back=welcome.querySelector('.mt-onboard-back');
-  counter.textContent=(onboardStep+1)+' / '+ONBOARD_STEPS.length;
-  bar.style.setProperty('--p',(((onboardStep+1)/ONBOARD_STEPS.length)*100)+'%');
-  back.disabled=onboardStep===0;
+  const st=onboardCurrent(),meta=onboardStageMeta(st);
+  welcome.dataset.onboardStep=st.k;welcome.dataset.onboardStage=st.stage;
+  const bodyEl=welcome.querySelector('.mt-onboard-body'),counter=welcome.querySelector('.mt-onboard-counter'),stage=welcome.querySelector('.mt-onboard-stage'),bar=welcome.querySelector('.mt-onboard-progress i'),next=welcome.querySelector('.mt-onboard-next'),back=welcome.querySelector('.mt-onboard-back'),skip=welcome.querySelector('.mt-onboard-skip');
+  counter.textContent=meta.count;stage.textContent=meta.label;bar.style.setProperty('--p',meta.p+'%');
+  back.hidden=st.k==='intro';back.disabled=st.k==='intro';
+  skip.hidden=st.k!=='intro';
   let options='';
   if(st.k==='intro'){
-    options='<div class="mt-onboard-intro-card"><b>推薦不是一次設定完就不變</b><span>這裡只建立初始輪廓；實際播放、收藏、完整聽完與快速略過會繼續修正權重。</span><div><i>每日推薦</i><i>每週推薦</i><i>CT 推薦</i></div></div>';
+    options=onboardIntroHtml();
   }else if(st.k==='seeds'){
-    options='<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{
+    options=onboardSelectionNote(st)+'<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{
       const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),sel=optionSelected('seeds',d.t);
-      return '<button class="mt-onboard-option mt-onboard-seed'+(sel?' selected':'')+'" data-ob-value="'+esc(d.t)+'" type="button"><small>SEED '+(i+1)+'</small><b>'+esc(nm.main)+'</b><span>'+esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))+'</span></button>';
+      return '<button class="mt-onboard-option mt-onboard-seed'+(sel?' selected':'')+'" data-ob-value="'+esc(d.t)+'" type="button"><small>SEED '+String(i+1).padStart(2,'0')+'</small><b>'+esc(nm.main)+'</b><span>'+esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))+'</span></button>';
     }).join('')+'</div>';
   }else if(st.k==='summary'){
     options=onboardSummaryHtml();
   }else{
-    options='<div class="mt-onboard-options">'+(ONBOARD_OPTIONS[st.k]||[]).map(row=>{
+    options=onboardSelectionNote(st)+'<div class="mt-onboard-options">'+(ONBOARD_OPTIONS[st.k]||[]).map(row=>{
       const v=row[0],b=row[1],s=row[2];
       return '<button class="mt-onboard-option'+(optionSelected(st.k,v)?' selected':'')+'" data-ob-value="'+v+'" type="button"><b>'+b+'</b><span>'+s+'</span></button>';
     }).join('')+'</div>';
   }
-  const heading=onboardStep===0?'h1':'h2';
-  bodyEl.innerHTML='<div class="mt-onboard-kicker">CITYMUSIC · '+String(onboardStep+1).padStart(2,'0')+' · PERSONALIZE</div><'+heading+'>'+st.title+'</'+heading+'><p>'+st.copy+'</p>'+options;
-  next.textContent=st.k==='summary'?'進入主頁':'下一步';
-  next.disabled=false;
+  const heading=st.k==='intro'?'h1':'h2';
+  bodyEl.innerHTML='<div class="mt-onboard-kicker">CITYMUSIC · '+st.stageLabel+'</div><'+heading+'>'+st.title+'</'+heading+'><p>'+st.copy+'</p>'+options;
+  if(st.k==='intro')next.textContent='開始設定';
+  else if(st.k==='summary')next.textContent='看看我的首頁';
+  else if(st.multi)next.textContent=onboardStepReady(st)?'選好了，下一步':'先選一個';
+  else next.textContent='下一步';
+  next.disabled=!onboardStepReady(st);
   bodyEl.scrollTop=0;
 }
-function finishOnboard(skip=false){
-  if(skip)onboard={moments:[],moods:[],energy:'mid',tempo:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]};
-  writeJson(ALG_PROFILE_KEY,onboard);try{localStorage.setItem(ALG_ONBOARD_KEY,'1');localStorage.setItem('musicetown.r10.onboarded','1');localStorage.setItem('musicetown.r10.2.4.onboarded','1')}catch(_){}
-  const welcome=$('welcome');welcome?.classList.add('is-out');welcome?.classList.remove('welcome-active','finalizing','previewing');body.classList.remove('welcome-active');
-  setTimeout(()=>{if(welcome)welcome.style.display='none'},360);
-  renderRecoShelf('daily');requestAnimationFrame(measure);document.dispatchEvent(new CustomEvent('mt:welcome',{detail:{done:true,profile:onboard}}));
+function advanceOnboard(){
+  clearTimeout(onboardAdvanceTimer);
+  const st=onboardCurrent();
+  if(!onboardStepReady(st))return;
+  if(onboardStep<ONBOARD_STEPS.length-1){onboardStep++;renderOnboard()}
+  else finishOnboard(false);
 }
-function installOnboardV2(){
+function finishOnboard(skip=false){
+  if(skip){
+    const saved=readJson(ALG_PROFILE_KEY,null);
+    onboard=saved?algProfile():{moments:[],moods:[],energy:'mid',tempo:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]};
+  }
+  writeJson(ALG_PROFILE_KEY,onboard);
+  try{
+    localStorage.setItem(ALG_ONBOARD_KEY,'1');
+    localStorage.setItem('musicetown.r10.onboarded','1');
+    localStorage.setItem('musicetown.r10.2.4.onboarded','1');
+    localStorage.setItem('musicetown.r10.3.onboarded','1');
+  }catch(_){}
+  const welcome=$('welcome');
+  welcome?.classList.add('is-out');welcome?.classList.remove('welcome-active','finalizing','previewing');body.classList.remove('welcome-active');
+  setTimeout(()=>{if(welcome)welcome.style.display='none'},360);
+  renderRecoShelf('daily');requestAnimationFrame(measure);
+  document.dispatchEvent(new CustomEvent('mt:welcome',{detail:{done:true,profile:onboard}}));
+}
+function installOnboardV3(){
   const welcome=$('welcome');if(!welcome)return;
   let done=false;try{done=localStorage.getItem(ALG_ONBOARD_KEY)==='1'}catch(_){}
   if(done)return;
-  welcome.style.display='grid';welcome.classList.remove('is-out','finalizing','previewing');welcome.classList.add('welcome-active','mt-onboard-v2');body.classList.add('welcome-active');
-  welcome.innerHTML=`<div class="welcome-card"><header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>CITYMUSIC</span></div><div class="mt-onboard-progress"><span class="mt-onboard-counter">1 / ${ONBOARD_STEPS.length}</span><i></i></div></header><main class="mt-onboard-body"></main><footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">先略過</button><button class="mt-onboard-next" type="button">下一步</button></footer></div>`;
-  welcome.addEventListener('click',e=>{const o=e.target.closest('[data-ob-value]');if(!o)return;const k=ONBOARD_STEPS[onboardStep].k;toggleOnboard(k,o.dataset.obValue);renderOnboard()});
-  welcome.querySelector('.mt-onboard-back').addEventListener('click',()=>{if(onboardStep>0){onboardStep--;renderOnboard()}});
+  onboardStep=0;onboard=algProfile();
+  welcome.style.display='grid';welcome.classList.remove('is-out','finalizing','previewing');welcome.classList.add('welcome-active','mt-onboard-v2','mt-onboard-v3');body.classList.add('welcome-active');
+  welcome.innerHTML='<div class="welcome-card">'+
+    '<header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>CITYMUSIC</span></div>'+
+    '<div class="mt-onboard-progress"><div><span class="mt-onboard-stage">WELCOME</span><span class="mt-onboard-counter">30 SEC SETUP</span></div><i></i></div></header>'+
+    '<main class="mt-onboard-body"></main>'+
+    '<footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">直接進入 CITYMUSIC</button><button class="mt-onboard-next" type="button">開始設定</button></footer></div>';
+  welcome.addEventListener('click',e=>{
+    const preview=e.target.closest('[data-preview-theme]');
+    if(preview){const i=Number(preview.dataset.previewTheme);if(Number.isInteger(i)&&MT.DATA[i]){finishOnboard(false);setTimeout(()=>MT.openTheme?.(i),380)}return}
+    const o=e.target.closest('[data-ob-value]');if(!o)return;
+    const st=onboardCurrent();toggleOnboard(st.k,o.dataset.obValue);renderOnboard();
+    if(st.auto){
+      welcome.classList.add('is-advancing');
+      onboardAdvanceTimer=setTimeout(()=>{welcome.classList.remove('is-advancing');advanceOnboard()},230);
+    }
+  });
+  welcome.querySelector('.mt-onboard-back').addEventListener('click',()=>{clearTimeout(onboardAdvanceTimer);if(onboardStep>0){onboardStep--;renderOnboard()}});
   welcome.querySelector('.mt-onboard-skip').addEventListener('click',()=>finishOnboard(true));
-  welcome.querySelector('.mt-onboard-next').addEventListener('click',()=>{if(onboardStep<ONBOARD_STEPS.length-1){onboardStep++;renderOnboard()}else finishOnboard(false)});
+  welcome.querySelector('.mt-onboard-next').addEventListener('click',advanceOnboard);
   renderOnboard();
 }
-installOnboardV2();
+installOnboardV3();
 
 /* R10.2.2 · new tracks always start in full dock.
    Compact glass is a scroll state, never the initial playback state. */
