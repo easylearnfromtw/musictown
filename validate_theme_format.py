@@ -5,7 +5,7 @@ This validator intentionally treats the theme specification as product data,
 not as something the recommendation layer may reinterpret.
 """
 from __future__ import annotations
-import json
+import json,re
 from collections import Counter
 from pathlib import Path
 
@@ -24,14 +24,13 @@ def load_json(name):
     return json.loads((ROOT/name).read_text(encoding="utf-8"))
 
 def load_catalog():
-    raw=(ROOT/"catalog.js").read_text(encoding="utf-8").strip()
-    prefix="window.MUSIC_DATA = "
-    if not raw.startswith(prefix):
-        raise SystemExit("catalog.js: MUSIC_DATA prefix missing")
-    payload=raw[len(prefix):]
-    if payload.endswith(";"):
-        payload=payload[:-1]
-    return json.loads(payload)
+    # The production builders materialize the authoritative 101-theme catalog
+    # into index.html. catalog.js is only a small legacy/base seed.
+    text=(ROOT/"index.html").read_text(encoding="utf-8")
+    m=re.search(r'window\.MUSIC_DATA\s*=\s*(\[.*?\]);\s*\n',text,re.S)
+    if not m:
+        raise SystemExit("index.html: generated MUSIC_DATA not found")
+    return json.loads(m.group(1))
 
 def fail(msg):
     raise SystemExit("CITYMUSIC THEME FORMAT CONTRACT: "+msg)
