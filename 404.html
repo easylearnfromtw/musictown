@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>musicetown</title>
+<title>CITYMUSIC — Your City, Your Sound</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,600;0,700;1,600;1,700&family=EB+Garamond:wght@400;500&family=Noto+Serif+TC:wght@500;700;900&display=swap"
@@ -1552,7 +1552,7 @@ body:not(.detail-open) .site-head{
   box-shadow:0 46px 120px rgba(62,61,85,.16),inset 0 1px 0 rgba(255,255,255,.95)!important;
 }
 .welcome-card::before{
-  content:"MUSICETOWN / CITY / MEMORY";
+  content:"CITYMUSIC / CITY / MEMORY";
   position:absolute;
   right:28px;top:28px;
   font:700 7px/1 var(--grotesk);
@@ -10783,7 +10783,90 @@ body.mt-lyrics-full{overflow:hidden!important;overscroll-behavior:none!important
 }
 /* ================= R10.2.4 EXPERIENCE STABILIZER END ================= */
 
+
+/* ================= CITYMUSIC BRAND DETAIL LAYER ================= */
+.mt-brand-kicker{
+  display:block;margin:0 0 2px;font:850 8px/1 var(--mt-ui);font-style:normal;
+  letter-spacing:.16em;color:var(--mt-accent-ink);opacity:.76;
+}
+#mtTop .mt-logo-word{
+  font-weight:850!important;letter-spacing:.085em!important;
+}
+#mtShelf.mt-reco-shelf{
+  box-shadow:0 18px 46px -34px rgba(37,42,72,.62),inset 0 1px 0 rgba(255,255,255,.72)!important;
+}
+#mtShelf .mt-shelf-head{
+  position:relative;
+}
+#mtShelf .mt-shelf-head::after{
+  content:'';position:absolute;left:14px;right:14px;bottom:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(62,67,102,.10),transparent);
+}
+#mtShelf .mt-theme-card{
+  position:relative!important;isolation:isolate;overflow:hidden!important;
+  box-shadow:inset 0 0 0 1px rgba(49,53,82,.045),0 10px 24px -22px rgba(35,40,70,.52)!important;
+}
+#mtShelf .mt-theme-card::before{
+  content:'';position:absolute;z-index:-1;width:86px;height:86px;right:-30px;bottom:-42px;border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--card-accent,var(--mt-accent)) 24%,transparent),transparent 70%);
+  pointer-events:none;
+}
+#mtShelf .mt-theme-card b{letter-spacing:-.01em!important}
+#mtShelf .mt-theme-card span{opacity:.78}
+#mtShelf .mt-chip.is-active{
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.72),0 7px 18px -14px rgba(35,40,70,.55)!important;
+}
+#libraryPanel .mt-library-eyebrow{letter-spacing:.18em!important}
+#libraryPanel .mt-library-hero::after{
+  content:'CITYMUSIC · LOCAL FIRST';position:absolute;right:18px;bottom:14px;
+  font:800 7px/1 var(--mt-ui);letter-spacing:.13em;color:var(--mt-ink-3);opacity:.55;
+}
+#libraryPanel .mt-library-stat{
+  position:relative!important;overflow:hidden!important;
+}
+#libraryPanel .mt-library-stat::after{
+  content:'';position:absolute;left:10px;right:10px;bottom:0;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,var(--mt-accent-soft),transparent);opacity:.72;
+}
+.mt-lyrics-preview-head small{letter-spacing:.15em!important}
+.mt-onboard-brand span{font-weight:850!important;letter-spacing:.10em!important}
+.mt-onboard-option.selected{
+  box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--mt-accent) 58%,transparent),0 12px 28px -24px rgba(38,43,78,.65)!important;
+}
+.mt-onboard-summary-grid section{
+  position:relative;overflow:hidden;
+}
+.mt-onboard-summary-grid section::after{
+  content:'';position:absolute;width:42px;height:42px;border-radius:50%;right:-17px;bottom:-18px;
+  background:var(--mt-accent-soft);opacity:.38;
+}
+.mt-mini-copy b{letter-spacing:-.012em}
+.mt-mini-copy span{letter-spacing:.015em}
+@media(max-width:760px){
+  .mt-brand-kicker{font-size:7px;letter-spacing:.14em}
+  #libraryPanel .mt-library-hero::after{right:14px;bottom:11px}
+}
+/* ================= /CITYMUSIC BRAND DETAIL LAYER ================= */
+
 </style>
+<!-- CITYMUSIC BRAND META START -->
+<meta name="application-name" content="CITYMUSIC">
+<meta name="apple-mobile-web-app-title" content="CITYMUSIC">
+<meta name="theme-color" content="#f7f8fc">
+<meta name="description" content="CITYMUSIC — a personal music atlas shaped by cities, moods and the way you actually listen.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CITYMUSIC">
+<meta property="og:title" content="CITYMUSIC · Your City, Your Sound">
+<meta property="og:description" content="A personal music atlas shaped by cities, rituals, moods and listening behavior.">
+<meta property="og:image" content="https://easylearnfromtw.github.io/musictown/assets/citymusic-share.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CITYMUSIC · Your City, Your Sound">
+<meta name="twitter:description" content="A personal music atlas shaped by cities, rituals, moods and listening behavior.">
+<meta name="twitter:image" content="https://easylearnfromtw.github.io/musictown/assets/citymusic-share.svg">
+<link rel="icon" type="image/svg+xml" href="./assets/citymusic-logo.svg">
+<link rel="apple-touch-icon" href="./assets/citymusic-app-icon.svg">
+<link rel="manifest" href="./site.webmanifest">
+<!-- CITYMUSIC BRAND META END -->
 </head>
 <body>
 
@@ -10807,7 +10890,7 @@ body.mt-lyrics-full{overflow:hidden!important;overscroll-behavior:none!important
 
     <section class="welcome-step active" data-wstep="1">
       <div class="welcome-step-kicker">01 · WELCOME</div>
-      <h1 id="welcomeTitle">你好，歡迎到<br><strong>MUSICTOWN</strong></h1>
+      <h1 id="welcomeTitle">你好，歡迎到<br><strong>CITYMUSIC</strong></h1>
       <p class="welcome-lede">從一個喜歡的聲音開始。接下來只需要選一個音樂風格，我會把入口直接帶到那個世界。</p>
       <button class="welcome-primary" id="welcomeBegin" type="button">
         <span>開始探索</span>
@@ -10834,7 +10917,7 @@ body.mt-lyrics-full{overflow:hidden!important;overscroll-behavior:none!important
         </svg>
       </div>
       <h2>好的，請開始<br>您的旅途</h2>
-      <p class="welcome-selected-copy" id="welcomeSelectedCopy">MUSICTOWN</p>
+      <p class="welcome-selected-copy" id="welcomeSelectedCopy">CITYMUSIC</p>
     </section>
   </div>
 
@@ -10848,10 +10931,10 @@ body.mt-lyrics-full{overflow:hidden!important;overscroll-behavior:none!important
         <ellipse cx="20" cy="20" rx="16" ry="7"></ellipse>
       </svg>
     </div>
-    <div class="welcome-final-word">MUSICTOWN</div>
+    <div class="welcome-final-word">CITYMUSIC</div>
     <div class="welcome-final-sub" id="welcomeFinalSub">ENTERING YOUR SOUND</div>
   </div>
-  <div class="welcome-delayed-flourish" id="welcomeDelayedFlourish" aria-hidden="true"><div class="welcome-delayed-core"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="38"></circle><ellipse cx="50" cy="50" rx="17" ry="38"></ellipse><ellipse cx="50" cy="50" rx="38" ry="17"></ellipse></svg><b>WELCOME TO MUSICETOWN</b><span>CITY SOUND · BEGIN YOUR JOURNEY</span></div></div>
+  <div class="welcome-delayed-flourish" id="welcomeDelayedFlourish" aria-hidden="true"><div class="welcome-delayed-core"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="38"></circle><ellipse cx="50" cy="50" rx="17" ry="38"></ellipse><ellipse cx="50" cy="50" rx="38" ry="17"></ellipse></svg><b>WELCOME TO CITYMUSIC</b><span>CITY SOUND · BEGIN YOUR JOURNEY</span></div></div>
 </div>
 
 <div id="homeHud" aria-hidden="true">
@@ -10914,7 +10997,7 @@ body.mt-lyrics-full{overflow:hidden!important;overscroll-behavior:none!important
   <section class="global-search-panel" role="dialog" aria-modal="true" aria-labelledby="globalSearchTitle">
     <div class="global-search-head">
       <div>
-        <small>SEARCH MUSICETOWN</small>
+        <small>SEARCH CITYMUSIC</small>
         <h2 id="globalSearchTitle">搜尋主題與音樂</h2>
       </div>
       <button id="globalSearchClose" type="button" aria-label="關閉搜尋"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"></path></svg></button>
@@ -12541,7 +12624,7 @@ function cityPassVisual(config){
     <circle cx="120" cy="100" r="54" fill="none" stroke="#29465d" stroke-opacity=".72" stroke-width="3"/>
     <path d="M75 100h90M120 55v90M84 72c19 18 53 18 72 0M84 128c19-18 53-18 72 0" fill="none" stroke="#29465d" stroke-opacity=".38" stroke-width="2"/>
     <text x="120" y="106" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="18" font-weight="800" letter-spacing="2" fill="#29465d">${code.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</text>
-    <text x="120" y="183" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="10" font-weight="700" letter-spacing="2" fill="#29465d" opacity=".56">MUSICTOWN</text>
+    <text x="120" y="183" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="10" font-weight="700" letter-spacing="2" fill="#29465d" opacity=".56">CITYMUSIC</text>
     <text x="120" y="200" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Arial" font-size="8" font-weight="700" letter-spacing="1.2" fill="#29465d" opacity=".38">${label}</text>
   </svg>`;
   return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
@@ -12663,7 +12746,7 @@ async function sharePassbookEntry(entry){
   try{
     const file=new File([blob],`musicetown-${entry.slug||'pass'}-ticket.png`,{type:'image/png'});
     if(navigator.share&&navigator.canShare?.({files:[file]})){
-      await navigator.share({files:[file],title:'MUSICTOWN '+passbookKindLabel(entry.kind),text:entry.theme});
+      await navigator.share({files:[file],title:'CITYMUSIC '+passbookKindLabel(entry.kind),text:entry.theme});
       return;
     }
   }catch(err){if(err?.name==='AbortError')return}
@@ -12820,7 +12903,7 @@ let passWelcomeTimer=0,passWelcomePending=null,passWelcomeToken=0;
 function passWelcomeDestination(drawer,geo,config){
   if(config?.kind==='university')return config.fullName||geo?.campusName||drawer?.t||config.code;
   if(config?.kind==='landmark')return config.fullName||config.landmarkName||config.name||drawer?.t||config.code;
-  return geo?.city||config?.fullName||drawer?.t||config?.code||'MUSICETOWN';
+  return geo?.city||config?.fullName||drawer?.t||config?.code||'CITYMUSIC';
 }
 function passWelcomeKindCopy(config){
   if(config?.kind==='university')return {eyebrow:'CAMPUS ARRIVAL · GPS VERIFIED',zh:'大學校園',copy:'CAMPUS VERIFIED · YOUR CAMPUS PASS IS READY'};
@@ -12959,14 +13042,14 @@ async function buildCityPassCanvas(){
   roundRectPath(ctx,64,60,952,1600,48);ctx.fillStyle='rgba(255,255,255,.88)';ctx.fill();ctx.strokeStyle='rgba(36,63,86,.10)';ctx.lineWidth=2;ctx.stroke();
   let qr=null;try{qr=await loadCityPassImage(cityPassVisual(config))}catch(_){}
   if(qr)ctx.drawImage(qr,105,105,210,210);
-  ctx.fillStyle=ui.ink||'#29465d';ctx.textAlign='left';ctx.font='700 28px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText('MUSICTOWN',360,142);
+  ctx.fillStyle=ui.ink||'#29465d';ctx.textAlign='left';ctx.font='700 28px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText('CITYMUSIC',360,142);
   ctx.font='700 15px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.globalAlpha=.50;ctx.fillText(campus?'CAMPUS LIMITED MUSIC PASS':landmark?'LANDMARK LIMITED MUSIC PASS':'CITY LIMITED MUSIC PASS',360,177);ctx.globalAlpha=1;
   ctx.textAlign='right';ctx.font='700 54px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillStyle=ui.accent||'#719aa0';ctx.fillText(config.code,930,260);
   ctx.setLineDash([9,10]);ctx.strokeStyle='rgba(36,63,86,.15)';ctx.beginPath();ctx.moveTo(105,350);ctx.lineTo(930,350);ctx.stroke();ctx.setLineDash([]);
   ctx.textAlign='left';ctx.fillStyle=ui.accent||'#719aa0';ctx.font='700 14px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(campus?'CAMPUS EXCLUSIVE · GPS VERIFIED':landmark?'LANDMARK EXCLUSIVE · GPS VERIFIED':'CITY EXCLUSIVE · IP CITY MATCH',105,410);
   ctx.fillStyle=ui.ink||'#29465d';ctx.font='700 55px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';let title=drawer.t;while(ctx.measureText(title).width>825&&title.length>8)title=title.slice(0,-1);ctx.fillText(title,105,475);
   ctx.fillStyle='rgba(41,70,93,.64)';ctx.font='500 24px Georgia,"Times New Roman",serif';wrapCanvasText(ctx,config.summary,810).slice(0,4).forEach((line,i)=>ctx.fillText(line,105,535+i*36));
-  const metaY=705,meta=[['PROGRAM','MUSICTOWN'],['LOCATION',String(geo.campusName||geo.city||config.code).toUpperCase()],['STATUS',(campus||landmark)?'GPS VERIFIED':'APPROX. IP MATCH'],['TICKET',ticketNo]],colW=825/4;
+  const metaY=705,meta=[['PROGRAM','CITYMUSIC'],['LOCATION',String(geo.campusName||geo.city||config.code).toUpperCase()],['STATUS',(campus||landmark)?'GPS VERIFIED':'APPROX. IP MATCH'],['TICKET',ticketNo]],colW=825/4;
   meta.forEach(([k,v],i)=>{const x=105+i*colW;ctx.fillStyle='rgba(41,70,93,.38)';ctx.font='700 12px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText(k,x,metaY);ctx.fillStyle=ui.ink||'#29465d';ctx.font='700 17px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';let vv=v;while(ctx.measureText(vv).width>colW-22&&vv.length>5)vv=vv.slice(0,-1);if(vv!==v)vv=vv.slice(0,-1)+'…';ctx.fillText(vv,x,metaY+31)});
   ctx.fillStyle=ui.accent||'#719aa0';ctx.font='700 13px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText('LOCAL SOUND INDEX',105,820);
   ctx.fillStyle=ui.ink||'#29465d';ctx.font='700 32px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';ctx.fillText('熱門音樂 · HOT 5',105,868);
@@ -12986,7 +13069,7 @@ async function saveCityPassTicket(){
     try{
       const file=new File([blob],fileName,{type:'image/png'});
       const campus=cityPassActive?.config?.kind==='university',landmark=cityPassActive?.config?.kind==='landmark';
-      const passTitle=campus?'MUSICTOWN CAMPUS PASS':landmark?'MUSICTOWN LANDMARK PASS':'MUSICTOWN CITY PASS';
+      const passTitle=campus?'CITYMUSIC CAMPUS PASS':landmark?'CITYMUSIC LANDMARK PASS':'CITYMUSIC CITY PASS';
       const passKind=campus?'CAMPUS LIMITED PASS':landmark?'LANDMARK LIMITED PASS':'CITY LIMITED PASS';
       if(navigator.share&&navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:passTitle,text:`${cityPassActive.drawer.t} · ${passKind}`});return}
     }catch(err){if(err?.name==='AbortError')return}
@@ -13347,7 +13430,7 @@ function openShareComposer(tracks,title){
   $('shareComposerMeta').textContent=`${clean.length} TRACKS · SHARE READY`;
   $('shareComposerIndex').textContent=`${String(clean.length).padStart(2,'0')} TRACKS`;
   $('shareComposerCoverTitle').textContent=pendingSharePlaylist.title;
-  $('shareComposerCoverMeta').textContent=`${clean.length} TRACKS · MUSICETOWN`;
+  $('shareComposerCoverMeta').textContent=`${clean.length} TRACKS · CITYMUSIC`;
   $('shareComposerMiniList').innerHTML=shareMiniHTML(clean);
   sheet.classList.add('open');
   sheet.setAttribute('aria-hidden','false');
@@ -13438,11 +13521,11 @@ function libraryTrackFromRef(ref){
 function buildLibrarySnapshot(lib=getActiveLibrary()){
   const tracks=resolveFavoriteTracksForLibrary(lib).filter(t=>t.shareId);
   const refs=[...new Set(tracks.map(libraryTrackRef).filter(Boolean))];
-  return {v:2,name:lib?.name||'MUSICETOWN LIBRARY',refs,tracks};
+  return {v:2,name:lib?.name||'CITYMUSIC LIBRARY',refs,tracks};
 }
 function buildLibraryShareUrl(snapshot){
   const snap=snapshot?.refs?snapshot:buildLibrarySnapshot(snapshot);
-  const nameToken=encodeSharePayload({n:String(snap.name||'MUSICETOWN LIBRARY').slice(0,40)});
+  const nameToken=encodeSharePayload({n:String(snap.name||'CITYMUSIC LIBRARY').slice(0,40)});
   const refs=snap.refs.join('');
   const u=new URL(location.href);
   u.search='';
@@ -13481,7 +13564,7 @@ function openLibraryPass(snapshot=buildLibrarySnapshot()){
   sheet.style.setProperty('--pass-accent',th.accent||'#7ca6a7');
   sheet.style.setProperty('--pass-ink',th.ink||'#29465d');
   $('libraryPassTitle').textContent=snapshot.name;
-  $('libraryPassMeta').textContent=`${snapshot.tracks.length} TRACKS · MUSICETOWN SNAPSHOT`;
+  $('libraryPassMeta').textContent=`${snapshot.tracks.length} TRACKS · CITYMUSIC SNAPSHOT`;
   $('libraryPassTop').innerHTML=libraryPassTopHtml(snapshot.tracks);
   const url=buildLibraryShareUrl(snapshot);
   $('libraryPassQr').src=libraryPassQrService(url);
@@ -14318,7 +14401,7 @@ function renderLocalLibrary(){
           <b class="local-track-title">${esc(t.title)}</b>
           <span class="library-kind ${t.favoriteSaved?'saved':'local'}">${t.favoriteSaved?'SAVED':'LOCAL FILE'}</span>
         </div>
-        <span class="local-track-meta">${esc(t.artist)} · ${t.favoriteSaved?esc(t.libraryGenre||'MUSICETOWN'):esc(t.fileName||'LOCAL MUSIC')}${t.fileSize?` · ${humanBytes(t.fileSize)}`:''}</span>
+        <span class="local-track-meta">${esc(t.artist)} · ${t.favoriteSaved?esc(t.libraryGenre||'CITYMUSIC'):esc(t.fileName||'LOCAL MUSIC')}${t.fileSize?` · ${humanBytes(t.fileSize)}`:''}</span>
       </div>
       <div class="local-track-actions">
         <button class="local-track-delete"
@@ -15199,7 +15282,7 @@ function buildMediaSessionArtwork(track){
 
     ctx.fillStyle=T.ink;ctx.textAlign='center';
     ctx.font='700 16px -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif';
-    ctx.fillText('MUSICETOWN · NOW PLAYING',256,36);
+    ctx.fillText('CITYMUSIC · NOW PLAYING',256,36);
 
     const title=mediaSessionSafeText(track?.title,'musicetown');
     const artist=mediaSessionSafeText(track?.artist,'musicetown');
@@ -15312,7 +15395,7 @@ window.setMusicetownMediaColors=function(colors={}){
   return {...MEDIA_SESSION_THEME};
 };
 
-const MUSICETOWN_AUDIO_MODE='hybrid-stream';
+const CITYMUSIC_AUDIO_MODE='hybrid-stream';
 
 function resolveSiteCloudAudio(t){
   const raw=String(t?.audioSrc||'').trim();
@@ -15520,7 +15603,7 @@ function openTrack(t, userGesture=true){
                       <path id="vinylRingPath" d="M50,50 m-35,0 a35,35 0 1,1 70,0 a35,35 0 1,1 -70,0"></path>
                     </defs>
                     <text>
-                      <textPath href="#vinylRingPath" startOffset="2%">MUSICETOWN · CITY SOUND ARCHIVE · MUSICETOWN · </textPath>
+                      <textPath href="#vinylRingPath" startOffset="2%">CITYMUSIC · CITY SOUND ARCHIVE · CITYMUSIC · </textPath>
                     </text>
                   </svg>
                 </span>
@@ -15911,6 +15994,12 @@ setTimeout(()=>{
 
 
 
+
+
+
+
+
+
 /* ================= R10.2 CORE BRIDGE START ================= */
 /* R10.2 exposes only the navigation/player surface the external shell needs. */
 function mtEmit(name,detail){
@@ -16225,7 +16314,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
 <div id="libraryNameSheet" class="library-name-sheet" aria-hidden="true">
   <div class="library-name-backdrop"></div>
   <section class="library-name-card" role="dialog" aria-modal="true" aria-labelledby="libraryNameTitle">
-    <div class="library-name-kicker">MUSICTOWN · LIBRARY</div>
+    <div class="library-name-kicker">CITYMUSIC · LIBRARY</div>
     <h3 id="libraryNameTitle">新增音樂庫</h3>
     <p id="libraryNameHint">替這組聲音取一個名字。</p>
     <input id="libraryNameInput" type="text" maxlength="40" autocomplete="off" placeholder="例如：Night Drive">
@@ -16251,7 +16340,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
           <ellipse cx="20" cy="20" rx="7" ry="16"></ellipse>
           <ellipse cx="20" cy="20" rx="16" ry="7"></ellipse>
         </svg>
-        <div><b>MUSICTOWN</b><span>LIBRARY PASS</span></div>
+        <div><b>CITYMUSIC</b><span>LIBRARY PASS</span></div>
       </div>
       <span class="library-pass-live">SHAREABLE SNAPSHOT</span>
     </header>
@@ -16260,7 +16349,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
       <div class="library-pass-copy">
         <div class="library-pass-kicker">PERSONAL SOUND ARCHIVE</div>
         <h2 id="libraryPassTitle">MY LIBRARY</h2>
-        <p id="libraryPassMeta">0 TRACKS · MUSICETOWN</p>
+        <p id="libraryPassMeta">0 TRACKS · CITYMUSIC</p>
         <div id="libraryPassTop" class="library-pass-top"></div>
       </div>
 
@@ -16319,7 +16408,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
     </div>
 
     <div class="shared-library-intro">
-      <span class="shared-library-stamp">MUSICTOWN SNAPSHOT</span>
+      <span class="shared-library-stamp">CITYMUSIC SNAPSHOT</span>
       <p>這是對方分享時的音樂庫快照。你可以直接播放、下載單首，或另存成自己的一個新音樂庫。</p>
     </div>
 
@@ -16337,13 +16426,13 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
   <div class="share-compose-panel" id="shareComposerPanel" role="dialog" aria-modal="true" aria-labelledby="shareComposerTitle">
     <div class="share-atlas">
       <div class="share-cover" id="shareComposerCover">
-        <div class="share-cover-brand">MUSICETOWN · SHARE ATELIER</div>
+        <div class="share-cover-brand">CITYMUSIC · SHARE ATELIER</div>
         <div class="share-cover-index" id="shareComposerIndex">00 TRACKS</div>
         <div class="share-record" aria-hidden="true">
           <div class="share-record-ring">
             <svg viewBox="0 0 100 100">
               <defs><path id="shareRingPath" d="M50,50 m-39,0 a39,39 0 1,1 78,0 a39,39 0 1,1 -78,0"></path></defs>
-              <text><textPath href="#shareRingPath" startOffset="1%">MUSICETOWN · SHARE ATELIER · CITY SOUND · </textPath></text>
+              <text><textPath href="#shareRingPath" startOffset="1%">CITYMUSIC · SHARE ATELIER · CITY SOUND · </textPath></text>
             </svg>
           </div>
           <div class="share-record-logo">
@@ -16364,7 +16453,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
       <div class="share-main">
         <div class="share-head">
           <div>
-            <div class="share-kicker">SHARE · MUSICETOWN</div>
+            <div class="share-kicker">SHARE · CITYMUSIC</div>
             <h2 id="shareComposerTitle">分享歌單</h2>
             <p id="shareComposerMeta">0 TRACKS</p>
           </div>
@@ -16409,13 +16498,13 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
   <div class="share-panel" id="sharePlaylistPanel" role="dialog" aria-modal="true" aria-labelledby="sharePlaylistTitle">
     <div class="share-atlas">
       <div class="share-cover" id="shareReceiverCover">
-        <div class="share-cover-brand">MUSICETOWN · RECEIVED MIX</div>
+        <div class="share-cover-brand">CITYMUSIC · RECEIVED MIX</div>
         <div class="share-cover-index" id="shareReceiverIndex">00 TRACKS</div>
         <div class="share-record" aria-hidden="true">
           <div class="share-record-ring">
             <svg viewBox="0 0 100 100">
               <defs><path id="shareReceiverRingPath" d="M50,50 m-39,0 a39,39 0 1,1 78,0 a39,39 0 1,1 -78,0"></path></defs>
-              <text><textPath href="#shareReceiverRingPath" startOffset="1%">MUSICETOWN · SHARE ATELIER · CITY SOUND · </textPath></text>
+              <text><textPath href="#shareReceiverRingPath" startOffset="1%">CITYMUSIC · SHARE ATELIER · CITY SOUND · </textPath></text>
             </svg>
           </div>
           <div class="share-record-logo">
@@ -16436,7 +16525,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
       <div class="share-main">
         <div class="share-head">
           <div>
-            <div class="share-kicker">MUSICETOWN · SHARED PLAYLIST</div>
+            <div class="share-kicker">CITYMUSIC · SHARED PLAYLIST</div>
             <h2 id="sharePlaylistTitle">SHARED PLAYLIST</h2>
             <p id="sharePlaylistMeta">0 TRACKS</p>
           </div>
@@ -16493,7 +16582,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
           <ellipse cx="20" cy="20" rx="7" ry="16"></ellipse>
           <ellipse cx="20" cy="20" rx="16" ry="7"></ellipse>
         </svg>
-        <div><b>MUSICTOWN</b><span>AUDIO ROUTE</span></div>
+        <div><b>CITYMUSIC</b><span>AUDIO ROUTE</span></div>
       </div>
       <span class="aa-live-pill"><i></i> LIVE LINK</span>
     </div>
@@ -16567,7 +16656,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
   <div class="passbook-backdrop" id="passbookBackdrop"></div>
   <section class="passbook-panel" role="dialog" aria-modal="true" aria-labelledby="passbookTitle">
     <header class="passbook-head">
-      <div><small>LOCAL COLLECTION · ON THIS DEVICE</small><h2 id="passbookTitle">MUSICTOWN PASSBOOK</h2></div>
+      <div><small>LOCAL COLLECTION · ON THIS DEVICE</small><h2 id="passbookTitle">CITYMUSIC PASSBOOK</h2></div>
       <button id="passbookClose" type="button" aria-label="關閉收藏庫">×</button>
     </header>
     <div class="passbook-meta">票根只儲存在這台裝置的瀏覽器。GPS 座標不會被寫入收藏；清除瀏覽器網站資料時，收藏也會一起清除。</div>
@@ -16579,7 +16668,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
 <div id="passWelcomeSheet" class="pass-welcome-sheet" aria-hidden="true">
   <div class="pass-welcome-backdrop"></div>
   <section class="pass-welcome-card" id="passWelcomeCard" role="dialog" aria-modal="true" aria-labelledby="passWelcomeTitle">
-    <div class="pass-welcome-eyebrow" id="passWelcomeEyebrow">WELCOME · MUSICETOWN</div>
+    <div class="pass-welcome-eyebrow" id="passWelcomeEyebrow">WELCOME · CITYMUSIC</div>
     <div class="pass-welcome-seal"><img id="passWelcomeSeal" alt=""></div>
     <h2 class="pass-welcome-title" id="passWelcomeTitle">WELCOME</h2>
     <div class="pass-welcome-zh" id="passWelcomeZh">歡迎來到這裡</div>
@@ -16597,10 +16686,10 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
   <article class="city-pass-ticket" id="cityPassTicket" role="dialog" aria-modal="true" aria-labelledby="cityPassThemeTitle">
     <div class="city-pass-qr-marquee" aria-label="musicetown webpage QR code">
       <div class="city-pass-qr-track" id="cityPassQrTrack">
-        <div class="city-pass-qr-unit"><img class="city-pass-qr-img" alt="musicetown QR code"><span>MUSICTOWN · CITY LINK</span></div>
-        <div class="city-pass-qr-unit"><img class="city-pass-qr-img" alt=""><span>MUSICTOWN · CITY LINK</span></div>
-        <div class="city-pass-qr-unit"><img class="city-pass-qr-img" alt=""><span>MUSICTOWN · CITY LINK</span></div>
-        <div class="city-pass-qr-unit"><img class="city-pass-qr-img" alt=""><span>MUSICTOWN · CITY LINK</span></div>
+        <div class="city-pass-qr-unit"><img class="city-pass-qr-img" alt="musicetown QR code"><span>CITYMUSIC · CITY LINK</span></div>
+        <div class="city-pass-qr-unit"><img class="city-pass-qr-img" alt=""><span>CITYMUSIC · CITY LINK</span></div>
+        <div class="city-pass-qr-unit"><img class="city-pass-qr-img" alt=""><span>CITYMUSIC · CITY LINK</span></div>
+        <div class="city-pass-qr-unit"><img class="city-pass-qr-img" alt=""><span>CITYMUSIC · CITY LINK</span></div>
       </div>
     </div>
 
@@ -16611,7 +16700,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
           <ellipse cx="20" cy="20" rx="7" ry="16"></ellipse>
           <ellipse cx="20" cy="20" rx="16" ry="7"></ellipse>
         </svg>
-        <div><b>MUSICTOWN</b><span id="cityPassProgramType">CITY LIMITED MUSIC PASS</span></div>
+        <div><b>CITYMUSIC</b><span id="cityPassProgramType">CITY LIMITED MUSIC PASS</span></div>
       </div>
       <button class="city-pass-close" id="cityPassClose" type="button" aria-label="關閉票根">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"></path></svg>
@@ -16628,7 +16717,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
     </div>
 
     <div class="city-pass-meta-grid">
-      <div><small>PROGRAM</small><b>MUSICTOWN</b></div>
+      <div><small>PROGRAM</small><b>CITYMUSIC</b></div>
       <div><small>LOCATION</small><b id="cityPassDetectedCity">—</b></div>
       <div><small>STATUS</small><b id="cityPassStatus">IP CITY MATCH</b></div>
       <div><small>TICKET</small><b id="cityPassTicketNo">—</b></div>
@@ -16984,7 +17073,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
     if(!parsed.lines.length){
       return '<section class="live-lyrics live-lyrics-empty" aria-label="歌詞">'+
         '<div class="live-lyrics-head"><b>LYRICS</b><span>NOT PROVIDED BY SOURCE</span></div>'+
-        '<div class="live-lyrics-lines"><p class="live-lyric-line active">此曲來源目前沒有提供可驗證的實際歌詞；musicetown 不會用 AI 介紹文字冒充歌詞。</p></div>'+
+        '<div class="live-lyrics-lines"><p class="live-lyric-line active">此曲來源目前沒有提供可驗證的實際歌詞；CITYMUSIC 不會用 AI 介紹文字冒充歌詞。</p></div>'+
       '</section>';
     }
     return '<section class="live-lyrics" aria-label="歌詞">'+
@@ -17391,7 +17480,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
 
 <script id="r10-ux-script">
 /* =====================================================================
-   musicetown R10 · Flow & Glass shell
+   CITYMUSIC R10 · Flow & Glass shell
    ---------------------------------------------------------------------
    Talks to the app only through window.MT and the mt:* events
    (mt:ready, mt:view, mt:group, mt:track, mt:welcome, mt:segment).
@@ -17401,7 +17490,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
 (()=>{
 'use strict';
 const MT=window.MT;
-if(!MT){console.warn('[musicetown R10] window.MT missing; shell disabled');return}
+if(!MT){console.warn('[CITYMUSIC R10] window.MT missing; shell disabled');return}
 
 const $=id=>document.getElementById(id);
 const body=document.body,root=document.documentElement;
@@ -17457,8 +17546,9 @@ body.appendChild(top);
 const logo=$('logo');
 if(logo){
   logo.className='mt-logo mt-glass';
-  logo.setAttribute('aria-label','musicetown · 回到探索');
-  logo.querySelector('.logo-wordmark')?.setAttribute('class','mt-logo-word');
+  logo.setAttribute('aria-label','CITYMUSIC · 回到探索');
+  const cityWord=logo.querySelector('.logo-wordmark,.mt-logo-word');
+  if(cityWord){cityWord.setAttribute('class','mt-logo-word');cityWord.textContent='CITYMUSIC';}
   $('mtBrand').prepend(logo);
   /* the core click handler calls backToStage(); route it through history instead */
   logo.addEventListener('click',e=>{e.stopImmediatePropagation();goHome();},true);
@@ -17862,7 +17952,7 @@ function paintMini(){
   body.classList.toggle('mt-has-track',!!t);
   if(!t){return}
   const theme=trackTheme(t);
-  $('mtMiniTitle').textContent=t.title||'musicetown';
+  $('mtMiniTitle').textContent=t.title||'CITYMUSIC';
   $('mtMiniSub').textContent=[t.artist,theme?MT.splitThemeName(theme).main:(t.localPersonal?'本機音樂':'')].filter(Boolean).join(' · ');
   mini.style.setProperty('--mini-vinyl',theme?MT.genreUiFor(theme).accent:'#8f8bbb');
   const playing=!!a&&!a.paused;
@@ -17930,7 +18020,7 @@ function buildPlayerOnce(){
     const tool=b.dataset.tool;
     if(tool==='autonext'){MT.setAutoNext(!MT.autoNext);paintTools();decoratePlayer();}
     if(tool==='output')MT.openAudioOutput();
-    if(tool==='share'&&MT.track){const t=MT.track;MT.shareTracks([t],t.title||'musicetown');}
+    if(tool==='share'&&MT.track){const t=MT.track;MT.shareTracks([t],t.title||'CITYMUSIC');}
   });
   up.addEventListener('click',e=>{
     const b=e.target.closest('[data-up]');if(!b)return;
@@ -18301,7 +18391,7 @@ if(legacyShelf)legacyShelf.setAttribute('aria-hidden','true');
 let recoShelf=$('mtShelf');
 if(!recoShelf){
   recoShelf=h('section','mt-shelf mt-glass mt-reco-shelf',`
-    <div class="mt-shelf-head"><div class="mt-shelf-title"><b id="mtRecoTitle">為你探索</b><span id="themeShelfCount">根據你的偏好與使用紀錄</span></div><button id="mtAtlasAll" class="mt-text-btn" type="button">全部主題</button></div>
+    <div class="mt-shelf-head"><div class="mt-shelf-title"><em class="mt-brand-kicker">CITYMUSIC CURATED</em><b id="mtRecoTitle">為你探索</b><span id="themeShelfCount">根據你的偏好與使用紀錄</span></div><button id="mtAtlasAll" class="mt-text-btn" type="button">全部主題</button></div>
     <div class="mt-shelf-chips" id="mtRecoChips"></div>
     <div class="mt-shelf-cards" id="mtRecoCards"></div>`);
   recoShelf.id='mtShelf';
@@ -18314,7 +18404,7 @@ function shelfChip(key,label,active,mode='group'){return `<button type="button" 
 function renderRecoShelf(mode='daily'){
   if(!recoShelf||!recoCards||!recoChips)return;
   activeRecoMode=mode;
-  const special=[['daily','每日推薦'],['weekly','每週推薦'],['mt','MT 推薦榜']];
+  const special=[['daily','每日推薦'],['weekly','每週推薦'],['mt','CT 推薦']];
   recoChips.innerHTML=special.map(([k,l])=>shelfChip(k,l,mode===k,'reco')).join('')+QUICK_GROUPS.map(([k,g])=>shelfChip(k,g.short||g.label||k,mode===`group:${k}`)).join('');
   let rows,title,sub;
   if(mode.startsWith('group:')){
@@ -18324,12 +18414,12 @@ function renderRecoShelf(mode='daily'){
     MT.stageGroup?.(key);
   }else{
     rows=recommendThemes(mode,9);
-    title=mode==='daily'?'每日推薦':mode==='weekly'?'每週推薦':'MT 推薦榜';
-    sub=mode==='daily'?'依你的喜好、收藏與最近播放':mode==='weekly'?'加入更多探索性，週一更新':'曲庫完整度＋你的偏好綜合排序';
+    title=mode==='daily'?'每日推薦':mode==='weekly'?'每週推薦':'CT 推薦';
+    sub=mode==='daily'?'依你的喜好、收藏與最近播放':mode==='weekly'?'加入更多探索性，週一更新':'CITYMUSIC 編輯排序＋你的偏好綜合權重';
     MT.stageCustom?.(rows.map(x=>MT.DATA[x.i].t));
   }
   $('mtRecoTitle').textContent=title;$('themeShelfCount').textContent=sub;
-  recoCards.innerHTML=rows.map((x,k)=>{const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),ui=MT.genreUiFor(d.t);return `<button type="button" class="mt-theme-card${mode.startsWith('group:')?'':' is-algo'}" data-theme-index="${x.i}" data-score-label="${mode==='mt'?'MT PICK':mode==='weekly'?'WEEK':'TODAY'}" style="--card-accent:${ui.accent}"><i>${String(k+1).padStart(2,'0')}</i><b>${esc(nm.main)}</b><span>${esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))}</span></button>`}).join('');
+  recoCards.innerHTML=rows.map((x,k)=>{const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),ui=MT.genreUiFor(d.t);return `<button type="button" class="mt-theme-card${mode.startsWith('group:')?'':' is-algo'}" data-theme-index="${x.i}" data-score-label="${mode==='mt'?'CT PICK':mode==='weekly'?'WEEKLY':'TODAY'}" style="--card-accent:${ui.accent}"><i>${String(k+1).padStart(2,'0')}</i><b>${esc(nm.main)}</b><span>${esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))}</span></button>`}).join('');
   requestAnimationFrame(measure);
 }
 recoShelf?.addEventListener('click',e=>{
@@ -18343,7 +18433,7 @@ renderRecoShelf('daily');
 /* ----- beautiful library overview, updated from the real library DOM ----- */
 function ensureLibraryHero(){
   const panel=$('libraryPanel');if(!panel||panel.querySelector('.mt-library-hero'))return;
-  const hero=h('section','mt-library-hero',`<div class="mt-library-eyebrow">YOUR SOUND ARCHIVE</div><h2 class="mt-library-title">我的音樂庫</h2><p class="mt-library-sub">收藏、匯入與整理你真正想再聽一次的聲音。所有個人資料仍只留在這個瀏覽器。</p><div class="mt-library-stats"><div class="mt-library-stat"><b id="mtLibTracks">0</b><span>收藏歌曲</span></div><div class="mt-library-stat"><b id="mtLibCollections">0</b><span>音樂庫</span></div><div class="mt-library-stat"><b id="mtLibPlaying">—</b><span>正在播放</span></div></div>`);
+  const hero=h('section','mt-library-hero',`<div class="mt-library-eyebrow">CITYMUSIC LIBRARY</div><h2 class="mt-library-title">我的音樂庫</h2><p class="mt-library-sub">收藏、匯入與整理你真正想再聽一次的聲音。所有個人資料仍只留在這個瀏覽器。</p><div class="mt-library-stats"><div class="mt-library-stat"><b id="mtLibTracks">0</b><span>收藏歌曲</span></div><div class="mt-library-stat"><b id="mtLibCollections">0</b><span>音樂庫</span></div><div class="mt-library-stat"><b id="mtLibPlaying">—</b><span>正在播放</span></div></div>`);
   panel.prepend(hero);
 }
 function updateLibraryHero(){ensureLibraryHero();const panel=$('libraryPanel');if(!panel)return;$('mtLibTracks').textContent=String(panel.querySelectorAll('.local-track-row').length||MT.libraryCount?.()||0);$('mtLibCollections').textContent=String(panel.querySelectorAll('.library-collection-tab').length||1);$('mtLibPlaying').textContent=MT.track?'1':'—'}
@@ -18352,7 +18442,7 @@ if($('libraryPanel'))new MutationObserver(()=>requestAnimationFrame(updateLibrar
 document.addEventListener('mt:track',updateLibraryHero);
 
 /* ----- lyrics full preview ----- */
-const lyricsPreview=h('div','mt-lyrics-preview',`<section class="mt-lyrics-preview-panel" role="dialog" aria-modal="true" aria-labelledby="mtLyricsPreviewTitle"><header class="mt-lyrics-preview-head"><div><small>FULL LYRICS · VERTICAL VIEW</small><b id="mtLyricsPreviewTitle">歌詞</b></div><button class="mt-lyrics-preview-close" type="button" aria-label="關閉歌詞">${ICON.close}</button></header><div class="mt-lyrics-preview-lines" id="mtLyricsPreviewLines"></div></section>`);
+const lyricsPreview=h('div','mt-lyrics-preview',`<section class="mt-lyrics-preview-panel" role="dialog" aria-modal="true" aria-labelledby="mtLyricsPreviewTitle"><header class="mt-lyrics-preview-head"><div><small>CITYMUSIC · FULL LYRICS</small><b id="mtLyricsPreviewTitle">歌詞</b></div><button class="mt-lyrics-preview-close" type="button" aria-label="關閉歌詞">${ICON.close}</button></header><div class="mt-lyrics-preview-lines" id="mtLyricsPreviewLines"></div></section>`);
 body.appendChild(lyricsPreview);
 let lyricsAudio=null,lyricsSync=null;
 function closeLyricsPreview(){lyricsPreview.classList.remove('open');if(lyricsAudio&&lyricsSync)lyricsAudio.removeEventListener('timeupdate',lyricsSync);lyricsAudio=null;lyricsSync=null}
@@ -18372,7 +18462,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'&&lyricsPreview.classList.cont
 
 /* ----- onboarding v2: eight focused screens that actually seed the algorithm ----- */
 const ONBOARD_STEPS=[
-  {k:'intro',title:'歡迎來到 MUSICTOWN',copy:'先用幾個很短的選擇建立你的初始聲音輪廓。之後實際播放、收藏、聽完與快速略過，會持續修正推薦。'},
+  {k:'intro',title:'歡迎來到 CITYMUSIC',copy:'先用幾個很短的選擇建立你的初始聲音輪廓。之後實際播放、收藏、聽完與快速略過，會持續修正推薦。'},
   {k:'moments',title:'你通常在什麼時候聽？',copy:'可以複選。情境會影響每日推薦的熟悉感、節奏與氛圍。'},
   {k:'moods',title:'你現在比較常找哪種心情？',copy:'可以複選。這讓演算法知道同一個曲風裡，你偏好的情緒方向。'},
   {k:'energy',title:'你喜歡多大的能量？',copy:'決定推薦主題的推進感與刺激程度。'},
@@ -18382,7 +18472,7 @@ const ONBOARD_STEPS=[
   {k:'worlds',title:'你想先從哪種世界出發？',copy:'城市、校園與景點可以混在同一份推薦裡。'},
   {k:'discovery',title:'你希望推薦多敢探索？',copy:'熟悉優先會回到你常聽的世界；探索模式會主動提高新城市與跨風格主題。'},
   {k:'seeds',title:'挑幾個你願意先試的主題',copy:'最多選四個作為起點；之後行為訊號會逐漸取代初始選擇。'},
-  {k:'summary',title:'你的推薦輪廓準備好了',copy:'完成後直接回到主頁，先看到每日推薦；每週推薦與 MT 推薦榜會用不同權重重新排序。'}
+  {k:'summary',title:'你的推薦輪廓準備好了',copy:'完成後直接回到主頁，先看到每日推薦；每週推薦與 CT 推薦會用不同權重重新排序。'}
 ];
 const ONBOARD_OPTIONS={
   moments:[['focus','專注 / 工作','安靜、穩定、不搶注意力'],['night','夜晚','城市夜色、較深的氛圍'],['drive','通勤 / 開車','有流動感與節奏'],['workout','運動','更高能量與推進感'],['chill','放空','柔軟、慢一些'],['social','聚會','容易進入狀態的聲音']],
@@ -18415,7 +18505,7 @@ function onboardSummaryHtml(){
   ].filter(x=>x[1].filter(Boolean).length);
   return '<div class="mt-onboard-summary"><div class="mt-onboard-summary-grid">'+
     rows.map(r=>'<section><small>'+esc(r[0])+'</small><b>'+r[1].filter(Boolean).map(esc).join(' · ')+'</b></section>').join('')+
-    '</div><p>之後「聽完」會提高權重，太快略過會降低權重；每日、每週與 MT 榜會用不同探索比例重新排序。</p></div>';
+    '</div><p>之後「聽完」會提高權重，太快略過會降低權重；每日、每週與 CT 推薦會用不同探索比例重新排序。</p></div>';
 }
 function renderOnboard(){
   const welcome=$('welcome');if(!welcome)return;
@@ -18426,7 +18516,7 @@ function renderOnboard(){
   back.disabled=onboardStep===0;
   let options='';
   if(st.k==='intro'){
-    options='<div class="mt-onboard-intro-card"><b>推薦不是一次設定完就不變</b><span>這裡只建立初始輪廓；實際播放、收藏、完整聽完與快速略過會繼續修正權重。</span><div><i>每日推薦</i><i>每週推薦</i><i>MT 推薦榜</i></div></div>';
+    options='<div class="mt-onboard-intro-card"><b>推薦不是一次設定完就不變</b><span>這裡只建立初始輪廓；實際播放、收藏、完整聽完與快速略過會繼續修正權重。</span><div><i>每日推薦</i><i>每週推薦</i><i>CT 推薦</i></div></div>';
   }else if(st.k==='seeds'){
     options='<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{
       const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),sel=optionSelected('seeds',d.t);
@@ -18441,7 +18531,7 @@ function renderOnboard(){
     }).join('')+'</div>';
   }
   const heading=onboardStep===0?'h1':'h2';
-  bodyEl.innerHTML='<div class="mt-onboard-kicker">'+String(onboardStep+1).padStart(2,'0')+' · PERSONALIZE</div><'+heading+'>'+st.title+'</'+heading+'><p>'+st.copy+'</p>'+options;
+  bodyEl.innerHTML='<div class="mt-onboard-kicker">CITYMUSIC · '+String(onboardStep+1).padStart(2,'0')+' · PERSONALIZE</div><'+heading+'>'+st.title+'</'+heading+'><p>'+st.copy+'</p>'+options;
   next.textContent=st.k==='summary'?'進入主頁':'下一步';
   next.disabled=false;
   bodyEl.scrollTop=0;
@@ -18458,7 +18548,7 @@ function installOnboardV2(){
   let done=false;try{done=localStorage.getItem(ALG_ONBOARD_KEY)==='1'}catch(_){}
   if(done)return;
   welcome.style.display='grid';welcome.classList.remove('is-out','finalizing','previewing');welcome.classList.add('welcome-active','mt-onboard-v2');body.classList.add('welcome-active');
-  welcome.innerHTML=`<div class="welcome-card"><header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>musicetown</span></div><div class="mt-onboard-progress"><span class="mt-onboard-counter">1 / ${ONBOARD_STEPS.length}</span><i></i></div></header><main class="mt-onboard-body"></main><footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">先略過</button><button class="mt-onboard-next" type="button">下一步</button></footer></div>`;
+  welcome.innerHTML=`<div class="welcome-card"><header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>CITYMUSIC</span></div><div class="mt-onboard-progress"><span class="mt-onboard-counter">1 / ${ONBOARD_STEPS.length}</span><i></i></div></header><main class="mt-onboard-body"></main><footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">先略過</button><button class="mt-onboard-next" type="button">下一步</button></footer></div>`;
   welcome.addEventListener('click',e=>{const o=e.target.closest('[data-ob-value]');if(!o)return;const k=ONBOARD_STEPS[onboardStep].k;toggleOnboard(k,o.dataset.obValue);renderOnboard()});
   welcome.querySelector('.mt-onboard-back').addEventListener('click',()=>{if(onboardStep>0){onboardStep--;renderOnboard()}});
   welcome.querySelector('.mt-onboard-skip').addEventListener('click',()=>finishOnboard(true));
@@ -18581,5 +18671,26 @@ queueMicrotask(()=>{bindPlayerScroll();syncPlayerCompact();queueBand();scrubOnli
 /* ================= R10.2.4 EXPERIENCE STABILIZER END ================= */
 
 </script>
+<!-- CITYMUSIC BRAND RUNTIME START -->
+<script id="citymusic-brand-runtime">
+(()=>{
+'use strict';
+const brandValue=v=>String(v||'').replace(/MUSICETOWN|MUSICTOWN|musicetown/g,'CITYMUSIC').replace(/MT\s*推薦榜/g,'CT 推薦').replace(/MT\s*推薦/g,'CT 推薦').replace(/MT PICK/g,'CT PICK');
+const skip=new Set(['SCRIPT','STYLE','CODE','PRE','TEXTAREA','NOSCRIPT']);
+function patchNode(root){
+  if(!root)return;
+  if(root.nodeType===3){const p=root.parentElement;if(!p||skip.has(p.tagName))return;const n=brandValue(root.nodeValue);if(n!==root.nodeValue)root.nodeValue=n;return}
+  if(root.nodeType!==1)return;
+  const el=root;if(skip.has(el.tagName))return;
+  for(const a of ['aria-label','title','alt','placeholder'])if(el.hasAttribute(a)){const v=el.getAttribute(a),n=brandValue(v);if(n!==v)el.setAttribute(a,n)}
+  if(el.matches?.('#logo .logo-wordmark,#logo .mt-logo-word,.mt-logo-word'))el.textContent='CITYMUSIC';
+  for(const n of el.childNodes)patchNode(n);
+}
+document.title='CITYMUSIC — Your City, Your Sound';
+patchNode(document.body);
+new MutationObserver(ms=>{for(const m of ms){if(m.type==='characterData')patchNode(m.target);for(const n of m.addedNodes)patchNode(n)}}).observe(document.body,{subtree:true,childList:true,characterData:true});
+})();
+</script>
+<!-- CITYMUSIC BRAND RUNTIME END -->
 </body>
 </html>
