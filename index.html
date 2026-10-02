@@ -11253,10 +11253,102 @@ img[src*="city-pass-qr"]{
 }
 /* ================= /CITYMUSIC VISUAL QUALITY V1 ================= */
 
+
+/* ================= CITYMUSIC APPLE UX V1 ================= */
+:root{
+  --mt-vvh:100dvh;
+  --mt-vvw:100vw;
+  --mt-vv-top:0px;
+  --mt-vv-left:0px;
+}
+html.mt-apple-touch{
+  -webkit-text-size-adjust:100%;
+  color-scheme:light;
+}
+html.mt-apple-touch body{
+  min-height:var(--mt-vvh);
+  -webkit-touch-callout:none;
+}
+html.mt-apple-touch button,
+html.mt-apple-touch a,
+html.mt-apple-touch [role="button"],
+html.mt-apple-touch input[type="range"]{
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+html.mt-apple-touch .live-lyrics,
+html.mt-apple-touch .live-lyrics *,
+html.mt-apple-touch .mt-lyrics-preview-lines,
+html.mt-apple-touch .mt-lyrics-preview-lines *{
+  -webkit-touch-callout:default;
+  -webkit-user-select:text;
+  user-select:text;
+}
+html.mt-apple-touch #playerSheet .player-card,
+html.mt-apple-touch #welcome .welcome-card{
+  max-height:calc(var(--mt-vvh) - max(6px,var(--mt-safe-t)) - max(6px,var(--mt-safe-b)) - 8px)!important;
+}
+html.mt-apple-touch #globalSearchSheet .global-search-panel,
+html.mt-apple-touch #localLibrarySheet #libraryPanel,
+html.mt-apple-touch #passbookSheet .passbook-panel{
+  max-height:calc(var(--mt-vvh) - max(8px,var(--mt-safe-t)) - max(8px,var(--mt-safe-b)))!important;
+}
+html.mt-apple-touch .player-card,
+html.mt-apple-touch .library-panel,
+html.mt-apple-touch .global-search-results,
+html.mt-apple-touch .passbook-panel,
+html.mt-apple-touch .mt-onboard-body,
+html.mt-apple-touch .mt-lyrics-preview-lines{
+  -webkit-overflow-scrolling:touch;
+}
+html.mt-standalone body{
+  overscroll-behavior-y:none;
+}
+html.mt-standalone #mtTop{
+  padding-top:calc(max(8px,var(--mt-safe-t)) + 6px);
+}
+html.mt-standalone #mtDock{
+  padding-bottom:max(0px,var(--mt-safe-b));
+}
+html.mt-apple-touch.mt-ios-keyboard #mtDock{
+  opacity:0!important;
+  pointer-events:none!important;
+  transform:translateY(calc(100% + var(--mt-safe-b)))!important;
+}
+@media(pointer:coarse){
+  html.mt-apple-touch .mt-icon-btn,
+  html.mt-apple-touch .mt-mini-btn,
+  html.mt-apple-touch .mt-back,
+  html.mt-apple-touch #glassPlay,
+  html.mt-apple-touch #localPlay,
+  html.mt-apple-touch .player-close,
+  html.mt-apple-touch .mt-lyrics-preview-close,
+  html.mt-apple-touch #audioAccessoryClose{
+    min-width:44px!important;
+    min-height:44px!important;
+  }
+  html.mt-apple-touch input[type="search"],
+  html.mt-apple-touch input[type="text"],
+  html.mt-apple-touch input[type="email"],
+  html.mt-apple-touch input[type="url"],
+  html.mt-apple-touch textarea,
+  html.mt-apple-touch select{
+    font-size:16px!important;
+  }
+}
+@media(display-mode:standalone){
+  html,body{min-height:100dvh}
+}
+/* ================= /CITYMUSIC APPLE UX V1 ================= */
+
 </style>
 <!-- CITYMUSIC BRAND META START -->
 <meta name="application-name" content="CITYMUSIC">
 <meta name="apple-mobile-web-app-title" content="CITYMUSIC">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
 <meta name="theme-color" content="#f7f8fc">
 <meta name="description" content="CITYMUSIC — a personal music atlas shaped by cities, moods and the way you actually listen.">
 <meta property="og:type" content="website">
@@ -11269,7 +11361,7 @@ img[src*="city-pass-qr"]{
 <meta name="twitter:description" content="A personal music atlas shaped by cities, rituals, moods and listening behavior.">
 <meta name="twitter:image" content="https://easylearnfromtw.github.io/musictown/assets/citymusic-share.svg">
 <link rel="icon" type="image/svg+xml" href="./assets/citymusic-logo.svg">
-<link rel="apple-touch-icon" href="./assets/citymusic-app-icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
 <link rel="manifest" href="./site.webmanifest">
 <!-- CITYMUSIC BRAND META END -->
 </head>
@@ -12012,6 +12104,14 @@ function uploadCardTextures(){
 }
 
 /* render targets */
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
 /* CITYMUSIC HQ render tier */
 const MT_RENDER_DM=Number(navigator.deviceMemory||0);
 const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
@@ -16448,6 +16548,12 @@ setTimeout(()=>{
 
 
 
+
+
+
+
+
+
 /* ================= R10.2 CORE BRIDGE START ================= */
 /* R10.2 exposes only the navigation/player surface the external shell needs. */
 function mtEmit(name,detail){
@@ -17982,6 +18088,59 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
   window.addEventListener('orientationchange',()=>setTimeout(queue,120),{passive:true});
   document.addEventListener('DOMContentLoaded',bind);
   bind();
+})();
+
+
+;(()=>{
+  'use strict';
+  /* ================= CITYMUSIC APPLE UX V1 ================= */
+  const root=document.documentElement;
+  const ua=navigator.userAgent||'';
+  const appleTouch=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  root.classList.toggle('mt-apple-touch',appleTouch);
+  root.classList.toggle('mt-standalone',standalone());
+
+  const syncAppleViewport=()=>{
+    const vv=window.visualViewport;
+    const w=Math.max(1,Math.round(vv?.width||window.innerWidth||document.documentElement.clientWidth||1));
+    const h=Math.max(1,Math.round(vv?.height||window.innerHeight||document.documentElement.clientHeight||1));
+    root.style.setProperty('--mt-vvw',w+'px');
+    root.style.setProperty('--mt-vvh',h+'px');
+    root.style.setProperty('--mt-vv-top',Math.round(vv?.offsetTop||0)+'px');
+    root.style.setProperty('--mt-vv-left',Math.round(vv?.offsetLeft||0)+'px');
+  };
+  syncAppleViewport();
+  window.visualViewport?.addEventListener('resize',syncAppleViewport,{passive:true});
+  window.visualViewport?.addEventListener('scroll',syncAppleViewport,{passive:true});
+  window.addEventListener('resize',syncAppleViewport,{passive:true});
+  window.addEventListener('orientationchange',()=>setTimeout(syncAppleViewport,80),{passive:true});
+  window.addEventListener('pageshow',syncAppleViewport,{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden){root.classList.toggle('mt-standalone',standalone());setTimeout(syncAppleViewport,40)}});
+
+  const hydrateInlineMedia=()=>{
+    document.querySelectorAll('audio,video').forEach(m=>{
+      m.setAttribute('playsinline','');
+      m.setAttribute('webkit-playsinline','');
+    });
+  };
+  hydrateInlineMedia();
+  new MutationObserver(()=>requestAnimationFrame(hydrateInlineMedia)).observe(document.body,{childList:true,subtree:true});
+
+  const keyboardField=el=>el?.matches?.('input,textarea,[contenteditable="true"]');
+  document.addEventListener('focusin',e=>{
+    if(!appleTouch||!keyboardField(e.target))return;
+    root.classList.add('mt-ios-keyboard');
+    requestAnimationFrame(syncAppleViewport);
+  },true);
+  document.addEventListener('focusout',e=>{
+    if(!appleTouch||!keyboardField(e.target))return;
+    setTimeout(()=>{root.classList.remove('mt-ios-keyboard');syncAppleViewport()},180);
+  },true);
+
+  const displayMode=matchMedia('(display-mode: standalone)');
+  displayMode.addEventListener?.('change',()=>root.classList.toggle('mt-standalone',standalone()));
+  /* ================= /CITYMUSIC APPLE UX V1 ================= */
 })();
 
 </script>\n
