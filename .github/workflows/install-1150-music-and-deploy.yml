@@ -16,6 +16,9 @@ name: R9.3.14 · 101 themes / 3300 placements · Local Audio Stable Deploy
       - "apply_r937_ux.py"
       - "r937_ux.js"
       - "r937_ux.css"
+      - "apply_r10_ux.py"
+      - "r10_ux.js"
+      - "r10_ux.css"
       - "verify_music_install.py"
       - "prepare_audio_site.py"
       - ".github/workflows/install-1150-music-and-deploy.yml"
@@ -101,7 +104,7 @@ jobs:
             echo "No lyrics manifest yet; continuing without fabricated lyrics."
           fi
 
-      - name: Apply R9.3 UX layer
+      - name: Apply R9.3 UX layer + R10 Flow & Glass shell
         run: python apply_r937_ux.py
 
       - name: Verify 101-theme / 3300-placement catalog
