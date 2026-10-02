@@ -15,6 +15,10 @@ for name in [
     p=ROOT/name
     if p.exists():shutil.copy2(p,SITE/name)
 
+# R10.1: images the page links to (City Pass QR seals, player backdrop art).
+if (ROOT/"assets").is_dir():
+    shutil.copytree(ROOT/"assets",SITE/"assets")
+
 text=(ROOT/"index.html").read_text(encoding="utf-8")
 m=re.search(r'window\.MUSIC_DATA\s*=\s*(\[.*?\]);\s*\n',text,re.S)
 if not m:raise SystemExit("MUSIC_DATA not found")
