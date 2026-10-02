@@ -16,6 +16,7 @@ name: R9.3.14 · 101 themes / 3300 placements · Local Audio Stable Deploy
       - "apply_r937_ux.py"
       - "r937_ux.js"
       - "r937_ux.css"
+      - "apply_r10_core.py"
       - "apply_r10_ux.py"
       - "r10_ux.js"
       - "r10_ux.css"
@@ -25,6 +26,8 @@ name: R9.3.14 · 101 themes / 3300 placements · Local Audio Stable Deploy
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: musicetown-r9313-local-audio
@@ -34,6 +37,9 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 360
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - uses: actions/checkout@v4
@@ -46,6 +52,8 @@ jobs:
           git fetch origin main
           git reset --hard origin/main
           echo "Building $(git rev-parse HEAD)"
+
+      - uses: actions/configure-pages@v5
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -70,10 +78,7 @@ jobs:
       - name: Build 250 verified local base tracks
         run: python fetch_verified_audio.py --bitrate 64k
 
-      - name: Restore catalog to local verified MP3 paths
-        run: python restore_verified_local_audio.py
-
-      - name: Verify deployed audio integrity
+      - name: Verify critical mobile audio
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -90,6 +95,9 @@ jobs:
           print(f"Audio integrity OK: {len(files)} MP3s; rock/008.mp3={target.stat().st_size} bytes")
           PY
 
+      - name: Restore catalog to local verified MP3 paths
+        run: python restore_verified_local_audio.py
+
       - name: Build 31 audited core and city themes deterministically
         run: python build_audited_release_packs.py
 
@@ -104,7 +112,10 @@ jobs:
             echo "No lyrics manifest yet; continuing without fabricated lyrics."
           fi
 
-      - name: Apply R9.3 UX layer + R10 Flow & Glass shell
+      - name: Install R10.2 core bridge
+        run: python apply_r10_core.py
+
+      - name: Apply R9.3 UX layer + R10.2 Flow / recommendations shell
         run: python apply_r937_ux.py
 
       - name: Verify 101-theme / 3300-placement catalog
@@ -121,3 +132,18 @@ jobs:
             git commit -m "Persist stable local-audio 3300 catalog [skip ci]"
             git push origin HEAD:main
           fi
+
+      - name: Prepare Pages artifact with local audio
+        run: python prepare_audio_site.py
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+          path: _site
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
