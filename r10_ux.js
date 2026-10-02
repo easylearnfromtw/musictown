@@ -778,7 +778,7 @@ if('ResizeObserver' in window){
    ===================================================================== */
 const ALG_PROFILE_KEY='musicetown.r10.2.profile';
 const ALG_STATE_KEY='musicetown.r10.2.signals';
-const ALG_ONBOARD_KEY='musicetown.r10.2.2.onboarded';
+const ALG_ONBOARD_KEY='musicetown.r10.2.3.onboarded';
 function readJson(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(_){return fallback}}
 function writeJson(key,v){try{localStorage.setItem(key,JSON.stringify(v))}catch(_){}}
 function algProfile(){return Object.assign({moments:[],energy:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]},readJson(ALG_PROFILE_KEY,{}))}
@@ -968,7 +968,7 @@ function renderOnboard(){
 }
 function finishOnboard(skip=false){
   if(skip)onboard={moments:[],energy:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]};
-  writeJson(ALG_PROFILE_KEY,onboard);try{localStorage.setItem(ALG_ONBOARD_KEY,'1');localStorage.setItem('musicetown.r10.onboarded','1')}catch(_){}
+  writeJson(ALG_PROFILE_KEY,onboard);try{localStorage.setItem(ALG_ONBOARD_KEY,'1');localStorage.setItem('musicetown.r10.onboarded','1');localStorage.setItem('musicetown.r10.2.3.onboarded','1')}catch(_){}
   const welcome=$('welcome');welcome?.classList.add('is-out');welcome?.classList.remove('welcome-active','finalizing','previewing');body.classList.remove('welcome-active');
   setTimeout(()=>{if(welcome)welcome.style.display='none'},360);
   renderRecoShelf('daily');requestAnimationFrame(measure);document.dispatchEvent(new CustomEvent('mt:welcome',{detail:{done:true,profile:onboard}}));
@@ -1013,3 +1013,181 @@ addEventListener('load',()=>{
 });
 if(document.readyState==='complete')setTimeout(()=>{openInitialRoute();updateResume();measure();},200);
 })();
+
+/* ================= R10.2.3 FINAL MOBILE POLISH START ================= */
+;(()=>{
+'use strict';
+const MT=window.MT;if(!MT)return;
+const $=id=>document.getElementById(id);
+const body=document.body,root=document.documentElement;
+const mobile=()=>matchMedia('(max-width:760px)').matches;
+
+/* 1) iPhone audio source hydration.
+   Pointer-down prepares the real same-origin MP3 before the subsequent click
+   calls play(), keeping the user's activation chain intact. */
+function siteRoot(){
+  try{
+    if(location.protocol==='file:')return new URL('./',document.baseURI).href;
+    if(/\.github\.io$/i.test(location.hostname)){
+      const first=location.pathname.split('/').filter(Boolean)[0]||'musictown';
+      return new URL('/'+first+'/',location.origin).href;
+    }
+    return new URL('/',location.origin).href;
+  }catch(_){return document.baseURI}
+}
+function audioCandidates(t){
+  const raw=[t?.audioSrc,t?.originalLocalAudio,t?.originalAudioSrc,t?.download]
+    .map(x=>String(x||'').trim()).filter(Boolean);
+  const out=[];
+  for(const src of raw){
+    try{
+      const u=/^[a-z][a-z0-9+.-]*:/i.test(src)||src.startsWith('//')
+        ?new URL(src,document.baseURI)
+        :new URL(src.replace(/^\/+/,''),siteRoot());
+      if(!out.includes(u.href))out.push(u.href);
+    }catch(_){}
+  }
+  return out;
+}
+function hydrateAudio(a,t,{force=false}={}){
+  if(!a||!t)return false;
+  const urls=audioCandidates(t);if(!urls.length)return false;
+  const cur=String(a.currentSrc||a.src||'');
+  const desired=urls[0];
+  if(!force&&cur&&cur.split('?')[0]===desired.split('?')[0]&&!a.error)return true;
+  try{
+    a.preload='auto';
+    a.setAttribute('playsinline','');
+    a.setAttribute('webkit-playsinline','');
+    a.src=desired;
+    a.load();
+    a.dataset.mtR1023Index='0';
+    return true;
+  }catch(_){return false}
+}
+function bindAudioRescue(a,t){
+  if(!a||!t)return;
+  const token=(t.shareId||t.audioSrc||t.title||'track');
+  if(a.dataset.mtR1023Track===token)return;
+  a.dataset.mtR1023Track=token;
+  const urls=audioCandidates(t);
+  let retry=0,timer=0;
+  const clear=()=>{clearTimeout(timer);timer=0};
+  const ready=()=>{clear();a.dataset.mtR1023Ready='1'};
+  const next=()=>{
+    if(a.readyState>=1){ready();return}
+    if(retry>=Math.max(2,urls.length+1))return;
+    let url=urls[Math.min(retry,Math.max(0,urls.length-1))];
+    retry++;
+    try{
+      const u=new URL(url);
+      if(u.origin===location.origin)u.searchParams.set('mt_audio','r1023-'+retry+'-'+Date.now().toString(36));
+      a.src=u.href;a.preload='auto';a.load();
+    }catch(_){}
+    timer=setTimeout(next,3600);
+  };
+  ['loadedmetadata','canplay','playing'].forEach(ev=>a.addEventListener(ev,ready,{passive:true}));
+  a.addEventListener('error',()=>{clear();setTimeout(next,80)},{passive:true});
+  a.addEventListener('stalled',()=>{if(a.readyState===0){clear();timer=setTimeout(next,700)}},{passive:true});
+  clear();timer=setTimeout(()=>{if(a.readyState===0)next()},2800);
+}
+function prepareCurrentAudio(){
+  const a=MT.audio||$('nativeAudioPlayer'),t=MT.track;
+  if(!a||!t)return;
+  hydrateAudio(a,t);
+  bindAudioRescue(a,t);
+}
+document.addEventListener('mt:track',()=>requestAnimationFrame(prepareCurrentAudio));
+document.addEventListener('pointerdown',e=>{
+  if(!e.target.closest('#localPlay,[data-mini="play"],#mtMiniOpen,.deck-seek,#vinylDisc'))return;
+  prepareCurrentAudio();
+},{capture:true,passive:true});
+document.addEventListener('touchstart',e=>{
+  if(!e.target.closest?.('#localPlay,[data-mini="play"],#mtMiniOpen'))return;
+  prepareCurrentAudio();
+},{capture:true,passive:true});
+
+/* 2) Player dock state.
+   Full inline player at the top; compact Liquid Glass appears only after the
+   player is scrolled down far enough that the large controls are no longer
+   the primary control surface. */
+let playerScrollHost=null,playerLastY=0;
+function syncPlayerCompact(){
+  const sheet=$('playerSheet');
+  const host=sheet?.querySelector('.player-card');
+  const open=!!sheet?.classList.contains('open');
+  if(!open){
+    body.classList.remove('mt-player-scrolled','mt-compact');
+    return;
+  }
+  if(host&&host!==playerScrollHost){
+    playerScrollHost=host;playerLastY=host.scrollTop||0;
+    host.addEventListener('scroll',()=>{
+      if(!mobile())return;
+      const y=host.scrollTop||0,dy=y-playerLastY;
+      if(y<90||dy<-8){
+        body.classList.remove('mt-player-scrolled','mt-compact');
+      }else if(y>150&&dy>6){
+        body.classList.add('mt-player-scrolled','mt-compact');
+      }
+      playerLastY=y;
+    },{passive:true});
+  }
+  const y=host?.scrollTop||0;
+  body.classList.toggle('mt-player-scrolled',mobile()&&y>150);
+  if(!body.classList.contains('mt-player-scrolled'))body.classList.remove('mt-compact');
+}
+const ps=$('playerSheet');
+if(ps)new MutationObserver(()=>requestAnimationFrame(syncPlayerCompact))
+  .observe(ps,{attributes:true,attributeFilter:['class']});
+document.addEventListener('mt:track',()=>{body.classList.remove('mt-player-scrolled','mt-compact');requestAnimationFrame(syncPlayerCompact)});
+
+/* 3) Home safe band: derive it from the real fixed UI rectangles instead of
+   stale guessed heights. This is what keeps the 3D drawer centered on phones. */
+let bandRAF=0;
+function syncHomeBand(){
+  bandRAF=0;if(!body.classList.contains('mt-view-home'))return;
+  const top=$('mtTop'),dock=$('mtDock'),shelf=$('mtShelf');
+  const vh=window.innerHeight||document.documentElement.clientHeight||0;
+  if(!vh)return;
+  const topPx=Math.max(0,Math.round((top?.getBoundingClientRect().bottom||0)+4));
+  const lower=[];
+  if(dock&&getComputedStyle(dock).display!=='none')lower.push(dock.getBoundingClientRect().top);
+  if(shelf&&getComputedStyle(shelf).display!=='none')lower.push(shelf.getBoundingClientRect().top);
+  const start=lower.filter(Number.isFinite).length?Math.min(...lower):vh;
+  const bottomPx=Math.max(0,Math.round(vh-start+8));
+  let changed=false;
+  if(root.style.getPropertyValue('--mt-scene-top')!==topPx+'px'){root.style.setProperty('--mt-scene-top',topPx+'px');changed=true}
+  if(root.style.getPropertyValue('--mt-scene-bottom')!==bottomPx+'px'){root.style.setProperty('--mt-scene-bottom',bottomPx+'px');changed=true}
+  if(changed)setTimeout(()=>dispatchEvent(new Event('resize')),0);
+}
+function queueBand(){if(!bandRAF)bandRAF=requestAnimationFrame(syncHomeBand)}
+['resize','orientationchange'].forEach(ev=>addEventListener(ev,queueBand,{passive:true}));
+window.visualViewport?.addEventListener('resize',queueBand,{passive:true});
+document.addEventListener('mt:view',queueBand);
+document.addEventListener('mt:group',queueBand);
+const shelf=$('mtShelf');if(shelf&&'ResizeObserver'in window)new ResizeObserver(queueBand).observe(shelf);
+const dock=$('mtDock');if(dock&&'ResizeObserver'in window)new ResizeObserver(queueBand).observe(dock);
+setTimeout(queueBand,60);setTimeout(queueBand,420);
+
+/* 4) Lyrics full-preview also freezes the page behind it. */
+const lyr=document.querySelector('.mt-lyrics-preview');
+if(lyr)new MutationObserver(()=>{
+  body.classList.toggle('mt-lyrics-full',lyr.classList.contains('open'));
+}).observe(lyr,{attributes:true,attributeFilter:['class']});
+
+/* 5) Never allow a stale legacy ONLINE SOURCE panel to reappear. */
+function scrubOnlineSource(){
+  document.querySelectorAll('.online-fallback').forEach(n=>n.remove());
+  document.querySelectorAll('#playerBody *').forEach(n=>{
+    const t=(n.textContent||'').trim();
+    if((t==='ONLINE SOURCE'||t==='ONLINE CC0 PLAYER')&&n.closest('.online-fallback'))n.closest('.online-fallback')?.remove();
+  });
+}
+new MutationObserver(()=>requestAnimationFrame(scrubOnlineSource))
+  .observe(document.body,{childList:true,subtree:true});
+scrubOnlineSource();
+
+queueMicrotask(()=>{prepareCurrentAudio();syncPlayerCompact();queueBand()});
+})();
+/* ================= R10.2.3 FINAL MOBILE POLISH END ================= */
