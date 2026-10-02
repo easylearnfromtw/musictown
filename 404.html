@@ -10445,7 +10445,6 @@ body.mt-view-home:not(.detail-open){overflow:hidden!important}
 /* R10.2.1 · final phone geometry: stable viewport + scroll-driven glass dock */
 @media(max-width:760px){
   body.mt-view-home{width:100%!important;max-width:100vw!important;overflow:hidden!important}
-  body.mt-view-home #scene{position:fixed!important;inset:var(--mt-safe-t) 0 0!important;width:100vw!important;height:calc(100dvh - var(--mt-safe-t))!important;max-width:100vw!important}
   #mtDock{left:50%!important;right:auto!important;bottom:calc(max(10px,var(--mt-safe-b)) + 2px)!important;width:calc(100vw - 18px)!important;max-width:460px!important;transform:translateX(-50%)!important}
   body:not(.mt-compact).mt-has-track #mtDock{flex-direction:column!important;align-items:stretch!important}
   body:not(.mt-compact).mt-has-track #mtMini{order:1!important;width:100%!important;height:58px!important;border-radius:21px!important}
@@ -15637,6 +15636,12 @@ setTimeout(()=>{
   $('bootHint').classList.remove('show');
   if(!state.ready) $('stageFallback').classList.add('show');
 },1800);
+
+
+
+
+
+
 
 
 
