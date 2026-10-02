@@ -285,6 +285,118 @@
   };
   bindVinylLocks();
   new MutationObserver(()=>requestAnimationFrame(bindVinylLocks)).observe(document.body,{childList:true,subtree:true});
+  /* CITYMUSIC CD SCRUB SFX · native Web Audio, synced to direction + drag speed.
+     No remote dependency: the sound is synthesized locally so first drag stays responsive on iPhone. */
+  const CD_SCRUB_MIN_MOVE=.012;
+  let scrubCtx=null,scrubNoise=null,lastScrubBurst=0;
+  const ensureScrubAudio=()=>{
+    if(scrubCtx)return scrubCtx;
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return null;
+    try{
+      scrubCtx=new AC({latencyHint:'interactive'});
+      const len=Math.max(256,Math.floor(scrubCtx.sampleRate*.055));
+      scrubNoise=scrubCtx.createBuffer(1,len,scrubCtx.sampleRate);
+      const ch=scrubNoise.getChannelData(0);
+      for(let i=0;i<len;i++){
+        const env=1-i/len;
+        ch[i]=(Math.random()*2-1)*env;
+      }
+    }catch(_){scrubCtx=null;scrubNoise=null}
+    return scrubCtx;
+  };
+  const playerAudibility=()=>{
+    const a=byId('nativeAudioPlayer');
+    if(a?.muted)return 0;
+    const v=Number.isFinite(a?.volume)?a.volume:1;
+    return Math.max(.12,Math.min(1,v));
+  };
+  const scrubBurst=(direction,speed)=>{
+    const ctx=ensureScrubAudio();
+    if(!ctx||!scrubNoise)return;
+    if(ctx.state==='suspended')ctx.resume().catch(()=>{});
+    const now=ctx.currentTime;
+    const wall=performance.now();
+    const cadence=Math.max(20,52-Math.min(32,speed*3.2));
+    if(wall-lastScrubBurst<cadence)return;
+    lastScrubBurst=wall;
+
+    const src=ctx.createBufferSource();
+    const filter=ctx.createBiquadFilter();
+    const gain=ctx.createGain();
+    const pan=ctx.createStereoPanner?.();
+
+    src.buffer=scrubNoise;
+    src.playbackRate.value=Math.max(.72,Math.min(1.62,.82+speed*.055));
+    filter.type='bandpass';
+    filter.Q.value=.75+Math.min(2.2,speed*.06);
+    filter.frequency.value=direction>=0
+      ? Math.min(4300,1850+speed*92)
+      : Math.max(680,1420-speed*34);
+
+    const level=(.010+Math.min(.040,speed*.0028))*playerAudibility();
+    gain.gain.setValueAtTime(.0001,now);
+    gain.gain.exponentialRampToValueAtTime(Math.max(.001,level),now+.006);
+    gain.gain.exponentialRampToValueAtTime(.0001,now+.045);
+
+    if(pan){
+      pan.pan.value=direction>=0?.16:-.16;
+      src.connect(filter);filter.connect(gain);gain.connect(pan);pan.connect(ctx.destination);
+    }else{
+      src.connect(filter);filter.connect(gain);gain.connect(ctx.destination);
+    }
+    src.start(now);
+    src.stop(now+.052);
+  };
+  const bindVinylScrubSfx=()=>{
+    document.querySelectorAll('.vinyl-wrap').forEach(wrap=>{
+      if(wrap.dataset.mtScrubSfx==='1')return;
+      wrap.dataset.mtScrubSfx='1';
+      let state=null;
+      const angleAt=e=>{
+        const r=wrap.getBoundingClientRect();
+        return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2));
+      };
+      wrap.addEventListener('pointerdown',e=>{
+        if(e.button!=null&&e.button!==0)return;
+        if(e.target.closest('button,input,a,.deck-info'))return;
+        const ctx=ensureScrubAudio();
+        if(ctx?.state==='suspended')ctx.resume().catch(()=>{});
+        state={id:e.pointerId,a:angleAt(e),x:e.clientX,t:performance.now(),moved:false};
+      },{capture:true,passive:true});
+      wrap.addEventListener('pointermove',e=>{
+        if(!state||e.pointerId!==state.id)return;
+        const now=performance.now(),a=angleAt(e);
+        let da=a-state.a;
+        if(da>Math.PI)da-=Math.PI*2;
+        else if(da<-Math.PI)da+=Math.PI*2;
+        const dx=e.clientX-state.x,dt=Math.max(8,now-state.t);
+        const meaningful=Math.abs(da)>=CD_SCRUB_MIN_MOVE||Math.abs(dx)>=2.5;
+        if(!meaningful)return;
+        state.moved=true;
+        const direction=Math.abs(da)>=CD_SCRUB_MIN_MOVE?Math.sign(da):Math.sign(dx);
+        const angularSpeed=Math.abs(da)/dt*1000;
+        const linearSpeed=Math.abs(dx)/dt*55;
+        scrubBurst(direction||1,Math.min(18,angularSpeed*2.3+linearSpeed));
+        state.a=a;state.x=e.clientX;state.t=now;
+        wrap.classList.add('mt-cd-scrubbing');
+        wrap.dataset.mtScrubDirection=direction>=0?'forward':'backward';
+      },{capture:true,passive:true});
+      const stop=e=>{
+        if(!state)return;
+        if(e?.pointerId!=null&&e.pointerId!==state.id)return;
+        state=null;
+        wrap.classList.remove('mt-cd-scrubbing');
+        delete wrap.dataset.mtScrubDirection;
+      };
+      wrap.addEventListener('pointerup',stop,{capture:true,passive:true});
+      wrap.addEventListener('pointercancel',stop,{capture:true,passive:true});
+      wrap.addEventListener('lostpointercapture',stop,{capture:true,passive:true});
+    });
+  };
+  bindVinylScrubSfx();
+  new MutationObserver(()=>requestAnimationFrame(bindVinylScrubSfx)).observe(document.body,{childList:true,subtree:true});
+
 
   /* When a player opens, assign src directly as well as <source>; iOS Safari is more reliable this way. */
   const hydrateAudioSrc=()=>{
