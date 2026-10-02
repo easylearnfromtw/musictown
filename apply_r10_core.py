@@ -493,22 +493,50 @@ def patch(text:str,name:str)->str:
 """
     text=text[:fb_start]+clean_fallback+text[fb_end:]
 
-    # CITYMUSIC VINYL SCRUB EASY V2.
-    # Make the physical-disc gesture respond to small thumb movement while
-    # keeping the existing transport/audio pipeline as the single source of truth.
-    scrub_replacements = [
-        ("const SCRUB_SECONDS_PER_TURN=96;", "const SCRUB_SECONDS_PER_TURN=150; /* CITYMUSIC VINYL SCRUB EASY V2 */"),
-        ("const linearSeconds=dx*.62;", "const linearSeconds=dx*(matchMedia('(pointer:coarse)').matches?1.05:.88);"),
-        ("const blend=Math.max(0,Math.min(.34,(radius-rect.width*.14)/(rect.width*.58)));",
-         "const blend=Math.max(.12,Math.min(.72,(radius-rect.width*.10)/(rect.width*.46)));"),
-        ("vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。按住唱片即可平滑快轉或倒轉。`);",
-         "vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。輕拖唱片任意方向即可快轉或倒轉。`);"),
+    # CITYMUSIC VINYL SCRUB EASY V3.
+    # Larger seek response with less thumb travel. Keep the center of the disc
+    # useful too, so users do not have to trace the outer circumference.
+    scrub_pairs = [
+        (
+            [
+                "const SCRUB_SECONDS_PER_TURN=96;",
+                "const SCRUB_SECONDS_PER_TURN=150; /* CITYMUSIC VINYL SCRUB EASY V2 */",
+            ],
+            "const SCRUB_SECONDS_PER_TURN=210; /* CITYMUSIC VINYL SCRUB EASY V3 */",
+        ),
+        (
+            [
+                "const linearSeconds=dx*.62;",
+                "const linearSeconds=dx*(matchMedia('(pointer:coarse)').matches?1.05:.88);",
+            ],
+            "const linearSeconds=dx*(matchMedia('(pointer:coarse)').matches?1.45:1.12);",
+        ),
+        (
+            [
+                "const blend=Math.max(0,Math.min(.34,(radius-rect.width*.14)/(rect.width*.58)));",
+                "const blend=Math.max(.12,Math.min(.72,(radius-rect.width*.10)/(rect.width*.46)));",
+            ],
+            "const blend=Math.max(.22,Math.min(.88,(radius-rect.width*.06)/(rect.width*.42)));",
+        ),
+        (
+            [
+                "vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。按住唱片即可平滑快轉或倒轉。`);",
+                "vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。輕拖唱片任意方向即可快轉或倒轉。`);",
+            ],
+            "vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。輕輕拖動任意方向即可快速快轉或倒轉。`);",
+        ),
     ]
-    for old,new in scrub_replacements:
-        if old in text:
-            text=text.replace(old,new,1)
-        elif new not in text:
-            raise RuntimeError(f'{name}: vinyl easy-scrub marker not found: {old[:42]}')
+    for olds,new in scrub_pairs:
+        if new in text:
+            continue
+        replaced=False
+        for old in olds:
+            if old in text:
+                text=text.replace(old,new,1)
+                replaced=True
+                break
+        if not replaced:
+            raise RuntimeError(f'{name}: vinyl easy-scrub V3 marker not found: {olds[0][:42]}')
 
     # CITYMUSIC VISUAL QUALITY V1.
     # Builders rewrite the legacy WebGL block on each production build, so

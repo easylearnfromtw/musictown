@@ -285,10 +285,10 @@
   };
   bindVinylLocks();
   new MutationObserver(()=>requestAnimationFrame(bindVinylLocks)).observe(document.body,{childList:true,subtree:true});
-  /* CITYMUSIC VINYL SCRUB EASY V2 · lower gesture threshold, more immediate thumb response. */
+  /* CITYMUSIC VINYL SCRUB EASY V3 · lighter thumb travel + Sakura platter. */
   /* CITYMUSIC CD SCRUB SFX · native Web Audio, synced to direction + drag speed.
      No remote dependency: the sound is synthesized locally so first drag stays responsive on iPhone. */
-  const CD_SCRUB_MIN_MOVE=.007;
+  const CD_SCRUB_MIN_MOVE=.004;
   let scrubCtx=null,scrubNoise=null,lastScrubBurst=0;
   const ensureScrubAudio=()=>{
     if(scrubCtx)return scrubCtx;
@@ -372,7 +372,7 @@
         if(da>Math.PI)da-=Math.PI*2;
         else if(da<-Math.PI)da+=Math.PI*2;
         const dx=e.clientX-state.x,dt=Math.max(8,now-state.t);
-        const meaningful=Math.abs(da)>=CD_SCRUB_MIN_MOVE||Math.abs(dx)>=1.5;
+        const meaningful=Math.abs(da)>=CD_SCRUB_MIN_MOVE||Math.abs(dx)>=.8;
         if(!meaningful)return;
         state.moved=true;
         const direction=Math.abs(da)>=CD_SCRUB_MIN_MOVE?Math.sign(da):Math.sign(dx);
@@ -397,6 +397,20 @@
   };
   bindVinylScrubSfx();
   new MutationObserver(()=>requestAnimationFrame(bindVinylScrubSfx)).observe(document.body,{childList:true,subtree:true});
+
+  /* CITYMUSIC SAKURA PLATTER V1 · decorative outer ring, pointer-transparent. */
+  const bindSakuraPlatter=()=>{
+    document.querySelectorAll('#playerSheet .vinyl-wrap').forEach(wrap=>{
+      if(wrap.querySelector(':scope > .mt-sakura-platter'))return;
+      const ring=document.createElement('div');
+      ring.className='mt-sakura-platter';
+      ring.setAttribute('aria-hidden','true');
+      ring.innerHTML=Array.from({length:10},(_,i)=>'<i style="--i:'+i+'"><span>✿</span></i>').join('');
+      wrap.prepend(ring);
+    });
+  };
+  bindSakuraPlatter();
+  new MutationObserver(()=>requestAnimationFrame(bindSakuraPlatter)).observe(document.body,{childList:true,subtree:true});
 
 
   /* When a player opens, assign src directly as well as <source>; iOS Safari is more reliable this way. */

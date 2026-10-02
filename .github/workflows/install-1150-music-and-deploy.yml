@@ -159,7 +159,8 @@ jobs:
                   "CITYMUSIC LIBRARY QUALITY V2",
                   "CITYMUSIC PAGE OPEN MOTION V1",
                   "CITYMUSIC CD SCRUB SFX",
-                  "CITYMUSIC VINYL SCRUB EASY V2",
+                  "CITYMUSIC VINYL SCRUB EASY V3",
+                  "CITYMUSIC SAKURA PLATTER V1",
               ]
               missing=[x for x in required if x not in s]
               if missing:

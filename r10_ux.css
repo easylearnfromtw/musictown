@@ -2152,3 +2152,88 @@ body:not(.mt-view-detail) #mtTop .mt-back{
   #mtShelf .mt-theme-card{min-height:48px!important;padding:8px!important}
 }
 /* ================= /CITYMUSIC HOME DECLUTTER V2 ================= */
+
+
+/* ================= CITYMUSIC SAKURA PLATTER V1 ================= */
+#playerSheet .vinyl-wrap{position:relative!important}
+#playerSheet .mt-sakura-platter{
+  position:absolute;
+  z-index:0;
+  left:50%;top:50%;
+  width:calc(min(100%,520px) + 24px);
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  border-radius:50%;
+  opacity:.72;
+  filter:drop-shadow(0 5px 14px rgba(201,115,147,.11));
+}
+#playerSheet .mt-sakura-platter::before{
+  content:'';
+  position:absolute;inset:5%;
+  border-radius:50%;
+  border:1px solid rgba(202,128,158,.18);
+  box-shadow:
+    inset 0 0 0 8px rgba(255,238,245,.08),
+    0 0 0 1px rgba(255,255,255,.48);
+}
+#playerSheet .mt-sakura-platter>i{
+  --a:calc(var(--i) * 36deg);
+  position:absolute;
+  left:50%;top:50%;
+  width:26px;height:26px;
+  margin:-13px;
+  transform:rotate(var(--a)) translateY(calc(-1 * (min(50vw,260px) + 2px))) rotate(calc(-1 * var(--a)));
+  display:grid;place-items:center;
+  font-style:normal;
+}
+#playerSheet .mt-sakura-platter>i span{
+  display:grid;place-items:center;
+  width:24px;height:24px;
+  color:rgba(213,122,157,.70);
+  font:500 22px/1 Georgia,serif;
+  text-shadow:0 1px 0 rgba(255,255,255,.9);
+  transform:rotate(calc(var(--i) * 13deg));
+}
+body.mt-playing #playerSheet .mt-sakura-platter{
+  animation:mtSakuraPlatterSpin 32s linear infinite;
+}
+#playerSheet .vinyl-wrap.mt-cd-scrubbing .mt-sakura-platter{
+  opacity:.96;
+  filter:drop-shadow(0 6px 16px rgba(205,116,153,.20));
+}
+#playerSheet .vinyl-wrap[data-mt-scrub-direction="forward"] .mt-sakura-platter{
+  animation:mtSakuraNudgeForward .42s ease-out both;
+}
+#playerSheet .vinyl-wrap[data-mt-scrub-direction="backward"] .mt-sakura-platter{
+  animation:mtSakuraNudgeBack .42s ease-out both;
+}
+@keyframes mtSakuraPlatterSpin{
+  from{transform:translate(-50%,-50%) rotate(0)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes mtSakuraNudgeForward{
+  from{transform:translate(-50%,-50%) rotate(0)}
+  to{transform:translate(-50%,-50%) rotate(14deg)}
+}
+@keyframes mtSakuraNudgeBack{
+  from{transform:translate(-50%,-50%) rotate(0)}
+  to{transform:translate(-50%,-50%) rotate(-14deg)}
+}
+#playerSheet .vinyl{
+  position:relative!important;
+  z-index:1!important;
+}
+@media(max-width:760px){
+  #playerSheet .mt-sakura-platter{
+    width:calc(min(84vw,410px) + 18px);
+  }
+  #playerSheet .mt-sakura-platter>i{
+    transform:rotate(var(--a)) translateY(calc(-1 * (min(42vw,205px) + 1px))) rotate(calc(-1 * var(--a)));
+  }
+  #playerSheet .mt-sakura-platter>i span{font-size:18px;width:20px;height:20px}
+}
+@media(prefers-reduced-motion:reduce){
+  #playerSheet .mt-sakura-platter{animation:none!important}
+}
+/* ================= /CITYMUSIC SAKURA PLATTER V1 ================= */
