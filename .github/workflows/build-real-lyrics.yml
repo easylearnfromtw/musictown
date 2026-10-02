@@ -29,7 +29,7 @@ concurrency:
 
 jobs:
   transcribe:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
@@ -110,7 +110,7 @@ jobs:
       - name: Persist lyrics to main
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "418982774+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add lyrics_manifest.json index.html 404.html
           if git diff --cached --quiet; then
             echo "No lyrics changes to persist."
