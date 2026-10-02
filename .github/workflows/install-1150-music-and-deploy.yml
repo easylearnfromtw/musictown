@@ -83,6 +83,14 @@ jobs:
       - name: Build 70 limited 25-track themes
         run: python build_limited_theme_packs.py
 
+      - name: Apply cached real lyrics manifest
+        run: |
+          if [ -f lyrics_manifest.json ]; then
+            python apply_lyrics_manifest.py
+          else
+            echo "No lyrics manifest yet; continuing without fabricated lyrics."
+          fi
+
       - name: Apply R9.3 UX layer
         run: python apply_r937_ux.py
 
