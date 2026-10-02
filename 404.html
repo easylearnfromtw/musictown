@@ -11388,6 +11388,75 @@ html.mt-apple-touch.mt-ios-keyboard #glassTransport{
 
 html.mt-apple-touch .mt-ios-touching{filter:brightness(.985)}
 
+
+/* ================= CITYMUSIC LIBRARY TOP LEFT V1 ================= */
+#mtTop .mt-top-left{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+#mtTop .mt-top-library{
+  appearance:none;
+  height:44px;
+  min-width:44px;
+  border:0;
+  border-radius:999px;
+  padding:0 13px 0 11px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  color:var(--mt-ink);
+  cursor:pointer;
+  font:650 11px/1 var(--mt-ui);
+  letter-spacing:.02em;
+  white-space:nowrap;
+  transition:transform .25s var(--mt-ease),opacity .25s var(--mt-ease);
+}
+#mtTop .mt-top-library svg{
+  width:20px;
+  height:20px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+#mtTop .mt-top-library:active{transform:scale(.94)}
+body:not(.mt-view-detail) #mtTop .mt-back{
+  width:0;
+  min-width:0;
+  max-width:0;
+  padding-left:0;
+  padding-right:0;
+  overflow:hidden;
+}
+#mtTabs .mt-tabs-strip,
+#mtTabs .mt-lens-strip{
+  grid-template-columns:repeat(3,1fr);
+}
+@media(max-width:760px){
+  #mtTop .mt-top-left{gap:4px}
+  #mtTop .mt-top-library{
+    width:44px;
+    padding:0;
+  }
+  #mtTop .mt-top-library span{display:none}
+  body.mt-view-detail #mtTop .mt-back{
+    padding-right:11px;
+  }
+}
+@media(max-width:390px){
+  body.mt-view-detail #mtTop .mt-back span{display:none}
+  body.mt-view-detail #mtTop .mt-back{
+    width:44px;
+    min-width:44px;
+    padding:0;
+    justify-content:center;
+  }
+}
+/* ================= /CITYMUSIC LIBRARY TOP LEFT V1 ================= */
+
 </style>
 <!-- CITYMUSIC BRAND META START -->
 <meta name="application-name" content="CITYMUSIC">
@@ -11747,6 +11816,8 @@ function hydrateCitymusicTrackPools(data){
 }
 hydrateCitymusicTrackPools(DATA);
 /* ================= CITYMUSIC TRACK POOL V1 END ================= */
+
+
 
 function themeTrackTarget(d){return Math.max(1,Number(d?.targetTracks||50)||50)}
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -12177,6 +12248,14 @@ function uploadCardTextures(){
 }
 
 /* render targets */
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
 /* CITYMUSIC HQ render tier */
 const MT_RENDER_DM=Number(navigator.deviceMemory||0);
 const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
@@ -16655,6 +16734,12 @@ setTimeout(()=>{
 
 
 
+
+
+
+
+
+
 /* ================= R10.2 CORE BRIDGE START ================= */
 /* R10.2 exposes only the navigation/player surface the external shell needs. */
 function mtEmit(name,detail){
@@ -18423,7 +18508,6 @@ const ICON={
 const TABS=[
   {key:'explore',label:'探索'},
   {key:'search',label:'搜尋'},
-  {key:'library',label:'音樂庫'},
   {key:'passbook',label:'票夾'}
 ];
 
@@ -18439,6 +18523,17 @@ const top=h('header','',`
   </div>`);
 top.id='mtTop';
 body.appendChild(top);
+
+/* ================= CITYMUSIC LIBRARY TOP LEFT V1 ================= */
+const topLibrary=$('localLibraryFab');
+if(topLibrary){
+  topLibrary.className='mt-top-library mt-glass';
+  topLibrary.setAttribute('aria-label','開啟音樂庫');
+  topLibrary.setAttribute('title','音樂庫');
+  topLibrary.innerHTML=ICON.library+'<span>音樂庫</span>';
+  top.querySelector('.mt-top-left')?.prepend(topLibrary);
+}
+/* ================= /CITYMUSIC LIBRARY TOP LEFT V1 ================= */
 
 /* the animated globe logo keeps its listeners and the per-frame path update */
 const logo=$('logo');
@@ -18601,6 +18696,12 @@ function closePages(except){
   if(except!=='passbook'&&pageOpen('passbook'))MT.closePassbook();
 }
 function selectTab(key,{fromUser=false,wasDrag=false}={}){
+  if(key==='library'){
+    closePages('library');
+    if(!pageOpen('library'))$('localLibraryFab')?.click();
+    syncPageState();
+    return;
+  }
   const was=activeTab;
   if(key==='explore'){
     const hadPage=Object.keys(PAGES).some(pageOpen);
@@ -18626,7 +18727,7 @@ function syncPageState(){
   const open=Object.keys(PAGES).find(pageOpen);
   if(!!open!==body.classList.contains('mt-tabpage'))body.classList.remove('mt-compact');
   body.classList.toggle('mt-tabpage',!!open);
-  const want=open||'explore';
+  const want=open==='library'?activeTab:(open||'explore');
   if(want!==activeTab){activeTab=want;paintTabs();}
 }
 const modalIds=['shareComposerSheet','sharePlaylistSheet','libraryNameSheet','libraryPassSheet','sharedLibrarySheet','cityPassSheet','passWelcomeSheet','audioAccessorySheet'];
@@ -18910,7 +19011,7 @@ function buildPlayerOnce(){
   toolsEl=tools;upEl=up;placePlayerExtras();
   from.addEventListener('click',e=>{
     const b=e.target.closest('button');if(!b)return;
-    if(b.dataset.go==='library'){MT.closePlayer();selectTab('library',{fromUser:true});return}
+    if(b.dataset.go==='library'){MT.closePlayer();MT.openLibrary();return}
     const i=Number(b.dataset.go);
     MT.closePlayer();
     if(Number.isInteger(i)&&i>=0&&!(MT.view==='branch'&&MT.themeIndex===i)){closePages();MT.showTheme(i);}
