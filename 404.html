@@ -11158,6 +11158,64 @@ body.mt-lyrics-full{overflow:hidden!important;overscroll-behavior:none!important
 }
 /* ================= /CITYMUSIC ONBOARDING V4 ================= */
 
+
+/* ================= CITYMUSIC HOME V2 ================= */
+#mtShelf.mt-reco-shelf{
+  border:1px solid rgba(255,255,255,.78)!important;
+  background:linear-gradient(180deg,rgba(252,253,255,.82),rgba(247,249,253,.70))!important;
+  box-shadow:0 24px 60px -42px rgba(30,36,66,.62),inset 0 1px 0 rgba(255,255,255,.92)!important;
+}
+#mtShelf .mt-home-signal{
+  display:flex;align-items:center;justify-content:space-between;padding:0 14px 8px;margin-bottom:2px;
+  font:800 8px/1 var(--mt-ui);letter-spacing:.14em;color:var(--mt-ink-3);
+}
+#mtShelf .mt-home-signal span{display:flex;align-items:center;gap:7px}
+#mtShelf .mt-home-signal span i{width:6px;height:6px;border-radius:50%;background:var(--mt-accent);box-shadow:0 0 0 5px color-mix(in srgb,var(--mt-accent) 11%,transparent)}
+#mtShelf .mt-home-signal b{font:850 8px/1 var(--mt-ui);letter-spacing:.12em;color:var(--mt-accent-ink)}
+#mtShelf .mt-theme-card>i{
+  display:grid!important;place-items:center!important;width:22px!important;height:22px!important;border-radius:50%!important;
+  background:rgba(47,52,82,.055)!important;font:850 7.5px/1 var(--mt-ui)!important;letter-spacing:.03em!important;color:var(--mt-ink-3)!important;
+}
+#mtShelf .mt-theme-card:hover{transform:translateY(-1px)!important}
+#mtShelf .mt-text-btn{font-size:10px!important;opacity:.78}
+@media(max-width:760px){
+  #mtShelf .mt-home-signal{padding:0 12px 7px}
+}
+/* ================= /CITYMUSIC HOME V2 ================= */
+
+
+/* ================= CITYMUSIC RETRO MODE ================= */
+#playerSheet .mt-retro-panel{
+  position:relative;margin:18px 0 4px;padding:14px 15px 13px;border-radius:20px;
+  background:radial-gradient(circle at 94% 2%,rgba(244,223,187,calc(.08 + .18 * var(--retro,0))),transparent 38%),rgba(249,250,253,.76)!important;
+  border:1px solid rgba(255,255,255,.84);overflow:hidden;
+}
+#playerSheet .mt-retro-panel::after{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:calc(.06 + .14 * var(--retro,0));
+  background-image:radial-gradient(circle at 30% 20%,rgba(48,43,35,.18) 0 .7px,transparent .8px);background-size:7px 7px;mix-blend-mode:multiply;
+}
+#playerSheet .mt-retro-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#playerSheet .mt-retro-head small{display:block;font:850 7.5px/1 var(--mt-ui);letter-spacing:.15em;color:#8a6d4e}
+#playerSheet .mt-retro-head b{display:block;margin-top:4px;font:820 14px/1 var(--mt-ui);color:var(--mt-ink)}
+#playerSheet .mt-retro-head>span{padding:6px 9px;border-radius:999px;background:rgba(82,66,49,.075);font:800 9px/1 var(--mt-ui);color:#765f48}
+#playerSheet .mt-retro-panel>p{position:relative;z-index:1;margin:9px 0 12px;font:550 10.5px/1.55 var(--mt-ui);color:var(--mt-ink-3)}
+#playerSheet .mt-retro-range{position:relative;z-index:1;display:grid;grid-template-columns:1fr 48px;gap:10px;align-items:center}
+#playerSheet #mtRetroRange{width:100%;accent-color:#82684d}
+#playerSheet #mtRetroValue{font:850 11px/1 var(--mt-ui);font-variant-numeric:tabular-nums;text-align:right;color:#6e5944}
+#playerSheet .mt-retro-presets{position:relative;z-index:1;display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:6px;margin-top:10px}
+#playerSheet .mt-retro-presets button{appearance:none;border:0;height:30px;border-radius:999px;background:rgba(65,57,49,.055);color:var(--mt-ink-2);font:800 9px/1 var(--mt-ui);cursor:pointer}
+#playerSheet .mt-retro-presets button.active{background:#5e5145;color:#fff}
+#playerSheet .mt-retro-features{position:relative;z-index:1;display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+#playerSheet .mt-retro-features span{padding:5px 7px;border-radius:999px;background:rgba(91,75,59,.05);font:800 7px/1 var(--mt-ui);letter-spacing:.09em;color:#85715d}
+body.mt-retro-on #playerSheet .vinyl{filter:sepia(calc(.08 * var(--mt-retro))) saturate(calc(1 - .06 * var(--mt-retro))) contrast(calc(1 + .02 * var(--mt-retro)))}
+@media(max-width:760px){
+  #playerSheet .mt-retro-panel{margin:14px 0 4px;padding:13px;border-radius:18px}
+  #playerSheet .mt-retro-panel>p{font-size:10px}
+  #playerSheet .mt-retro-presets{grid-template-columns:1.3fr repeat(4,1fr);gap:5px}
+  #playerSheet .mt-retro-presets button{padding:0 4px;font-size:8.5px}
+}
+/* ================= /CITYMUSIC RETRO MODE ================= */
+
 </style>
 <!-- CITYMUSIC BRAND META START -->
 <meta name="application-name" content="CITYMUSIC">
@@ -16328,6 +16386,12 @@ setTimeout(()=>{
 
 
 
+
+
+
+
+
+
 /* ================= R10.2 CORE BRIDGE START ================= */
 /* R10.2 exposes only the navigation/player surface the external shell needs. */
 function mtEmit(name,detail){
@@ -18824,14 +18888,15 @@ document.addEventListener('mt:track',e=>{
   if(t)requestAnimationFrame(()=>renderRecoShelf(activeRecoMode));
 });
 
-/* ----- replacement home shelf: Daily / Weekly / MT + real theme groups ----- */
+/* ----- CITYMUSIC HOME V2 · Daily / Weekly / CT editorial home ----- */
 let activeRecoMode='daily';
 const legacyShelf=$('themeShelf');
 if(legacyShelf)legacyShelf.setAttribute('aria-hidden','true');
 let recoShelf=$('mtShelf');
 if(!recoShelf){
   recoShelf=h('section','mt-shelf mt-glass mt-reco-shelf',`
-    <div class="mt-shelf-head"><div class="mt-shelf-title"><em class="mt-brand-kicker">CITYMUSIC CURATED</em><b id="mtRecoTitle">為你探索</b><span id="themeShelfCount">根據你的偏好與使用紀錄</span></div><button id="mtAtlasAll" class="mt-text-btn" type="button">全部主題</button></div>
+    <div class="mt-home-signal"><span><i></i>CITYMUSIC TODAY</span><b id="mtHomeClock">FOR YOU</b></div>
+    <div class="mt-shelf-head"><div class="mt-shelf-title"><em class="mt-brand-kicker">CITYMUSIC CURATED</em><b id="mtRecoTitle">為你探索</b><span id="themeShelfCount">根據你的偏好與使用紀錄</span></div><button id="mtAtlasAll" class="mt-text-btn" type="button">瀏覽全部</button></div>
     <div class="mt-shelf-chips" id="mtRecoChips"></div>
     <div class="mt-shelf-cards" id="mtRecoCards"></div>`);
   recoShelf.id='mtShelf';
@@ -18840,6 +18905,12 @@ if(!recoShelf){
 const recoChips=$('mtRecoChips')||recoShelf?.querySelector('.mt-shelf-chips');
 const recoCards=$('mtRecoCards')||recoShelf?.querySelector('.mt-shelf-cards');
 const QUICK_GROUPS=Object.entries(MT.HOME_GROUPS||{}).filter(([k,g])=>g?.items?.length).slice(0,5);
+function updateHomeSignal(){
+  const el=$('mtHomeClock');if(!el)return;
+  const h=new Date().getHours();
+  el.textContent=h<11?'MORNING MIX':h<17?'DAYLIGHT MIX':h<21?'EVENING MIX':'NIGHT MIX';
+}
+updateHomeSignal();setInterval(updateHomeSignal,60000);
 function shelfChip(key,label,active,mode='group'){return `<button type="button" class="mt-chip${active?' is-active':''}" data-${mode==='reco'?'reco-mode':'group-key'}="${esc(key)}">${esc(label)}</button>`}
 function renderRecoShelf(mode='daily'){
   if(!recoShelf||!recoCards||!recoChips)return;
@@ -19120,6 +19191,144 @@ document.addEventListener('mt:track',()=>{
   n.addEventListener('scroll',()=>{const y=n.scrollTop||0,dy=y-y0;if(Math.abs(dy)>10){if(dy>0&&y>120)body.classList.add('mt-compact');else if(dy<0)body.classList.remove('mt-compact');y0=y}}, {passive:true});
 });
 
+
+
+/* =====================================================================
+   CITYMUSIC RETRO MODE · adjustable analog character in expanded player
+   ===================================================================== */
+const RETRO_KEY='citymusic.retro.amount';
+let retroAmount=0,retroCtx=null,retroNoise=null,retroNoiseGain=null,retroCrackleTimer=0;
+const retroGraphs=new WeakMap();
+try{retroAmount=Math.max(0,Math.min(100,Number(localStorage.getItem(RETRO_KEY)||0)||0))}catch(_){}
+
+function retroPercent(){return Math.round(retroAmount)}
+function retroLabel(v=retroAmount){
+  if(v<8)return '原音';
+  if(v<32)return '輕復古';
+  if(v<62)return '暖色唱片';
+  if(v<84)return '老唱機';
+  return '深度復古';
+}
+function retroCurve(drive){
+  const n=1024,c=new Float32Array(n),k=Math.max(0,drive);
+  for(let i=0;i<n;i++){const x=i*2/(n-1)-1;c[i]=(1+k)*x/(1+k*Math.abs(x))}
+  return c;
+}
+function ensureRetroContext(){
+  if(retroCtx)return retroCtx;
+  const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;
+  try{
+    retroCtx=new AC({latencyHint:'interactive'});
+    const len=Math.max(4096,Math.floor(retroCtx.sampleRate*4));
+    const buf=retroCtx.createBuffer(1,len,retroCtx.sampleRate),ch=buf.getChannelData(0);
+    let brown=0;
+    for(let i=0;i<len;i++){
+      const white=Math.random()*2-1;brown=.965*brown+.035*white;
+      let v=brown*.78+white*.06;
+      if(Math.random()<0.0018)v+=(Math.random()>.5?1:-1)*(1.2+Math.random()*2.2);
+      ch[i]=Math.max(-1,Math.min(1,v));
+    }
+    const src=retroCtx.createBufferSource();src.buffer=buf;src.loop=true;
+    const bp=retroCtx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=2850;bp.Q.value=.22;
+    retroNoiseGain=retroCtx.createGain();retroNoiseGain.gain.value=0;
+    src.connect(bp);bp.connect(retroNoiseGain);retroNoiseGain.connect(retroCtx.destination);src.start();
+    retroNoise=src;
+  }catch(e){console.warn('[CITYMUSIC retro] context unavailable',e);retroCtx=null}
+  return retroCtx;
+}
+function ensureRetroGraph(audio){
+  if(!audio)return null;
+  const cached=retroGraphs.get(audio);if(cached)return cached;
+  const ctx=ensureRetroContext();if(!ctx)return null;
+  try{
+    const source=ctx.createMediaElementSource(audio);
+    const low=ctx.createBiquadFilter();low.type='lowshelf';low.frequency.value=185;
+    const high=ctx.createBiquadFilter();high.type='lowpass';
+    const shaper=ctx.createWaveShaper();shaper.oversample='2x';
+    const split=ctx.createChannelSplitter(2),merge=ctx.createChannelMerger(2);
+    const ll=ctx.createGain(),lr=ctx.createGain(),rr=ctx.createGain(),rl=ctx.createGain();
+    const comp=ctx.createDynamicsCompressor(),gain=ctx.createGain();
+    source.connect(low);low.connect(high);high.connect(shaper);shaper.connect(split);
+    split.connect(ll,0);split.connect(lr,0);split.connect(rr,1);split.connect(rl,1);
+    ll.connect(merge,0,0);rl.connect(merge,0,0);rr.connect(merge,0,1);lr.connect(merge,0,1);
+    merge.connect(comp);comp.connect(gain);gain.connect(ctx.destination);
+    const g={audio,low,high,shaper,ll,lr,rr,rl,comp,gain,baseRate:Number(audio.playbackRate)||1};
+    retroGraphs.set(audio,g);
+    return g;
+  }catch(e){console.warn('[CITYMUSIC retro] media graph unavailable',e);return null}
+}
+function applyRetroGraph(g,p){
+  if(!g||!retroCtx)return;
+  const t=retroCtx.currentTime,cross=.24*Math.pow(p,1.15),own=1-cross;
+  g.low.gain.setTargetAtTime(2.8*p,t,.05);
+  g.high.frequency.setTargetAtTime(21000-13700*Math.pow(p,.8),t,.06);
+  g.high.Q.setTargetAtTime(.18+.42*p,t,.05);
+  g.shaper.curve=retroCurve(.42*p);
+  g.ll.gain.setTargetAtTime(own,t,.04);g.rr.gain.setTargetAtTime(own,t,.04);
+  g.lr.gain.setTargetAtTime(cross,t,.04);g.rl.gain.setTargetAtTime(cross,t,.04);
+  g.comp.threshold.setTargetAtTime(-16-9*p,t,.05);
+  g.comp.ratio.setTargetAtTime(1.15+1.55*p,t,.05);
+  g.comp.attack.setTargetAtTime(.014,t,.05);g.comp.release.setTargetAtTime(.2,t,.05);
+  g.gain.gain.setTargetAtTime(1-.045*p,t,.05);
+}
+function tickRetroWow(){
+  const audio=MT.audio||$('nativeAudioPlayer');if(!audio)return;
+  const g=retroGraphs.get(audio);if(!g)return;
+  const p=retroAmount/100;
+  if(p<.04){if(Math.abs(audio.playbackRate-g.baseRate)>.0001)audio.playbackRate=g.baseRate;return}
+  if(audio.paused)return;
+  const t=performance.now()/1000;
+  const wow=Math.sin(t*2.05)*.00145*Math.pow(p,1.6);
+  const flutter=Math.sin(t*8.7+.9)*.00055*Math.pow(p,1.8);
+  audio.playbackRate=g.baseRate*(1+wow+flutter);
+}
+setInterval(tickRetroWow,70);
+
+function setRetroAmount(v,{persist=true}={}){
+  retroAmount=Math.max(0,Math.min(100,Number(v)||0));
+  if(persist)try{localStorage.setItem(RETRO_KEY,String(Math.round(retroAmount)))}catch(_){}
+  const p=retroAmount/100,a=MT.audio||$('nativeAudioPlayer');
+  if(retroAmount>0){
+    const ctx=ensureRetroContext();if(ctx?.state==='suspended')ctx.resume().catch(()=>{});
+    const g=ensureRetroGraph(a);applyRetroGraph(g,p);
+  }else{
+    const g=a?retroGraphs.get(a):null;if(g){applyRetroGraph(g,0);a.playbackRate=g.baseRate}
+  }
+  if(retroNoiseGain&&retroCtx)retroNoiseGain.gain.setTargetAtTime(p<.03?0:.002+.0155*Math.pow(p,1.45),retroCtx.currentTime,.06);
+  body.classList.toggle('mt-retro-on',retroAmount>=8);
+  body.style.setProperty('--mt-retro',String(p));
+  paintRetroPanel();
+}
+function retroPanelHtml(){
+  return '<section class="mt-retro-panel mt-glass" id="mtRetroPanel" aria-label="復古播放模式">'+
+    '<div class="mt-retro-head"><div><small>RETRO PLAYBACK</small><b>復古模式</b></div><span id="mtRetroState">'+esc(retroLabel())+'</span></div>'+
+    '<p>加入黑膠底噪與 crackle、暖色 EQ、高頻收斂、些微 saturation、立體聲收窄與輕微 wow / flutter。0% 保留原音。</p>'+
+    '<div class="mt-retro-range"><input id="mtRetroRange" type="range" min="0" max="100" step="1" value="'+retroPercent()+'" aria-label="復古模式強度"><output id="mtRetroValue">'+retroPercent()+'%</output></div>'+
+    '<div class="mt-retro-presets"><button type="button" data-retro="0">原音</button><button type="button" data-retro="25">25</button><button type="button" data-retro="50">50</button><button type="button" data-retro="75">75</button><button type="button" data-retro="100">100</button></div>'+
+    '<div class="mt-retro-features"><span>NOISE</span><span>WARM EQ</span><span>WOW</span><span>WIDTH</span></div>'+
+  '</section>';
+}
+function mountRetroPanel(){
+  const deck=document.querySelector('#playerSheet .musicetown-deck');if(!deck||$('mtRetroPanel'))return;
+  const info=deck.querySelector('.deck-info'),tmp=document.createElement('div');tmp.innerHTML=retroPanelHtml();
+  const panel=tmp.firstElementChild;
+  if(info?.parentNode)info.parentNode.insertBefore(panel,info.nextSibling);else deck.appendChild(panel);
+  panel.querySelector('#mtRetroRange')?.addEventListener('input',e=>setRetroAmount(e.target.value));
+  panel.addEventListener('click',e=>{const b=e.target.closest('[data-retro]');if(b)setRetroAmount(b.dataset.retro)});
+  paintRetroPanel();
+}
+function paintRetroPanel(){
+  const panel=$('mtRetroPanel');if(!panel)return;
+  const r=$('mtRetroRange'),v=$('mtRetroValue'),s=$('mtRetroState');
+  if(r&&Number(r.value)!==retroPercent())r.value=retroPercent();
+  if(v)v.textContent=retroPercent()+'%';if(s)s.textContent=retroLabel();
+  panel.style.setProperty('--retro',String(retroAmount/100));
+  panel.querySelectorAll('[data-retro]').forEach(b=>b.classList.toggle('active',Number(b.dataset.retro)===retroPercent()));
+}
+new MutationObserver(()=>requestAnimationFrame(mountRetroPanel)).observe(document.body,{childList:true,subtree:true});
+document.addEventListener('mt:track',()=>setTimeout(()=>{mountRetroPanel();setRetroAmount(retroAmount,{persist:false})},0));
+document.addEventListener('pointerdown',()=>{if(retroAmount>0)ensureRetroContext()?.resume?.().catch(()=>{})},{capture:true});
+setTimeout(()=>{mountRetroPanel();setRetroAmount(retroAmount,{persist:false})},160);
 
 /* =====================================================================
    boot
