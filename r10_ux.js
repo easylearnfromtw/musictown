@@ -938,7 +938,7 @@ if(!recoShelf){
 }
 const recoChips=$('mtRecoChips')||recoShelf?.querySelector('.mt-shelf-chips');
 const recoCards=$('mtRecoCards')||recoShelf?.querySelector('.mt-shelf-cards');
-const QUICK_GROUPS=Object.entries(MT.HOME_GROUPS||{}).filter(([k,g])=>g?.items?.length).slice(0,5);
+const QUICK_GROUPS=Object.entries(MT.HOME_GROUPS||{}).filter(([k,g])=>g?.items?.length).slice(0,3);
 function updateHomeSignal(){
   const el=$('mtHomeClock');if(!el)return;
   const h=new Date().getHours();
@@ -954,11 +954,11 @@ function renderRecoShelf(mode='daily'){
   let rows,title,sub;
   if(mode.startsWith('group:')){
     const key=mode.slice(6),g=MT.HOME_GROUPS[key];
-    rows=(g?.items||[]).map(name=>({i:MT.DATA.findIndex(d=>d.t===name),score:0})).filter(x=>x.i>=0).slice(0,9);
+    rows=(g?.items||[]).map(name=>({i:MT.DATA.findIndex(d=>d.t===name),score:0})).filter(x=>x.i>=0).slice(0,6);
     title=g?.label||'主題分類';sub=`${rows.length} 個主題 · 點選直接進入`;
     MT.stageGroup?.(key);
   }else{
-    rows=recommendThemes(mode,9);
+    rows=recommendThemes(mode,6);
     title=mode==='daily'?'每日推薦':mode==='weekly'?'每週推薦':'CT 推薦';
     sub=mode==='daily'?'依你的喜好、收藏與最近播放':mode==='weekly'?'加入更多探索性，週一更新':'CITYMUSIC 編輯排序＋你的偏好綜合權重';
     MT.stageCustom?.(rows.map(x=>MT.DATA[x.i].t));

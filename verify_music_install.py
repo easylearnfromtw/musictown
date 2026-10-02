@@ -36,6 +36,13 @@ for d in data:
         if ffprobe and rel not in probed:
             r=subprocess.run([ffprobe,"-v","error","-show_entries","format=duration","-of","default=nw=1:nk=1",str(p)],capture_output=True,text=True);probed.add(rel)
             if r.returncode!=0:bad.append(f"{rel}: ffprobe failed")
+CRITICAL_THEME_REGRESSION={"MENACING DUBAI":(50,150)}
+for name,(need_visible,need_pool) in CRITICAL_THEME_REGRESSION.items():
+    if counts.get(name)!=need_visible:bad.append(f"{name}: regression visible {counts.get(name)}/{need_visible}")
+    if pcounts.get(name)!=need_pool:bad.append(f"{name}: regression pool {pcounts.get(name)}/{need_pool}")
+    d=next((x for x in data if x.get("t")==name),None)
+    if not d or not any(str(t.get("audioSrc","")).strip() for t in (d.get("tracks") or [])):
+        bad.append(f"{name}: regression has no playable visible track")
 vt=sum(counts.values());pt=sum(pcounts.values())
 if len(data)!=EXPECTED_DRAWERS:bad.append(f"drawers {len(data)}/{EXPECTED_DRAWERS}")
 report={"visibleTotal":vt,"searchableTotal":pt,"counts":counts,"poolCounts":pcounts,"missing":missing,"bad":bad}

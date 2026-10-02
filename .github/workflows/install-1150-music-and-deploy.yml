@@ -151,6 +151,10 @@ jobs:
                   "CITYMUSIC TRACK POOL V1",
                   "CITYMUSIC WEEKLY TRACK MIX V1",
                   "CITYMUSIC LIBRARY TOP LEFT V1",
+                  "runtime-emergency-fallback",
+                  "CITYMUSIC HOME DECLUTTER V1",
+                  "CITYMUSIC LIBRARY QUALITY V2",
+                  "CITYMUSIC PAGE OPEN MOTION V1",
                   "CITYMUSIC CD SCRUB SFX",
               ]
               missing=[x for x in required if x not in s]
@@ -166,6 +170,22 @@ jobs:
 
       - name: Verify 101-theme / 3300 visible / 9900 searchable catalog
         run: python verify_music_install.py
+
+      - name: Regression smoke MENACING DUBAI and non-empty themes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,re
+          s=Path("index.html").read_text(encoding="utf-8")
+          m=re.search(r'window\.MUSIC_DATA\s*=\s*(\[.*?\]);\s*\n',s,re.S)
+          data=json.loads(m.group(1))
+          empty=[d.get("t") for d in data if not (d.get("tracks") or [])]
+          if empty: raise SystemExit("Empty themes: "+", ".join(empty))
+          d=next((x for x in data if x.get("t")=="MENACING DUBAI"),None)
+          if not d or len(d.get("tracks") or [])!=50 or len(d.get("poolRefs") or [])!=150:
+              raise SystemExit("MENACING DUBAI regression")
+          print("Theme playback regression OK: 101 non-empty; MENACING DUBAI 50 visible / 150 searchable")
+          PY
 
       - name: Persist stable 3x searchable catalog to main
         run: |

@@ -1984,3 +1984,108 @@ body:not(.mt-view-detail) #mtTop .mt-back{
   }
 }
 /* ================= /CITYMUSIC LIBRARY TOP LEFT V1 ================= */
+
+
+/* ================= CITYMUSIC PAGE OPEN MOTION V1 ================= */
+@keyframes mtPageOpenPremium{
+  0%{opacity:0;transform:translateY(18px) scale(.985);filter:blur(2px)}
+  58%{opacity:1;transform:translateY(-1px) scale(1.002);filter:blur(0)}
+  100%{opacity:1;transform:none;filter:none}
+}
+@keyframes mtPageFadePremium{from{opacity:0}to{opacity:1}}
+#localLibrarySheet.open #libraryPanel,
+#globalSearchSheet.open .global-search-panel,
+#passbookSheet.open .passbook-panel,
+#playerSheet.open .player-card{
+  animation:mtPageOpenPremium .42s var(--mt-spring) both;
+  transform-origin:50% 12%;
+}
+#localLibrarySheet.open,
+#globalSearchSheet.open,
+#passbookSheet.open,
+#playerSheet.open{
+  animation:mtPageFadePremium .2s ease both;
+}
+@media(prefers-reduced-motion:reduce){
+  #localLibrarySheet.open #libraryPanel,
+  #globalSearchSheet.open .global-search-panel,
+  #passbookSheet.open .passbook-panel,
+  #playerSheet.open .player-card,
+  #localLibrarySheet.open,#globalSearchSheet.open,#passbookSheet.open,#playerSheet.open{animation:none!important}
+}
+/* ================= /CITYMUSIC PAGE OPEN MOTION V1 ================= */
+
+/* ================= CITYMUSIC LIBRARY QUALITY V2 ================= */
+#localLibrarySheet #libraryPanel{
+  background:
+    radial-gradient(circle at 88% 3%,rgba(215,227,255,.42),transparent 28%),
+    radial-gradient(circle at 8% 12%,rgba(255,226,237,.34),transparent 26%),
+    linear-gradient(180deg,#fcfdff 0%,#f3f5fa 100%)!important;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:geometricPrecision;
+}
+#libraryPanel .mt-library-hero{
+  isolation:isolate;
+  border:1px solid rgba(255,255,255,.94)!important;
+  background:
+    radial-gradient(circle at 82% 22%,rgba(217,229,255,.72),transparent 28%),
+    radial-gradient(circle at 16% 100%,rgba(255,225,236,.5),transparent 34%),
+    linear-gradient(145deg,rgba(255,255,255,.99),rgba(246,248,253,.97))!important;
+  box-shadow:0 24px 56px -42px rgba(29,35,67,.75),inset 0 1px 0 #fff!important;
+}
+#libraryPanel .mt-library-hero::after{
+  content:'CITYMUSIC';
+  position:absolute;right:17px;bottom:13px;z-index:-1;
+  font:900 34px/1 var(--mt-ui);
+  letter-spacing:-.06em;color:rgba(45,50,79,.045);
+}
+#libraryPanel .mt-library-title{letter-spacing:-.035em!important}
+#libraryPanel .mt-library-stat{
+  border:1px solid rgba(255,255,255,.92)!important;
+  background:rgba(255,255,255,.72)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9)!important;
+}
+#libraryPanel .library-collection-shell,
+#libraryPanel .library-actions{
+  backdrop-filter:blur(18px) saturate(135%);
+  -webkit-backdrop-filter:blur(18px) saturate(135%);
+}
+#libraryPanel .library-collection-tab,
+#libraryPanel .local-track-row{
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  transform:translateZ(0);
+}
+#libraryPanel .local-track-row{
+  border:1px solid rgba(40,45,74,.055)!important;
+  box-shadow:0 12px 28px -25px rgba(32,38,70,.8),inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+#libraryPanel .local-track-title{letter-spacing:-.01em!important}
+#libraryPanel .local-track-row:active{transform:scale(.992)}
+/* ================= /CITYMUSIC LIBRARY QUALITY V2 ================= */
+
+/* ================= CITYMUSIC HOME DECLUTTER V1 ================= */
+#mtShelf .mt-shelf-cards{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  max-height:none!important;
+  overflow:visible!important;
+  gap:8px!important;
+}
+#mtShelf .mt-theme-card{min-height:60px!important}
+#mtShelf .mt-shelf-chips{align-items:center!important}
+@media(max-width:760px){
+  #mtShelf .mt-shelf-cards{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    max-height:none!important;
+    overflow:visible!important;
+    gap:6px!important;
+  }
+  #mtShelf .mt-shelf-chips [data-group-key]{display:none!important}
+  #mtShelf .mt-shelf-chips{flex-wrap:nowrap!important;overflow:visible!important}
+  #mtShelf .mt-chip{flex:1 1 0!important;text-align:center!important;min-width:0!important}
+  #mtShelf .mt-theme-card{min-height:54px!important;padding:9px!important}
+}
+@media(max-width:390px){
+  #mtShelf .mt-theme-card:nth-child(n+5){display:none!important}
+}
+/* ================= /CITYMUSIC HOME DECLUTTER V1 ================= */

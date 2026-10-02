@@ -35,7 +35,19 @@ function hydrateCitymusicTrackPools(data){
       expanded.push(t);
     }
     const target=Math.max(1,Number(d.targetTracks||50)||50);
-    if(expanded.length>=target){d.tracks=expanded;d.poolSize=expanded.length;d.searchableTracks=expanded.length}
+    if(expanded.length>=target){
+      d.tracks=expanded;d.poolSize=expanded.length;d.searchableTracks=expanded.length;
+    }else if((d.tracks||[]).length<target&&master.size){
+      /* CITYMUSIC NO-BLANK THEME FALLBACK:
+         CI should make this path unnecessary. It exists so a stale cached shell
+         can never render a named theme with an empty music list. */
+      const seed=String(d.t||'CITYMUSIC');
+      const rows=[...master.entries()].map(([ref,t])=>({ref,t,h:[...seed+'|'+ref].reduce((a,c)=>Math.imul(a^c.charCodeAt(0),16777619)>>>0,2166136261)}))
+        .sort((a,b)=>a.h-b.h).slice(0,target);
+      d.tracks=rows.map((x,i)=>({...x.t,masterRef:x.ref,shareId:(String(d.key||d.t||'theme').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'theme')+'-fallback-'+String(i+1).padStart(3,'0'),trackNo:i+1,curatedTheme:d.t,curationTier:'runtime-emergency-fallback'}));
+      d.poolSize=d.tracks.length;d.searchableTracks=d.tracks.length;
+      console.warn('[CITYMUSIC] emergency non-blank fallback used for',d.t);
+    }
   }
 }
 hydrateCitymusicTrackPools(DATA);
@@ -384,7 +396,26 @@ if(typeof setHomeGroup==='function'){
   const mtSetHomeGroupCore=setHomeGroup;
   setHomeGroup=function(key,opts={}){const out=mtSetHomeGroupCore(key,opts);mtEmit('group',{key,items:[...(HOME_GROUPS[key]?.items||[])]});return out};
 }
-if(typeof renderTracks==='function'){const mtRenderTracksCore=renderTracks;renderTracks=function(gi,q=''){const out=mtRenderWeeklyTracks(Number(gi),q);requestAnimationFrame(mtHideBadTrackRows);return out}}
+if(typeof renderTracks==='function'){
+  const mtRenderTracksCore=renderTracks;
+  renderTracks=function(gi,q=''){
+    let idx=Number(gi);
+    /* Some legacy entry points call renderTracks(query) or renderTracks()
+       and rely on the active branch index. Never turn that into NaN/blank. */
+    if(!Number.isInteger(idx)||idx<0||idx>=DATA.length){
+      if(typeof gi==='string'&&q==='')q=gi;
+      idx=Number(window.__genreIndex);
+    }
+    if(!Number.isInteger(idx)||idx<0||idx>=DATA.length){
+      const out=mtRenderTracksCore.apply(this,arguments);
+      requestAnimationFrame(mtHideBadTrackRows);
+      return out;
+    }
+    const out=mtRenderWeeklyTracks(idx,q);
+    requestAnimationFrame(mtHideBadTrackRows);
+    return out;
+  }
+}
 if(typeof renderBranchDrawer==='function'){const mtRenderBranchDrawerCore=renderBranchDrawer;renderBranchDrawer=function(gi){const d=DATA[Number(gi)];if(!d)return mtRenderBranchDrawerCore(gi);const all=d.tracks,weekly=mtVisibleTracks(Number(gi));d.tracks=weekly.length?weekly:all;try{return mtRenderBranchDrawerCore(gi)}finally{d.tracks=all;if($('drawerPoolMeta'))$('drawerPoolMeta').textContent=d.t+' · WEEKLY MIX · RANDOM '+Math.min(5,weekly.length||all.length)}}}
 if(typeof nextTrackFrom==='function'){const mtNextTrackFromCore=nextTrackFrom;nextTrackFrom=function(t,dir=1){const p=findTrackPosition(t);if(!p||p.local)return mtNextTrackFromCore(t,dir);const weekly=mtVisibleTracks(p.gi),at=weekly.indexOf(t);if(at>=0)return nextAllowedTrack(weekly,at,dir)||mtNextTrackFromCore(t,dir);return mtNextTrackFromCore(t,dir)}}
 if(typeof renderThemeShelf==='function'){const mtRenderThemeShelfCore=renderThemeShelf;renderThemeShelf=function(...args){const out=mtRenderThemeShelfCore(...args);requestAnimationFrame(mtPaintThemePoolCounts);return out}}
