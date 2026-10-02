@@ -46,6 +46,7 @@ jobs:
           key: musicetown-base-64k-${{ hashFiles('verified_audio_manifest.json') }}
           restore-keys: |
             musicetown-base-64k-
+            musicetown-r9313-base-64k-
             musicetown-r920-base-64k-
             musicetown-r910-base-64k-
             musicetown-r890-64k-
