@@ -501,8 +501,8 @@ def patch(text:str,name:str)->str:
         ("const linearSeconds=dx*.62;", "const linearSeconds=dx*(matchMedia('(pointer:coarse)').matches?1.05:.88);"),
         ("const blend=Math.max(0,Math.min(.34,(radius-rect.width*.14)/(rect.width*.58)));",
          "const blend=Math.max(.12,Math.min(.72,(radius-rect.width*.10)/(rect.width*.46)));"),
-        ("vinyl.setAttribute('aria-label',\`${c.name} 彩膠唱片。按住唱片即可平滑快轉或倒轉。\`);",
-         "vinyl.setAttribute('aria-label',\`${c.name} 彩膠唱片。輕拖唱片任意方向即可快轉或倒轉。\`);"),
+        ("vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。按住唱片即可平滑快轉或倒轉。`);",
+         "vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。輕拖唱片任意方向即可快轉或倒轉。`);"),
     ]
     for old,new in scrub_replacements:
         if old in text:
