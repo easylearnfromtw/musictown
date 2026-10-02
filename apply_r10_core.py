@@ -13,6 +13,65 @@ ROOT=Path(__file__).resolve().parent
 START='/* ================= R10.2 CORE BRIDGE START ================= */'
 END='/* ================= R10.2 CORE BRIDGE END ================= */'
 
+# R10.2.2 · AUDIO / HOME FRAME
+
+CAMERA=r'''/* camera */
+let VP=null, invVP=null, eye=[0,0,0];
+/* R10.2.2: keep the 3D drawer inside the visible band between top chrome
+   and the recommendation/dock stack while the WebGL canvas still covers
+   the whole viewport. */
+function sceneSafeBand(){
+  if(state.view!=='stage'||canvas.parentNode===$('detailSceneMount'))return null;
+  const cs=getComputedStyle(document.documentElement);
+  const top=parseFloat(cs.getPropertyValue('--mt-scene-top'))||0;
+  const bottom=parseFloat(cs.getPropertyValue('--mt-scene-bottom'))||0;
+  if(top+bottom<=0||cssH-top-bottom<140)return null;
+  return {top,bottom,h:cssH-top-bottom};
+}
+function layoutCamera(){
+  const band=sceneSafeBand();
+  const asp=cssW/(band?band.h:cssH);
+
+  let half=CAM.half;
+  if(cssW < 1180) half*=1.16;
+  if(cssW < 980)  half*=1.15;
+  if(cssW < 760)  half*=1.12;
+  if(asp < 1.18) half*=1.08;
+
+  const needHalfW = cssW < 980 ? 320 : 285;
+  if(asp*half < needHalfW) half=needHalfW/asp;
+
+  const dist=half/Math.tan(CAM.fov/2);
+  const dir=[
+    -Math.sin(CAM.psi)*Math.cos(CAM.phi),
+    Math.sin(CAM.phi),
+    Math.cos(CAM.psi)*Math.cos(CAM.phi)
+  ];
+  const compactShift = cssW < 980 ? 22 : (cssW < 1180 ? 12 : 0);
+  const tg=[
+    CAM.target[0],
+    CAM.target[1]-(half-CAM.half)*.10 + compactShift,
+    CAM.target[2]
+  ];
+
+  eye=[
+    tg[0]+dir[0]*dist,
+    tg[1]+dir[1]*dist,
+    tg[2]+dir[2]*dist
+  ];
+  VP=mul(
+    persp(CAM.fov,asp,dist-1100,dist+1100),
+    lookAt(eye,tg,[0,1,0])
+  );
+  if(band){
+    const sy=band.h/cssH, ty=1-2*(band.top+band.h/2)/cssH;
+    VP=mul(new Float32Array([1,0,0,0, 0,sy,0,0, 0,0,1,0, 0,ty,0,1]),VP);
+  }
+  invVP=inv(VP);
+}
+'''
+
+
 BRIDGE=r'''/* ================= R10.2 CORE BRIDGE START ================= */
 /* R10.2 exposes only the navigation/player surface the external shell needs. */
 function mtEmit(name,detail){
@@ -71,57 +130,113 @@ function mtLastTrack(){
   }catch(_){return null}
 }
 
-/* Broken audio is retried once with a cache-busting URL.  If it still fails,
-   silently remove it from the local rotation instead of showing ONLINE SOURCE. */
-const MT_BAD_AUDIO_KEY='musicetown.r10.badAudio';
+/* R10.2.2 audio reliability.
+   - never show ONLINE SOURCE / iframe fallback
+   - resolve project-page MP3s from the repository root
+   - retry same-origin MP3s with cache busting
+   - bad-audio state is short-lived per tab, never permanent */
+const MT_BAD_AUDIO_KEY='musicetown.r10.2.2.badAudio';
+const MT_BAD_AUDIO_TTL=120000;
+function mtAudioId(t){return String(t?.shareId||t?.audioSrc||'').trim()}
+function mtReadBadAudioMap(){
+  try{return JSON.parse(sessionStorage.getItem(MT_BAD_AUDIO_KEY)||'{}')||{}}catch(_){return {}}
+}
+function mtWriteBadAudioMap(map){try{sessionStorage.setItem(MT_BAD_AUDIO_KEY,JSON.stringify(map))}catch(_){}}
 function mtReadBadAudio(){
-  try{return new Set(JSON.parse(localStorage.getItem(MT_BAD_AUDIO_KEY)||'[]'))}catch(_){return new Set()}
+  const now=Date.now(),map=mtReadBadAudioMap(),out=new Set();let dirty=false;
+  for(const [id,at] of Object.entries(map)){
+    if(now-Number(at||0)<MT_BAD_AUDIO_TTL)out.add(id);
+    else{delete map[id];dirty=true}
+  }
+  if(dirty)mtWriteBadAudioMap(map);
+  return out;
 }
 function mtMarkBadAudio(t){
-  const id=String(t?.shareId||t?.audioSrc||'').trim();if(!id)return;
-  const s=mtReadBadAudio();s.add(id);try{localStorage.setItem(MT_BAD_AUDIO_KEY,JSON.stringify([...s].slice(-80)))}catch(_){}
+  const id=mtAudioId(t);if(!id)return;
+  const map=mtReadBadAudioMap();map[id]=Date.now();mtWriteBadAudioMap(map);
+  setTimeout(()=>{mtHideBadTrackRows()},MT_BAD_AUDIO_TTL+80);
 }
-function mtAudioIsBad(t){return mtReadBadAudio().has(String(t?.shareId||t?.audioSrc||''))}
+function mtClearBadAudio(t){
+  const id=mtAudioId(t);if(!id)return;
+  const map=mtReadBadAudioMap();if(map[id]){delete map[id];mtWriteBadAudioMap(map);mtHideBadTrackRows()}
+}
+function mtAudioIsBad(t){return mtReadBadAudio().has(mtAudioId(t))}
 function mtHideBadTrackRows(){
   document.querySelectorAll('.track-row[data-genre-index][data-track-index]').forEach(row=>{
     const gi=Number(row.dataset.genreIndex),ti=Number(row.dataset.trackIndex),t=DATA[gi]?.tracks?.[ti];
     row.hidden=!!t&&mtAudioIsBad(t);
   });
 }
+function mtSiteRoot(){
+  try{
+    if(location.protocol==='file:')return new URL('./',document.baseURI).href;
+    if(/\.github\.io$/i.test(location.hostname)){
+      const first=location.pathname.split('/').filter(Boolean)[0];
+      return new URL('/'+(first?first+'/':''),location.origin).href;
+    }
+    return new URL('/',location.origin).href;
+  }catch(_){return document.baseURI}
+}
+const mtResolveSiteCloudAudioCore=resolveSiteCloudAudio;
+resolveSiteCloudAudio=function(t){
+  const raw=String(t?.audioSrc||'').trim();
+  if(raw&&!/^[a-z][a-z0-9+.-]*:/i.test(raw)&&!raw.startsWith('//')){
+    try{return new URL(raw.replace(/^\/+/,''),mtSiteRoot()).href}catch(_){}
+  }
+  return mtResolveSiteCloudAudioCore(t);
+};
+function mtAudioCandidates(t){
+  const raws=[t?.audioSrc,t?.originalLocalAudio,t?.originalAudioSrc,t?.download].map(x=>String(x||'').trim()).filter(Boolean);
+  const out=[];
+  for(const raw of raws){
+    try{
+      const u=/^[a-z][a-z0-9+.-]*:/i.test(raw)||raw.startsWith('//')
+        ?new URL(raw,document.baseURI)
+        :new URL(raw.replace(/^\/+/,''),mtSiteRoot());
+      if(!out.includes(u.href))out.push(u.href);
+    }catch(_){}
+  }
+  return out;
+}
+function mtTryAudioRecovery(t,a){
+  if(!a||!t)return false;
+  const urls=mtAudioCandidates(t);
+  let n=Math.max(0,Number(a.dataset.mtRetryIndex||0));
+  if(n>=urls.length)return false;
+  try{
+    const u=new URL(urls[n]);
+    a.dataset.mtRetryIndex=String(n+1);
+    if(u.origin===location.origin)u.searchParams.set('mt_audio','r1022-'+Date.now().toString(36));
+    a.src=u.href;a.preload='auto';a.load();
+    const p=a.play();if(p?.catch)p.catch(()=>{});
+    try{showClickToast('重新連線音訊…')}catch(_){}
+    return true;
+  }catch(_){return false}
+}
 let mtAudioFallbackBusy=false;
 if(typeof mountOnlinePlaybackFallback==='function'){
   mountOnlinePlaybackFallback=function(t){
     document.querySelectorAll('.online-fallback').forEach(n=>n.remove());
     const a=$('nativeAudioPlayer');
-    if(a&&t&&!t.__mtCacheRetry){
-      t.__mtCacheRetry=true;
-      try{
-        const raw=String(t.audioSrc||t.originalLocalAudio||t.originalAudioSrc||'').trim();
-        if(raw){
-          const u=new URL(raw,document.baseURI);u.searchParams.set('mt_audio','r102');
-          a.src=u.href;a.preload='auto';a.load();
-          const p=a.play();if(p?.catch)p.catch(()=>{});
-          showClickToast?.('重新連線音訊…');
-          return;
-        }
-      }catch(_){}
-    }
+    if(mtTryAudioRecovery(t,a))return;
+
     mtMarkBadAudio(t);mtHideBadTrackRows();
     if(mtAudioFallbackBusy)return;
     let nxt=t;
-    for(let i=0;i<18;i++){
+    for(let i=0;i<24;i++){
       nxt=nextTrackFrom(nxt,1);
       if(nxt&&nxt!==t&&!mtAudioIsBad(nxt)&&nxt.audioSrc)break;
     }
     if(!nxt||nxt===t||mtAudioIsBad(nxt)){
-      try{showClickToast('這首音訊暫時不可用，已從清單隱藏')}catch(_){}
+      try{showClickToast('這首音訊暫時不可用，已從清單暫時隱藏')}catch(_){}
       return;
     }
     mtAudioFallbackBusy=true;
-    try{showClickToast('音訊來源失效，已自動略過')}catch(_){}
+    try{showClickToast('音訊載入失敗，已自動換下一首')}catch(_){}
     setTimeout(()=>{
-      try{openTrack(nxt,true,{reveal:$('playerSheet')?.classList.contains('open')!==false})}finally{mtAudioFallbackBusy=false}
-    },90);
+      try{openTrack(nxt,true,{reveal:$('playerSheet')?.classList.contains('open')!==false})}
+      finally{mtAudioFallbackBusy=false}
+    },120);
   };
 }
 
@@ -160,7 +275,7 @@ if(typeof finishWelcome==='function'){
 }
 
 window.MT=Object.freeze({
-  version:'R10.2',
+  version:'R10.2.2',
   DATA,HOME_GROUPS,
   get view(){return state?.view==='branch'?'branch':'stage'},
   get modalOpen(){return state?.modal!=null},
@@ -209,6 +324,26 @@ CURRENT=re.compile(re.escape(START)+r'[\s\S]*?'+re.escape(END))
 def patch(text:str,name:str)->str:
     text=CURRENT.sub('',text)
     text=OLD_BRIDGE.sub('',text)
+
+    # Strip the legacy source-page/iframe fallback completely. R10.2.2 handles
+    # recovery inside the bridge and never exposes ONLINE SOURCE to users.
+    fb_start=text.find('function mountOnlinePlaybackFallback(t){')
+    fb_end=text.find('\nlet mtWarmAudio=',fb_start)
+    if fb_start<0 or fb_end<0:
+        raise RuntimeError(f'{name}: audio fallback markers not found')
+    clean_fallback="""function mountOnlinePlaybackFallback(t){
+  try{document.querySelectorAll('.online-fallback').forEach(n=>n.remove())}catch(_){}
+}
+"""
+    text=text[:fb_start]+clean_fallback+text[fb_end:]
+
+    # Reinstall the safe-band camera on every generated catalog. Builders can
+    # rewrite the legacy WebGL block, so this must live in the source pipeline.
+    cam_start=text.find('/* camera */')
+    resize_start=text.find('function resize(){',cam_start)
+    if cam_start<0 or resize_start<0:
+        raise RuntimeError(f'{name}: camera markers not found')
+    text=text[:cam_start]+CAMERA+'\n'+text[resize_start:]
     boot=text.find('/* ================= boot ================= */')
     if boot<0: raise RuntimeError(f'{name}: boot marker not found')
     close=text.find('\n})();\n</script>',boot)

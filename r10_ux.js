@@ -778,7 +778,7 @@ if('ResizeObserver' in window){
    ===================================================================== */
 const ALG_PROFILE_KEY='musicetown.r10.2.profile';
 const ALG_STATE_KEY='musicetown.r10.2.signals';
-const ALG_ONBOARD_KEY='musicetown.r10.2.onboarded';
+const ALG_ONBOARD_KEY='musicetown.r10.2.2.onboarded';
 function readJson(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(_){return fallback}}
 function writeJson(key,v){try{localStorage.setItem(key,JSON.stringify(v))}catch(_){}}
 function algProfile(){return Object.assign({moments:[],energy:'mid',vocal:'mixed',textures:[],worlds:[],discovery:'balanced',seeds:[]},readJson(ALG_PROFILE_KEY,{}))}
@@ -930,7 +930,7 @@ lyricsPreview.querySelector('.mt-lyrics-preview-close').addEventListener('click'
 lyricsPreview.addEventListener('click',e=>{if(e.target===lyricsPreview)closeLyricsPreview()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&lyricsPreview.classList.contains('open'))closeLyricsPreview()});
 
-/* ----- onboarding v2: seven focused screens that actually seed the algorithm ----- */
+/* ----- onboarding v2: eight focused screens that actually seed the algorithm ----- */
 const ONBOARD_STEPS=[
   {k:'intro',title:'歡迎來到 MUSICTOWN',copy:'這裡不是一次性的歌單。先用幾個很短的選擇告訴我們你怎麼聽音樂，之後每日推薦、每週推薦與 MT 推薦榜都會從這份偏好開始。'},
   {k:'moments',title:'你通常在什麼時候聽？',copy:'可以複選。演算法會用「情境」決定探索與熟悉感的比例。'},
@@ -958,7 +958,7 @@ function renderOnboard(){
   const bodyEl=welcome.querySelector('.mt-onboard-body'),counter=welcome.querySelector('.mt-onboard-counter'),bar=welcome.querySelector('.mt-onboard-progress i'),next=welcome.querySelector('.mt-onboard-next'),back=welcome.querySelector('.mt-onboard-back');
   counter.textContent=`${onboardStep+1} / ${ONBOARD_STEPS.length}`;bar.style.setProperty('--p',`${((onboardStep+1)/ONBOARD_STEPS.length)*100}%`);back.disabled=onboardStep===0;
   let options='';
-  if(st.k==='intro')options='<div class="mt-onboard-options"><button class="mt-onboard-option selected" type="button"><b>用你的選擇開始</b><span>偏好只存在這個瀏覽器，可隨著使用自然更新。</span></button></div>';
+  if(st.k==='intro')options='<div class="mt-onboard-intro-card"><b>你的 MUSICTOWN 會越聽越準</b><span>接下來每頁只問一件事；偏好只存在這個瀏覽器，之後播放、收藏、不喜歡與略過都會繼續調整推薦。</span><div><i>每日推薦</i><i>每週推薦</i><i>MT 推薦榜</i></div></div>';
   else if(st.k==='seeds')options='<div class="mt-onboard-options mt-onboard-seeds">'+onboardSeedRows().map((x,i)=>{const d=MT.DATA[x.i],nm=MT.splitThemeName(d.t),sel=optionSelected('seeds',d.t);return `<button class="mt-onboard-option mt-onboard-seed${sel?' selected':''}" data-ob-value="${esc(d.t)}" type="button"><small>RECOMMENDED ${i+1}</small><b>${esc(nm.main)}</b><span>${esc(nm.sub||groupKeyOfTheme(d.t).replaceAll('_',' '))}</span></button>`}).join('')+'</div>';
   else options='<div class="mt-onboard-options">'+(ONBOARD_OPTIONS[st.k]||[]).map(([v,b,s])=>`<button class="mt-onboard-option${optionSelected(st.k,v)?' selected':''}" data-ob-value="${v}" type="button"><b>${b}</b><span>${s}</span></button>`).join('')+'</div>';
   bodyEl.innerHTML=`<div class="mt-onboard-kicker">${String(onboardStep+1).padStart(2,'0')} · PERSONALIZE</div><h${onboardStep===0?'1':'2'}>${st.title}</h${onboardStep===0?'1':'2'}><p>${st.copy}</p>${options}`;
@@ -978,7 +978,7 @@ function installOnboardV2(){
   let done=false;try{done=localStorage.getItem(ALG_ONBOARD_KEY)==='1'}catch(_){}
   if(done)return;
   welcome.style.display='grid';welcome.classList.remove('is-out','finalizing','previewing');welcome.classList.add('welcome-active','mt-onboard-v2');body.classList.add('welcome-active');
-  welcome.innerHTML=`<div class="welcome-card"><header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>musicetown</span></div><div class="mt-onboard-progress"><span class="mt-onboard-counter">1 / 7</span><i></i></div></header><main class="mt-onboard-body"></main><footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">先略過</button><button class="mt-onboard-next" type="button">下一步</button></footer></div>`;
+  welcome.innerHTML=`<div class="welcome-card"><header class="mt-onboard-head"><div class="mt-onboard-brand"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"></circle><ellipse cx="20" cy="20" rx="7" ry="16"></ellipse><ellipse cx="20" cy="20" rx="16" ry="7"></ellipse></svg><span>musicetown</span></div><div class="mt-onboard-progress"><span class="mt-onboard-counter">1 / ${ONBOARD_STEPS.length}</span><i></i></div></header><main class="mt-onboard-body"></main><footer class="mt-onboard-foot"><button class="mt-onboard-back" type="button">上一步</button><button class="mt-onboard-skip" type="button">先略過</button><button class="mt-onboard-next" type="button">下一步</button></footer></div>`;
   welcome.addEventListener('click',e=>{const o=e.target.closest('[data-ob-value]');if(!o)return;const k=ONBOARD_STEPS[onboardStep].k;toggleOnboard(k,o.dataset.obValue);renderOnboard()});
   welcome.querySelector('.mt-onboard-back').addEventListener('click',()=>{if(onboardStep>0){onboardStep--;renderOnboard()}});
   welcome.querySelector('.mt-onboard-skip').addEventListener('click',()=>finishOnboard(true));
@@ -986,6 +986,13 @@ function installOnboardV2(){
   renderOnboard();
 }
 installOnboardV2();
+
+/* R10.2.2 · new tracks always start in full dock.
+   Compact glass is a scroll state, never the initial playback state. */
+document.addEventListener('mt:track',()=>{
+  body.classList.remove('mt-compact');
+  requestAnimationFrame(()=>{paintMini();measure()});
+});
 
 /* detail/library scroll is the canonical mobile compact trigger. */
 [$('detail'),$('libraryPanel'),$('globalSearchResults')].filter(Boolean).forEach(n=>{
