@@ -206,3 +206,167 @@
   window.visualViewport?.addEventListener('resize',updateVisibleHeight,{passive:true});
   window.addEventListener('orientationchange',()=>setTimeout(updateVisibleHeight,120),{passive:true});
 })();
+
+;(()=>{
+  'use strict';
+  /* R9.3.13 compact transport / real-lyrics / vinyl page lock */
+
+  const byId=id=>document.getElementById(id);
+
+  /* Keep the compact transport alive whenever a track exists.
+     Legacy fallback is allowed to change the player body, but not erase the dock state. */
+  if(typeof window.dismissGlassTransport==='function'){
+    window.dismissGlassTransport=function(){
+      const dock=byId('glassTransport');
+      const track=window.activeTrack || (typeof activeTrack!=='undefined'?activeTrack:null);
+      if(track){
+        dock?.classList.add('show');
+        try{typeof updateGlassUI==='function'&&updateGlassUI()}catch(_){}
+        return;
+      }
+      dock?.classList.remove('show');
+    };
+  }
+
+  /* Prefer real playable media over known webpage URLs from stale catalogs. */
+  if(typeof window.resolveSiteCloudAudio==='function'){
+    const originalResolve=window.resolveSiteCloudAudio;
+    window.resolveSiteCloudAudio=function(t){
+      const raw=String(t?.audioSrc||'').trim();
+      const badWebPage=/freemusicarchive\.org\/music\/charts|\/search(?:\?|$)/i.test(raw);
+      const candidates=[
+        !badWebPage&&raw,
+        String(t?.download||'').trim(),
+        String(t?.originalLocalAudio||'').trim(),
+        String(t?.originalAudioSrc||'').trim()
+      ].filter(Boolean);
+      const picked=candidates[0]||raw;
+      try{return new URL(picked,document.baseURI).href}catch(_){return originalResolve(t)}
+    };
+  }
+
+  /* Actual lyrics only. Never fabricate track-specific lyrics. */
+  function parseVerifiedLyrics(track){
+    const raw=track?.syncedLyrics ?? track?.lrc ?? track?.lyrics ?? track?.lyric ?? null;
+    if(!raw)return {lines:[],synced:false};
+
+    if(Array.isArray(raw)){
+      const lines=raw.map((x,i)=>{
+        if(typeof x==='string')return {text:x,time:null,index:i};
+        return {text:String(x?.text||x?.line||''),time:Number.isFinite(Number(x?.time))?Number(x.time):null,index:i};
+      }).filter(x=>x.text.trim());
+      return {lines,synced:lines.some(x=>x.time!=null)};
+    }
+
+    const src=String(raw).replace(/\r/g,'').trim();
+    if(!src)return {lines:[],synced:false};
+    const out=[];
+    for(const line of src.split('\n')){
+      const m=line.match(/^\[(\d{1,2}):(\d{2})(?:\.(\d{1,3}))?\]\s*(.*)$/);
+      if(m){
+        const frac=Number('0.'+(m[3]||'0'));
+        out.push({time:Number(m[1])*60+Number(m[2])+frac,text:m[4].trim()});
+      }else if(line.trim()){
+        out.push({time:null,text:line.trim()});
+      }
+    }
+    return {lines:out.filter(x=>x.text),synced:out.some(x=>x.time!=null)};
+  }
+
+  window.buildLiveLyricsUI=function(track){
+    const parsed=parseVerifiedLyrics(track);
+    if(!parsed.lines.length){
+      return '<section class="live-lyrics live-lyrics-empty" aria-label="歌詞">'+
+        '<div class="live-lyrics-head"><b>LYRICS</b><span>NOT PROVIDED BY SOURCE</span></div>'+
+        '<div class="live-lyrics-lines"><p class="live-lyric-line active">此曲來源目前沒有提供可驗證歌詞。</p></div>'+
+      '</section>';
+    }
+    return '<section class="live-lyrics" aria-label="歌詞">'+
+      '<div class="live-lyrics-head"><b>LYRICS</b><span>'+(parsed.synced?'SOURCE-SYNCED':'SOURCE LYRICS')+'</span></div>'+
+      '<div class="live-lyrics-lines" id="liveLyricsLines">'+
+      parsed.lines.map((x,i)=>'<p class="live-lyric-line'+(i===0?' active':'')+'" data-li="'+i+'"'+(x.time!=null?' data-time="'+x.time+'"':'')+'>'+String(x.text).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))+'</p>').join('')+
+      '</div></section>';
+  };
+
+  window.wireLiveLyrics=function(audio,track){
+    const box=byId('liveLyricsLines');
+    if(!audio||!box)return;
+    const lines=[...box.querySelectorAll('.live-lyric-line')];
+    const timed=lines.map((el,i)=>({el,i,time:Number(el.dataset.time)})).filter(x=>Number.isFinite(x.time));
+    if(!timed.length)return;
+    let last=-1;
+    const sync=()=>{
+      const cur=Number(audio.currentTime)||0;
+      let idx=0;
+      for(let i=0;i<timed.length;i++){
+        if(timed[i].time<=cur)idx=i;else break;
+      }
+      if(idx===last)return;
+      last=idx;
+      lines.forEach((el,i)=>{
+        el.classList.toggle('active',i===timed[idx].i);
+        el.classList.toggle('past',i<timed[idx].i);
+      });
+      timed[idx].el.scrollIntoView?.({block:'center',behavior:'smooth'});
+    };
+    ['timeupdate','seeked','loadedmetadata'].forEach(ev=>audio.addEventListener(ev,sync));
+    sync();
+  };
+
+  /* iPhone: while the user is actually scrubbing the vinyl, freeze surrounding page gestures only for that drag. */
+  let vinylGestureDepth=0;
+  const lockVinylPage=()=>{
+    vinylGestureDepth++;
+    document.documentElement.classList.add('mt-vinyl-page-lock');
+  };
+  const unlockVinylPage=()=>{
+    vinylGestureDepth=Math.max(0,vinylGestureDepth-1);
+    if(!vinylGestureDepth)document.documentElement.classList.remove('mt-vinyl-page-lock');
+  };
+  const preventTouchMove=e=>{
+    if(document.documentElement.classList.contains('mt-vinyl-page-lock')&&e.cancelable)e.preventDefault();
+  };
+  document.addEventListener('touchmove',preventTouchMove,{passive:false,capture:true});
+
+  const bindVinylLocks=()=>{
+    document.querySelectorAll('.vinyl-wrap').forEach(wrap=>{
+      if(wrap.dataset.mtPageLock==='1')return;
+      wrap.dataset.mtPageLock='1';
+      let activeId=null;
+      wrap.addEventListener('pointerdown',e=>{
+        if(e.button!=null&&e.button!==0)return;
+        if(e.target.closest('button,input,a,.deck-info'))return;
+        activeId=e.pointerId;
+        lockVinylPage();
+      },{capture:true,passive:true});
+      const done=e=>{
+        if(activeId==null)return;
+        if(e?.pointerId!=null&&e.pointerId!==activeId)return;
+        activeId=null;
+        unlockVinylPage();
+      };
+      wrap.addEventListener('pointerup',done,{capture:true,passive:true});
+      wrap.addEventListener('pointercancel',done,{capture:true,passive:true});
+      wrap.addEventListener('lostpointercapture',done,{capture:true,passive:true});
+    });
+  };
+  bindVinylLocks();
+  new MutationObserver(()=>requestAnimationFrame(bindVinylLocks)).observe(document.body,{childList:true,subtree:true});
+
+  /* When a player opens, assign src directly as well as <source>; iOS Safari is more reliable this way. */
+  const hydrateAudioSrc=()=>{
+    const a=byId('nativeAudioPlayer');
+    if(!a||a.dataset.mtHydrated==='1')return;
+    const source=a.querySelector('source');
+    const src=source?.getAttribute('src')||a.getAttribute('src');
+    if(!src)return;
+    a.dataset.mtHydrated='1';
+    try{
+      a.src=src;
+      a.preload='auto';
+      a.load();
+    }catch(_){}
+  };
+  new MutationObserver(()=>requestAnimationFrame(hydrateAudioSrc)).observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('DOMContentLoaded',hydrateAudioSrc);
+})();
