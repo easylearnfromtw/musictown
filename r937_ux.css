@@ -771,118 +771,6 @@ html,body{
 }
 
 /* =========================================================
-   musicetown R9.3.16 · MOBILE COMPACT PLAYER STATE
-   Full player at top; compact glass appears only after scroll.
-   ========================================================= */
-@media(max-width:700px){
-  #glassTransport.glass-transport{
-    position:fixed!important;
-    left:50%!important;
-    right:auto!important;
-    top:auto!important;
-    bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
-    inset-inline:auto!important;
-    inset-block-start:auto!important;
-    width:min(236px,calc(100vw - 24px))!important;
-    min-width:0!important;
-    max-width:calc(100vw - 24px)!important;
-    height:56px!important;
-    padding:7px 9px!important;
-    margin:0!important;
-    display:grid!important;
-    grid-template-columns:36px minmax(0,1fr)!important;
-    grid-template-areas:"track center"!important;
-    align-items:center!important;
-    justify-content:center!important;
-    gap:6px!important;
-    border-radius:999px!important;
-    transform:translate(-50%,14px)!important;
-    translate:none!important;
-    z-index:1450!important;
-    overflow:hidden!important;
-    box-sizing:border-box!important;
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-    transition:
-      opacity .22s ease,
-      transform .28s cubic-bezier(.16,1,.3,1),
-      visibility .22s ease!important;
-  }
-  #glassTransport.glass-transport.show{
-    opacity:1!important;
-    visibility:visible!important;
-    pointer-events:auto!important;
-    transform:translate(-50%,0)!important;
-  }
-  body.mt-player-top-zone #glassTransport.glass-transport.show{
-    opacity:0!important;
-    visibility:hidden!important;
-    pointer-events:none!important;
-    transform:translate(-50%,12px)!important;
-  }
-
-  #glassTransport .glass-track{
-    grid-area:track!important;
-    width:36px!important;
-    min-width:36px!important;
-    max-width:36px!important;
-    height:36px!important;
-    padding:0!important;
-    margin:0!important;
-    border:0!important;
-    background:transparent!important;
-    box-shadow:none!important;
-    display:grid!important;
-    place-items:center!important;
-  }
-  #glassTransport .glass-disc{
-    width:34px!important;
-    height:34px!important;
-    min-width:34px!important;
-    margin:0!important;
-  }
-  #glassTransport .glass-copy,
-  #glassTransport .glass-sliders,
-  #glassTransport .glass-output,
-  #glassTransport .glass-dislike,
-  #glassTransport .auto-next-toggle{
-    display:none!important;
-  }
-  #glassTransport .glass-center{
-    grid-area:center!important;
-    display:flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-    gap:4px!important;
-    min-width:0!important;
-  }
-  #glassTransport .glass-btn{
-    width:34px!important;
-    height:34px!important;
-    min-width:34px!important;
-    min-height:34px!important;
-    padding:0!important;
-    margin:0!important;
-  }
-  #glassTransport .glass-btn.glass-play{
-    width:40px!important;
-    height:40px!important;
-    min-width:40px!important;
-    min-height:40px!important;
-  }
-
-  /* The player card itself owns vertical scrolling; no horizontal drift. */
-  #playerSheet .player-card{
-    overflow-y:auto!important;
-    overflow-x:hidden!important;
-    overscroll-behavior-x:none!important;
-    touch-action:pan-y pinch-zoom!important;
-    scroll-padding-bottom:calc(82px + env(safe-area-inset-bottom,0px))!important;
-  }
-}
-
-/* =========================================================
    musicetown R10.2.1 · MOBILE PLAYER VISIBILITY / GLASS STATE
    Full player first; compact glass only after scrolling away.
    ========================================================= */
@@ -1029,5 +917,78 @@ html,body{
     padding-bottom:calc(118px + env(safe-area-inset-bottom,0px))!important;
   }
   body.mt-player-open.mt-player-controls-in-view{padding-bottom:env(safe-area-inset-bottom,0px)!important}
+}
+
+/* =========================================================
+   musicetown R10.2.2 · SINGLE MOBILE GLASS STATE
+   One source of truth:
+   - player open + not compact: floating dock hidden
+   - player open + compact: centered mini dock
+   - player closed: previous full liquid-glass dock
+   ========================================================= */
+@media(max-width:760px){
+  body.mt-player-open:not(.mt-glass-compact) #glassTransport.glass-transport.show{
+    opacity:0!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+    transform:translateY(16px)!important;
+  }
+
+  body.mt-player-open.mt-glass-compact #glassTransport.glass-transport.show{
+    position:fixed!important;
+    left:50%!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+    width:auto!important;
+    min-width:196px!important;
+    max-width:calc(100vw - 20px)!important;
+    height:54px!important;
+    padding:6px 8px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:5px!important;
+    border-radius:999px!important;
+    transform:translateX(-50%)!important;
+    translate:none!important;
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    z-index:1650!important;
+  }
+
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-track{
+    flex:0 0 34px!important;
+    width:34px!important;
+    min-width:34px!important;
+    max-width:34px!important;
+    height:34px!important;
+    padding:0!important;
+    margin:0!important;
+    border:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-disc{
+    display:block!important;
+    width:34px!important;
+    height:34px!important;
+    min-width:34px!important;
+    margin:0!important;
+  }
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-copy,
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-sliders,
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-output,
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-dislike,
+  body.mt-player-open.mt-glass-compact #glassTransport .auto-next-toggle{
+    display:none!important;
+  }
+  body.mt-player-open.mt-glass-compact #glassTransport .glass-center{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:4px!important;
+  }
 }
 
