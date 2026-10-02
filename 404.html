@@ -8442,6 +8442,154 @@ html.mt-track-scrolling .music-panel{
   }
 }
 
+
+/* ===== R9.3.13 · compact transport + iPhone overflow hardening ===== */
+html,body{max-width:100%;overflow-x:hidden}
+html.mt-vinyl-page-lock,
+html.mt-vinyl-page-lock body{
+  overscroll-behavior:none!important;
+}
+html.mt-vinyl-page-lock body{
+  touch-action:none!important;
+}
+
+.music-detail,
+.music-detail .inner,
+.music-grid,
+.music-panel,
+#trackList,
+.track-row{
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+.track-row>div:nth-child(2){min-width:0!important}
+.track-name,
+.track-note{
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+.library-tools>*{min-width:0!important;max-width:100%!important}
+.lib-pill{overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+
+@media(max-width:700px){
+  /* Compact persistent transport: disc + previous + play + next only. */
+  #glassTransport.glass-transport{
+    left:50%!important;
+    right:auto!important;
+    inset-inline:auto!important;
+    width:auto!important;
+    min-width:214px!important;
+    max-width:calc(100vw - 24px)!important;
+    bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;
+    transform:translateX(-50%)!important;
+    translate:none!important;
+    display:grid!important;
+    grid-template-columns:38px auto!important;
+    grid-template-areas:"track center"!important;
+    align-items:center!important;
+    gap:7px!important;
+    padding:7px 9px!important;
+    border-radius:999px!important;
+  }
+  #glassTransport .glass-track{
+    grid-area:track!important;
+    display:grid!important;
+    place-items:center!important;
+    width:38px!important;
+    min-width:38px!important;
+  }
+  #glassTransport .glass-disc{
+    width:34px!important;
+    height:34px!important;
+    margin:0!important;
+  }
+  #glassTransport .glass-copy,
+  #glassTransport .glass-sliders,
+  #glassTransport .glass-output,
+  #glassTransport .glass-dislike,
+  #glassTransport .auto-next-toggle{
+    display:none!important;
+  }
+  #glassTransport .glass-center{
+    grid-area:center!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:5px!important;
+  }
+  #glassTransport .glass-btn{
+    width:34px!important;height:34px!important;
+    min-width:34px!important;min-height:34px!important;
+  }
+  #glassTransport .glass-btn.glass-play{
+    width:40px!important;height:40px!important;
+    min-width:40px!important;min-height:40px!important;
+  }
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))!important}
+  .music-detail{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
+  body:has(#glassTransport.show) #trackList{padding-bottom:84px!important}
+
+  /* Screenshot fix: Track Archive stays fully inside viewport. */
+  .music-detail .inner{
+    width:100%!important;
+    padding-left:max(10px,env(safe-area-inset-left,0px))!important;
+    padding-right:max(10px,env(safe-area-inset-right,0px))!important;
+  }
+  .music-panel{width:100%!important;padding:14px!important}
+  .music-detail .music-panel>.library-tools{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+  .music-detail .music-panel>.library-tools>.library-search{
+    grid-column:1/-1!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+  .music-detail .music-panel>.library-tools>.lib-pill{
+    width:100%!important;
+    min-width:0!important;
+    padding-inline:8px!important;
+    font-size:8px!important;
+  }
+  #trackList .track-row{
+    width:100%!important;
+    grid-template-columns:42px minmax(0,1fr) 42px!important;
+    gap:8px!important;
+    padding:9px!important;
+    overflow:hidden!important;
+  }
+  #trackList .track-no{
+    width:40px!important;height:40px!important;
+  }
+  #trackList .track-actions{
+    width:42px!important;
+    min-width:42px!important;
+    justify-content:flex-end!important;
+    gap:0!important;
+  }
+  #trackList .track-actions .cc0-badge,
+  #trackList .track-actions .dislike-btn,
+  #trackList .track-actions .play-dot{
+    display:none!important;
+  }
+  #trackList .favorite-btn{
+    width:38px!important;height:38px!important;
+    min-width:38px!important;
+  }
+  #trackList .track-name{font-size:12.5px!important}
+  #trackList .track-note{font-size:8px!important}
+
+  .vinyl-wrap{
+    touch-action:none!important;
+    overscroll-behavior:none!important;
+  }
+}
+
 </style>\n<style id="r9312-final-touch">
 /* R9.3.12 · final touch interaction polish */
 .pass-welcome-title{max-width:16ch;margin-inline:auto;text-wrap:balance;line-height:.93!important}
@@ -13112,11 +13260,16 @@ window.setMusicetownMediaColors=function(colors={}){
 const MUSICETOWN_AUDIO_MODE='hybrid-stream';
 
 function resolveSiteCloudAudio(t){
-  try{
-    return new URL(String(t?.audioSrc||''),document.baseURI).href;
-  }catch(_){
-    return String(t?.audioSrc||'');
-  }
+  const raw=String(t?.audioSrc||'').trim();
+  const badWebPage=/freemusicarchive\.org\/music\/charts|\/search(?:\?|$)/i.test(raw);
+  const candidates=[
+    !badWebPage&&raw,
+    String(t?.download||'').trim(),
+    String(t?.originalLocalAudio||'').trim(),
+    String(t?.originalAudioSrc||'').trim()
+  ].filter(Boolean);
+  for(const src of candidates){try{return new URL(src,document.baseURI).href}catch(_){}}
+  return raw;
 }
 function isSiteCloudAudioUrl(url){
   try{
@@ -13140,18 +13293,17 @@ function mountOnlinePlaybackFallback(t){
   deck.classList.add('remote-mode','fallback-mode');
   $('vinylDisc')?.classList.remove('remote-spinning');
 
-  // The site-cloud MP3 is unavailable, so the shared bottom transport should
-  // disappear instead of pretending it still controls the real playback.
+  // Source fallback must not erase the active track or compact transport.
   try{
     const native=$('nativeAudioPlayer');
     if(native){
-      native.pause?.();
-      native.removeAttribute('src');
-      native.querySelectorAll('source').forEach(s=>s.removeAttribute('src'));
-      native.load?.();
+      activeAudio=native;
+      activeTrack=t;
+      activeTrackPosition=findTrackPosition(t);
     }
+    $('glassTransport')?.classList.add('show');
+    updateGlassUI();
   }catch(_){}
-  dismissGlassTransport();
 
   if('mediaSession' in navigator){
     try{navigator.mediaSession.playbackState='none'}catch(_){}
@@ -13302,36 +13454,62 @@ function wireSmoothSeek(range,audioOrGetter,feedback,paint){
   range.addEventListener('pointerup',done);
   range.addEventListener('pointercancel',done);
 }
-function lyricHash(s){
-  let h=2166136261>>>0;
-  for(const ch of String(s)){h^=ch.codePointAt(0);h=Math.imul(h,16777619)>>>0}
-  return h>>>0;
-}
-function generatedLyricLines(t){
-  const title=String(t?.title||'this song').replace(/\.(mp3|wav|m4a)$/i,'');
-  const city=trackGenreName(t);
-  const seed=lyricHash(`${title}|${t?.artist||''}|${city}`);
-  const sets=[
-    [`在 ${title} 的光裡，城市慢慢醒來`,`腳步穿過夜色，留下還沒說完的聲音`,`風把遠方折進玻璃，我們沿著節拍前進`,`別急著抵達，讓每一秒都有自己的形狀`,`燈影往後退，心跳卻比街景更清楚`,`如果今晚有答案，它會藏在下一個和弦`,`把名字留給城市，把沉默留給彼此`,`${city} 還亮著，我們繼續往前`],
-    [`${title} 像一張剛打開的夜間地圖`,`人群散開之後，旋律才真正靠近`,`左邊是風，右邊是還沒熄滅的招牌`,`我把速度放慢，只聽見呼吸和鼓點`,`有些話不需要說完，也能跟著低音前進`,`遠處的光落在肩上，像短暫的暗號`,`再走一段，讓這首歌替我們記住`,`${city} 的凌晨，仍然有聲音`],
-    [`從 ${title} 開始，把今天重新排列`,`窗外的顏色一層一層滑過`,`節奏靠近的時候，時間忽然變得很輕`,`我沿著旋律回頭，又沿著旋律往前`,`沒有必要解釋，每個停頓都有方向`,`城市在遠處發亮，像尚未寄出的訊息`,`如果要離開，就讓最後一拍慢一點`,`${city} 收下這一段未完成的旅程`]
-  ];
-  return sets[seed%sets.length];
+function parseVerifiedLyrics(t){
+  const raw=t?.syncedLyrics ?? t?.lrc ?? t?.lyrics ?? t?.lyric ?? null;
+  if(!raw)return {lines:[],synced:false};
+  if(Array.isArray(raw)){
+    const lines=raw.map((x,i)=>{
+      if(typeof x==='string')return {text:x,time:null,index:i};
+      const time=Number(x?.time);
+      return {text:String(x?.text||x?.line||''),time:Number.isFinite(time)?time:null,index:i};
+    }).filter(x=>x.text.trim());
+    return {lines,synced:lines.some(x=>x.time!=null)};
+  }
+  const src=String(raw).replace(/\r/g,'').trim();
+  if(!src)return {lines:[],synced:false};
+  const lines=[];
+  for(const line of src.split('\n')){
+    const m=line.match(/^\[(\d{1,2}):(\d{2})(?:\.(\d{1,3}))?\]\s*(.*)$/);
+    if(m){
+      const frac=Number('0.'+(m[3]||'0'));
+      lines.push({time:Number(m[1])*60+Number(m[2])+frac,text:m[4].trim()});
+    }else if(line.trim()){
+      lines.push({time:null,text:line.trim()});
+    }
+  }
+  return {lines:lines.filter(x=>x.text),synced:lines.some(x=>x.time!=null)};
 }
 function buildLiveLyricsUI(t){
-  return `<section class="live-lyrics" aria-label="動態意境歌詞"><div class="live-lyrics-head"><b>LIVE LYRICS</b><span>MUSICETOWN GENERATED</span></div><div class="live-lyrics-lines" id="liveLyricsLines">${generatedLyricLines(t).map((line,i)=>`<p class="live-lyric-line${i===0?' active':''}" data-li="${i}">${esc(line)}</p>`).join('')}</div></section>`;
+  const parsed=parseVerifiedLyrics(t);
+  if(!parsed.lines.length){
+    return `<section class="live-lyrics live-lyrics-empty" aria-label="歌詞">
+      <div class="live-lyrics-head"><b>LYRICS</b><span>NOT PROVIDED BY SOURCE</span></div>
+      <div class="live-lyrics-lines"><p class="live-lyric-line active">此曲來源目前沒有提供可驗證歌詞。</p></div>
+    </section>`;
+  }
+  return `<section class="live-lyrics" aria-label="歌詞">
+    <div class="live-lyrics-head"><b>LYRICS</b><span>${parsed.synced?'SOURCE-SYNCED':'SOURCE LYRICS'}</span></div>
+    <div class="live-lyrics-lines" id="liveLyricsLines">
+      ${parsed.lines.map((x,i)=>`<p class="live-lyric-line${i===0?' active':''}" data-li="${i}"${x.time!=null?` data-time="${x.time}"`:''}>${esc(x.text)}</p>`).join('')}
+    </div>
+  </section>`;
 }
 function wireLiveLyrics(audio,t){
   const box=$('liveLyricsLines');if(!audio||!box)return;
-  const lines=[...box.querySelectorAll('.live-lyric-line')];let last=-1;
+  const lines=[...box.querySelectorAll('.live-lyric-line')];
+  const timed=lines.map((el,i)=>({el,i,time:Number(el.dataset.time)})).filter(x=>Number.isFinite(x.time));
+  if(!timed.length)return;
+  let last=-1;
   const sync=()=>{
-    const dur=Number.isFinite(audio.duration)&&audio.duration>0?audio.duration:Math.max(1,lines.length*18);
-    const idx=Math.max(0,Math.min(lines.length-1,Math.floor((audio.currentTime||0)/dur*lines.length)));
-    if(idx===last)return;last=idx;
-    lines.forEach((el,i)=>{el.classList.toggle('active',i===idx);el.classList.toggle('past',i<idx)});
-    lines[idx]?.scrollIntoView?.({block:'center',behavior:REDUCE?'auto':'smooth'});
+    const cur=Number(audio.currentTime)||0;
+    let pos=0;
+    for(let i=0;i<timed.length;i++){if(timed[i].time<=cur)pos=i;else break}
+    if(pos===last)return;last=pos;
+    const activeIndex=timed[pos].i;
+    lines.forEach((el,i)=>{el.classList.toggle('active',i===activeIndex);el.classList.toggle('past',i<activeIndex)});
+    timed[pos].el.scrollIntoView?.({block:'center',behavior:REDUCE?'auto':'smooth'});
   };
-  ['timeupdate','seeked','loadedmetadata','durationchange'].forEach(ev=>audio.addEventListener(ev,sync));
+  ['timeupdate','seeked','loadedmetadata'].forEach(ev=>audio.addEventListener(ev,sync));
   sync();
 }
 function openTrack(t, userGesture=true){
@@ -13457,6 +13635,8 @@ function openTrack(t, userGesture=true){
       const a=$('nativeAudioPlayer');
       const status=$('localMp3Status');
       if(a){
+        const directSrc=resolveSiteCloudAudio(t);
+        if(directSrc){try{a.src=directSrc;a.preload='auto';a.load()}catch(_){}}
         setupMusicetownMediaSession(t,a);
         try{
           attachGlobalTransport(a,t);
@@ -13470,7 +13650,7 @@ function openTrack(t, userGesture=true){
           if(a.error || a.networkState===HTMLMediaElement.NETWORK_NO_SOURCE){
             mountOnlinePlaybackFallback(t);
           }
-        },1500);
+        },6500);
       }
       const setStatus=(kind,msg)=>{
         if(!status)return;
@@ -13585,9 +13765,11 @@ function closeTrack(){
   $('playerSheet').classList.remove('open');
   $('playerSheet').setAttribute('aria-hidden','true');
 
-  // If music is still playing, keep the <audio> alive so the Liquid Glass
-  // bottom transport continues to work. When paused, cleaning is safe.
-  if(!activeAudio || activeAudio.paused){
+  // Closing the full player only compacts it; it does not destroy audio state.
+  if(activeAudio&&activeTrack){
+    currentTrack=activeTrack;
+    $('glassTransport')?.classList.add('show');
+  }else{
     $('playerBody').innerHTML='';
     currentTrack=null;
   }
@@ -14554,6 +14736,171 @@ setTimeout(()=>{
   window.visualViewport?.addEventListener('resize',updateVisibleHeight,{passive:true});
   window.addEventListener('orientationchange',()=>setTimeout(updateVisibleHeight,120),{passive:true});
 })();
+
+;(()=>{
+  'use strict';
+  /* R9.3.13 compact transport / real-lyrics / vinyl page lock */
+
+  const byId=id=>document.getElementById(id);
+
+  /* Keep the compact transport alive whenever a track exists.
+     Legacy fallback is allowed to change the player body, but not erase the dock state. */
+  if(typeof window.dismissGlassTransport==='function'){
+    window.dismissGlassTransport=function(){
+      const dock=byId('glassTransport');
+      const track=window.activeTrack || (typeof activeTrack!=='undefined'?activeTrack:null);
+      if(track){
+        dock?.classList.add('show');
+        try{typeof updateGlassUI==='function'&&updateGlassUI()}catch(_){}
+        return;
+      }
+      dock?.classList.remove('show');
+    };
+  }
+
+  /* Prefer real playable media over known webpage URLs from stale catalogs. */
+  if(typeof window.resolveSiteCloudAudio==='function'){
+    const originalResolve=window.resolveSiteCloudAudio;
+    window.resolveSiteCloudAudio=function(t){
+      const raw=String(t?.audioSrc||'').trim();
+      const badWebPage=/freemusicarchive\.org\/music\/charts|\/search(?:\?|$)/i.test(raw);
+      const candidates=[
+        !badWebPage&&raw,
+        String(t?.download||'').trim(),
+        String(t?.originalLocalAudio||'').trim(),
+        String(t?.originalAudioSrc||'').trim()
+      ].filter(Boolean);
+      const picked=candidates[0]||raw;
+      try{return new URL(picked,document.baseURI).href}catch(_){return originalResolve(t)}
+    };
+  }
+
+  /* Actual lyrics only. Never fabricate track-specific lyrics. */
+  function parseVerifiedLyrics(track){
+    const raw=track?.syncedLyrics ?? track?.lrc ?? track?.lyrics ?? track?.lyric ?? null;
+    if(!raw)return {lines:[],synced:false};
+
+    if(Array.isArray(raw)){
+      const lines=raw.map((x,i)=>{
+        if(typeof x==='string')return {text:x,time:null,index:i};
+        return {text:String(x?.text||x?.line||''),time:Number.isFinite(Number(x?.time))?Number(x.time):null,index:i};
+      }).filter(x=>x.text.trim());
+      return {lines,synced:lines.some(x=>x.time!=null)};
+    }
+
+    const src=String(raw).replace(/\r/g,'').trim();
+    if(!src)return {lines:[],synced:false};
+    const out=[];
+    for(const line of src.split('\n')){
+      const m=line.match(/^\[(\d{1,2}):(\d{2})(?:\.(\d{1,3}))?\]\s*(.*)$/);
+      if(m){
+        const frac=Number('0.'+(m[3]||'0'));
+        out.push({time:Number(m[1])*60+Number(m[2])+frac,text:m[4].trim()});
+      }else if(line.trim()){
+        out.push({time:null,text:line.trim()});
+      }
+    }
+    return {lines:out.filter(x=>x.text),synced:out.some(x=>x.time!=null)};
+  }
+
+  window.buildLiveLyricsUI=function(track){
+    const parsed=parseVerifiedLyrics(track);
+    if(!parsed.lines.length){
+      return '<section class="live-lyrics live-lyrics-empty" aria-label="歌詞">'+
+        '<div class="live-lyrics-head"><b>LYRICS</b><span>NOT PROVIDED BY SOURCE</span></div>'+
+        '<div class="live-lyrics-lines"><p class="live-lyric-line active">此曲來源目前沒有提供可驗證歌詞。</p></div>'+
+      '</section>';
+    }
+    return '<section class="live-lyrics" aria-label="歌詞">'+
+      '<div class="live-lyrics-head"><b>LYRICS</b><span>'+(parsed.synced?'SOURCE-SYNCED':'SOURCE LYRICS')+'</span></div>'+
+      '<div class="live-lyrics-lines" id="liveLyricsLines">'+
+      parsed.lines.map((x,i)=>'<p class="live-lyric-line'+(i===0?' active':'')+'" data-li="'+i+'"'+(x.time!=null?' data-time="'+x.time+'"':'')+'>'+String(x.text).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))+'</p>').join('')+
+      '</div></section>';
+  };
+
+  window.wireLiveLyrics=function(audio,track){
+    const box=byId('liveLyricsLines');
+    if(!audio||!box)return;
+    const lines=[...box.querySelectorAll('.live-lyric-line')];
+    const timed=lines.map((el,i)=>({el,i,time:Number(el.dataset.time)})).filter(x=>Number.isFinite(x.time));
+    if(!timed.length)return;
+    let last=-1;
+    const sync=()=>{
+      const cur=Number(audio.currentTime)||0;
+      let idx=0;
+      for(let i=0;i<timed.length;i++){
+        if(timed[i].time<=cur)idx=i;else break;
+      }
+      if(idx===last)return;
+      last=idx;
+      lines.forEach((el,i)=>{
+        el.classList.toggle('active',i===timed[idx].i);
+        el.classList.toggle('past',i<timed[idx].i);
+      });
+      timed[idx].el.scrollIntoView?.({block:'center',behavior:'smooth'});
+    };
+    ['timeupdate','seeked','loadedmetadata'].forEach(ev=>audio.addEventListener(ev,sync));
+    sync();
+  };
+
+  /* iPhone: while the user is actually scrubbing the vinyl, freeze surrounding page gestures only for that drag. */
+  let vinylGestureDepth=0;
+  const lockVinylPage=()=>{
+    vinylGestureDepth++;
+    document.documentElement.classList.add('mt-vinyl-page-lock');
+  };
+  const unlockVinylPage=()=>{
+    vinylGestureDepth=Math.max(0,vinylGestureDepth-1);
+    if(!vinylGestureDepth)document.documentElement.classList.remove('mt-vinyl-page-lock');
+  };
+  const preventTouchMove=e=>{
+    if(document.documentElement.classList.contains('mt-vinyl-page-lock')&&e.cancelable)e.preventDefault();
+  };
+  document.addEventListener('touchmove',preventTouchMove,{passive:false,capture:true});
+
+  const bindVinylLocks=()=>{
+    document.querySelectorAll('.vinyl-wrap').forEach(wrap=>{
+      if(wrap.dataset.mtPageLock==='1')return;
+      wrap.dataset.mtPageLock='1';
+      let activeId=null;
+      wrap.addEventListener('pointerdown',e=>{
+        if(e.button!=null&&e.button!==0)return;
+        if(e.target.closest('button,input,a,.deck-info'))return;
+        activeId=e.pointerId;
+        lockVinylPage();
+      },{capture:true,passive:true});
+      const done=e=>{
+        if(activeId==null)return;
+        if(e?.pointerId!=null&&e.pointerId!==activeId)return;
+        activeId=null;
+        unlockVinylPage();
+      };
+      wrap.addEventListener('pointerup',done,{capture:true,passive:true});
+      wrap.addEventListener('pointercancel',done,{capture:true,passive:true});
+      wrap.addEventListener('lostpointercapture',done,{capture:true,passive:true});
+    });
+  };
+  bindVinylLocks();
+  new MutationObserver(()=>requestAnimationFrame(bindVinylLocks)).observe(document.body,{childList:true,subtree:true});
+
+  /* When a player opens, assign src directly as well as <source>; iOS Safari is more reliable this way. */
+  const hydrateAudioSrc=()=>{
+    const a=byId('nativeAudioPlayer');
+    if(!a||a.dataset.mtHydrated==='1')return;
+    const source=a.querySelector('source');
+    const src=source?.getAttribute('src')||a.getAttribute('src');
+    if(!src)return;
+    a.dataset.mtHydrated='1';
+    try{
+      a.src=src;
+      a.preload='auto';
+      a.load();
+    }catch(_){}
+  };
+  new MutationObserver(()=>requestAnimationFrame(hydrateAudioSrc)).observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('DOMContentLoaded',hydrateAudioSrc);
+})();
+
 </script>\n
 <script id="r9312-final-ux">
 (()=>{
