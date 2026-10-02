@@ -121,8 +121,19 @@ jobs:
       - name: Verify 101-theme / 3300-placement catalog
         run: python verify_music_install.py
 
-      - name: Persist stable 3300-placement catalog to main
+      - name: Persist stable 3300-placement catalog to latest main
         run: |
+          # Keep the generated 3300-placement catalog, but re-apply the newest
+          # UX/core sources if main changed while the audio build was running.
+          cp index.html /tmp/musicetown-index.html
+          cp 404.html /tmp/musicetown-404.html
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/musicetown-index.html index.html
+          cp /tmp/musicetown-404.html 404.html
+          python apply_r10_core.py
+          python apply_r937_ux.py
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html 404.html
