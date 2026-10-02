@@ -290,3 +290,67 @@
   new MutationObserver(()=>requestAnimationFrame(hydrateAudioSrc)).observe(document.body,{childList:true,subtree:true});
   document.addEventListener('DOMContentLoaded',hydrateAudioSrc);
 })();
+
+;(()=>{
+  'use strict';
+  /* R9.3.16 mobile compact-player state
+     Full player owns the top state. The glass dock appears only after the
+     user has meaningfully scrolled down inside the player, with hysteresis
+     so it does not flicker near the threshold. */
+  const byId=id=>document.getElementById(id);
+  const sheet=byId('playerSheet');
+  const card=sheet?.querySelector('.player-card');
+  const body=document.body;
+  if(!sheet||!card||!body)return;
+
+  let compact=false,raf=0;
+  const hasTrack=()=>{
+    try{
+      if(typeof activeTrack!=='undefined'&&activeTrack)return true;
+      return !!window.activeTrack;
+    }catch(_){return !!window.activeTrack}
+  };
+  const sync=()=>{
+    raf=0;
+    const open=sheet.classList.contains('open');
+    const y=Math.max(0,card.scrollTop||0);
+
+    if(!open){
+      compact=hasTrack();
+      body.classList.remove('mt-player-top-zone');
+      body.classList.toggle('mt-player-compact-ready',compact);
+      if(compact)byId('glassTransport')?.classList.add('show');
+      return;
+    }
+
+    // Hysteresis: down past 180px enters mini-player; back near top exits.
+    if(!compact && y>=180)compact=true;
+    else if(compact && y<=72)compact=false;
+
+    // Opening a new player always begins in the full-player state.
+    if(!hasTrack())compact=false;
+
+    body.classList.toggle('mt-player-top-zone',!compact);
+    body.classList.toggle('mt-player-compact-ready',compact);
+    if(compact)byId('glassTransport')?.classList.add('show');
+  };
+  const queue=()=>{
+    if(raf)return;
+    raf=requestAnimationFrame(sync);
+  };
+
+  card.addEventListener('scroll',queue,{passive:true});
+  window.visualViewport?.addEventListener('resize',queue,{passive:true});
+  window.addEventListener('orientationchange',()=>setTimeout(queue,100),{passive:true});
+
+  new MutationObserver(()=>{
+    if(sheet.classList.contains('open') && card.scrollTop<=72)compact=false;
+    queue();
+  }).observe(sheet,{attributes:true,attributeFilter:['class']});
+
+  const playerBody=byId('playerBody');
+  if(playerBody)new MutationObserver(queue).observe(playerBody,{childList:true,subtree:true});
+
+  queue();
+})();
+
