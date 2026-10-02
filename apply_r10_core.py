@@ -14,6 +14,7 @@ START='/* ================= R10.2 CORE BRIDGE START ================= */'
 END='/* ================= R10.2 CORE BRIDGE END ================= */'
 
 # R10.2.4 · AUDIO / HOME FRAME
+# CITYMUSIC VISUAL QUALITY V1 · Retina-aware WebGL quality with mobile safety caps
 
 CAMERA=r'''/* camera */
 let VP=null, invVP=null, eye=[0,0,0];
@@ -70,6 +71,31 @@ function layoutCamera(){
   invVP=inv(VP);
 }
 '''
+
+QUALITY_RESIZE=r'''function resize(){
+  // CITYMUSIC HQ: render the actual CSS box at a Retina-aware scale while
+  // capping total pixels so mobile Safari does not trade sharpness for stalls.
+  const r=canvas.getBoundingClientRect();
+  cssW=Math.max(1,r.width||window.innerWidth);
+  cssH=Math.max(1,r.height||window.innerHeight);
+
+  const nativeDpr=Math.max(1,window.devicePixelRatio||1);
+  const coarse=matchMedia('(pointer:coarse)').matches;
+  const mobileLike=coarse||cssW<=820;
+  const tierCap=MT_RENDER_LOW_POWER
+    ? (mobileLike?1.52:1.65)
+    : (mobileLike?1.88:2.05);
+  const pixelBudget=MT_RENDER_LOW_POWER?2600000:(mobileLike?3600000:7200000);
+  const areaCap=Math.sqrt(pixelBudget/Math.max(1,cssW*cssH));
+  dpr=Math.max(1,Math.min(nativeDpr,tierCap,areaCap));
+
+  W=Math.max(1,Math.round(cssW*dpr));
+  H=Math.max(1,Math.round(cssH*dpr));
+  if(canvas.width!==W)canvas.width=W;
+  if(canvas.height!==H)canvas.height=H;
+
+  if(gl){ makeTargets(); layoutCamera(); }
+}'''
 
 
 BRIDGE=r'''/* ================= R10.2 CORE BRIDGE START ================= */
@@ -339,6 +365,43 @@ def patch(text:str,name:str)->str:
 """
     text=text[:fb_start]+clean_fallback+text[fb_end:]
 
+    # CITYMUSIC VISUAL QUALITY V1.
+    # Builders rewrite the legacy WebGL block on each production build, so
+    # these replacements intentionally run against the generated HTML.
+    gl_old="const gl = canvas.getContext('webgl2',{antialias:false,alpha:false,depth:false,stencil:false,powerPreference:'high-performance'});"
+    gl_new="const gl = canvas.getContext('webgl2',{antialias:true,alpha:false,depth:false,stencil:false,powerPreference:'high-performance'});"
+    if gl_old not in text:
+        raise RuntimeError(f'{name}: WebGL context quality marker not found')
+    text=text.replace(gl_old,gl_new,1)
+
+    tex_old="const S=768, cv=document.createElement('canvas'); cv.width=cv.height=S; const x=cv.getContext('2d');"
+    tex_new="const S=MT_PERF_MOBILE?768:1024, cv=document.createElement('canvas'); cv.width=cv.height=S; const x=cv.getContext('2d',{alpha:false}); x.imageSmoothingEnabled=true; x.imageSmoothingQuality='high';"
+    if tex_old not in text:
+        raise RuntimeError(f'{name}: card texture quality marker not found')
+    text=text.replace(tex_old,tex_new,1)
+
+    aniso_old="Math.min(8,gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT))"
+    aniso_new="Math.min(16,gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT))"
+    if aniso_old not in text:
+        raise RuntimeError(f'{name}: anisotropy quality marker not found')
+    text=text.replace(aniso_old,aniso_new,1)
+
+    rt_old="let W=1,H=1,cssW=1,cssH=1,dpr=1,T=null;"
+    rt_new="""/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
+let W=1,H=1,cssW=1,cssH=1,dpr=1,T=null;"""
+    if rt_old not in text:
+        raise RuntimeError(f'{name}: render-target quality marker not found')
+    text=text.replace(rt_old,rt_new,1)
+
+    samples_old="const samples=Math.min(((navigator.deviceMemory||4)<=4||cssW<700)?2:4,gl.getParameter(gl.MAX_SAMPLES)||0);"
+    samples_new="const samples=Math.min(MT_RENDER_LOW_POWER?2:4,gl.getParameter(gl.MAX_SAMPLES)||0);"
+    if samples_old not in text:
+        raise RuntimeError(f'{name}: MSAA quality marker not found')
+    text=text.replace(samples_old,samples_new,1)
+
     # Reinstall the safe-band camera on every generated catalog. Builders can
     # rewrite the legacy WebGL block, so this must live in the source pipeline.
     cam_start=text.find('/* camera */')
@@ -346,6 +409,11 @@ def patch(text:str,name:str)->str:
     if cam_start<0 or resize_start<0:
         raise RuntimeError(f'{name}: camera markers not found')
     text=text[:cam_start]+CAMERA+'\n'+text[resize_start:]
+
+    resize_pat=re.compile(r'function resize\(\)\{[\s\S]*?\n\}\n\n(?=/\* ================= interaction state)',re.M)
+    text,count=resize_pat.subn(QUALITY_RESIZE+'\n\n',text,count=1)
+    if count!=1:
+        raise RuntimeError(f'{name}: generated resize quality block not found')
     boot=text.find('/* ================= boot ================= */')
     if boot<0: raise RuntimeError(f'{name}: boot marker not found')
     close=text.find('\n})();\n</script>',boot)

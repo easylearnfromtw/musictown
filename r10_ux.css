@@ -1743,3 +1743,39 @@ body.mt-retro-on #playerSheet .vinyl{filter:sepia(calc(.08 * var(--mt-retro))) s
   #playerSheet .mt-retro-presets button{padding:0 4px;font-size:8.5px}
 }
 /* ================= /CITYMUSIC RETRO MODE ================= */
+
+
+/* ================= CITYMUSIC VISUAL QUALITY V1 ================= */
+:root{--mt-glass-filter:blur(20px) saturate(182%)}
+html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}
+body,button,input,select,textarea{
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-kerning:normal;
+  font-synthesis:none;
+}
+svg{shape-rendering:geometricPrecision;text-rendering:geometricPrecision}
+img,video,canvas{image-rendering:auto}
+#scene{
+  image-rendering:auto!important;
+  transform:translateZ(0);
+  backface-visibility:hidden;
+}
+#playerSheet .vinyl,#playerSheet .vinyl-wrap,.mt-mini-disc{
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  transform-style:preserve-3d;
+}
+#passWelcomeSheet .pass-welcome-seal img,
+.city-pass-ticket img,
+img[src*="city-pass-qr"]{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+}
+#mtShelf .mt-theme-card,#playerSheet .mt-retro-panel,#welcome .welcome-card{
+  -webkit-font-smoothing:antialiased;
+}
+@media(max-width:760px){
+  :root{--mt-glass-filter:blur(18px) saturate(176%)}
+}
+/* ================= /CITYMUSIC VISUAL QUALITY V1 ================= */

@@ -107,23 +107,26 @@ defs.style.cssText='position:absolute;width:0;height:0;overflow:hidden';
 defs.innerHTML='<filter id="mtRefract" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB" x="0" y="0" width="80" height="52"><feImage id="mtRefractMap" x="0" y="0" width="80" height="52" preserveAspectRatio="none" result="map"/><feDisplacementMap in="SourceGraphic" in2="map" scale="22" xChannelSelector="R" yChannelSelector="G"/></filter>';
 body.appendChild(defs);
 const canRefract=!!window.chrome&&CSS.supports?.('backdrop-filter','url(#mtRefract)')&&!matchMedia('(prefers-reduced-transparency: reduce)').matches;
+/* CITYMUSIC HQ REFRACTION · Retina-density displacement source. */
 function buildRefraction(w,hh){
   if(!canRefract||w<8||hh<8)return;
   w=Math.round(w);hh=Math.round(hh);
-  const c=document.createElement('canvas');c.width=w;c.height=hh;
-  const ctx=c.getContext('2d'),img=ctx.createImageData(w,hh),d=img.data;
-  const r=hh/2,edge=Math.min(13,r*.62),zoom=.12;
-  for(let y=0;y<hh;y++)for(let x=0;x<w;x++){
-    const px=clamp(x+.5,r,w-r),dx=x+.5-px,dy=y+.5-r,dist=Math.hypot(dx,dy),inside=r-dist;
-    let ox=-(x+.5-w/2)/(w/2)*zoom,oy=-(y+.5-hh/2)/(hh/2)*zoom;
+  const q=Math.min(2,Math.max(1,window.devicePixelRatio||1));
+  const pw=Math.max(1,Math.round(w*q)),ph=Math.max(1,Math.round(hh*q));
+  const c=document.createElement('canvas');c.width=pw;c.height=ph;
+  const ctx=c.getContext('2d',{alpha:false}),img=ctx.createImageData(pw,ph),d=img.data;
+  const r=ph/2,edge=Math.min(13*q,r*.62),zoom=.12;
+  for(let y=0;y<ph;y++)for(let x=0;x<pw;x++){
+    const px=clamp(x+.5,r,pw-r),dx=x+.5-px,dy=y+.5-r,dist=Math.hypot(dx,dy),inside=r-dist;
+    let ox=-(x+.5-pw/2)/(pw/2)*zoom,oy=-(y+.5-ph/2)/(ph/2)*zoom;
     if(inside<edge&&dist>0){const k=Math.pow(1-Math.max(0,inside)/edge,2.2);ox-=dx/dist*k*.85;oy-=dy/dist*k*.85;}
-    const o=(y*w+x)*4;
+    const o=(y*pw+x)*4;
     d[o]=clamp(128+ox*127,0,255);d[o+1]=clamp(128+oy*127,0,255);d[o+2]=128;d[o+3]=255;
   }
   ctx.putImageData(img,0,0);
   const f=$('mtRefract'),m=$('mtRefractMap');
   [f,m].forEach(n=>{n.setAttribute('width',w);n.setAttribute('height',hh)});
-  m.setAttribute('href',c.toDataURL());
+  m.setAttribute('href',c.toDataURL('image/png'));
   document.querySelector('.mt-lens')?.classList.add('is-refracting');
 }
 

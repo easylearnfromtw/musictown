@@ -143,6 +143,7 @@ jobs:
                   "CITYMUSIC ONBOARDING V4",
                   "CITYMUSIC RETRO MODE",
                   "CITYMUSIC HOME V2",
+                  "CITYMUSIC VISUAL QUALITY V1",
                   "CITYMUSIC CD SCRUB SFX",
               ]
               missing=[x for x in required if x not in s]
