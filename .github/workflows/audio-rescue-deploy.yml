@@ -17,7 +17,9 @@ permissions:
   id-token: write
 
 concurrency:
-  group: musicetown-audio-rescue
+  # Keep push-rescue and workflow-run-rescue independent: a skipped lyrics
+  # workflow must never cancel the push run that is rebuilding the MP3 artifact.
+  group: musicetown-audio-rescue-${{ github.event_name }}
   cancel-in-progress: true
 
 jobs:
@@ -62,6 +64,10 @@ jobs:
             musicetown-r890-64k-
       - name: Build base 5 local audio folders
         run: python fetch_verified_audio.py --bitrate "64k"
+      - name: Apply latest core + UX layers
+        run: |
+          python apply_r10_core.py
+          python apply_r937_ux.py
       - name: Prepare current 101-theme site with audio
         run: python prepare_audio_site.py
       - name: Upload Pages artifact
@@ -71,3 +77,26 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Smoke test deployed Bravery Vampire
+        run: |
+          base="${{ steps.deployment.outputs.page_url }}"
+          url="${base%/}/rock/008.mp3"
+          echo "Smoke testing $url"
+          ok=0
+          for i in $(seq 1 12); do
+            rm -f /tmp/bravery-vampire.mp3
+            if curl -fL --retry 2 --retry-delay 2 --connect-timeout 15 --max-time 90 \
+                 -o /tmp/bravery-vampire.mp3 "$url"; then
+              bytes=$(wc -c </tmp/bravery-vampire.mp3)
+              if [ "$bytes" -gt 20000 ]; then
+                dur=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 /tmp/bravery-vampire.mp3 || true)
+                echo "Attempt $i: bytes=$bytes duration=$dur"
+                python -c 'import sys; d=float(sys.argv[1]); raise SystemExit(0 if d>1 else 1)' "$dur"
+                ok=1
+                break
+              fi
+            fi
+            echo "Pages audio not ready yet (attempt $i/12); waiting..."
+            sleep 10
+          done
+          test "$ok" = "1" || { echo "Deployed rock/008.mp3 is missing or undecodable"; exit 1; }
