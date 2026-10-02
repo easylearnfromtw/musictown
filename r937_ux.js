@@ -706,6 +706,7 @@
     document.querySelectorAll('audio,video').forEach(m=>{
       m.setAttribute('playsinline','');
       m.setAttribute('webkit-playsinline','');
+      if(m.tagName==='AUDIO')m.setAttribute('x-webkit-airplay','allow');
     });
   };
   hydrateInlineMedia();
@@ -721,6 +722,16 @@
     if(!appleTouch||!keyboardField(e.target))return;
     setTimeout(()=>{root.classList.remove('mt-ios-keyboard');syncAppleViewport()},180);
   },true);
+
+  if(appleTouch){
+    document.addEventListener('touchstart',e=>{
+      const c=e.target.closest?.('button,a,[role="button"]');
+      if(c)c.classList.add('mt-ios-touching');
+    },{passive:true});
+    const clearIosTouch=()=>document.querySelectorAll('.mt-ios-touching').forEach(n=>n.classList.remove('mt-ios-touching'));
+    document.addEventListener('touchend',clearIosTouch,{passive:true});
+    document.addEventListener('touchcancel',clearIosTouch,{passive:true});
+  }
 
   const displayMode=matchMedia('(display-mode: standalone)');
   displayMode.addEventListener?.('change',()=>root.classList.toggle('mt-standalone',standalone()));

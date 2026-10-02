@@ -1867,3 +1867,51 @@ html.mt-apple-touch.mt-ios-keyboard #mtDock{
   html,body{min-height:100dvh}
 }
 /* ================= /CITYMUSIC APPLE UX V1 ================= */
+
+
+/* ================= CITYMUSIC APPLE UX V1.1 ================= */
+html.mt-apple-touch{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+html.mt-apple-touch :is(button,a,[role="button"]){
+  -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout:none;
+  touch-action:manipulation;
+}
+html.mt-apple-touch input[type="range"]{
+  touch-action:pan-x!important;
+  -webkit-tap-highlight-color:transparent;
+}
+html.mt-apple-touch :is(.mt-icon-btn,.mt-mini-btn,.mt-back,#audioAccessoryClose,.player-close,.close-player){
+  min-width:44px;
+  min-height:44px;
+}
+html.mt-apple-touch .mt-shelf-chips,
+html.mt-apple-touch .mt-shelf-cards,
+html.mt-apple-touch #passbookCarousel,
+html.mt-apple-touch .live-lyrics-lines,
+html.mt-apple-touch .mt-onboard-body{
+  -webkit-overflow-scrolling:touch;
+}
+html.mt-apple-touch.mt-standalone body{
+  min-height:var(--mt-vvh,100dvh);
+}
+html.mt-apple-touch.mt-standalone body.mt-view-home:not(.detail-open) #scene{
+  height:var(--mt-vvh,100dvh)!important;
+}
+html.mt-apple-touch.mt-ios-keyboard #mtDock,
+html.mt-apple-touch.mt-ios-keyboard #glassTransport{
+  transition:none!important;
+}
+@media(hover:none) and (pointer:coarse){
+  html.mt-apple-touch .mt-theme-card:hover,
+  html.mt-apple-touch .mt-text-btn:hover,
+  html.mt-apple-touch .mt-icon-btn:hover{transform:none!important}
+  html.mt-apple-touch #playerSheet .mt-retro-presets button{min-height:38px}
+}
+/* ================= /CITYMUSIC APPLE UX V1.1 ================= */
+
+html.mt-apple-touch .mt-ios-touching{filter:brightness(.985)}

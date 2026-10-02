@@ -146,6 +146,7 @@ jobs:
                   "CITYMUSIC HOME V2",
                   "CITYMUSIC VISUAL QUALITY V1",
                   "CITYMUSIC APPLE UX V1",
+                  "CITYMUSIC APPLE UX V1.1",
                   "CITYMUSIC CD SCRUB SFX",
               ]
               missing=[x for x in required if x not in s]
