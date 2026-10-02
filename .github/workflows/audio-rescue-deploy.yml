@@ -12,6 +12,7 @@ name: R9.3 · Audio Rescue + UX Deploy
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -67,6 +68,27 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+
+      # This repository still has the legacy branch-based Pages source enabled.
+      # That dynamic Pages run does not contain generated MP3 folders and can
+      # overwrite the audio artifact if it finishes a few seconds later.
+      # Wait for the competing branch deployment for the exact checked-out SHA,
+      # then deploy the audio artifact last.
+      - name: Wait for branch Pages build to settle
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha="$(git rev-parse HEAD)"
+          echo "Waiting for legacy branch Pages run for $sha to finish before audio deploy..."
+          for i in $(seq 1 30); do
+            busy="$(gh api -X GET "repos/$GITHUB_REPOSITORY/actions/runs"               -f head_sha="$sha" -f per_page=100               --jq '[.workflow_runs[] | select(.name == "pages build and deployment" and .status != "completed")] | length')"
+            echo "branch-pages busy=$busy (check $i/30)"
+            if [ "$busy" = "0" ]; then
+              break
+            fi
+            sleep 8
+          done
+
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
