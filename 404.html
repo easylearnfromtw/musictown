@@ -11625,6 +11625,91 @@ body:not(.mt-view-detail) #mtTop .mt-back{
 }
 /* ================= /CITYMUSIC HOME DECLUTTER V2 ================= */
 
+
+/* ================= CITYMUSIC SAKURA PLATTER V1 ================= */
+#playerSheet .vinyl-wrap{position:relative!important}
+#playerSheet .mt-sakura-platter{
+  position:absolute;
+  z-index:0;
+  left:50%;top:50%;
+  width:calc(min(100%,520px) + 24px);
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  border-radius:50%;
+  opacity:.72;
+  filter:drop-shadow(0 5px 14px rgba(201,115,147,.11));
+}
+#playerSheet .mt-sakura-platter::before{
+  content:'';
+  position:absolute;inset:5%;
+  border-radius:50%;
+  border:1px solid rgba(202,128,158,.18);
+  box-shadow:
+    inset 0 0 0 8px rgba(255,238,245,.08),
+    0 0 0 1px rgba(255,255,255,.48);
+}
+#playerSheet .mt-sakura-platter>i{
+  --a:calc(var(--i) * 36deg);
+  position:absolute;
+  left:50%;top:50%;
+  width:26px;height:26px;
+  margin:-13px;
+  transform:rotate(var(--a)) translateY(calc(-1 * (min(50vw,260px) + 2px))) rotate(calc(-1 * var(--a)));
+  display:grid;place-items:center;
+  font-style:normal;
+}
+#playerSheet .mt-sakura-platter>i span{
+  display:grid;place-items:center;
+  width:24px;height:24px;
+  color:rgba(213,122,157,.70);
+  font:500 22px/1 Georgia,serif;
+  text-shadow:0 1px 0 rgba(255,255,255,.9);
+  transform:rotate(calc(var(--i) * 13deg));
+}
+body.mt-playing #playerSheet .mt-sakura-platter{
+  animation:mtSakuraPlatterSpin 32s linear infinite;
+}
+#playerSheet .vinyl-wrap.mt-cd-scrubbing .mt-sakura-platter{
+  opacity:.96;
+  filter:drop-shadow(0 6px 16px rgba(205,116,153,.20));
+}
+#playerSheet .vinyl-wrap[data-mt-scrub-direction="forward"] .mt-sakura-platter{
+  animation:mtSakuraNudgeForward .42s ease-out both;
+}
+#playerSheet .vinyl-wrap[data-mt-scrub-direction="backward"] .mt-sakura-platter{
+  animation:mtSakuraNudgeBack .42s ease-out both;
+}
+@keyframes mtSakuraPlatterSpin{
+  from{transform:translate(-50%,-50%) rotate(0)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes mtSakuraNudgeForward{
+  from{transform:translate(-50%,-50%) rotate(0)}
+  to{transform:translate(-50%,-50%) rotate(14deg)}
+}
+@keyframes mtSakuraNudgeBack{
+  from{transform:translate(-50%,-50%) rotate(0)}
+  to{transform:translate(-50%,-50%) rotate(-14deg)}
+}
+#playerSheet .vinyl{
+  position:relative!important;
+  z-index:1!important;
+}
+@media(max-width:760px){
+  #playerSheet .mt-sakura-platter{
+    width:calc(min(84vw,410px) + 18px);
+  }
+  #playerSheet .mt-sakura-platter>i{
+    transform:rotate(var(--a)) translateY(calc(-1 * (min(42vw,205px) + 1px))) rotate(calc(-1 * var(--a)));
+  }
+  #playerSheet .mt-sakura-platter>i span{font-size:18px;width:20px;height:20px}
+}
+@media(prefers-reduced-motion:reduce){
+  #playerSheet .mt-sakura-platter{animation:none!important}
+}
+/* ================= /CITYMUSIC SAKURA PLATTER V1 ================= */
+
 </style>
 <!-- CITYMUSIC BRAND META START -->
 <meta name="application-name" content="CITYMUSIC">
@@ -11996,6 +12081,8 @@ function hydrateCitymusicTrackPools(data){
 }
 hydrateCitymusicTrackPools(DATA);
 /* ================= CITYMUSIC TRACK POOL V1 END ================= */
+
+
 
 
 
@@ -12436,6 +12523,14 @@ function uploadCardTextures(){
 }
 
 /* render targets */
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
 /* CITYMUSIC HQ render tier */
 const MT_RENDER_DM=Number(navigator.deviceMemory||0);
 const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
@@ -15864,13 +15959,13 @@ function wireVinylTransport(audio,t){
   vinyl.style.setProperty('--vinyl',c.hex);
   vinyl.dataset.dark=c.dark?'true':'false';
   vinyl.dataset.material=c.material||'solid';
-  vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。輕拖唱片任意方向即可快轉或倒轉。`);
+  vinyl.setAttribute('aria-label',`${c.name} 彩膠唱片。輕輕拖動任意方向即可快速快轉或倒轉。`);
 
   let dragPointerId=null;
   let pendingTime=null;
   let scratchRAF=0;
   let vinylLastPointerX=null;
-  const SCRUB_SECONDS_PER_TURN=150; /* CITYMUSIC VINYL SCRUB EASY V2 */
+  const SCRUB_SECONDS_PER_TURN=210; /* CITYMUSIC VINYL SCRUB EASY V3 */
 
   const freezeAtAudioTime=()=>{
     stopVinylRAF();
@@ -15926,8 +16021,8 @@ function wireVinylTransport(audio,t){
     const dx=vinylLastPointerX==null?0:e.clientX-vinylLastPointerX;
     vinylLastPointerX=e.clientX;
     const angularSeconds=(delta/360)*SCRUB_SECONDS_PER_TURN;
-    const linearSeconds=dx*(matchMedia('(pointer:coarse)').matches?1.05:.88);
-    const blend=Math.max(.12,Math.min(.72,(radius-rect.width*.10)/(rect.width*.46)));
+    const linearSeconds=dx*(matchMedia('(pointer:coarse)').matches?1.45:1.12);
+    const blend=Math.max(.22,Math.min(.88,(radius-rect.width*.06)/(rect.width*.42)));
     const stepSeconds=linearSeconds*(1-blend)+angularSeconds*blend;
     const base=pendingTime==null?(Number(audio.currentTime)||0):pendingTime;
     pendingTime=base+stepSeconds;
@@ -16859,6 +16954,12 @@ setTimeout(()=>{
   $('bootHint').classList.remove('show');
   if(!state.ready) $('stageFallback').classList.add('show');
 },1800);
+
+
+
+
+
+
 
 
 
@@ -18217,10 +18318,10 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
   };
   bindVinylLocks();
   new MutationObserver(()=>requestAnimationFrame(bindVinylLocks)).observe(document.body,{childList:true,subtree:true});
-  /* CITYMUSIC VINYL SCRUB EASY V2 · lower gesture threshold, more immediate thumb response. */
+  /* CITYMUSIC VINYL SCRUB EASY V3 · lighter thumb travel + Sakura platter. */
   /* CITYMUSIC CD SCRUB SFX · native Web Audio, synced to direction + drag speed.
      No remote dependency: the sound is synthesized locally so first drag stays responsive on iPhone. */
-  const CD_SCRUB_MIN_MOVE=.007;
+  const CD_SCRUB_MIN_MOVE=.004;
   let scrubCtx=null,scrubNoise=null,lastScrubBurst=0;
   const ensureScrubAudio=()=>{
     if(scrubCtx)return scrubCtx;
@@ -18304,7 +18405,7 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
         if(da>Math.PI)da-=Math.PI*2;
         else if(da<-Math.PI)da+=Math.PI*2;
         const dx=e.clientX-state.x,dt=Math.max(8,now-state.t);
-        const meaningful=Math.abs(da)>=CD_SCRUB_MIN_MOVE||Math.abs(dx)>=1.5;
+        const meaningful=Math.abs(da)>=CD_SCRUB_MIN_MOVE||Math.abs(dx)>=.8;
         if(!meaningful)return;
         state.moved=true;
         const direction=Math.abs(da)>=CD_SCRUB_MIN_MOVE?Math.sign(da):Math.sign(dx);
@@ -18329,6 +18430,20 @@ queueMicrotask(()=>{mtEmit('ready',{});mtEmit('view',state?.view==='branch'?{vie
   };
   bindVinylScrubSfx();
   new MutationObserver(()=>requestAnimationFrame(bindVinylScrubSfx)).observe(document.body,{childList:true,subtree:true});
+
+  /* CITYMUSIC SAKURA PLATTER V1 · decorative outer ring, pointer-transparent. */
+  const bindSakuraPlatter=()=>{
+    document.querySelectorAll('#playerSheet .vinyl-wrap').forEach(wrap=>{
+      if(wrap.querySelector(':scope > .mt-sakura-platter'))return;
+      const ring=document.createElement('div');
+      ring.className='mt-sakura-platter';
+      ring.setAttribute('aria-hidden','true');
+      ring.innerHTML=Array.from({length:10},(_,i)=>'<i style="--i:'+i+'"><span>✿</span></i>').join('');
+      wrap.prepend(ring);
+    });
+  };
+  bindSakuraPlatter();
+  new MutationObserver(()=>requestAnimationFrame(bindSakuraPlatter)).observe(document.body,{childList:true,subtree:true});
 
 
   /* When a player opens, assign src directly as well as <source>; iOS Safari is more reliable this way. */
