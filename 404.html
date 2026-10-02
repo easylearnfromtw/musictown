@@ -11562,6 +11562,69 @@ body:not(.mt-view-detail) #mtTop .mt-back{
 }
 /* ================= /CITYMUSIC HOME DECLUTTER V1 ================= */
 
+
+/* ================= CITYMUSIC PAGE OPEN MOTION V2 ================= */
+/* Generic modal/sheet motion: keeps the same tactile open effect on every surface. */
+:is(
+  #shareComposerSheet,#sharePlaylistSheet,#libraryNameSheet,#libraryPassSheet,
+  #sharedLibrarySheet,#cityPassSheet,#passWelcomeSheet,#audioAccessorySheet
+).open{
+  animation:mtPageFadePremium .20s ease both;
+}
+:is(
+  #shareComposerSheet,#sharePlaylistSheet,#libraryNameSheet,#libraryPassSheet,
+  #sharedLibrarySheet,#cityPassSheet,#passWelcomeSheet,#audioAccessorySheet
+).open > :not([class*="backdrop"]){
+  animation:mtPageOpenPremium .40s var(--mt-spring) both;
+  transform-origin:50% 16%;
+}
+@media(prefers-reduced-motion:reduce){
+  :is(
+    #shareComposerSheet,#sharePlaylistSheet,#libraryNameSheet,#libraryPassSheet,
+    #sharedLibrarySheet,#cityPassSheet,#passWelcomeSheet,#audioAccessorySheet
+  ).open,
+  :is(
+    #shareComposerSheet,#sharePlaylistSheet,#libraryNameSheet,#libraryPassSheet,
+    #sharedLibrarySheet,#cityPassSheet,#passWelcomeSheet,#audioAccessorySheet
+  ).open > :not([class*="backdrop"]){animation:none!important}
+}
+/* ================= /CITYMUSIC PAGE OPEN MOTION V2 ================= */
+
+
+/* ================= CITYMUSIC HOME DECLUTTER V2 ================= */
+/* Preserve the 3D hero as the focal point: the recommendation shelf stays concise. */
+#mtShelf.mt-reco-shelf{
+  max-width:min(820px,calc(100vw - 28px))!important;
+}
+#mtShelf .mt-shelf-cards{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+#mtShelf .mt-theme-card:nth-child(n+7){display:none!important}
+@media(max-width:760px){
+  #mtShelf.mt-reco-shelf{
+    max-height:none!important;
+    padding-top:7px!important;
+    padding-bottom:7px!important;
+    border-radius:20px!important;
+  }
+  #mtShelf .mt-home-signal{padding-bottom:5px!important}
+  #mtShelf .mt-shelf-head{padding-bottom:6px!important}
+  #mtShelf .mt-shelf-title #themeShelfCount{display:none!important}
+  #mtShelf .mt-shelf-chips{padding-bottom:6px!important}
+  #mtShelf .mt-shelf-cards{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+  #mtShelf .mt-theme-card:nth-child(n+5){display:none!important}
+  #mtShelf .mt-theme-card{min-height:50px!important}
+}
+@media(max-width:390px){
+  #mtShelf .mt-home-signal{display:none!important}
+  #mtShelf .mt-shelf-title b{font-size:13px!important}
+  #mtShelf .mt-theme-card{min-height:48px!important;padding:8px!important}
+}
+/* ================= /CITYMUSIC HOME DECLUTTER V2 ================= */
+
 </style>
 <!-- CITYMUSIC BRAND META START -->
 <meta name="application-name" content="CITYMUSIC">
@@ -11933,6 +11996,8 @@ function hydrateCitymusicTrackPools(data){
 }
 hydrateCitymusicTrackPools(DATA);
 /* ================= CITYMUSIC TRACK POOL V1 END ================= */
+
+
 
 
 
@@ -12367,6 +12432,14 @@ function uploadCardTextures(){
 }
 
 /* render targets */
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
+/* CITYMUSIC HQ render tier */
+const MT_RENDER_DM=Number(navigator.deviceMemory||0);
+const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
+const MT_RENDER_LOW_POWER=(MT_RENDER_DM>0&&MT_RENDER_DM<=4)||MT_RENDER_HC<=4;
 /* CITYMUSIC HQ render tier */
 const MT_RENDER_DM=Number(navigator.deviceMemory||0);
 const MT_RENDER_HC=Number(navigator.hardwareConcurrency||6);
@@ -16766,6 +16839,12 @@ setTimeout(()=>{
   $('bootHint').classList.remove('show');
   if(!state.ready) $('stageFallback').classList.add('show');
 },1800);
+
+
+
+
+
+
 
 
 
