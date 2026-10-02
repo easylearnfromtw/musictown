@@ -25,6 +25,7 @@ local=[]
 counts={}
 seen_share_ids=set()
 ffprobe=shutil.which("ffprobe")
+probed_local=set()
 
 for d in data:
     name=d.get("t","UNKNOWN")
@@ -95,11 +96,12 @@ for d in data:
         if p.stat().st_size<20000:
             bad.append(f"{rel}: too small ({p.stat().st_size} bytes)")
             continue
-        if ffprobe:
+        if ffprobe and rel not in probed_local:
             r=subprocess.run(
               [ffprobe,"-v","error","-show_entries","format=duration","-of","default=nw=1:nk=1",str(p)],
               capture_output=True,text=True
             )
+            probed_local.add(rel)
             if r.returncode!=0:
                 bad.append(f"{rel}: ffprobe failed")
                 continue
