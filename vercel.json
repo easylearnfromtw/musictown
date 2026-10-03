@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/audio.js": {
+      "includeFiles": "data/legal_music_library.json",
+      "maxDuration": 60
+    }
+  }
+}

@@ -38,6 +38,41 @@ const Player = (() => {
   let airplay = false;
   let handoffSeq = 0;
   let localAvail = sess.get('mt.localAudio', null); // null unknown · true · false
+  let audioProxy = '', proxyReady = false;
+  const proxyEndpoint = base => {
+    if (!base) return '';
+    try {
+      const u = new URL(base, document.baseURI);
+      if (!/^https?:$/.test(u.protocol)) return '';
+      if (!/\/api\/audio\/?$/.test(u.pathname)) u.pathname = u.pathname.replace(/\/$/, '') + '/api/audio';
+      u.search = ''; u.hash = ''; return u.href.replace(/\/$/, '');
+    } catch (_) { return ''; }
+  };
+  const proxyURL = raw => {
+    if (!proxyReady || !audioProxy || !raw) return null;
+    try {
+      const u = new URL(raw, document.baseURI);
+      if (!/^https?:$/.test(u.protocol) || u.origin === location.origin) return null;
+      return audioProxy + '?u=' + encodeURIComponent(u.href);
+    } catch (_) { return null; }
+  };
+  async function probeAudioProxy() {
+    const configured = proxyEndpoint(window.CITYMUS_AUDIO_PROXY || '');
+    const sameOrigin = proxyEndpoint(location.origin);
+    for (const ep of [...new Set([configured, sameOrigin].filter(Boolean))]) {
+      try {
+        const r = await fetch(ep + '?health=1', { mode: 'cors', cache: 'no-store' });
+        if (!r.ok || r.headers.get('x-citymus-proxy') !== '1') continue;
+        const j = await r.json().catch(() => null); if (!j?.ok) continue;
+        audioProxy = ep; proxyReady = true;
+        await FX.probeCors(ep + '?health=1').catch(() => false);
+        bus.emit('audio-proxy', { ready: true, endpoint: ep });
+        return true;
+      } catch (_) {}
+    }
+    proxyReady = false; bus.emit('audio-proxy', { ready: false }); return false;
+  }
+  probeAudioProxy();
 
   /* ---------- where can this track be played from? ---------- */
   const abs = u => { try { return new URL(u, document.baseURI).href; } catch (_) { return u; } };
@@ -58,7 +93,17 @@ const Player = (() => {
     else if (localAvail === false) order = [remote, dl, nr, local];
     else if (localAvail === true || q === 'saver' || (FX.level > 0)) order = [local, remote, dl, nr];
     else order = remote ? [remote, local, dl, nr] : [local, dl, nr];
-    const all = (q === 'hq' || q === 'lossless') ? [...order, off] : [off, ...order];
+
+    // When the verified proxy exists, place its CORS-safe Range stream before
+    // each remote original. A failed proxy candidate simply falls through to
+    // the untouched source, so GitHub Pages playback never depends on it.
+    const expanded = [];
+    for (const u of order.filter(Boolean)) {
+      const p = proxyURL(u);
+      if (p && graphWanted()) expanded.push(p);
+      expanded.push(u);
+    }
+    const all = (q === 'hq' || q === 'lossless') ? [...expanded, off] : [off, ...expanded];
     return [...new Set(all.filter(Boolean))];
   }
   /* is the site shipping its own MP3s? (branch deploys don't) */
@@ -343,7 +388,7 @@ const Player = (() => {
     FX.setSurface(!a.paused && lv > 0);
   });
   bus.on('settings', ({ k }) => {
-    if (!['eqBass','eqVocal','eqTreble','quality'].includes(k) || !current) return;
+    if (!['eqBass','eqVocal','eqTreble','quality','tailEnabled'].includes(k) || !current) return;
     const a = el(), url = a.currentSrc || a.src; if (!url) return;
     const want = elementFor(url);
     if (graphWanted() && !FX.canProcess(url)) FX.probeCors(url).then(ok => {
