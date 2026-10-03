@@ -2113,7 +2113,7 @@ const Limited = (() => {
   const imgs = {};
   const load = src => imgs[src] || (imgs[src] = new Promise(res => { const i = new Image(); i.decoding = 'async'; i.onload = () => res(i); i.onerror = () => res(null); i.src = src; }));
   function active(themeKey = null) {
-    if (themeKey !== 'TAIPEI DREAM') return null;
+    if (themeKey && themeKey !== 'TAIPEI DREAM') return null;
     if (preview === 'taipei' || preview === 'tpe') return ED['TAIPEI DREAM'];
     try { return Geo.theme === 'TAIPEI DREAM' ? ED['TAIPEI DREAM'] : null; } catch (_) { return null; }
   }
