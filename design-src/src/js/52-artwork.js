@@ -226,7 +226,7 @@ const Artwork = (() => {
   async function lockscreenURL(S = 1536) {
     await fonts();
     const size = Math.max(768, Math.min(2048, Number(S) || 1536));
-    const ver = 'r153';
+    const ver = 'r156';
     const url = new URL(`__citymus_art/${ver}-lockscreen-${size}.jpg`, document.baseURI).href;
     try {
       const hit = await caches.match(url);
@@ -258,7 +258,7 @@ const Artwork = (() => {
     const blob = await new Promise(resolve => c.toBlob(resolve, 'image/jpeg', .96));
     if (!blob) return c.toDataURL('image/jpeg', .96);
     try {
-      const cache = await caches.open('citymus-lockscreen-r153');
+      const cache = await caches.open('citymus-lockscreen-r156');
       await cache.put(url, new Response(blob, {
         headers: { 'Content-Type':'image/jpeg', 'Cache-Control':'public, max-age=31536000, immutable' }
       }));

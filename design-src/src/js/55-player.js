@@ -482,8 +482,9 @@ const Player = (() => {
         artist: systemText(t.artist || t.composerCn || 'CITYMUS', 56),
         album: systemText(themeLabel || 'CITYMUS', 58)
       };
-      // Set a same-origin image synchronously so iOS never shows a blank card
-      // while the track-specific artwork is still being decoded.
+      // Explicitly clear the previous OS media card first. iOS can otherwise
+      // keep an old MUSICETOWN bitmap even after the page has new metadata.
+      try { navigator.mediaSession.metadata = null; } catch (_) {}
       try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: fallbackArtwork() }); } catch (_) {}
 
       // Use one canonical 1536 px CITYMUS lock-screen master. The URL is

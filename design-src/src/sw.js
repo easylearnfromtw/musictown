@@ -1,7 +1,7 @@
 /* CITYMUS service worker · caches the app shell so the Home Screen app
    opens without a connection. Audio is never touched here: downloaded songs
    live in IndexedDB and stream/range requests go straight to the network. */
-const VERSION = 'R14.6-2026-10-03-CITYMUS-BRAND-ARTWORK';
+const VERSION = '__BUILD__';
 const CACHE = 'mt-shell-' + VERSION;
 const SHELL = ['./', 'index.html', 'remote-audio-map.js', 'literature-catalog.js', 'literature-audio-map.js', 'citymus-library.js', 'ebook-catalog.js', 'site.webmanifest',
   'apple-touch-icon.png', 'assets/icons/apple-touch-icon-152.png', 'assets/icons/apple-touch-icon-167.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'favicon.svg', 'assets/limited/taipei-word.png', 'assets/limited/taipei-cn.png', 'assets/citymus-wordmark.png'];
@@ -18,7 +18,13 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   if (/\.(mp3|m4a|ogg|oga|flac|wav|aac|opus)$/i.test(url.pathname)) return;
   if (url.origin === location.origin && url.pathname.includes('/__citymus_art/')) {
-    e.respondWith(caches.open('mt-artwork-v2').then(c => c.match(req).then(hit => hit || new Response('', { status: 404 }))));
+    // Generated artwork may live in the generic track-art cache or in a
+    // dedicated lock-screen cache. Search every CacheStorage bucket instead of
+    // hard-coding the legacy mt-artwork-v2 store.
+    e.respondWith(caches.match(req).then(hit => hit || new Response('', {
+      status: 404,
+      headers: { 'Cache-Control': 'no-store' }
+    })));
     return;
   }
   if (req.mode === 'navigate' && url.origin === location.origin) {

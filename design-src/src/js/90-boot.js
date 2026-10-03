@@ -10,6 +10,25 @@
   if (!Settings.get('onboarded') && !deep) Welcome.open(); else Geo.ensure();
   Share.readHash();
 
+  /* CITYMUS_SW_REFRESH_R156
+     Force Safari / Home Screen installs to fetch the newest worker script.
+     A one-time reload after controller change prevents an old cached document
+     from continuing to publish stale Media Session artwork. */
+  if ('serviceWorker' in navigator) {
+    const reloadKey = 'citymus-sw-r156-reloaded';
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      try {
+        if (!sessionStorage.getItem(reloadKey)) {
+          sessionStorage.setItem(reloadKey, '1');
+          location.reload();
+        }
+      } catch (_) {}
+    });
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+      .then(reg => reg.update().catch(() => {}))
+      .catch(() => {});
+  }
+
   // Make successful GitHub Pages deployments visible on-device. This is also
   // useful for debugging stubborn iPhone PWA caches: the version shown here is
   // the version of the HTML/JS that is actually running, not merely GitHub HEAD.
