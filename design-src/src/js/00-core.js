@@ -235,4 +235,4 @@ function actionBurst(el, kind = 'spark', label = '') {
     document.body.appendChild(note); setTimeout(()=>note.classList.add('is-in'),16); setTimeout(()=>note.remove(),1050);
   }
 }
-window.addEventListener('error', e => console.warn('[musicetown]', e?.error || e?.message));
+window.addEventListener('error', e => console.warn('[CITYMUS]', e?.error || e?.message));
