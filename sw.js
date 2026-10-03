@@ -1,7 +1,7 @@
 /* musicetown service worker · caches the app shell so the Home Screen app
    opens without a connection. Audio is never touched here: downloaded songs
    live in IndexedDB and stream/range requests go straight to the network. */
-const VERSION = 'R11.1-2026-10-03';
+const VERSION = 'R11.2-2026-10-03-HOME-ICON';
 const CACHE = 'mt-shell-' + VERSION;
 const SHELL = ['./', 'index.html', 'remote-audio-map.js', 'literature-catalog.js', 'literature-audio-map.js', 'site.webmanifest',
   'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'favicon.svg', 'assets/limited/taipei-word.png', 'assets/limited/taipei-cn.png'];
