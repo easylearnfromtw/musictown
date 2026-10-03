@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="musicetown-build" content="R11.4 · 2026-10-03 · 44 Themes">
+<meta name="musicetown-build" content="R11.5 · 2026-10-03 · Monthly">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>musicetown · Music for where you are</title>
 <meta name="description" content="以城市、文學與心情策展的音樂。人在當地時，收下只屬於那座城市的限定票根。">
@@ -862,6 +862,46 @@
   }
 }
 
+
+/* Monthly listening report: deliberately distinct from the City / Spot pass */
+@layer components {
+  .monthly-pass { width:min(100%,680px); margin:0 auto; padding:28px 26px 24px; border-radius:30px; color:#1B2230; background:linear-gradient(160deg,#FFFFFF,#F4F7FB); box-shadow:inset 0 0 0 1px rgba(47,54,84,.10),0 18px 50px rgba(41,52,86,.10); overflow:hidden; position:relative; }
+  .monthly-pass::before,.monthly-pass::after { content:""; position:absolute; top:48%; width:34px; height:34px; border-radius:50%; background:var(--porcelain); box-shadow:inset 0 0 0 1px rgba(47,54,84,.08); }
+  .monthly-pass::before { left:-17px; } .monthly-pass::after { right:-17px; }
+  .monthly-pass__head { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-bottom:14px; border-bottom:1px solid rgba(47,54,84,.16); }
+  .monthly-pass__head b { font:700 19px/1 var(--display); letter-spacing:.02em; }
+  .monthly-pass__head span { font:700 10px/1 var(--display); letter-spacing:.22em; color:var(--ink-3); }
+  .monthly-pass__hero { display:grid; grid-template-columns:minmax(0,1fr) 120px; gap:18px; align-items:center; padding:28px 0 24px; }
+  .monthly-pass__hero small { display:block; font:700 11px/1 var(--display); letter-spacing:.28em; color:var(--ink-3); }
+  .monthly-pass__hero h2 { margin-top:8px; font:600 clamp(42px,12vw,72px)/.86 var(--display); letter-spacing:-.055em; color:#111722; }
+  .monthly-pass__hero p { margin-top:16px; font:600 13px/1 var(--display); letter-spacing:.22em; color:#69738B; }
+  .monthly-pass__disc { width:120px; aspect-ratio:1; border-radius:50%; display:grid; place-items:center; color:#69738B; background:repeating-radial-gradient(circle,rgba(71,83,106,.08) 0 1px,transparent 1px 5px),linear-gradient(145deg,#FAFCFE,#E4EBF4); box-shadow:inset 0 0 0 1px rgba(47,54,84,.08); }
+  .monthly-pass__disc svg { width:44px; height:44px; }
+  .monthly-pass__rule { border-top:1px solid rgba(47,54,84,.14); }
+  .monthly-pass__stats { display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:4px; }
+  .monthly-pass__stats>div { padding:24px 0 20px; }
+  .monthly-pass__stats>div+div { padding-left:24px; border-left:1px solid rgba(47,54,84,.13); }
+  .monthly-pass__stats small,.monthly-pass__taste>small,.monthly-pass__route small { display:block; font:700 10px/1 var(--display); letter-spacing:.2em; color:var(--ink-3); }
+  .monthly-pass__stats b { display:block; margin-top:9px; font:500 clamp(48px,13vw,72px)/1 var(--latin); }
+  .monthly-pass__stats em { font:500 20px/1 var(--display); color:#69738B; font-style:normal; }
+  .monthly-pass__taste { padding:18px 0; border-top:1px solid rgba(47,54,84,.12); border-bottom:1px solid rgba(47,54,84,.12); }
+  .monthly-pass__taste>div { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .monthly-pass__taste span { padding:8px 12px; border-radius:999px; background:#E9EFF6; font:600 12px/1 var(--serif); color:#42506B; }
+  .monthly-pass__taste span:nth-child(2){background:#F2EDE4}.monthly-pass__taste span:nth-child(3){background:#ECEAF4}.monthly-pass__taste span:nth-child(4){background:#E6EEF1}
+  .monthly-pass__desc { padding:22px 0; font:italic 400 24px/1.45 var(--latin); color:#40506B; }
+  .monthly-pass__route { display:grid; grid-template-columns:1fr 1.2fr; gap:22px; padding:18px 0; border-top:1.5px dashed rgba(47,54,84,.20); }
+  .monthly-pass__route b { display:block; margin-top:7px; font:600 14px/1.3 var(--display); color:#2F3654; }
+  .monthly-pass footer { display:flex; justify-content:space-between; gap:12px; padding-top:14px; border-top:1px solid rgba(47,54,84,.12); font:700 9px/1.3 var(--display); letter-spacing:.14em; color:var(--ink-3); }
+  .monthly-pass footer b { color:#111722; font-size:12px; }
+  .monthly-grid { display:grid; gap:10px; }
+  .monthly-card { width:100%; min-height:76px; padding:14px 15px; display:grid; grid-template-columns:minmax(0,1fr) auto 24px; gap:12px; align-items:center; border-radius:18px; text-align:left; background:linear-gradient(145deg,#FFF,#F2F6FA); box-shadow:var(--shadow-1),inset 0 0 0 1px var(--line); }
+  .monthly-card small { display:block; font:700 10px/1 var(--display); letter-spacing:.14em; color:var(--ink-3); }
+  .monthly-card b { display:block; margin-top:6px; font:500 25px/1 var(--latin); color:var(--ink); }
+  .monthly-card>span:nth-child(2) { font:600 12px/1.4 var(--serif); color:var(--ink-2); text-align:right; }
+  .monthly-card>.i { width:18px; height:18px; color:var(--ink-3); }
+  @media(max-width:430px){.monthly-pass{padding:24px 20px 20px}.monthly-pass__hero{grid-template-columns:minmax(0,1fr) 88px}.monthly-pass__disc{width:88px}.monthly-pass__stats>div+div{padding-left:16px}.monthly-pass__desc{font-size:21px}.monthly-card{grid-template-columns:minmax(0,1fr) 24px}.monthly-card>span:nth-child(2){display:none}}
+}
+
 </style>
 </head>
 <body>
@@ -916,7 +956,7 @@ window.MUSIC_DATA = [{"t":"JAZZ","sub":"偏人聲、夜色、爵士／blues／ac
 /* ==========================================================================
    musicetown R11 · core utilities
    ========================================================================== */
-const MT_BUILD = 'R11.4 · 2026-10-03 · 44 Themes';
+const MT_BUILD = 'R11.5 · 2026-10-03 · Monthly';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 const byId = id => document.getElementById(id);
@@ -1452,6 +1492,114 @@ const Stats = (() => {
     plays: rk => s.recs[rk] || 0,
     get totalPlays() { return Object.values(s.recs).reduce((a, b) => a + b, 0); }
   };
+})();
+
+
+/* ==========================================================================
+   Monthly · local listening ledger and a collectible report issued on the 10th
+   ========================================================================== */
+const MonthlyTracker = (() => {
+  const LEDGER = 'musicetown.monthly.ledger.v1';
+  const ARCHIVE = 'musicetown.monthly.archive.v1';
+  let ledger = store.get(LEDGER, {}) || {};
+  let archive = store.get(ARCHIVE, []) || [];
+  let saveT = 0, lastKey = '', lastCur = 0;
+  const keyOf = d => String(d.getFullYear()) + '-' + pad2(d.getMonth() + 1);
+  const monthLabel = key => { const p = key.split('-'); return p[0] + ' 年 ' + Number(p[1]) + ' 月'; };
+  const save = () => {
+    clearTimeout(saveT);
+    saveT = setTimeout(() => { store.set(LEDGER, ledger); store.set(ARCHIVE, archive); }, 500);
+  };
+  function row(key) {
+    return ledger[key] || (ledger[key] = { seconds: 0, trackSeconds: {}, themeSeconds: {}, artistSeconds: {}, touched: Date.now() });
+  }
+  function add(sec, t) {
+    if (!t || !Number.isFinite(sec) || sec <= 0 || sec > 15) return;
+    const r = row(keyOf(new Date())), k = trackKey(t);
+    r.seconds += sec;
+    r.trackSeconds[k] = (r.trackSeconds[k] || 0) + sec;
+    const th = themeOf(t);
+    if (th) r.themeSeconds[th.t] = (r.themeSeconds[th.t] || 0) + sec;
+    const a = String(t.artist || (t.localPersonal ? '本機音樂' : 'Unknown')).trim();
+    r.artistSeconds[a] = (r.artistSeconds[a] || 0) + sec;
+    r.touched = Date.now();
+    save();
+  }
+  function reset(t = null) { lastKey = t ? trackKey(t) : ''; lastCur = Player?.time?.cur || 0; }
+  bus.on('track', t => reset(t));
+  bus.on('state', () => { lastCur = Player?.time?.cur || 0; });
+  bus.on('time', () => {
+    const t = Player?.current, cur = Player?.time?.cur || 0;
+    if (!t || !Player.playing) { reset(t); return; }
+    const k = trackKey(t);
+    if (k !== lastKey) { lastKey = k; lastCur = cur; return; }
+    const d = cur - lastCur; lastCur = cur;
+    if (d > 0 && d <= 15) add(d, t);
+  });
+  window.addEventListener('pagehide', () => { store.set(LEDGER, ledger); store.set(ARCHIVE, archive); });
+
+  const TASTE = {
+    'TAIPEI DREAM':'雨夜都會','OLD TOKYO':'懷舊都會','FANTASY TAINAN':'老城浪漫','ROUGE TIBET':'高原儀式',
+    'MALDIVES PARADISE':'熱帶慵懶','BUSTLING HONG KONG':'霓虹城市','SEOUL GLOW':'都會流行','MACAU CASINO':'華麗夜色',
+    'JAZZ':'爵士','CROONER':'經典人聲','ROCK':'搖滾','LO-FI':'低傳真','EMO':'情緒搖滾','SPORT':'高能量',
+    'RUNNING':'節奏感','POEM':'詩意民謠','SUN MOON LAKE':'靜謐自然','ALISHAN CHIAYI':'山林晨霧','GIZA ECHOES':'古文明',
+    'YELLOWSTONE WONDER':'原野自然'
+  };
+  function makeSummary(key, { demo = false } = {}) {
+    const src = ledger[key] || {};
+    const sec = demo && !(src.seconds > 0) ? 119520 : Number(src.seconds || 0);
+    const themeSeconds = demo && !Object.keys(src.themeSeconds || {}).length
+      ? { 'TAIPEI DREAM': 30200, 'OLD TOKYO': 25100, 'JAZZ': 22800, 'DREAM OF THE RED CHAMBER': 17000, 'FANTASY TAINAN': 13200 }
+      : (src.themeSeconds || {});
+    const trackSeconds = demo && !Object.keys(src.trackSeconds || {}).length
+      ? Object.fromEntries(Array.from({length: 96}, (_,i) => ['demo-' + i, 60 + i]))
+      : (src.trackSeconds || {});
+    const ranked = Object.entries(themeSeconds).sort((a,b) => b[1] - a[1]).slice(0, 4);
+    const topThemes = ranked.map(([t, seconds]) => {
+      const th = THEME_BY_T.get(t); return { t, seconds, name: th ? themeTitle(th) : t, cn: th?.cn || '', kind: th?.kind || '' };
+    });
+    const tastes = [];
+    for (const x of topThemes) {
+      const th = THEME_BY_T.get(x.t);
+      const w = TASTE[x.t] || (th?.kind === 'literature' ? '文學敘事' : th?.kind === 'city' ? '城市旅行' : th?.cn || '探索');
+      if (w && !tastes.includes(w)) tastes.push(w);
+    }
+    if (tastes.length < 3 && ranked.some(([t]) => THEME_BY_T.get(t)?.kind === 'literature')) tastes.push('文學敘事');
+    if (tastes.length < 3) tastes.push('夜間聆聽');
+    while (tastes.length < 3) tastes.push(['細膩','懷舊','流動'][tastes.length % 3]);
+    const first = topThemes[0]?.name || 'musicetown';
+    const second = topThemes[1]?.name;
+    const desc = sec < 60
+      ? '這個月還沒有累積足夠的聆聽資料。'
+      : '這個月你在' + first + (second ? '與' + second : '') + '之間停留得最久，整體偏向' + tastes.slice(0,3).join('、') + '。';
+    const p = key.split('-');
+    return {
+      id: 'monthly-' + key, month: key, monthLabel: monthLabel(key),
+      issueDate: p[0] + '.' + p[1] + '.10',
+      seconds: sec, hours: Math.round(sec / 360) / 10,
+      tracks: Object.values(trackSeconds).filter(v => v >= 10).length,
+      topThemes, tastes: tastes.slice(0,4), desc,
+      code: 'MTW-' + p[0] + p[1] + '-010'
+    };
+  }
+  function previousKey(d = new Date()) { return keyOf(new Date(d.getFullYear(), d.getMonth() - 1, 1)); }
+  function issueDue(now = new Date()) {
+    if (now.getDate() < 10) return null;
+    const key = previousKey(now);
+    const found = archive.find(x => x.month === key); if (found) return null;
+    const s = makeSummary(key);
+    if (s.seconds < 60) return null;
+    archive = [s, ...archive].slice(0, 36);
+    store.set(ARCHIVE, archive); bus.emit('monthly', s);
+    return s;
+  }
+  const all = () => archive.slice().sort((a,b) => b.month.localeCompare(a.month));
+  const get = id => archive.find(x => x.id === id || x.month === id) || null;
+  const preview = () => {
+    const d = new Date(), key = keyOf(new Date(d.getFullYear(), d.getMonth() - 1, 1));
+    return get(key) || makeSummary(key, { demo: true });
+  };
+  return { issueDue, all, get, preview, makeSummary };
 })();
 
 /* ---------- ticket wallet ---------- */
@@ -3892,7 +4040,7 @@ Router.register('cities', (el) => {
     bindSlugClicks(byId('passgrid')); bindSlugClicks(byId('cityHere'));
     byId('spots').addEventListener('click', e => { const b = e.target.closest('[data-lm]'); if (!b) return; const lm = LANDMARKS.find(x => x.id === b.dataset.lm); const id = `spot-${lm.id}`; if (Wallet.has(id)) Pass.openTicket(Wallet.all().find(x => x.id === id)); else Pass.explainSpot(lm); });
     byId('spotCheck').onclick = () => Pass.checkInSpot();
-    el._draw = draw; bus.on('geo', () => el._draw()); bus.on('wallet', () => el._draw());
+    el._draw = draw; bus.on('geo', () => el._draw()); bus.on('wallet', () => el._draw()); bus.on('monthly', () => el._draw());
   }
   el._draw();
 });
@@ -3985,6 +4133,10 @@ Router.register('library', (el) => {
         <label class="btn btn--block btn--quiet mt-16" id="libImport">${icon('folder')}加入這台裝置上的音樂<input type="file" accept="audio/*,.mp3,.m4a,.wav,.flac,.aac,.ogg,.opus" multiple hidden id="libFile"></label>
       </section>
       <section class="sec">
+        <div class="sec__head"><h2 class="sec__title">每月聆聽月報<small>每月 10 日生成上個月的聆聽票卡</small></h2></div>
+        <div id="monthlyReports"></div>
+      </section>
+      <section class="sec">
         <div class="sec__head"><h2 class="sec__title">票夾<small>城市與地標的限定票根</small></h2></div>
         <div id="libWallet"></div>
       </section>
@@ -4040,8 +4192,13 @@ Router.register('library', (el) => {
       const ps = byId('libPass'); if (ps) ps.onclick = () => Share.libraryPass(act);
       const mo = byId('libMore'); if (mo) mo.onclick = () => libraryMenu(act);
       const co = byId('libClearOff'); if (co) co.onclick = async () => { if (confirm('移除這台裝置上所有下載的歌？')) { await Offline.clear(); toast('已移除全部下載'); } };
-      drawWallet();
+      drawMonthly(); drawWallet();
     };
+    const drawMonthly = () => {
+      const list = MonthlyTracker.all();
+      byId('monthlyReports').innerHTML = list.length ? '<div class="monthly-grid">' + list.map(MonthlyPass.card).join('') + '</div>' : '<div class="empty"><b>還沒有月報</b><p>musicetown 會從現在開始在這台裝置累積實際聆聽時間，每月 10 日產生上個月的月報。</p></div>';
+    };
+    byId('monthlyReports').addEventListener('click', e => { const b=e.target.closest('[data-monthly]'); if(b) MonthlyPass.open(MonthlyTracker.get(b.dataset.monthly)); });
     const drawWallet = () => {
       const list = Wallet.all();
       byId('libWallet').innerHTML = list.length ? `<div class="wallet">${list.map(walletCardHTML).join('')}</div>` : `<div class="empty"><b>還沒有票根</b><p>人在城市裡，打開那座城市就能領取 City Pass；到了地標，也能用定位打卡收下景點票根。</p><button class="btn btn--small" type="button" data-to-cities>看所有城市</button></div>`;
@@ -4827,6 +4984,68 @@ const Pass = (() => {
   return { stateFor, openCity, openTicket, checkInSpot, explainSpot, issueCity, mapsUrl, autoHiddenSpot };
 })();
 
+
+/* ==========================================================================
+   MonthlyPass · a different collectible surface from City / Spot tickets
+   ========================================================================== */
+const MonthlyPass = (() => {
+  const html = s => '<article class="monthly-pass" aria-label="' + esc(s.monthLabel) + ' 聆聽月報">' +
+    '<header class="monthly-pass__head"><b>MUSICTOWN.</b><span>CITY SOUND ARCHIVE</span></header>' +
+    '<div class="monthly-pass__hero"><div><small>MONTHLY</small><h2>LISTENING<br>REPORT</h2><p>' + esc(s.issueDate) + '</p></div><i class="monthly-pass__disc">' + globeMark() + '</i></div>' +
+    '<div class="monthly-pass__rule"></div>' +
+    '<div class="monthly-pass__stats"><div><small>TOTAL LISTENING</small><b>' + s.hours.toFixed(1) + '<em> hrs</em></b></div><div><small>TRACKS PLAYED</small><b>' + s.tracks + '</b></div></div>' +
+    '<div class="monthly-pass__taste"><small>TASTE FINGERPRINT</small><div>' + s.tastes.map(x => '<span>' + esc(x) + '</span>').join('') + '</div></div>' +
+    '<p class="monthly-pass__desc">' + esc(s.desc) + '</p>' +
+    '<div class="monthly-pass__route"><span><small>MONTH</small><b>' + esc(s.monthLabel) + '</b></span><span><small>COLLECTIBLE CODE</small><b>' + esc(s.code) + '</b></span></div>' +
+    '<footer><span>ISSUED EVERY MONTH ON THE 10TH</span><b>MUSICTOWN.</b></footer></article>';
+
+  async function png(s) {
+    await Artwork.fonts();
+    const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const x = c.getContext('2d'), ARC = 'Archivo, Arial, sans-serif', GAR = '"EB Garamond", Georgia, serif', CJK = '"Noto Serif TC", serif';
+    x.fillStyle = '#EEF2F8'; x.fillRect(0,0,W,H);
+    const rr=(X,Y,w,h,r)=>{x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath();};
+    x.save(); x.shadowColor='rgba(41,70,93,.14)'; x.shadowBlur=44; x.shadowOffsetY=18; rr(70,60,940,1230,44); x.fillStyle='#FBFCFE'; x.fill(); x.restore();
+    x.strokeStyle='rgba(47,54,84,.12)'; x.lineWidth=2; rr(70,60,940,1230,44); x.stroke();
+    x.fillStyle='#111722'; x.font='700 31px '+ARC; x.fillText('MUSICTOWN.',110,125);
+    x.fillStyle='#8E93AA'; x.font='700 15px '+ARC; x.textAlign='right'; x.fillText('CITY SOUND ARCHIVE',970,123); x.textAlign='left';
+    x.strokeStyle='rgba(47,54,84,.20)'; x.beginPath(); x.moveTo(110,158); x.lineTo(970,158); x.stroke();
+    x.fillStyle='#111722'; x.font='700 104px '+ARC; x.fillText('MONTHLY',110,310);
+    x.fillStyle='#40506B'; x.font='400 82px '+ARC; x.fillText('LISTENING',110,400); x.fillText('REPORT',110,480);
+    x.fillStyle='#6F7890'; x.font='700 28px '+ARC; x.fillText(s.issueDate,112,535);
+    x.strokeStyle='rgba(47,54,84,.13)'; x.beginPath(); x.moveTo(110,575); x.lineTo(970,575); x.stroke();
+    x.fillStyle='#8E93AA'; x.font='700 17px '+ARC; x.fillText('TOTAL LISTENING',110,625); x.fillText('TRACKS PLAYED',650,625);
+    x.fillStyle='#111722'; x.font='700 94px '+ARC; x.fillText(s.hours.toFixed(1),110,730);
+    x.fillStyle='#6F7890'; x.font='500 34px '+ARC; x.fillText('hrs',365,730);
+    x.fillStyle='#111722'; x.font='500 94px '+GAR; x.fillText(String(s.tracks),650,730);
+    x.strokeStyle='rgba(47,54,84,.13)'; x.beginPath(); x.moveTo(110,780); x.lineTo(970,780); x.stroke();
+    x.fillStyle='#8E93AA'; x.font='700 16px '+ARC; x.fillText('TASTE FINGERPRINT',110,830);
+    let px=110; s.tastes.slice(0,4).forEach((v,i)=>{ const w=Math.min(205, Math.max(130, x.measureText(v).width+54)); rr(px,855,w,56,28); x.fillStyle=['#E8EFF7','#F1EBDD','#ECE9F4','#E5EDF2'][i%4];x.fill();x.fillStyle='#40506B';x.font='500 23px '+CJK;x.textAlign='center';x.fillText(v,px+w/2,891);px+=w+12;}); x.textAlign='left';
+    x.fillStyle='#40506B'; x.font='italic 400 34px '+GAR;
+    const wrap=(txt,max)=>{const a=[];let cur='';for(const ch of txt){if(x.measureText(cur+ch).width>max){a.push(cur);cur=ch}else cur+=ch}if(cur)a.push(cur);return a;};
+    wrap(s.desc,820).slice(0,3).forEach((l,i)=>x.fillText(l,110,985+i*48));
+    x.setLineDash([10,10]);x.strokeStyle='rgba(47,54,84,.20)';x.beginPath();x.moveTo(110,1145);x.lineTo(970,1145);x.stroke();x.setLineDash([]);
+    x.fillStyle='#8E93AA';x.font='700 14px '+ARC;x.fillText('MONTH',110,1190);x.fillText('COLLECTIBLE CODE',530,1190);
+    x.fillStyle='#111722';x.font='600 26px '+CJK;x.fillText(s.monthLabel,110,1230);x.font='700 23px '+ARC;x.fillText(s.code,530,1230);
+    x.fillStyle='#111722';x.font='700 25px '+ARC;x.fillText('MUSICTOWN.',110,1270);
+    return await new Promise(r=>c.toBlob(r,'image/png'));
+  }
+  function open(s) {
+    if (!s) return;
+    PassSheet.open({
+      label: s.monthLabel + ' 聆聽月報',
+      html: html(s),
+      actions: '<button class="pbtn pbtn--primary" type="button" data-month-save aria-label="存成圖片">' + icon('image') + '<span>儲存</span></button><button class="pbtn" type="button" data-month-share aria-label="分享">' + icon('share') + '</button>',
+      mount(sheet) {
+        $('[data-month-save]',sheet).onclick = async e => { const b=e.currentTarget;b.disabled=true;const blob=await png(s);b.disabled=false;await shareFiles({blob,name:'musicetown-monthly-'+s.month+'.png',title:'musicetown monthly report',save:true}); };
+        $('[data-month-share]',sheet).onclick = async e => { const b=e.currentTarget;b.disabled=true;const blob=await png(s);b.disabled=false;await shareFiles({blob,name:'musicetown-monthly-'+s.month+'.png',title:'musicetown · '+s.monthLabel,text:s.desc}); };
+      }
+    });
+  }
+  const card = s => '<button class="monthly-card" type="button" data-monthly="' + esc(s.id) + '"><span><small>' + esc(s.month) + '</small><b>' + s.hours.toFixed(1) + ' hrs</b></span><span>' + esc(s.tastes.slice(0,2).join(' · ')) + '</span>' + icon('chevron') + '</button>';
+  return { open, png, card };
+})();
+
 /* share a file through the iOS share sheet (Save Image, AirDrop, Messages…) */
 async function shareFiles({ blob, name, title = 'musicetown', text = '', url = '', save = false }) {
   if (blob) {
@@ -5062,13 +5281,19 @@ const Ritual = (() => {
    ========================================================================== */
 (function boot() {
   const q = new URLSearchParams(location.search);
-  const deep = q.has('theme') || location.hash.length > 1 || q.has('previewCityPass') || q.has('previewLibraryPass') || q.has('previewAudioLink') || q.has('limited');
+  const deep = q.has('theme') || location.hash.length > 1 || q.has('previewCityPass') || q.has('previewLibraryPass') || q.has('previewAudioLink') || q.has('previewMonthly') || q.has('limited');
   Router.start();
   Player.restore();
   Mini.render();
   if (!Settings.get('onboarded') && !deep) Welcome.open(); else Geo.ensure();
   Share.readHash();
   setTimeout(() => Pass.autoHiddenSpot?.(), 1800);
+  const monthlyDue = MonthlyTracker.issueDue();
+  if (q.get('previewMonthly') === '1') setTimeout(() => MonthlyPass.open(MonthlyTracker.preview()), 650);
+  else if (monthlyDue) setTimeout(() => {
+    if (!Welcome.isOpen && !Sheet.isOpen && !PassSheet.isOpen) MonthlyPass.open(monthlyDue);
+    else toast(monthlyDue.monthLabel + '聆聽月報已生成', { action: '查看', ms: 6500, onAction: () => MonthlyPass.open(monthlyDue) });
+  }, 2600);
 
   // design previews (kept from R8.x)
   const pv = q.get('previewCityPass');
@@ -5096,7 +5321,7 @@ const Ritual = (() => {
 })();
 
 /* small public handle for debugging and the native shell */
-window.musicetown = Object.freeze({ version: MT_BUILD, Player, Reco, Settings, FX, Geo, Pass, Router, Drawer, Offline, Artwork, Limited, Share });
+window.musicetown = Object.freeze({ version: MT_BUILD, Player, Reco, Settings, FX, Geo, Pass, MonthlyTracker, MonthlyPass, Router, Drawer, Offline, Artwork, Limited, Share });
 
 })();
 </script>

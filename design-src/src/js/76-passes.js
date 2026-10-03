@@ -296,6 +296,68 @@ const Pass = (() => {
   return { stateFor, openCity, openTicket, checkInSpot, explainSpot, issueCity, mapsUrl, autoHiddenSpot };
 })();
 
+
+/* ==========================================================================
+   MonthlyPass · a different collectible surface from City / Spot tickets
+   ========================================================================== */
+const MonthlyPass = (() => {
+  const html = s => '<article class="monthly-pass" aria-label="' + esc(s.monthLabel) + ' 聆聽月報">' +
+    '<header class="monthly-pass__head"><b>MUSICTOWN.</b><span>CITY SOUND ARCHIVE</span></header>' +
+    '<div class="monthly-pass__hero"><div><small>MONTHLY</small><h2>LISTENING<br>REPORT</h2><p>' + esc(s.issueDate) + '</p></div><i class="monthly-pass__disc">' + globeMark() + '</i></div>' +
+    '<div class="monthly-pass__rule"></div>' +
+    '<div class="monthly-pass__stats"><div><small>TOTAL LISTENING</small><b>' + s.hours.toFixed(1) + '<em> hrs</em></b></div><div><small>TRACKS PLAYED</small><b>' + s.tracks + '</b></div></div>' +
+    '<div class="monthly-pass__taste"><small>TASTE FINGERPRINT</small><div>' + s.tastes.map(x => '<span>' + esc(x) + '</span>').join('') + '</div></div>' +
+    '<p class="monthly-pass__desc">' + esc(s.desc) + '</p>' +
+    '<div class="monthly-pass__route"><span><small>MONTH</small><b>' + esc(s.monthLabel) + '</b></span><span><small>COLLECTIBLE CODE</small><b>' + esc(s.code) + '</b></span></div>' +
+    '<footer><span>ISSUED EVERY MONTH ON THE 10TH</span><b>MUSICTOWN.</b></footer></article>';
+
+  async function png(s) {
+    await Artwork.fonts();
+    const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const x = c.getContext('2d'), ARC = 'Archivo, Arial, sans-serif', GAR = '"EB Garamond", Georgia, serif', CJK = '"Noto Serif TC", serif';
+    x.fillStyle = '#EEF2F8'; x.fillRect(0,0,W,H);
+    const rr=(X,Y,w,h,r)=>{x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath();};
+    x.save(); x.shadowColor='rgba(41,70,93,.14)'; x.shadowBlur=44; x.shadowOffsetY=18; rr(70,60,940,1230,44); x.fillStyle='#FBFCFE'; x.fill(); x.restore();
+    x.strokeStyle='rgba(47,54,84,.12)'; x.lineWidth=2; rr(70,60,940,1230,44); x.stroke();
+    x.fillStyle='#111722'; x.font='700 31px '+ARC; x.fillText('MUSICTOWN.',110,125);
+    x.fillStyle='#8E93AA'; x.font='700 15px '+ARC; x.textAlign='right'; x.fillText('CITY SOUND ARCHIVE',970,123); x.textAlign='left';
+    x.strokeStyle='rgba(47,54,84,.20)'; x.beginPath(); x.moveTo(110,158); x.lineTo(970,158); x.stroke();
+    x.fillStyle='#111722'; x.font='700 104px '+ARC; x.fillText('MONTHLY',110,310);
+    x.fillStyle='#40506B'; x.font='400 82px '+ARC; x.fillText('LISTENING',110,400); x.fillText('REPORT',110,480);
+    x.fillStyle='#6F7890'; x.font='700 28px '+ARC; x.fillText(s.issueDate,112,535);
+    x.strokeStyle='rgba(47,54,84,.13)'; x.beginPath(); x.moveTo(110,575); x.lineTo(970,575); x.stroke();
+    x.fillStyle='#8E93AA'; x.font='700 17px '+ARC; x.fillText('TOTAL LISTENING',110,625); x.fillText('TRACKS PLAYED',650,625);
+    x.fillStyle='#111722'; x.font='700 94px '+ARC; x.fillText(s.hours.toFixed(1),110,730);
+    x.fillStyle='#6F7890'; x.font='500 34px '+ARC; x.fillText('hrs',365,730);
+    x.fillStyle='#111722'; x.font='500 94px '+GAR; x.fillText(String(s.tracks),650,730);
+    x.strokeStyle='rgba(47,54,84,.13)'; x.beginPath(); x.moveTo(110,780); x.lineTo(970,780); x.stroke();
+    x.fillStyle='#8E93AA'; x.font='700 16px '+ARC; x.fillText('TASTE FINGERPRINT',110,830);
+    let px=110; s.tastes.slice(0,4).forEach((v,i)=>{ const w=Math.min(205, Math.max(130, x.measureText(v).width+54)); rr(px,855,w,56,28); x.fillStyle=['#E8EFF7','#F1EBDD','#ECE9F4','#E5EDF2'][i%4];x.fill();x.fillStyle='#40506B';x.font='500 23px '+CJK;x.textAlign='center';x.fillText(v,px+w/2,891);px+=w+12;}); x.textAlign='left';
+    x.fillStyle='#40506B'; x.font='italic 400 34px '+GAR;
+    const wrap=(txt,max)=>{const a=[];let cur='';for(const ch of txt){if(x.measureText(cur+ch).width>max){a.push(cur);cur=ch}else cur+=ch}if(cur)a.push(cur);return a;};
+    wrap(s.desc,820).slice(0,3).forEach((l,i)=>x.fillText(l,110,985+i*48));
+    x.setLineDash([10,10]);x.strokeStyle='rgba(47,54,84,.20)';x.beginPath();x.moveTo(110,1145);x.lineTo(970,1145);x.stroke();x.setLineDash([]);
+    x.fillStyle='#8E93AA';x.font='700 14px '+ARC;x.fillText('MONTH',110,1190);x.fillText('COLLECTIBLE CODE',530,1190);
+    x.fillStyle='#111722';x.font='600 26px '+CJK;x.fillText(s.monthLabel,110,1230);x.font='700 23px '+ARC;x.fillText(s.code,530,1230);
+    x.fillStyle='#111722';x.font='700 25px '+ARC;x.fillText('MUSICTOWN.',110,1270);
+    return await new Promise(r=>c.toBlob(r,'image/png'));
+  }
+  function open(s) {
+    if (!s) return;
+    PassSheet.open({
+      label: s.monthLabel + ' 聆聽月報',
+      html: html(s),
+      actions: '<button class="pbtn pbtn--primary" type="button" data-month-save aria-label="存成圖片">' + icon('image') + '<span>儲存</span></button><button class="pbtn" type="button" data-month-share aria-label="分享">' + icon('share') + '</button>',
+      mount(sheet) {
+        $('[data-month-save]',sheet).onclick = async e => { const b=e.currentTarget;b.disabled=true;const blob=await png(s);b.disabled=false;await shareFiles({blob,name:'musicetown-monthly-'+s.month+'.png',title:'musicetown monthly report',save:true}); };
+        $('[data-month-share]',sheet).onclick = async e => { const b=e.currentTarget;b.disabled=true;const blob=await png(s);b.disabled=false;await shareFiles({blob,name:'musicetown-monthly-'+s.month+'.png',title:'musicetown · '+s.monthLabel,text:s.desc}); };
+      }
+    });
+  }
+  const card = s => '<button class="monthly-card" type="button" data-monthly="' + esc(s.id) + '"><span><small>' + esc(s.month) + '</small><b>' + s.hours.toFixed(1) + ' hrs</b></span><span>' + esc(s.tastes.slice(0,2).join(' · ')) + '</span>' + icon('chevron') + '</button>';
+  return { open, png, card };
+})();
+
 /* share a file through the iOS share sheet (Save Image, AirDrop, Messages…) */
 async function shareFiles({ blob, name, title = 'musicetown', text = '', url = '', save = false }) {
   if (blob) {

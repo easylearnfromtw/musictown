@@ -3,13 +3,19 @@
    ========================================================================== */
 (function boot() {
   const q = new URLSearchParams(location.search);
-  const deep = q.has('theme') || location.hash.length > 1 || q.has('previewCityPass') || q.has('previewLibraryPass') || q.has('previewAudioLink') || q.has('limited');
+  const deep = q.has('theme') || location.hash.length > 1 || q.has('previewCityPass') || q.has('previewLibraryPass') || q.has('previewAudioLink') || q.has('previewMonthly') || q.has('limited');
   Router.start();
   Player.restore();
   Mini.render();
   if (!Settings.get('onboarded') && !deep) Welcome.open(); else Geo.ensure();
   Share.readHash();
   setTimeout(() => Pass.autoHiddenSpot?.(), 1800);
+  const monthlyDue = MonthlyTracker.issueDue();
+  if (q.get('previewMonthly') === '1') setTimeout(() => MonthlyPass.open(MonthlyTracker.preview()), 650);
+  else if (monthlyDue) setTimeout(() => {
+    if (!Welcome.isOpen && !Sheet.isOpen && !PassSheet.isOpen) MonthlyPass.open(monthlyDue);
+    else toast(monthlyDue.monthLabel + '聆聽月報已生成', { action: '查看', ms: 6500, onAction: () => MonthlyPass.open(monthlyDue) });
+  }, 2600);
 
   // design previews (kept from R8.x)
   const pv = q.get('previewCityPass');

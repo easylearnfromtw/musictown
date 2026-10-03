@@ -139,6 +139,114 @@ const Stats = (() => {
   };
 })();
 
+
+/* ==========================================================================
+   Monthly · local listening ledger and a collectible report issued on the 10th
+   ========================================================================== */
+const MonthlyTracker = (() => {
+  const LEDGER = 'musicetown.monthly.ledger.v1';
+  const ARCHIVE = 'musicetown.monthly.archive.v1';
+  let ledger = store.get(LEDGER, {}) || {};
+  let archive = store.get(ARCHIVE, []) || [];
+  let saveT = 0, lastKey = '', lastCur = 0;
+  const keyOf = d => String(d.getFullYear()) + '-' + pad2(d.getMonth() + 1);
+  const monthLabel = key => { const p = key.split('-'); return p[0] + ' 年 ' + Number(p[1]) + ' 月'; };
+  const save = () => {
+    clearTimeout(saveT);
+    saveT = setTimeout(() => { store.set(LEDGER, ledger); store.set(ARCHIVE, archive); }, 500);
+  };
+  function row(key) {
+    return ledger[key] || (ledger[key] = { seconds: 0, trackSeconds: {}, themeSeconds: {}, artistSeconds: {}, touched: Date.now() });
+  }
+  function add(sec, t) {
+    if (!t || !Number.isFinite(sec) || sec <= 0 || sec > 15) return;
+    const r = row(keyOf(new Date())), k = trackKey(t);
+    r.seconds += sec;
+    r.trackSeconds[k] = (r.trackSeconds[k] || 0) + sec;
+    const th = themeOf(t);
+    if (th) r.themeSeconds[th.t] = (r.themeSeconds[th.t] || 0) + sec;
+    const a = String(t.artist || (t.localPersonal ? '本機音樂' : 'Unknown')).trim();
+    r.artistSeconds[a] = (r.artistSeconds[a] || 0) + sec;
+    r.touched = Date.now();
+    save();
+  }
+  function reset(t = null) { lastKey = t ? trackKey(t) : ''; lastCur = Player?.time?.cur || 0; }
+  bus.on('track', t => reset(t));
+  bus.on('state', () => { lastCur = Player?.time?.cur || 0; });
+  bus.on('time', () => {
+    const t = Player?.current, cur = Player?.time?.cur || 0;
+    if (!t || !Player.playing) { reset(t); return; }
+    const k = trackKey(t);
+    if (k !== lastKey) { lastKey = k; lastCur = cur; return; }
+    const d = cur - lastCur; lastCur = cur;
+    if (d > 0 && d <= 15) add(d, t);
+  });
+  window.addEventListener('pagehide', () => { store.set(LEDGER, ledger); store.set(ARCHIVE, archive); });
+
+  const TASTE = {
+    'TAIPEI DREAM':'雨夜都會','OLD TOKYO':'懷舊都會','FANTASY TAINAN':'老城浪漫','ROUGE TIBET':'高原儀式',
+    'MALDIVES PARADISE':'熱帶慵懶','BUSTLING HONG KONG':'霓虹城市','SEOUL GLOW':'都會流行','MACAU CASINO':'華麗夜色',
+    'JAZZ':'爵士','CROONER':'經典人聲','ROCK':'搖滾','LO-FI':'低傳真','EMO':'情緒搖滾','SPORT':'高能量',
+    'RUNNING':'節奏感','POEM':'詩意民謠','SUN MOON LAKE':'靜謐自然','ALISHAN CHIAYI':'山林晨霧','GIZA ECHOES':'古文明',
+    'YELLOWSTONE WONDER':'原野自然'
+  };
+  function makeSummary(key, { demo = false } = {}) {
+    const src = ledger[key] || {};
+    const sec = demo && !(src.seconds > 0) ? 119520 : Number(src.seconds || 0);
+    const themeSeconds = demo && !Object.keys(src.themeSeconds || {}).length
+      ? { 'TAIPEI DREAM': 30200, 'OLD TOKYO': 25100, 'JAZZ': 22800, 'DREAM OF THE RED CHAMBER': 17000, 'FANTASY TAINAN': 13200 }
+      : (src.themeSeconds || {});
+    const trackSeconds = demo && !Object.keys(src.trackSeconds || {}).length
+      ? Object.fromEntries(Array.from({length: 96}, (_,i) => ['demo-' + i, 60 + i]))
+      : (src.trackSeconds || {});
+    const ranked = Object.entries(themeSeconds).sort((a,b) => b[1] - a[1]).slice(0, 4);
+    const topThemes = ranked.map(([t, seconds]) => {
+      const th = THEME_BY_T.get(t); return { t, seconds, name: th ? themeTitle(th) : t, cn: th?.cn || '', kind: th?.kind || '' };
+    });
+    const tastes = [];
+    for (const x of topThemes) {
+      const th = THEME_BY_T.get(x.t);
+      const w = TASTE[x.t] || (th?.kind === 'literature' ? '文學敘事' : th?.kind === 'city' ? '城市旅行' : th?.cn || '探索');
+      if (w && !tastes.includes(w)) tastes.push(w);
+    }
+    if (tastes.length < 3 && ranked.some(([t]) => THEME_BY_T.get(t)?.kind === 'literature')) tastes.push('文學敘事');
+    if (tastes.length < 3) tastes.push('夜間聆聽');
+    while (tastes.length < 3) tastes.push(['細膩','懷舊','流動'][tastes.length % 3]);
+    const first = topThemes[0]?.name || 'musicetown';
+    const second = topThemes[1]?.name;
+    const desc = sec < 60
+      ? '這個月還沒有累積足夠的聆聽資料。'
+      : '這個月你在' + first + (second ? '與' + second : '') + '之間停留得最久，整體偏向' + tastes.slice(0,3).join('、') + '。';
+    const p = key.split('-');
+    return {
+      id: 'monthly-' + key, month: key, monthLabel: monthLabel(key),
+      issueDate: p[0] + '.' + p[1] + '.10',
+      seconds: sec, hours: Math.round(sec / 360) / 10,
+      tracks: Object.values(trackSeconds).filter(v => v >= 10).length,
+      topThemes, tastes: tastes.slice(0,4), desc,
+      code: 'MTW-' + p[0] + p[1] + '-010'
+    };
+  }
+  function previousKey(d = new Date()) { return keyOf(new Date(d.getFullYear(), d.getMonth() - 1, 1)); }
+  function issueDue(now = new Date()) {
+    if (now.getDate() < 10) return null;
+    const key = previousKey(now);
+    const found = archive.find(x => x.month === key); if (found) return null;
+    const s = makeSummary(key);
+    if (s.seconds < 60) return null;
+    archive = [s, ...archive].slice(0, 36);
+    store.set(ARCHIVE, archive); bus.emit('monthly', s);
+    return s;
+  }
+  const all = () => archive.slice().sort((a,b) => b.month.localeCompare(a.month));
+  const get = id => archive.find(x => x.id === id || x.month === id) || null;
+  const preview = () => {
+    const d = new Date(), key = keyOf(new Date(d.getFullYear(), d.getMonth() - 1, 1));
+    return get(key) || makeSummary(key, { demo: true });
+  };
+  return { issueDue, all, get, preview, makeSummary };
+})();
+
 /* ---------- ticket wallet ---------- */
 const Wallet = (() => {
   let list = store.get(K.tickets, []);

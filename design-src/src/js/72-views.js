@@ -242,7 +242,7 @@ Router.register('cities', (el) => {
     bindSlugClicks(byId('passgrid')); bindSlugClicks(byId('cityHere'));
     byId('spots').addEventListener('click', e => { const b = e.target.closest('[data-lm]'); if (!b) return; const lm = LANDMARKS.find(x => x.id === b.dataset.lm); const id = `spot-${lm.id}`; if (Wallet.has(id)) Pass.openTicket(Wallet.all().find(x => x.id === id)); else Pass.explainSpot(lm); });
     byId('spotCheck').onclick = () => Pass.checkInSpot();
-    el._draw = draw; bus.on('geo', () => el._draw()); bus.on('wallet', () => el._draw());
+    el._draw = draw; bus.on('geo', () => el._draw()); bus.on('wallet', () => el._draw()); bus.on('monthly', () => el._draw());
   }
   el._draw();
 });
@@ -335,6 +335,10 @@ Router.register('library', (el) => {
         <label class="btn btn--block btn--quiet mt-16" id="libImport">${icon('folder')}加入這台裝置上的音樂<input type="file" accept="audio/*,.mp3,.m4a,.wav,.flac,.aac,.ogg,.opus" multiple hidden id="libFile"></label>
       </section>
       <section class="sec">
+        <div class="sec__head"><h2 class="sec__title">每月聆聽月報<small>每月 10 日生成上個月的聆聽票卡</small></h2></div>
+        <div id="monthlyReports"></div>
+      </section>
+      <section class="sec">
         <div class="sec__head"><h2 class="sec__title">票夾<small>城市與地標的限定票根</small></h2></div>
         <div id="libWallet"></div>
       </section>
@@ -390,8 +394,13 @@ Router.register('library', (el) => {
       const ps = byId('libPass'); if (ps) ps.onclick = () => Share.libraryPass(act);
       const mo = byId('libMore'); if (mo) mo.onclick = () => libraryMenu(act);
       const co = byId('libClearOff'); if (co) co.onclick = async () => { if (confirm('移除這台裝置上所有下載的歌？')) { await Offline.clear(); toast('已移除全部下載'); } };
-      drawWallet();
+      drawMonthly(); drawWallet();
     };
+    const drawMonthly = () => {
+      const list = MonthlyTracker.all();
+      byId('monthlyReports').innerHTML = list.length ? '<div class="monthly-grid">' + list.map(MonthlyPass.card).join('') + '</div>' : '<div class="empty"><b>還沒有月報</b><p>musicetown 會從現在開始在這台裝置累積實際聆聽時間，每月 10 日產生上個月的月報。</p></div>';
+    };
+    byId('monthlyReports').addEventListener('click', e => { const b=e.target.closest('[data-monthly]'); if(b) MonthlyPass.open(MonthlyTracker.get(b.dataset.monthly)); });
     const drawWallet = () => {
       const list = Wallet.all();
       byId('libWallet').innerHTML = list.length ? `<div class="wallet">${list.map(walletCardHTML).join('')}</div>` : `<div class="empty"><b>還沒有票根</b><p>人在城市裡，打開那座城市就能領取 City Pass；到了地標，也能用定位打卡收下景點票根。</p><button class="btn btn--small" type="button" data-to-cities>看所有城市</button></div>`;
