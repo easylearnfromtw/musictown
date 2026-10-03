@@ -128,6 +128,32 @@ const Artwork = (() => {
     return p;
   }
 
+  const urlCache = new Map();
+  async function coverURL(t, S = 1024) {
+    if (!t) return null;
+    const key = `${trackKey(t)}|${S}|${Limited.active(themeOf(t)?.t) ? 'L' : ''}`;
+    if (urlCache.has(key)) return urlCache.get(key);
+    const safe = String(t.shareId || hash32(key)).replace(/[^a-z0-9_-]+/gi, '-').slice(0, 96) || String(hash32(key));
+    const url = new URL(`__citymus_art/${safe}-${S}.jpg`, document.baseURI).href;
+    const p = (async () => {
+      try {
+        const c = await paint(t, S);
+        const blob = await new Promise(resolve => c.toBlob(resolve, 'image/jpeg', .92));
+        if (!blob) throw new Error('artwork blob failed');
+        const artCache = await caches.open('mt-artwork-v1');
+        await artCache.put(url, new Response(blob, {
+          headers: { 'Content-Type': 'image/jpeg', 'Cache-Control': 'public, max-age=31536000, immutable' }
+        }));
+        return url;
+      } catch (_) {
+        return cover(t, S);
+      }
+    })();
+    urlCache.set(key, p);
+    if (urlCache.size > 80) urlCache.delete(urlCache.keys().next().value);
+    return p;
+  }
+
   /* 1080×1350 share card for one song (the Taipei edition follows the attached design) */
   async function card(t) {
     await fonts();
@@ -235,5 +261,5 @@ const Artwork = (() => {
     return c;
   }
 
-  return { cover, card, themeCard, ground, record, fonts };
+  return { cover, coverURL, card, themeCard, ground, record, fonts };
 })();
