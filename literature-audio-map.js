@@ -1,2 +1,2 @@
-/* filled by .github/workflows/bake-literature-audio.yml when a source moves */
+/* written by .github/scripts/bake_literature_audio.py — shareId → repaired stream */
 window.MUSICETOWN_LITERATURE_MAP = {};
