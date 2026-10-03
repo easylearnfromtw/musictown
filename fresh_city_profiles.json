@@ -754,5 +754,53 @@
     ],
     "vocal_mode": "preferred",
     "allow_instrumental": true
+  },
+  "MALDIVES PARADISE": {
+    "slug": "maldives-paradise",
+    "label": "Maldives Paradise · Ocean / Tropical / Island / Sunset",
+    "queries": [
+      "tropical chill",
+      "island acoustic",
+      "ocean ambient",
+      "summer chill",
+      "tropical folk",
+      "sunset acoustic",
+      "beach chill",
+      "island reggae"
+    ],
+    "genres": [
+      "Chill-out",
+      "Folk",
+      "Ambient",
+      "Reggae",
+      "Pop"
+    ],
+    "keywords": [
+      "tropical",
+      "island",
+      "ocean",
+      "sea",
+      "beach",
+      "summer",
+      "sunset",
+      "acoustic",
+      "chill",
+      "warm",
+      "paradise",
+      "lagoon",
+      "reggae",
+      "ambient"
+    ],
+    "reject": [
+      "corporate",
+      "advertisement",
+      "jingle",
+      "battle",
+      "boss",
+      "industrial",
+      "horror"
+    ],
+    "vocal_mode": "preferred",
+    "allow_instrumental": true
   }
 }

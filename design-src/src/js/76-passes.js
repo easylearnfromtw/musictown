@@ -2,7 +2,7 @@
    Geo · approximate city by IP (ipwho.is, IP itself never stored),
    precise check-ins by GPS only when the listener taps "check in".
    ========================================================================== */
-const CITY_CENTER = { TPE: [25.0330, 121.5654], TNN: [22.9997, 120.2270], LXA: [29.6520, 91.1721], TYO: [35.6762, 139.6503], SHA: [31.2304, 121.4737], BJS: [39.9042, 116.4074], HKG: [22.3193, 114.1694], KYO: [35.0116, 135.7681], LYA: [34.6197, 112.4540], LON: [51.5072, -0.1276], ROM: [41.9028, 12.4964], PAR: [48.8566, 2.3522], DXB: [25.2048, 55.2708], YVR: [49.2827, -123.1207], NYC: [40.7128, -74.0060], HNL: [21.3099, -157.8581], LAX: [34.0522, -118.2437] };
+const CITY_CENTER = { TPE: [25.0330, 121.5654], TNN: [22.9997, 120.2270], LXA: [29.6520, 91.1721], MLE: [4.1755, 73.5093], TYO: [35.6762, 139.6503], SHA: [31.2304, 121.4737], BJS: [39.9042, 116.4074], HKG: [22.3193, 114.1694], KYO: [35.0116, 135.7681], LYA: [34.6197, 112.4540], LON: [51.5072, -0.1276], ROM: [41.9028, 12.4964], PAR: [48.8566, 2.3522], DXB: [25.2048, 55.2708], YVR: [49.2827, -123.1207], NYC: [40.7128, -74.0060], HNL: [21.3099, -157.8581], LAX: [34.0522, -118.2437] };
 const distKm = (a, b) => { const R = 6371, r = x => x * Math.PI / 180, dLa = r(b[0] - a[0]), dLo = r(b[1] - a[1]); const h = Math.sin(dLa / 2) ** 2 + Math.cos(r(a[0])) * Math.cos(r(b[0])) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); };
 
 const Geo = (() => {
@@ -102,8 +102,8 @@ const Pass = (() => {
     return { id: `city-${th.slug}`, kind: 'city', theme: th.t, code: th.code, title: th.name, city: th.city, cityCn: th.cityCn, where: `${(Geo.city || th.city).toUpperCase()}`, how, no: ticketNo(th.code), issued: today(), localTime: localTimeIn(th.tz), tracks: hot5(th).map(t => t.shareId).filter(Boolean) };
   }
   function issueSpot(lm) {
-    const th = THEME_BY_T.get(lm.theme);
-    return { id: `spot-${lm.id}`, kind: 'spot', theme: th.t, code: th.code, title: th.name, city: th.city, cityCn: th.cityCn, spot: lm.cn, spotEn: lm.name, where: `${lm.lat.toFixed(2)}°, ${lm.lng.toFixed(2)}°`, how: 'GPS', no: ticketNo(th.code), issued: today(), tracks: Reco.forLandmark(lm, 5).map(t => t.shareId).filter(Boolean) };
+    const th = THEME_BY_T.get(lm.theme), code = lm.code || th.code;
+    return { id: `spot-${lm.id}`, kind: 'spot', theme: th.t, code, title: lm.area || th.name, city: lm.area || th.city, cityCn: lm.areaCn || th.cityCn, area: lm.area || th.name, areaCn: lm.areaCn || th.cityCn, spot: lm.cn, spotEn: lm.name, where: `${lm.lat.toFixed(2)}°, ${lm.lng.toFixed(2)}°`, how: 'GPS', no: ticketNo(code), issued: today(), tracks: Reco.forLandmark(lm, 5).map(t => t.shareId).filter(Boolean) };
   }
   const stateFor = th => !th || th.kind !== 'city' ? 'none' : Wallet.has(`city-${th.slug}`) ? 'owned' : Geo.theme === th.t ? 'ready' : 'locked';
 
@@ -144,7 +144,7 @@ const Pass = (() => {
         const id = `spot-${hit.lm.id}`;
         const tk = Wallet.has(id) ? Wallet.all().find(x => x.id === id) : issueSpot(hit.lm);
         const fresh = Wallet.add(tk); if (fresh) haptic('success');
-        const th = THEME_BY_T.get(hit.lm.theme); if (th) Geo.confirm(th.t, 'GPS');
+        const th = THEME_BY_T.get(hit.lm.theme); if (th && (hit.lm.code || th.code) === th.code) Geo.confirm(th.t, 'GPS');
         openTicket(tk, { fresh }); return;
       }
       const near = target ? ranked.find(x => x.lm.id === target.id) : ranked[0];
@@ -157,7 +157,7 @@ const Pass = (() => {
     const th = THEME_BY_T.get(lm.theme);
     Sheet.open({
       accent: th, title: lm.cn, sub: `${lm.name} · Spot Edition`,
-      html: `<div class="stubline" style="${accentStyle(th)}"><b>${esc(th.code)}</b><span>${esc(lm.name)} · ${esc(th.name)}</span></div>
+      html: `<div class="stubline" style="${accentStyle(th)}"><b>${esc(lm.code || th.code)}</b><span>${esc(lm.name)} · ${esc(lm.areaCn || th.cityCn || th.name)}</span></div>
         <p class="sheet-note">走到${esc(lm.cn)}附近（約 ${lm.r >= 1000 ? (lm.r / 1000).toFixed(1) + ' 公里' : lm.r + ' 公尺'}內）打卡，就能收下這個地標的限定票根，附上為這裡挑的五首歌。</p>
         <div class="sheet-actions sheet-actions--3"><button class="btn btn--primary" type="button" data-check aria-label="我在這裡，打卡">${icon('location')}打卡</button><a class="btn" href="${esc(mapsUrl(lm))}" target="_blank" rel="noopener" aria-label="在 Apple 地圖打開">${icon('map')}</a><button class="btn" type="button" data-go aria-label="前往 ${esc(th.name)}">${icon('chevron')}</button></div>`,
       mount(body, s) { $('[data-check]', body).onclick = () => { s.close(); checkInSpot(lm); }; $('[data-go]', body).onclick = () => { s.close(); Router.go('theme', { slug: th.slug }); }; }
@@ -176,7 +176,7 @@ const Pass = (() => {
         ${PassSheet.head(spot ? 'SPOT EDITION MUSIC PASS' : 'CITY LIMITED MUSIC PASS')}
         <div class="pass__code">${esc(tk.code)}</div>
         <p class="pass__eyebrow">${spot ? `SPOT EDITION · ${esc(tk.spotEn.toUpperCase())}` : `CITY EXCLUSIVE · ${tk.how === 'GPS' ? 'GPS MATCH' : 'IP MATCH'}`}</p>
-        <h2 class="pass__title">${esc(th.name.toUpperCase())}</h2>
+        <h2 class="pass__title">${esc((spot ? (tk.area || tk.city || th.name) : th.name).toUpperCase())}</h2>
         <p class="pass__desc">${esc(desc)}</p>
         <div class="pass__fields"><i class="pass__notch"></i>
           <div><small>PROGRAM</small><b>MUSICTOWN</b></div>
@@ -232,7 +232,7 @@ const Pass = (() => {
     x.fillStyle = acc; x.font = `700 64px ${ARC}`; x.textAlign = 'right'; x.fillText(tk.code, 930, 262); x.textAlign = 'left';
     x.setLineDash([14, 12]); x.strokeStyle = 'rgba(41,70,93,.2)'; x.lineWidth = 2; x.beginPath(); x.moveTo(104, 350); x.lineTo(930, 350); x.stroke(); x.setLineDash([]);
     x.fillStyle = acc; x.font = `700 15px ${ARC}`; x.fillText(spot ? `SPOT EDITION · ${tk.spotEn.toUpperCase()}` : `CITY EXCLUSIVE · ${tk.how === 'GPS' ? 'GPS MATCH' : 'IP CITY MATCH'}`, 105, 412);
-    x.fillStyle = ink; x.font = `700 58px ${ARC}`; let title = th.name.toUpperCase(); while (x.measureText(title).width > 830 && title.length > 4) title = title.slice(0, -1); x.fillText(title, 102, 478);
+    x.fillStyle = ink; x.font = `700 58px ${ARC}`; let title = (spot ? (tk.area || tk.city || th.name) : th.name).toUpperCase(); while (x.measureText(title).width > 830 && title.length > 4) title = title.slice(0, -1); x.fillText(title, 102, 478);
     x.fillStyle = '#6E7F87'; x.font = `500 24px ${CJK}`;
     const desc = spot ? `${tk.spot}限定。${th.line}` : (th.summary || th.line); const lines = []; let cur = '';
     for (const ch of desc) { if (x.measureText(cur + ch).width > 820) { lines.push(cur); cur = ch; } else cur += ch; } if (cur) lines.push(cur);
@@ -261,19 +261,39 @@ const Pass = (() => {
     btn && (btn.disabled = false);
   }
 
+  async function autoHiddenSpot() {
+    const hidden = LANDMARKS.filter(lm => lm.hidden && lm.auto);
+    if (!hidden.length || !navigator.geolocation || !navigator.permissions?.query) return;
+    try {
+      const perm = await navigator.permissions.query({ name: 'geolocation' });
+      if (perm.state !== 'granted') return;
+      const [lat, lng] = await Geo.gps();
+      const hit = hidden.map(lm => ({ lm, d: distKm([lat, lng], [lm.lat, lm.lng]) * 1000 }))
+        .sort((a, b) => a.d - b.d).find(x => x.d <= x.lm.r);
+      if (!hit) return;
+      const once = `musicetown.hiddenSpot.${hit.lm.id}.${today()}`;
+      if (sess.get(once, false)) return;
+      sess.set(once, true);
+      const id = `spot-${hit.lm.id}`;
+      const tk = Wallet.has(id) ? Wallet.all().find(x => x.id === id) : issueSpot(hit.lm);
+      const fresh = Wallet.add(tk); if (fresh) haptic('success');
+      setTimeout(() => { if (!PassSheet.isOpen && !Sheet.isOpen) openTicket(tk, { fresh }); }, 220);
+    } catch (_) {}
+  }
+
   bus.on('open-pass', () => {
     const th = Geo.theme ? THEME_BY_T.get(Geo.theme) : null;
     if (th) return openCity(th);
     const list = Wallet.all();
     if (list.length) return openTicket(list[0]);
     Sheet.open({ title: 'City Pass', sub: '城市與景點的限定票根',
-      html: `<p class="sheet-note">人在 musicetown 的十七座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
+      html: `<p class="sheet-note">人在 musicetown 的十八座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
       mount(b, s) { $('[data-c]', b).onclick = () => { s.close(); Router.go('cities'); }; $('[data-s]', b).onclick = () => { s.close(); checkInSpot(); }; } });
   });
   bus.on('geo', t => { document.documentElement.classList.toggle('has-pass', !!t && !Wallet.has(`city-${THEME_BY_T.get(t)?.slug}`)); });
   bus.on('wallet', () => { const t = Geo.theme; document.documentElement.classList.toggle('has-pass', !!t && !Wallet.has(`city-${THEME_BY_T.get(t)?.slug}`)); });
 
-  return { stateFor, openCity, openTicket, checkInSpot, explainSpot, issueCity, mapsUrl };
+  return { stateFor, openCity, openTicket, checkInSpot, explainSpot, issueCity, mapsUrl, autoHiddenSpot };
 })();
 
 /* share a file through the iOS share sheet (Save Image, AirDrop, Messages…) */
@@ -301,7 +321,7 @@ const LIB_REF_THEMES = ['JAZZ', 'CROONER', 'ROCK', 'SPORT', 'LO-FI', 'TAIPEI DRE
   /* appended in R11 — order is part of the L2 format */
   'DREAM OF THE RED CHAMBER', 'THE GOLDEN CANGUE', 'LOVE IN A FALLEN CITY', 'TAIPEI PEOPLE', 'CALL TO ARMS', 'JOURNEY UNDER THE MIDNIGHT SUN', 'IN SEARCH OF THE SUPERNATURAL', 'ROBINSON CRUSOE', 'PRIDE AND PREJUDICE', 'A TALE OF TWO CITIES',
   /* appended in R11.3 — keep old L2 indexes stable */
-  'ROUGE TIBET', 'FANTASY TAINAN', 'PEACH BLOSSOM SPRING', 'XIANG YU ANNALS', 'MEMORIAL ON THE NORTHERN EXPEDITION', 'STRANGE TALES FROM A CHINESE STUDIO', 'ONE THOUSAND AND ONE NIGHTS', 'THE SCHOLARS', 'TO LIVE', 'THE PLUM IN THE GOLDEN VASE'];
+  'ROUGE TIBET', 'FANTASY TAINAN', 'PEACH BLOSSOM SPRING', 'XIANG YU ANNALS', 'MEMORIAL ON THE NORTHERN EXPEDITION', 'STRANGE TALES FROM A CHINESE STUDIO', 'ONE THOUSAND AND ONE NIGHTS', 'THE SCHOLARS', 'TO LIVE', 'THE PLUM IN THE GOLDEN VASE', 'MALDIVES PARADISE'];
 const Share = (() => {
   const trackList = (tracks, title) => [`musicetown · ${title}`, '', ...tracks.map((t, i) => `${pad2(i + 1)}. ${t.title} — ${t.artist}`)].join('\n');
   const mixUrl = (tracks, title) => shareBase({ hash: 'mix=' + b64urlEncode({ v: 1, title: String(title || 'musicetown playlist').slice(0, 80), ids: [...new Set(tracks.map(t => t.shareId).filter(Boolean))] }) });

@@ -83,7 +83,7 @@ const PlayerUI = (() => {
     const th = themeOf(Player.current), lim = Limited.active(th?.t), host = byId('plLimited');
     stage.classList.toggle('is-limited', !!lim);
     if (!lim) { host.innerHTML = ''; return; }
-    if (!host.firstChild) host.innerHTML = `<img class="limited__word" src="${lim.word}" alt="" decoding="async"><img class="limited__cn" src="${lim.cn}" alt="" decoding="async"><span class="limited__tag">${esc(lim.label)}</span>`;
+    if (!host.firstChild) host.innerHTML = `<img class="limited__word" src="${lim.word}" alt="" decoding="async"><img class="limited__cn" src="${lim.cn}" alt="" decoding="async">`;
   }
 
   /* ---------- render ---------- */

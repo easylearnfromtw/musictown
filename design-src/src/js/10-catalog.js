@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Catalog · 25 destinations. Names in MUSIC_DATA are the stable keys.
+   Catalog · 26 destinations. Names in MUSIC_DATA are the stable keys.
    ========================================================================== */
 const REMOTE_MAP = window.MUSICETOWN_REMOTE_AUDIO || {};
 /* 文學 · eighteen literary works, 25 public-domain / open-licence recordings each.
@@ -13,6 +13,7 @@ const META = {
   'TAIPEI DREAM':        { slug: 'taipei-style', code: 'TPE', name: 'Taipei Dream', cn: '台北夢', kind: 'city', region: 'asia', city: 'Taipei', cityCn: '台北', tz: 'Asia/Taipei', country: 'TW', accent: '#5f8f96', ink: '#2c4a4f', aliases: ['taipei', 'taipei city', 'new taipei', 'new taipei city', 'sanchong', 'banqiao', 'zhonghe', 'yonghe', 'xinzhuang', 'xindian'], line: '雨後的巷口、捷運末班車與臥室錄音的人聲。', summary: '雨夜、巷口、捷運與城市獨立人聲。TAIPEI DREAM 把台北都會的潮濕霓虹、日常節奏與輕微孤獨感收進一個抽屜。' },
   'FANTASY TAINAN':      { slug: 'fantasy-tainan', code: 'TNN', name: 'Fantasy Tainan', cn: '府城之戀', kind: 'city', region: 'asia', city: 'Tainan', cityCn: '台南', tz: 'Asia/Taipei', country: 'TW', accent: '#b98269', ink: '#5b4034', aliases: ['tainan', 'tainan city', 'anping', 'west central district'], line: '夕陽落在赤崁樓與安平巷弄，木吉他與老城的暖風慢慢靠近。', summary: '古城、廟埕、老屋、海風與南方日光。FANTASY TAINAN 偏溫暖、懷舊、帶一點戀愛感的 folk / acoustic / world 聲景。' },
   'ROUGE TIBET':         { slug: 'rouge-tibet', code: 'LXA', name: 'Rouge Tibet', cn: '胭脂西域', kind: 'city', region: 'asia', city: 'Lhasa', cityCn: '拉薩', tz: 'Asia/Shanghai', country: 'CN', accent: '#a65f55', ink: '#5a332e', aliases: ['lhasa', 'lasa', 'tibet', 'xizang', 'lhasa city'], line: '高原紅、風馬旗與寺院鐘聲，在稀薄空氣裡留下很長的尾韻。', summary: '高原、山風、寺院、鼓點與大片留白。ROUGE TIBET 以 world / folk / ritual / ambient 的開放授權錄音描繪藏地高原的深紅與遼闊。' },
+  'MALDIVES PARADISE':  { slug: 'maldives-paradise', code: 'MLE', name: 'Maldives Paradise', cn: '仙境馬爾地夫', kind: 'city', region: 'asia', city: 'Maldives', cityCn: '馬爾地夫', tz: 'Indian/Maldives', country: 'MV', accent: '#79C9D2', ink: '#28555D', aliases: ['maldives', 'male', 'malé', 'hulhumale', 'kaafu'], line: '海水像玻璃一樣透明，白沙、珊瑚與日落把節拍放慢。', summary: '島嶼、潟湖、白沙、珊瑚礁與大片海面。MALDIVES PARADISE 以 tropical / ambient / acoustic / chill 的合法開放授權音樂描繪馬爾地夫。' },
   'OLD TOKYO':           { slug: 'old-tokyo', code: 'TYO', name: 'Old Tokyo', cn: '老東京', kind: 'city', region: 'asia', city: 'Tokyo', cityCn: '東京', tz: 'Asia/Tokyo', country: 'JP', accent: '#b07f86', ink: '#5a3c41', aliases: ['tokyo', 'shinjuku', 'shibuya', 'minato', 'chiyoda', 'taito', 'setagaya', 'suginami'], line: '首都高的霓虹、昭和餘暉與合成器流行。', summary: '昭和殘影、老東京夜色與都會旋律。OLD TOKYO 偏復古、細膩、略帶電影感，像深夜電車窗外倒退的街景。' },
   'SPLENDOR SHANGHAI':   { slug: 'splendor-shanghai', code: 'SHA', name: 'Splendor Shanghai', cn: '海上繁華', kind: 'city', region: 'asia', city: 'Shanghai', cityCn: '上海', tz: 'Asia/Shanghai', country: 'CN', accent: '#9a8270', ink: '#53443a', aliases: ['shanghai', 'shanghai city'], line: '舞廳爵士、靈魂樂與外灘的金色夜宴。', summary: '爵士舞廳、Art Deco 與老上海華麗聲響。SPLENDOR SHANGHAI 偏優雅、暖色、帶一點舊時代夜宴的節奏。' },
   'TRADITIONAL BEIJING': { slug: 'traditional-beijing', code: 'BJS', name: 'Traditional Beijing', cn: '京味北京', kind: 'city', region: 'asia', city: 'Beijing', cityCn: '北京', tz: 'Asia/Shanghai', country: 'CN', accent: '#9b3a4b', ink: '#54232c', aliases: ['beijing', 'beijing city'], line: '京劇唱腔、鑼鼓與胡同裡的老戲台。', summary: '京劇唱腔、鑼鼓、嗩吶與傳統戲曲舞台感。TRADITIONAL BEIJING 把京味戲劇張力與古典器樂聲響集中在一起。' },
@@ -24,6 +25,7 @@ const META = {
   'CHAMPS-ÉLYSÉES':      { slug: 'champs-elysees', code: 'PAR', name: 'Champs-Élysées', cn: '香榭大道', kind: 'city', region: 'europe', city: 'Paris', cityCn: '巴黎', tz: 'Europe/Paris', country: 'FR', accent: '#9a8399', ink: '#574b56', aliases: ['paris', 'paris city'], line: '精品櫥窗的光、lounge 與巴黎步伐。', summary: '精品櫥窗、香榭大道與夜間時裝店。CHAMPS-ÉLYSÉES 以 lounge、house、nu-disco 與法式優雅為主。' },
   'FANTASY TAINAN': ['folk', 'acoustic', 'warm', 'nostalgic', 'traditional', 'slow folk', 'coastal indie', 'pacific rain', 'soft room', 'chanson'],
   'ROUGE TIBET': ['ambient', 'ritual', 'folk', 'meditative', 'world', 'slow', 'old room', 'traditional', 'acapella', 'spiritual', 'ceremonial'],
+  'MALDIVES PARADISE': ['tropical', 'island', 'ocean', 'beach', 'summer', 'sunset', 'acoustic', 'chill', 'warm', 'ambient', 'reggae'],
   'MENACING DUBAI':      { slug: 'menacing-dubai', code: 'DXB', name: 'Menacing Dubai', cn: '凜冽杜拜', kind: 'city', region: 'mideast', city: 'Dubai', cityCn: '杜拜', tz: 'Asia/Dubai', country: 'AE', accent: '#8a7553', ink: '#4e432f', aliases: ['dubai', 'dubayy'], line: '玻璃高塔、沙漠夜色與奢華的壓迫感。', summary: '玻璃高塔、沙漠夜色與壓迫式奢華。MENACING DUBAI 用暗黑電子、張力與中東質地製造膽戰心驚感。' },
   'VANCOUVER':           { slug: 'vancouver', code: 'YVR', name: 'Vancouver', cn: '溫哥華', kind: 'city', region: 'americas', city: 'Vancouver', cityCn: '溫哥華', tz: 'America/Vancouver', country: 'CA', accent: '#6d969c', ink: '#34545a', aliases: ['vancouver', 'burnaby', 'richmond', 'north vancouver', 'west vancouver'], line: '太平洋的雨、海堤與森林邊界的人聲。', summary: 'Pacific rain、冷空氣與鬆弛的人聲。VANCOUVER 把西岸的陰雨、木質感與 indie / folk 的空間感放在一起。' },
   'NEW YORK':            { slug: 'new-york', code: 'NYC', name: 'New York', cn: '紐約', kind: 'city', region: 'americas', city: 'New York', cityCn: '紐約', tz: 'America/New_York', country: 'US', accent: '#5d7394', ink: '#35465d', aliases: ['new york', 'new york city', 'manhattan', 'brooklyn', 'queens', 'bronx'], line: 'Downtown 靈魂樂、地鐵節奏與午夜流行。', summary: 'Downtown soul、地鐵速度、爵士與夜間能量。NEW YORK 是密度、節奏與城市碰撞感最強的一個抽屜。' },
@@ -56,21 +58,39 @@ const REGION_LABEL = { asia: '亞洲', europe: '歐洲', mideast: '中東', amer
 
 /* Landmarks for spot-edition tickets (GPS check-in, coordinates never stored) */
 const LANDMARKS = [
-  { id: 'taipei-101', name: 'Taipei 101', cn: '台北 101', theme: 'TAIPEI DREAM', lat: 25.0340, lng: 121.5645, r: 650 },
-  { id: 'chihkan-tower', name: 'Chihkan Tower', cn: '赤崁樓', theme: 'FANTASY TAINAN', lat: 22.9975, lng: 120.2025, r: 900 },
-  { id: 'potala-palace', name: 'Potala Palace', cn: '布達拉宮', theme: 'ROUGE TIBET', lat: 29.6578, lng: 91.1175, r: 1600 },
-  { id: 'tokyo-tower', name: 'Tokyo Tower', cn: '東京鐵塔', theme: 'OLD TOKYO', lat: 35.6586, lng: 139.7454, r: 550 },
-  { id: 'shibuya-crossing', name: 'Shibuya Crossing', cn: '澀谷十字路口', theme: 'OLD TOKYO', lat: 35.6595, lng: 139.7005, r: 450 },
+  { id: 'taipei-101', name: 'Taipei 101', cn: '台北 101', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0340, lng: 121.5645, r: 650 },
+  { id: 'ximending', name: 'Ximending', cn: '西門町', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0422, lng: 121.5077, r: 850 },
+  { id: 'longshan-temple', name: 'Lungshan Temple', cn: '艋舺龍山寺', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0372, lng: 121.4999, r: 550 },
+  { id: 'xingtian-temple', name: 'Xingtian Temple', cn: '行天宮', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0627, lng: 121.5337, r: 550 },
+  { id: 'dihua-street', name: 'Dihua Street', cn: '迪化街', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0555, lng: 121.5103, r: 850 },
+  { id: 'presidential-office', name: 'Presidential Office Building', cn: '總統府', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0400, lng: 121.5119, r: 380, hidden: true, auto: true },
+  { id: 'wulai-old-street', name: 'Wulai Old Street', cn: '烏來老街', code: 'NWT', area: 'New Taipei', areaCn: '新北', region: 'asia', theme: 'TAIPEI DREAM', lat: 24.8638, lng: 121.5515, r: 1200 },
+  { id: 'jiufen-old-street', name: 'Jiufen Old Street', cn: '九份老街', code: 'NWT', area: 'New Taipei', areaCn: '新北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.1098, lng: 121.8452, r: 1200 },
+  { id: 'anping-fort', name: 'Anping Old Fort', cn: '安平古堡', code: 'TNN', area: 'Tainan', areaCn: '台南', region: 'asia', theme: 'FANTASY TAINAN', lat: 23.0016, lng: 120.1607, r: 900 },
+  { id: 'alishan', name: 'Alishan', cn: '阿里山', code: 'CYI', area: 'Chiayi', areaCn: '嘉義', region: 'asia', theme: 'TAIPEI DREAM', lat: 23.5100, lng: 120.8050, r: 5000 },
+  { id: 'sun-moon-lake', name: 'Sun Moon Lake', cn: '日月潭', code: 'NTO', area: 'Nantou', areaCn: '南投', region: 'asia', theme: 'TAIPEI DREAM', lat: 23.8650, lng: 120.9150, r: 5000 },
+  { id: 'potala-palace', name: 'Potala Palace', cn: '布達拉宮', code: 'LXA', area: 'Lhasa', areaCn: '拉薩', region: 'asia', theme: 'ROUGE TIBET', lat: 29.6578, lng: 91.1172, r: 1200 },
+  { id: 'tokyo-skytree', name: 'Tokyo Skytree', cn: '東京晴空塔', code: 'TYO', area: 'Tokyo', areaCn: '東京', region: 'asia', theme: 'OLD TOKYO', lat: 35.7101, lng: 139.8107, r: 700 },
+  { id: 'tokyo-tower', name: 'Tokyo Tower', cn: '東京鐵塔', code: 'TYO', area: 'Tokyo', areaCn: '東京', region: 'asia', theme: 'OLD TOKYO', lat: 35.6586, lng: 139.7454, r: 550 },
+  { id: 'shibuya-crossing', name: 'Shibuya Crossing', cn: '澀谷十字路口', code: 'TYO', area: 'Tokyo', areaCn: '東京', region: 'asia', theme: 'OLD TOKYO', lat: 35.6595, lng: 139.7005, r: 450 },
+  { id: 'gyeongbokgung', name: 'Gyeongbokgung Palace', cn: '首爾景福宮', code: 'SEL', area: 'Seoul', areaCn: '首爾', region: 'asia', theme: 'BUSTLING HONG KONG', lat: 37.5796, lng: 126.9770, r: 800 },
+  { id: 'n-seoul-tower', name: 'N Seoul Tower', cn: '南山首爾塔', code: 'SEL', area: 'Seoul', areaCn: '首爾', region: 'asia', theme: 'BUSTLING HONG KONG', lat: 37.5512, lng: 126.9882, r: 850 },
   { id: 'the-bund', name: 'The Bund', cn: '外灘', theme: 'SPLENDOR SHANGHAI', lat: 31.2400, lng: 121.4900, r: 1000 },
   { id: 'forbidden-city', name: 'Forbidden City', cn: '故宮', theme: 'TRADITIONAL BEIJING', lat: 39.9163, lng: 116.3972, r: 1300 },
-  { id: 'victoria-peak', name: 'Victoria Peak', cn: '太平山頂', theme: 'BUSTLING HONG KONG', lat: 22.2759, lng: 114.1455, r: 1300 },
+  { id: 'victoria-peak', name: 'Victoria Peak', cn: '太平山頂', code: 'HKG', area: 'Hong Kong', areaCn: '香港', region: 'asia', theme: 'BUSTLING HONG KONG', lat: 22.2759, lng: 114.1455, r: 1300 },
+  { id: 'victoria-harbour', name: 'Victoria Harbour', cn: '維多利亞港', code: 'HKG', area: 'Hong Kong', areaCn: '香港', region: 'asia', theme: 'BUSTLING HONG KONG', lat: 22.2940, lng: 114.1690, r: 1800 },
+  { id: 'chungking-mansions', name: 'Chungking Mansions', cn: '重慶大廈', code: 'HKG', area: 'Hong Kong', areaCn: '香港', region: 'asia', theme: 'BUSTLING HONG KONG', lat: 22.2964, lng: 114.1722, r: 450 },
+  { id: 'hong-kong-disneyland', name: 'Hong Kong Disneyland', cn: '香港迪士尼', code: 'HKG', area: 'Hong Kong', areaCn: '香港', region: 'asia', theme: 'BUSTLING HONG KONG', lat: 22.3130, lng: 114.0413, r: 1800 },
+  { id: 'macau-casino', name: 'Macau Casino District', cn: '澳門賭場', code: 'MFM', area: 'Macau', areaCn: '澳門', region: 'asia', theme: 'BUSTLING HONG KONG', lat: 22.1904, lng: 113.5439, r: 1500 },
   { id: 'kiyomizu-dera', name: 'Kiyomizu-dera', cn: '清水寺', theme: 'SOLEMN KYOTO', lat: 34.9949, lng: 135.7850, r: 750 },
   { id: 'longmen-grottoes', name: 'Longmen Grottoes', cn: '龍門石窟', theme: 'MIRACULOUS LUOYANG', lat: 34.5562, lng: 112.4703, r: 1500 },
   { id: 'big-ben', name: 'Big Ben', cn: '大笨鐘', theme: 'VAPOR LONDON', lat: 51.5007, lng: -0.1246, r: 650 },
   { id: 'colosseum', name: 'Colosseum', cn: '羅馬競技場', theme: 'SLIGHTLY TIPSY ROME', lat: 41.8902, lng: 12.4922, r: 650 },
   { id: 'arc-de-triomphe', name: 'Arc de Triomphe', cn: '凱旋門', theme: 'CHAMPS-ÉLYSÉES', lat: 48.8738, lng: 2.2950, r: 1100 },
   { id: 'burj-khalifa', name: 'Burj Khalifa', cn: '哈里發塔', theme: 'MENACING DUBAI', lat: 25.1972, lng: 55.2744, r: 850 },
+  { id: 'great-pyramid-giza', name: 'Great Pyramid of Giza', cn: '古夫金字塔', code: 'GIZ', area: 'Giza', areaCn: '吉薩', region: 'africa', theme: 'MENACING DUBAI', lat: 29.9792, lng: 31.1342, r: 1600 },
   { id: 'stanley-park', name: 'Stanley Park', cn: '史丹利公園', theme: 'VANCOUVER', lat: 49.3043, lng: -123.1443, r: 1700 },
+  { id: 'yellowstone', name: 'Yellowstone National Park', cn: '黃石公園', code: 'YNP', area: 'Yellowstone', areaCn: '黃石國家公園', region: 'americas', theme: 'VANCOUVER', lat: 44.5982, lng: -110.5472, r: 65000 },
   { id: 'times-square', name: 'Times Square', cn: '時代廣場', theme: 'NEW YORK', lat: 40.7580, lng: -73.9855, r: 550 },
   { id: 'waikiki', name: 'Waikiki Beach', cn: '威基基海灘', theme: 'TROPICAL HAWAII', lat: 21.2767, lng: -157.8270, r: 1700 },
   { id: 'griffith', name: 'Griffith Observatory', cn: '格里斐斯天文台', theme: 'PSYCHEDELIC LA', lat: 34.1184, lng: -118.3004, r: 1300 }

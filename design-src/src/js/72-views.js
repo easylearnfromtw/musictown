@@ -233,12 +233,12 @@ Router.register('cities', (el) => {
         </div>` : '';
       const hp = $('[data-pass]', byId('cityHere')); if (hp) hp.onclick = () => Pass.openCity(here);
       byId('passgrid').innerHTML = list.map(mpassHTML).join('');
-      byId('spots').innerHTML = LANDMARKS.filter(lm => { const r = THEME_BY_T.get(lm.theme)?.region; return region === 'all' || r === region || (region === 'europe' && r === 'mideast'); }).map(lm => {
+      byId('spots').innerHTML = LANDMARKS.filter(lm => { if (lm.hidden) return false; const r = lm.region || THEME_BY_T.get(lm.theme)?.region; return region === 'all' || r === region || (region === 'europe' && r === 'mideast'); }).map(lm => {
         const th = THEME_BY_T.get(lm.theme); const owned = Wallet.has(`spot-${lm.id}`);
-        return `<div class="spot" style="${accentStyle(th)}"><button class="spot__main" type="button" data-lm="${lm.id}"><span class="spot__code">${esc(th.code)}</span><span><b>${esc(lm.cn)}</b><span>${esc(lm.name)} · ${owned ? '已收藏' : '尚未打卡'}</span></span>${icon(owned ? 'ticket' : 'chevron')}</button><a class="icon-btn" href="${esc(Pass.mapsUrl(lm))}" target="_blank" rel="noopener" aria-label="在 Apple 地圖打開 ${esc(lm.cn)}">${icon('map')}</a></div>`;
+        return `<div class="spot" style="${accentStyle(th)}"><button class="spot__main" type="button" data-lm="${lm.id}"><span class="spot__code">${esc(lm.code || th.code)}</span><span><b>${esc(lm.cn)}</b><span>${esc(lm.name)} · ${owned ? '已收藏' : '尚未打卡'}</span></span>${icon(owned ? 'ticket' : 'chevron')}</button><a class="icon-btn" href="${esc(Pass.mapsUrl(lm))}" target="_blank" rel="noopener" aria-label="在 Apple 地圖打開 ${esc(lm.cn)}">${icon('map')}</a></div>`;
       }).join('');
     };
-    Seg(byId('citySeg'), { label: '地區', value: 'all', items: [{ key: 'all', label: '全部' }, { key: 'asia', label: '亞洲' }, { key: 'europe', label: '歐洲' }, { key: 'americas', label: '美洲' }], onChange: k => { region = k; draw(); } });
+    Seg(byId('citySeg'), { label: '地區', value: 'all', items: [{ key: 'all', label: '全部' }, { key: 'asia', label: '亞洲' }, { key: 'europe', label: '歐洲' }, { key: 'americas', label: '美洲' }, { key: 'africa', label: '非洲' }], onChange: k => { region = k; draw(); } });
     bindSlugClicks(byId('passgrid')); bindSlugClicks(byId('cityHere'));
     byId('spots').addEventListener('click', e => { const b = e.target.closest('[data-lm]'); if (!b) return; const lm = LANDMARKS.find(x => x.id === b.dataset.lm); const id = `spot-${lm.id}`; if (Wallet.has(id)) Pass.openTicket(Wallet.all().find(x => x.id === id)); else Pass.explainSpot(lm); });
     byId('spotCheck').onclick = () => Pass.checkInSpot();

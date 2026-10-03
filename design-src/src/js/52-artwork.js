@@ -17,7 +17,7 @@ const vinylColor = t => VINYLS[hash32(`${t?.artist || ''}|${t?.title || ''}`) % 
 /* region-limited editions (only Taipei for now) */
 const Limited = (() => {
   const ED = {
-    'TAIPEI DREAM': { code: 'TPE', word: 'assets/limited/taipei-word.png', cn: 'assets/limited/taipei-cn.png', label: '台北地區限定', en: 'TAIPEI LIMITED' }
+    'TAIPEI DREAM': { code: 'TPE', word: 'assets/limited/taipei-word.png', cn: 'assets/limited/taipei-cn.png', label: '', en: 'TAIPEI LIMITED' }
   };
   const q = new URLSearchParams(location.search).get('limited');
   if (q) sess.set('mt.limitedPreview', q.toLowerCase());

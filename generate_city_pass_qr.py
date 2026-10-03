@@ -26,6 +26,7 @@ SLUGS=[
  "miraculous-luoyang",
  "champs-elysees",
  "menacing-dubai",
+ "maldives-paradise",
 ]
 
 for slug in SLUGS:

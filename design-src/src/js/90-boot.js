@@ -9,6 +9,7 @@
   Mini.render();
   if (!Settings.get('onboarded') && !deep) Welcome.open(); else Geo.ensure();
   Share.readHash();
+  setTimeout(() => Pass.autoHiddenSpot?.(), 1800);
 
   // design previews (kept from R8.x)
   const pv = q.get('previewCityPass');

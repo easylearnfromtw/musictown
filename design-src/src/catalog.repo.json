@@ -11548,5 +11548,31 @@
     ],
     "tracks": [],
     "installPending": true
+  },
+  {
+    "t": "MALDIVES PARADISE",
+    "sub": "碧海、白沙、珊瑚礁與島嶼日落。以來源明確的 CC0 tropical／ambient／acoustic／chill 音樂描繪馬爾地夫的透明海色。",
+    "bpm": "58–126 BPM",
+    "key": "Maldives · Tropical · Ocean · Paradise",
+    "meters": [
+      [
+        "OCEAN",
+        100
+      ],
+      [
+        "PARADISE",
+        98
+      ],
+      [
+        "CALM",
+        92
+      ],
+      [
+        "SUNSET",
+        88
+      ]
+    ],
+    "tracks": [],
+    "installPending": true
   }
 ]
