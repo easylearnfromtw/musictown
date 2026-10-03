@@ -100,7 +100,7 @@ private struct Palette {
         let dark = t == .dark || (t == .automatic && sys == .dark)
         return dark
         ? .init(bg:Color(red:0.075,green:0.082,blue:0.105),fg:.white,sub:.white.opacity(0.62),tile:.white.opacity(0.09))
-        : .init(bg:Color(red:0.965,green:0.957,blue:00.925),fg:Color(red:0.15,green:0.17,blue:0.24),sub:Color(red:0.36,green:0.37,blue:0.42),tile:.white.opacity(0.72))
+        : .init(bg:Color(red:0.965,green:0.957,blue:0.925),fg:Color(red:0.15,green:0.17,blue:0.24),sub:Color(red:0.36,green:0.37,blue:0.42),tile:.white.opacity(0.72))
     }
 }
 private struct Art:View {
