@@ -66,7 +66,7 @@ const Reco = (() => {
     const th = themeOf(t);
     return [t?.vibe, t?.genre, t?.note, th?.t, th?.name, th?.cn].filter(Boolean).join(' ').toLowerCase();
   };
-  const tokenSet = t => new Set(textOf(t).split(/[\\s·,;:/|()[\\]{}_-]+/).map(norm).filter(x => x && x.length > 1));
+  const tokenSet = t => new Set((textOf(t).match(/[\p{L}\p{N}]+/gu) || []).map(norm).filter(x => x && x.length > 1));
 
   function moodFit(t, seed) {
     if (!seed) return .5;
