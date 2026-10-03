@@ -213,6 +213,7 @@ const Player = (() => {
   }
   function playEl(a) {
     if (activeName === 'fx') FX.ensure();
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (_) {}
     const p = a.play();
     if (p && p.catch) p.catch(err => {
       if (err && err.name === 'NotAllowedError') { wantPlay = false; emitState(); bus.emit('needs-tap'); }
@@ -446,52 +447,110 @@ const Player = (() => {
       setTimeout(() => { if (activeName === 'fx' && !FX.running && wantPlay) handoff('direct'); }, 700);
     }
   });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && FX.ctx && FX.ctx.state !== 'running') FX.ctx.resume().catch(() => {}); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      // iOS may suspend AudioContext shortly after backgrounding. Hand off while
+      // the page still has execution time so lock-screen playback stays native.
+      if (IS_IOS && activeName === 'fx' && wantPlay && current) handoff('direct');
+      return;
+    }
+    if (FX.ctx && FX.ctx.state !== 'running') FX.ctx.resume().catch(() => {});
+    // Restore the requested processing path only after the page is foregrounded.
+    if (IS_IOS && current && wantPlay) setTimeout(() => {
+      const a = el(), url = a.currentSrc || a.src; if (!url) return;
+      const want = elementFor(url); if (want !== activeName) handoff(want);
+    }, 180);
+  }, { passive: true });
 
-  /* ---------- Media Session (lock screen, Control Center, AirPods) ---------- */
+  /* ---------- Media Session (iPhone lock screen, Control Center, AirPods) ---------- */
   const ms = (() => {
     const has = 'mediaSession' in navigator;
+    let metaSeq = 0;
     const systemText = (v, max = 72) => {
       const s = String(v || '').replace(/\s+/g, ' ').trim();
       return s.length > max ? s.slice(0, max - 1) + '…' : s;
     };
+    const fallbackArtwork = () => [
+      { src: abs('icon-512.png'), sizes: '512x512', type: 'image/png' },
+      { src: abs('icon-192.png'), sizes: '192x192', type: 'image/png' },
+      { src: abs('apple-touch-icon.png'), sizes: '180x180', type: 'image/png' }
+    ];
     function meta(t) {
       if (!has || !t) return;
+      const seq = ++metaSeq;
       const th = themeOf(t), systemName = th?.systemName || '';
       const themeLabel = systemName || th?.cn || th?.name || context.title || 'Library';
       const base = {
         title: systemText(t.title || 'CITYMUS', 64),
         artist: systemText(t.artist || t.composerCn || 'CITYMUS', 56),
-        album: systemText(`${themeLabel} · CITYMUS`, 58)
+        album: systemText(themeLabel || 'CITYMUS', 58)
       };
-      const fallback = [{ src: abs('icon-512.png'), sizes: '512x512', type: 'image/png' }, { src: abs('apple-touch-icon.png'), sizes: '180x180', type: 'image/png' }];
-      try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: fallback }); } catch (_) {}
-      Artwork.cover(t, 512).then(src => {
-        if (!src || current !== t) return;
+      // Set a same-origin image synchronously so iOS never shows a blank card
+      // while the track-specific artwork is still being decoded.
+      try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: fallbackArtwork() }); } catch (_) {}
+
+      // A larger square is used only for the OS media card; Artwork.cover caches
+      // it, so rapid foreground renders do not repeat the canvas work.
+      Artwork.cover(t, 768).then(src => {
+        if (!src || seq !== metaSeq || current !== t) return;
         const type = /^data:image\/png|\.png(?:\?|$)/i.test(src) ? 'image/png' : 'image/jpeg';
-        try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: [{ src, sizes: '512x512', type }, ...fallback] }); } catch (_) {}
+        const art = [{ src, sizes: '768x768', type }, ...fallbackArtwork()];
+        try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: art }); } catch (_) {}
         bus.emit('artwork', { t, src });
-      });
+      }).catch(() => {});
     }
     bus.on('geo', () => { if (current) meta(current); });
-    function state() { if (!has) return; try { navigator.mediaSession.playbackState = isPlaying() ? 'playing' : (current ? 'paused' : 'none'); } catch (_) {} position(); }
-    function position() {
-      if (!has) return; const a = el(), d = a.duration, p = a.currentTime;
-      if (!Number.isFinite(d) || d <= 0 || !Number.isFinite(p)) return;
-      try { navigator.mediaSession.setPositionState({ duration: d, playbackRate: a.playbackRate || 1, position: Math.min(p, d) }); } catch (_) {}
+
+    function state() {
+      if (!has) return;
+      try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (_) {}
+      try { navigator.mediaSession.playbackState = isPlaying() ? 'playing' : (current ? 'paused' : 'none'); } catch (_) {}
+      position();
     }
+    function position() {
+      if (!has) return;
+      const a = el(), d = a.duration, p = a.currentTime;
+      if (!Number.isFinite(d) || d <= 0 || !Number.isFinite(p)) return;
+      try {
+        navigator.mediaSession.setPositionState({
+          duration: d,
+          playbackRate: Number.isFinite(a.playbackRate) && a.playbackRate > 0 ? a.playbackRate : 1,
+          position: clamp(p, 0, d)
+        });
+      } catch (_) {}
+    }
+    function refresh() {
+      if (!has || !current) return;
+      meta(current);
+      state();
+      position();
+    }
+
     if (has) {
       const set = (n, f) => { try { navigator.mediaSession.setActionHandler(n, f); } catch (_) {} };
-      set('play', () => { if (el().paused) toggle(); });
-      set('pause', () => { if (!el().paused) toggle(); });
-      set('previoustrack', () => prev());
-      set('nexttrack', () => next());
-      set('seekto', d => { if (Number.isFinite(d?.seekTime)) seek(d.seekTime); });
-      set('seekbackward', d => seek(el().currentTime - (d?.seekOffset || 10)));
-      set('seekforward', d => seek(el().currentTime + (d?.seekOffset || 10)));
-      set('stop', () => { wantPlay = false; try { el().pause(); el().currentTime = 0; } catch (_) {} state(); });
+      set('play', () => { try { if (el().paused || el().ended) toggle(); } finally { setTimeout(state, 0); } });
+      set('pause', () => { try { if (!el().paused) toggle(); } finally { setTimeout(state, 0); } });
+      set('previoustrack', () => { prev(); setTimeout(refresh, 0); });
+      set('nexttrack', () => { next(); setTimeout(refresh, 0); });
+      set('seekto', d => {
+        if (!Number.isFinite(d?.seekTime)) return;
+        const a = el(), dur = Number.isFinite(a.duration) ? a.duration : Infinity;
+        const target = clamp(d.seekTime, 0, Math.max(0, dur - .01));
+        try {
+          if (d.fastSeek && typeof a.fastSeek === 'function') a.fastSeek(target);
+          else seek(target);
+        } catch (_) { seek(target); }
+        setTimeout(position, 0);
+      });
+      set('seekbackward', d => { seek(el().currentTime - (d?.seekOffset || 10)); setTimeout(position, 0); });
+      set('seekforward', d => { seek(el().currentTime + (d?.seekOffset || 10)); setTimeout(position, 0); });
+      set('stop', () => {
+        wantPlay = false;
+        try { el().pause(); el().currentTime = 0; } catch (_) {}
+        state();
+      });
     }
-    return { meta, state, position };
+    return { meta, state, position, refresh };
   })();
 
   /* ---------- session restore ---------- */
@@ -499,7 +558,17 @@ const Player = (() => {
     if (!current || current.localPersonal) return;
     store.set(K.session, { id: current.shareId, at: Math.floor(el().currentTime || 0), ctx: { kind: context.kind, title: context.title, theme: context.theme }, q: queue.slice(Math.max(0, index - 5), index + 40).map(e => e.t.shareId).filter(Boolean) });
   }
-  window.addEventListener('pagehide', saveSession);
+  const syncSystemSession = () => {
+    saveSession();
+    if (current) ms.refresh();
+  };
+  window.addEventListener('pagehide', syncSystemSession, { passive: true });
+  window.addEventListener('pageshow', () => { if (current) setTimeout(() => ms.refresh(), 80); }, { passive: true });
+  window.addEventListener('focus', () => { if (!document.hidden && current) setTimeout(() => ms.refresh(), 80); }, { passive: true });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) syncSystemSession();
+    else if (current) setTimeout(() => ms.refresh(), 100);
+  }, { passive: true });
   function restore() {
     const s = store.get(K.session, null); if (!s || !s.id) return false;
     const t = TRACK_BY_SHARE.get(s.id); if (!t) return false;
