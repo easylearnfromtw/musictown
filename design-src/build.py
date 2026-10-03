@@ -30,7 +30,7 @@ def load_catalog():
     raise SystemExit("no catalog found (pass a catalog .json or an index.html)")
 
 catalog, catalog_from = load_catalog()
-BUILD = "R14.8 · 2026-10-04 · Welcome + Card Artwork Polish"
+BUILD = "R14.9 · 2026-10-04 · Ticket Close Alignment"
 
 repo_root = ROOT.parent
 orig_builder = repo_root / "build_original_playlists.py"

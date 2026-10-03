@@ -1651,3 +1651,26 @@ body { position: relative; }
     radial-gradient(circle at 82% 82%,rgba(251,215,228,.15),transparent 32%),
     linear-gradient(155deg,#fff 0%,#fbfcfd 62%,#f4f6f8 100%);
 }
+
+
+/* CITYMUS R14.9 · ticket close-button alignment */
+/* Keep the ticket close control pinned to the ticket's real top-right edge.
+   The previous 4-column grid let the button drift inward on narrow iOS sheets. */
+.pass__head{
+  position:relative;
+  grid-template-columns:46px minmax(0,1fr) auto;
+  padding-right:56px;
+}
+.pass__x{
+  position:absolute;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:4;
+  flex:none;
+}
+.pass__x:active{transform:translateY(-50%) scale(.94)}
+@media(max-width:430px){
+  .pass__head{gap:10px;padding-right:52px}
+  .pass__x{width:42px;height:42px}
+}
