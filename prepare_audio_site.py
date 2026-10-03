@@ -13,6 +13,11 @@ import subprocess
 import sys
 ROOT=Path(__file__).resolve().parent
 
+# Build the whitelisted public-domain original-text catalog first.
+ebook_builder=ROOT/"build_ebooks.py"
+if ebook_builder.exists():
+    subprocess.run([sys.executable, str(ebook_builder)], cwd=ROOT, check=True)
+
 # The curation steps above this job rewrite MUSIC_DATA in root/index.html.
 # Rebuild the UI from design-src now, while build.py preserves that curated
 # catalog. This keeps Pages, source modules, literature, and the SW version in sync.

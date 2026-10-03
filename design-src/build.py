@@ -30,7 +30,7 @@ def load_catalog():
     raise SystemExit("no catalog found (pass a catalog .json or an index.html)")
 
 catalog, catalog_from = load_catalog()
-BUILD = "R12.5 · 2026-10-03 · Reader & Watch Polish"
+BUILD = "R12.6 · 2026-10-03 · Native Reader Production"
 
 repo_root = ROOT.parent
 orig_builder = repo_root / "build_original_playlists.py"
@@ -96,7 +96,8 @@ orig = json.dumps(original_playlists, ensure_ascii=False, separators=(",", ":"))
 html = (head + body
         + '<script id="musicetown-inline-catalog">\nwindow.MUSIC_DATA = ' + cat + ';\n</script>\n'
         + '<script id="musicetown-original-playlists">\nwindow.MUSICETOWN_ORIGINALS = ' + orig + ';\n</script>\n'
-        + '<script src="citymus-library.js"></script>\n'\n        + '<script src="ebook-catalog.js"></script>\n'
+        + '<script src="citymus-library.js"></script>\n'
+        + '<script src="ebook-catalog.js"></script>\n'
         + '<script id="musicetown-app">\n(() => {\n\'use strict\';\n' + js + '\n})();\n</script>\n</body>\n</html>\n')
 
 # contract check: the CI regex must capture exactly our catalog

@@ -53,6 +53,9 @@ jobs:
       - name: Generate open CJK music supplement
         run: python build_cjk_open_music.py --max-per-language 24 --max-total 60
 
+      - name: Build public-domain CITYMUS Reader
+        run: python build_ebooks.py
+
       - name: Generate City Pass QR assets
         run: python generate_city_pass_qr.py
 
