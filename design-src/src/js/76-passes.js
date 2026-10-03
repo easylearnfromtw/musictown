@@ -286,7 +286,7 @@ const Pass = (() => {
     if (th) return openCity(th);
     const list = Wallet.all();
     if (list.length) return openTicket(list[0]);
-    Sheet.open({ title: 'City Pass', sub: '城市與景點的限定票根',
+    Sheet.open({ title: 'City Pass', sub: '城市與地標的限定票根',
       html: `<p class="sheet-note">人在 CITYMUS 的 ${CITY_THEMES.length} 座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
       mount(b, s) { $('[data-c]', b).onclick = () => { s.close(); Router.go('cities'); }; $('[data-s]', b).onclick = () => { s.close(); checkInSpot(); }; } });
   });
