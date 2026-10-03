@@ -17,10 +17,10 @@ final class CITYMUSWebModel: NSObject, ObservableObject, WKScriptMessageHandler,
 
     func resumeSystemNowPlaying() {
         let s = CITYMUSShared.playback
-        guard s.isPlaying,
-              !s.shareID.isEmpty,
+        guard !s.shareID.isEmpty,
               Date().timeIntervalSince(s.updatedAt) < 12 * 60 * 60 else { return }
-        send(["action":"player"])
+        CITYMUSNowPlaying.shared.update(s)
+        if s.isPlaying { send(["action":"player"]) }
     }
 
     func loadHomeIfNeeded() {
@@ -126,6 +126,7 @@ final class CITYMUSWebModel: NSObject, ObservableObject, WKScriptMessageHandler,
             s.duration = p["duration"] as? Double ?? s.duration
             s.updatedAt = .now
             CITYMUSShared.playback = s
+            CITYMUSNowPlaying.shared.update(s)
             scheduleReload()
 
         case "artwork":
@@ -137,6 +138,7 @@ final class CITYMUSWebModel: NSObject, ObservableObject, WKScriptMessageHandler,
             s.artworkFile = file
             s.updatedAt = .now
             CITYMUSShared.playback = s
+            CITYMUSNowPlaying.shared.update(s)
             scheduleReload()
 
         case "recommendations":
