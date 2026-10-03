@@ -399,7 +399,31 @@ const Share = (() => {
       }
     });
   }
-  function theme(th) { shareSheet({ title: th.name, sub: `${th.cn} · ${th.tracks.length} 首`, url: shareBase({ theme: th.slug }), text: `${th.name}｜${th.line}`, accent: th, listText: trackList(th.tracks, th.name) }); }
+  function theme(th) {
+    if (th.kind !== 'literature') {
+      shareSheet({ title: th.name, sub: `${th.cn} · ${th.tracks.length} 首`, url: shareBase({ theme: th.slug }), text: `${th.name}｜${th.line}`, accent: th, listText: trackList(th.tracks, th.name) });
+      return;
+    }
+    const url = shareBase({ theme: th.slug });
+    let blob = null, src = '';
+    Sheet.open({
+      accent: th, title: '分享文學歌單', sub: `${th.cn} · ${th.authorCn || th.author || ''}`,
+      html: `<figure class="songcard literature-share"><div class="songcard__img" id="litShareImg"><span class="songcard__wait">${icon('book')}</span></div></figure>
+        <div class="sheet-actions sheet-actions--3"><button class="btn btn--primary" type="button" data-n aria-label="分享">${icon('share')}</button><button class="btn" type="button" data-c aria-label="複製連結">${icon('link')}</button><button class="btn" type="button" data-s aria-label="存成圖片">${icon('image')}</button></div>`,
+      async mount(b, s) {
+        Artwork.themeCard(th).then(canvas => new Promise(r => canvas.toBlob(r, 'image/png'))).then(bl => {
+          blob = bl; if (!bl) return; src = URL.createObjectURL(bl);
+          const host = $('#litShareImg', b); if (host) host.innerHTML = `<img src="${src}" alt="${esc(th.cn)} 分享圖片">`;
+        }).catch(() => {});
+        $('[data-n]', b).onclick = async () => {
+          const r = await shareFiles({ blob, name: `CITYMUS-${th.slug}.png`, title: `CITYMUS · ${th.cn}`, text: `${th.cn} · ${th.authorCn || th.author || ''}｜${th.line}`, url });
+          if (r === 'shared') s.close();
+        };
+        $('[data-c]', b).onclick = async () => { await copyText(url); toast('已複製連結'); };
+        $('[data-s]', b).onclick = async () => { if (blob) await shareFiles({ blob, name: `CITYMUS-${th.slug}.png`, save: true }); };
+      }
+    });
+  }
   function tracks(list, title) {
     const clean = list.filter(t => t.shareId); if (!clean.length) { toast('本機音樂無法分享'); return; }
     if (clean.length === 1) return track(clean[0]);
