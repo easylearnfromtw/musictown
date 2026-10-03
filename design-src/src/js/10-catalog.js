@@ -2,7 +2,7 @@
    Catalog · 26 destinations. Names in MUSIC_DATA are the stable keys.
    ========================================================================== */
 const REMOTE_MAP = window.MUSICETOWN_REMOTE_AUDIO || {};
-/* 文學 · nineteen literary works, 25 public-domain / open-licence recordings each.
+/* 文學 · twenty-two literary works, 25 public-domain / open-licence recordings each.
    Kept outside MUSIC_DATA so the CI's 26-theme / 1300-track checks stay untouched. */
 const LIT = Array.isArray(window.MUSICETOWN_LITERATURE) ? window.MUSICETOWN_LITERATURE : [];
 const LIT_MAP = window.MUSICETOWN_LITERATURE_MAP || {};
@@ -489,22 +489,434 @@ ORIGINAL_PLAYLISTS.forEach(spec => {
 });
 DATA.push(...ORIGINAL_PLAYLISTS.map(originalData));
 
+/* Extra CITYMUS destinations · runtime-curated from the verified mother pool. */
+const EXTRA_THEME_SPECS = [
+  {
+    "t": "ELECTRIC SEOUL",
+    "slug": "electric-seoul",
+    "code": "SEL",
+    "name": "Electric Seoul",
+    "cn": "流光首爾",
+    "kind": "city",
+    "region": "asia",
+    "city": "Seoul",
+    "cityCn": "首爾",
+    "tz": "Asia/Seoul",
+    "country": "KR",
+    "aliases": [
+      "seoul",
+      "seoul city"
+    ],
+    "accent": "#8D79A5",
+    "ink": "#4D405C",
+    "line": "漢江夜色、霓虹巷口與不停切換速度的城市脈搏。",
+    "summary": "宮闕與高樓、漢江與深夜街區在同一座城市重疊。ELECTRIC SEOUL 以 synth、urban indie、R&B、electronic 與夜間節拍描出首爾的快速與精緻。",
+    "words": [
+      "synth",
+      "urban",
+      "night",
+      "electronic",
+      "r&b",
+      "indie",
+      "neon",
+      "city",
+      "pop",
+      "pulse",
+      "dream",
+      "groove"
+    ],
+    "count": 50
+  },
+  {
+    "t": "MONSOON KUALA LUMPUR",
+    "slug": "monsoon-kuala-lumpur",
+    "code": "KUL",
+    "name": "Monsoon Kuala Lumpur",
+    "cn": "雨幕吉隆坡",
+    "kind": "city",
+    "region": "asia",
+    "city": "Kuala Lumpur",
+    "cityCn": "吉隆坡",
+    "tz": "Asia/Kuala_Lumpur",
+    "country": "MY",
+    "aliases": [
+      "kuala lumpur",
+      "kl",
+      "petaling jaya"
+    ],
+    "accent": "#668F83",
+    "ink": "#35534B",
+    "line": "午後雷雨落在玻璃高樓與騎樓，熱氣、咖啡與車流一起蒸騰。",
+    "summary": "熱帶雨、摩天樓、街角飲食與多語城市的混合感。選曲以 tropical、soul、jazz、chill、world 與雨夜節拍為主。",
+    "words": [
+      "tropical",
+      "rain",
+      "soul",
+      "jazz",
+      "chill",
+      "world",
+      "warm",
+      "groove",
+      "urban",
+      "night",
+      "lounge",
+      "island"
+    ],
+    "count": 50
+  },
+  {
+    "t": "GOLDEN MANILA",
+    "slug": "golden-manila",
+    "code": "MNL",
+    "name": "Golden Manila",
+    "cn": "金潮馬尼拉",
+    "kind": "city",
+    "region": "asia",
+    "city": "Manila",
+    "cityCn": "馬尼拉",
+    "tz": "Asia/Manila",
+    "country": "PH",
+    "aliases": [
+      "manila",
+      "quezon city",
+      "makati",
+      "pasay"
+    ],
+    "accent": "#C08A5B",
+    "ink": "#67452F",
+    "line": "馬尼拉灣的金色夕陽落下，吉普尼、街聲與人聲仍然很熱。",
+    "summary": "海灣日落、老城牆、熱風與密集人聲。GOLDEN MANILA 偏 soul、acoustic、tropical pop、folk 與帶城市顆粒的暖色節拍。",
+    "words": [
+      "soul",
+      "warm",
+      "tropical",
+      "acoustic",
+      "folk",
+      "sunset",
+      "pop",
+      "groove",
+      "island",
+      "urban",
+      "vocal",
+      "summer"
+    ],
+    "count": 50
+  },
+  {
+    "t": "SAFFRON BANGKOK",
+    "slug": "saffron-bangkok",
+    "code": "BKK",
+    "name": "Saffron Bangkok",
+    "cn": "鎏金曼谷",
+    "kind": "city",
+    "region": "asia",
+    "city": "Bangkok",
+    "cityCn": "曼谷",
+    "tz": "Asia/Bangkok",
+    "country": "TH",
+    "aliases": [
+      "bangkok",
+      "krung thep"
+    ],
+    "accent": "#B68B4E",
+    "ink": "#624A2D",
+    "line": "寺院金箔、昭披耶河與夜市熱氣，把城市染成濃烈的金色。",
+    "summary": "河流、寺廟、夜市、濕熱與不間斷的節奏。SAFFRON BANGKOK 將 world、dance、tropical、electronic 與暖色 percussion 疊在一起。",
+    "words": [
+      "world",
+      "dance",
+      "tropical",
+      "electronic",
+      "warm",
+      "percussion",
+      "night",
+      "river",
+      "groove",
+      "upbeat",
+      "ambient",
+      "ritual"
+    ],
+    "count": 50
+  },
+  {
+    "t": "CONCRETE BERLIN",
+    "slug": "concrete-berlin",
+    "code": "BER",
+    "name": "Concrete Berlin",
+    "cn": "灰階柏林",
+    "kind": "city",
+    "region": "europe",
+    "city": "Berlin",
+    "cityCn": "柏林",
+    "tz": "Europe/Berlin",
+    "country": "DE",
+    "aliases": [
+      "berlin"
+    ],
+    "accent": "#747B82",
+    "ink": "#3F454A",
+    "line": "混凝土、冷光、地鐵與凌晨四點仍在推進的低頻。",
+    "summary": "粗獷建築、歷史斷面與夜生活的機械感。CONCRETE BERLIN 以 techno、industrial、minimal、post-punk 與 dark electronic 為骨架。",
+    "words": [
+      "techno",
+      "industrial",
+      "minimal",
+      "electronic",
+      "post-punk",
+      "dark",
+      "pulse",
+      "night",
+      "synth",
+      "experimental",
+      "drone",
+      "club"
+    ],
+    "count": 50
+  },
+  {
+    "t": "TIDAL ROTTERDAM",
+    "slug": "tidal-rotterdam",
+    "code": "RTM",
+    "name": "Tidal Rotterdam",
+    "cn": "潮汐鹿特丹",
+    "kind": "city",
+    "region": "europe",
+    "city": "Rotterdam",
+    "cityCn": "鹿特丹",
+    "tz": "Europe/Amsterdam",
+    "country": "NL",
+    "aliases": [
+      "rotterdam"
+    ],
+    "accent": "#6C94A0",
+    "ink": "#38535B",
+    "line": "港口吊臂、現代建築與河面反光，節拍像潮水規律推進。",
+    "summary": "港都、橋樑、貨櫃與當代建築構成清冷而精準的城市。選曲偏 electronic、minimal、ambient、house 與帶海風感的 groove。",
+    "words": [
+      "electronic",
+      "minimal",
+      "ambient",
+      "house",
+      "groove",
+      "ocean",
+      "water",
+      "industrial",
+      "modern",
+      "chill",
+      "pulse",
+      "night"
+    ],
+    "count": 50
+  },
+  {
+    "t": "HARBOUR SYDNEY",
+    "slug": "harbour-sydney",
+    "code": "SYD",
+    "name": "Harbour Sydney",
+    "cn": "晴港雪梨",
+    "kind": "city",
+    "region": "oceania",
+    "city": "Sydney",
+    "cityCn": "雪梨",
+    "tz": "Australia/Sydney",
+    "country": "AU",
+    "aliases": [
+      "sydney",
+      "sydney city"
+    ],
+    "accent": "#5D9CB3",
+    "ink": "#315665",
+    "line": "海港的白光、渡輪與鹹味海風，把城市拉得明亮而開闊。",
+    "summary": "海港、沙灘、城市天際線與太平洋光線。HARBOUR SYDNEY 以 coastal indie、surf、acoustic、electronic chill 與明亮人聲為主。",
+    "words": [
+      "coastal",
+      "surf",
+      "ocean",
+      "acoustic",
+      "indie",
+      "chill",
+      "bright",
+      "summer",
+      "electronic",
+      "warm",
+      "pop",
+      "sea"
+    ],
+    "count": 50
+  },
+  {
+    "t": "QUIET CANBERRA",
+    "slug": "quiet-canberra",
+    "code": "CBR",
+    "name": "Quiet Canberra",
+    "cn": "靜謐坎培拉",
+    "kind": "city",
+    "region": "oceania",
+    "city": "Canberra",
+    "cityCn": "坎培拉",
+    "tz": "Australia/Sydney",
+    "country": "AU",
+    "aliases": [
+      "canberra"
+    ],
+    "accent": "#889A82",
+    "ink": "#485344",
+    "line": "寬闊大道、湖面與低密度的光，讓聲音保留很多空白。",
+    "summary": "湖泊、樹影、低密度街廓與克制的城市節奏。QUIET CANBERRA 偏 minimal piano、ambient、acoustic 與安靜的 chamber / folk。",
+    "words": [
+      "minimal",
+      "piano",
+      "ambient",
+      "calm",
+      "acoustic",
+      "folk",
+      "gentle",
+      "nature",
+      "soft",
+      "classical",
+      "slow",
+      "meditative"
+    ],
+    "count": 50
+  },
+  {
+    "t": "HEAVENLY TIANJING",
+    "slug": "heavenly-tianjing",
+    "code": "TJK",
+    "name": "Heavenly Tianjing",
+    "cn": "天京",
+    "kind": "city",
+    "region": "asia",
+    "city": "Wangjing",
+    "cityCn": "望京",
+    "tz": "Asia/Shanghai",
+    "country": "CN",
+    "aliases": [
+      "wangjing"
+    ],
+    "accent": "#7E879B",
+    "ink": "#444B5A",
+    "line": "望京的玻璃天際線、環路燈帶與遠處城市霧，把夜拉成冷色長鏡頭。",
+    "summary": "以「天京」作為概念名，聲音落在望京：高樓、科技園區、環路與夜間霧光。選曲偏 synth、future pop、ambient、electronic 與克制的都市節拍。",
+    "words": [
+      "synth",
+      "future",
+      "electronic",
+      "ambient",
+      "city",
+      "night",
+      "neon",
+      "minimal",
+      "pulse",
+      "dream",
+      "urban",
+      "chill"
+    ],
+    "count": 50
+  },
+  {
+    "t": "GINKGO NANJING",
+    "slug": "ginkgo-nanjing",
+    "code": "NKG",
+    "name": "Ginkgo Nanjing",
+    "cn": "銀杏南京",
+    "kind": "city",
+    "region": "asia",
+    "city": "Nanjing",
+    "cityCn": "南京",
+    "tz": "Asia/Shanghai",
+    "country": "CN",
+    "aliases": [
+      "nanjing",
+      "nanking"
+    ],
+    "accent": "#A88A55",
+    "ink": "#5B4930",
+    "line": "民國建築的街廓、秋日銀杏與石牆，把時間留在偏金色的午後。",
+    "summary": "把中華民國時期的城市記憶、民國建築、秋日銀杏與南京老街的克制感放在一起。選曲偏 vintage、chamber、folk、jazz 與帶歷史感的慢速旋律。",
+    "words": [
+      "vintage",
+      "chamber",
+      "folk",
+      "jazz",
+      "old room",
+      "acoustic",
+      "classical",
+      "warm",
+      "slow",
+      "nostalgic",
+      "piano",
+      "ballroom"
+    ],
+    "count": 50
+  },
+  {
+    "t": "SYDNEY OPERA HOUSE",
+    "slug": "sydney-opera-house",
+    "code": "SOH",
+    "name": "Sydney Opera House",
+    "cn": "雪梨歌劇院",
+    "kind": "spot",
+    "region": "oceania",
+    "city": "Sydney",
+    "cityCn": "雪梨",
+    "tz": "Australia/Sydney",
+    "country": "AU",
+    "aliases": [],
+    "accent": "#6F9BAE",
+    "ink": "#385562",
+    "line": "白色殼頂貼著海港光線，弦樂、鋼琴與大片空氣在水面上展開。",
+    "summary": "以建築、舞台與海港三個元素策展。從 chamber、classical、piano 到 cinematic ambient，保留雪梨歌劇院既精準又開闊的聲場。",
+    "words": [
+      "classical",
+      "chamber",
+      "piano",
+      "cinematic",
+      "ambient",
+      "orchestra",
+      "acoustic",
+      "ocean",
+      "calm",
+      "dramatic",
+      "modern",
+      "strings"
+    ],
+    "count": 25
+  }
+];
+function extraThemeData(spec) {
+  const picked = originalPick(spec, spec.count || 50, new Set(), spec.words || []);
+  return { t: spec.t, sub: spec.summary, key: (spec.kind === 'spot' ? '景點歌單' : '城市主題') + ' · 母庫策展',
+    tracks: picked.map((x, i) => ({ ...x.t, trackNo: i + 1, curatedTheme: spec.t, curatedFrom: x.t.shareId || x.t.audioSrc || x.from,
+      sourceTheme: x.from, shareId: spec.slug + '-' + String(i + 1).padStart(3, '0'), vibe: spec.cn + ' · ' + (x.t.vibe || x.from || '') })) };
+}
+EXTRA_THEME_SPECS.forEach(spec => {
+  META[spec.t] = { slug: spec.slug, code: spec.code, name: spec.name, cn: spec.cn, kind: spec.kind, region: spec.region,
+    city: spec.city, cityCn: spec.cityCn, tz: spec.tz, country: spec.country, aliases: spec.aliases || [],
+    accent: spec.accent, ink: spec.ink, line: spec.line, summary: spec.summary };
+});
+DATA.push(...EXTRA_THEME_SPECS.map(extraThemeData));
+
+
 
 /* Groups for the glass box and filters */
 const GROUPS = [
-  { key: 'asia', label: '亞洲', en: 'Asia', names: ['TAIPEI DREAM', 'FANTASY TAINAN', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'TRADITIONAL BEIJING', 'BUSTLING HONG KONG', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG', 'ROUGE TIBET'] },
-  { key: 'europe', label: '歐洲', en: 'Europe', names: ['VAPOR LONDON', 'SLIGHTLY TIPSY ROME', 'CHAMPS-ÉLYSÉES', 'MENACING DUBAI'] },
+  { key: 'asia', label: '亞洲', en: 'Asia', names: ['TAIPEI DREAM', 'FANTASY TAINAN', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'TRADITIONAL BEIJING', 'BUSTLING HONG KONG', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG', 'ROUGE TIBET', 'ELECTRIC SEOUL', 'MONSOON KUALA LUMPUR', 'GOLDEN MANILA', 'SAFFRON BANGKOK', 'HEAVENLY TIANJING', 'GINKGO NANJING'] },
+  { key: 'europe', label: '歐洲', en: 'Europe', names: ['VAPOR LONDON', 'SLIGHTLY TIPSY ROME', 'CHAMPS-ÉLYSÉES', 'MENACING DUBAI', 'CONCRETE BERLIN', 'TIDAL ROTTERDAM'] },
+  { key: 'oceania', label: '大洋洲', en: 'Oceania', names: ['HARBOUR SYDNEY', 'QUIET CANBERRA'] },
+  { key: 'landmark', label: '景點', en: 'Landmarks', names: ['SYDNEY OPERA HOUSE'] },
   { key: 'americas', label: '美洲', en: 'Americas', names: ['VANCOUVER', 'NEW YORK', 'TROPICAL HAWAII', 'PSYCHEDELIC LA'] },
   { key: 'style', label: '風格', en: 'Styles', names: ['JAZZ', 'CROONER', 'ROCK', 'LO-FI'] },
   { key: 'mood', label: '心情', en: 'Moods', names: ['EMO', 'SPORT', 'RUNNING', 'POEM'] },
   { key: 'original', label: '原創歌單', en: 'Original', names: ORIGINAL_PLAYLISTS.map(w => w.t) },
   { key: 'literature', label: '文學', en: 'Literature', names: LIT.map(w => w.t) }
 ].filter(g => g.names.length);
-const KIND_LABEL = { city: '城市', style: '風格', mood: '心情', original: '原創歌單', literature: '文學' };
-const REGION_LABEL = { asia: '亞洲', europe: '歐洲', mideast: '中東', americas: '美洲' };
+const KIND_LABEL = { city: '城市', spot: '景點', style: '風格', mood: '心情', original: '原創歌單', literature: '文學' };
+const REGION_LABEL = { asia: '亞洲', europe: '歐洲', oceania: '大洋洲', mideast: '中東', americas: '美洲' };
 
 /* Landmarks for spot-edition tickets (GPS check-in, coordinates never stored) */
 const LANDMARKS = [
+  { id: 'sydney-opera-house', name: 'Sydney Opera House', cn: '雪梨歌劇院', code: 'SOH', area: 'Sydney', areaCn: '雪梨', region: 'oceania', theme: 'SYDNEY OPERA HOUSE', lat: -33.8568, lng: 151.2153, r: 900 },
   { id: 'west-lake-hangzhou', name: 'West Lake', cn: '西湖', code: 'HZH', area: 'Hangzhou', areaCn: '杭州', region: 'asia', theme: 'SPLENDOR SHANGHAI', lat: 30.2375, lng: 120.140833, r: 5200 },
   { id: 'taipei-101', name: 'Taipei 101', cn: '台北 101', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0340, lng: 121.5645, r: 650 },
   { id: 'ximending', name: 'Ximending', cn: '西門町', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0422, lng: 121.5077, r: 850 },
@@ -521,8 +933,8 @@ const LANDMARKS = [
   { id: 'tokyo-skytree', name: 'Tokyo Skytree', cn: '東京晴空塔', code: 'TYO', area: 'Tokyo', areaCn: '東京', region: 'asia', theme: 'OLD TOKYO', lat: 35.7101, lng: 139.8107, r: 700 },
   { id: 'tokyo-tower', name: 'Tokyo Tower', cn: '東京鐵塔', code: 'TYO', area: 'Tokyo', areaCn: '東京', region: 'asia', theme: 'OLD TOKYO', lat: 35.6586, lng: 139.7454, r: 550 },
   { id: 'shibuya-crossing', name: 'Shibuya Crossing', cn: '澀谷十字路口', code: 'TYO', area: 'Tokyo', areaCn: '東京', region: 'asia', theme: 'OLD TOKYO', lat: 35.6595, lng: 139.7005, r: 450 },
-  { id: 'gyeongbokgung', name: 'Gyeongbokgung Palace', cn: '首爾景福宮', code: 'SEL', area: 'Seoul', areaCn: '首爾', region: 'asia', theme: 'BUSTLING HONG KONG', lat: 37.5796, lng: 126.9770, r: 800 },
-  { id: 'n-seoul-tower', name: 'N Seoul Tower', cn: '南山首爾塔', code: 'SEL', area: 'Seoul', areaCn: '首爾', region: 'asia', theme: 'BUSTLING HONG KONG', lat: 37.5512, lng: 126.9882, r: 850 },
+  { id: 'gyeongbokgung', name: 'Gyeongbokgung Palace', cn: '首爾景福宮', code: 'SEL', area: 'Seoul', areaCn: '首爾', region: 'asia', theme: 'ELECTRIC SEOUL', lat: 37.5796, lng: 126.9770, r: 800 },
+  { id: 'n-seoul-tower', name: 'N Seoul Tower', cn: '南山首爾塔', code: 'SEL', area: 'Seoul', areaCn: '首爾', region: 'asia', theme: 'ELECTRIC SEOUL', lat: 37.5512, lng: 126.9882, r: 850 },
   { id: 'the-bund', name: 'The Bund', cn: '外灘', theme: 'SPLENDOR SHANGHAI', lat: 31.2400, lng: 121.4900, r: 1000 },
   { id: 'forbidden-city', name: 'Forbidden City', cn: '故宮', theme: 'TRADITIONAL BEIJING', lat: 39.9163, lng: 116.3972, r: 1300 },
   { id: 'victoria-peak', name: 'Victoria Peak', cn: '太平山頂', code: 'HKG', area: 'Hong Kong', areaCn: '香港', region: 'asia', theme: 'BUSTLING HONG KONG', lat: 22.2759, lng: 114.1455, r: 1300 },

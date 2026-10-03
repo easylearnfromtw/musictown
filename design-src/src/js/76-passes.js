@@ -2,7 +2,7 @@
    Geo · approximate city by IP (ipwho.is, IP itself never stored),
    precise check-ins by GPS only when the listener taps "check in".
    ========================================================================== */
-const CITY_CENTER = { TPE: [25.0330, 121.5654], TNN: [22.9997, 120.2270], LXA: [29.6520, 91.1721], MLE: [4.1755, 73.5093], TYO: [35.6762, 139.6503], SHA: [31.2304, 121.4737], BJS: [39.9042, 116.4074], HKG: [22.3193, 114.1694], KYO: [35.0116, 135.7681], LYA: [34.6197, 112.4540], LON: [51.5072, -0.1276], ROM: [41.9028, 12.4964], PAR: [48.8566, 2.3522], DXB: [25.2048, 55.2708], YVR: [49.2827, -123.1207], NYC: [40.7128, -74.0060], HNL: [21.3099, -157.8581], LAX: [34.0522, -118.2437] };
+const CITY_CENTER = { TPE:[25.0330,121.5654], TNN:[22.9997,120.2270], LXA:[29.6520,91.1721], MLE:[4.1755,73.5093], TYO:[35.6762,139.6503], SHA:[31.2304,121.4737], BJS:[39.9042,116.4074], HKG:[22.3193,114.1694], KYO:[35.0116,135.7681], LYA:[34.6197,112.4540], LON:[51.5072,-0.1276], ROM:[41.9028,12.4964], PAR:[48.8566,2.3522], DXB:[25.2048,55.2708], YVR:[49.2827,-123.1207], NYC:[40.7128,-74.0060], HNL:[21.3099,-157.8581], LAX:[34.0522,-118.2437], SEL:[37.5665,126.9780], KUL:[3.1390,101.6869], MNL:[14.5995,120.9842], BKK:[13.7563,100.5018], BER:[52.5200,13.4050], RTM:[51.9244,4.4777], SYD:[-33.8688,151.2093], CBR:[-35.2809,149.1300], TJK:[39.9965,116.4682], NKG:[32.0603,118.7969] };
 const distKm = (a, b) => { const R = 6371, r = x => x * Math.PI / 180, dLa = r(b[0] - a[0]), dLo = r(b[1] - a[1]); const h = Math.sin(dLa / 2) ** 2 + Math.cos(r(a[0])) * Math.cos(r(b[0])) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); };
 
 const Geo = (() => {
@@ -287,7 +287,7 @@ const Pass = (() => {
     const list = Wallet.all();
     if (list.length) return openTicket(list[0]);
     Sheet.open({ title: 'City Pass', sub: '城市與景點的限定票根',
-      html: `<p class="sheet-note">人在 CITYMUS 的十八座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
+      html: `<p class="sheet-note">人在 CITYMUS 的 ${CITY_THEMES.length} 座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
       mount(b, s) { $('[data-c]', b).onclick = () => { s.close(); Router.go('cities'); }; $('[data-s]', b).onclick = () => { s.close(); checkInSpot(); }; } });
   });
   bus.on('geo', t => { document.documentElement.classList.toggle('has-pass', !!t && !Wallet.has(`city-${THEME_BY_T.get(t)?.slug}`)); });
