@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble musicetown R11.4 into a single index.html (+404 stub, claude-interface copy).
+"""Assemble CITYMUS into a single index.html (+404 stub, claude-interface copy).
 
 usage: python3 build.py out_dir [catalog.json | some.html]
 
@@ -30,7 +30,7 @@ def load_catalog():
     raise SystemExit("no catalog found (pass a catalog .json or an index.html)")
 
 catalog, catalog_from = load_catalog()
-BUILD = "R14.5 · 2026-10-03 · Lock-Screen Square Artwork"
+BUILD = "R14.6 · 2026-10-03 · CITYMUS Brand"
 
 repo_root = ROOT.parent
 orig_builder = repo_root / "build_original_playlists.py"
