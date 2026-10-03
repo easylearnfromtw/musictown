@@ -1,0 +1,44 @@
+name: Check literature audio
+
+# Checks the 250 文學 streams and repairs renamed files inside the same
+# Internet Archive item. Runs on demand, monthly, or when this file or the
+# script changes. It never touches index.html or MUSIC_DATA.
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/bake-literature-audio.yml"
+      - ".github/scripts/bake_literature_audio.py"
+  schedule:
+    - cron: "17 3 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: literature-audio
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Check and repair streams
+        run: python .github/scripts/bake_literature_audio.py
+      - name: Commit map
+        shell: bash
+        run: |
+          set -e
+          git config user.name "musicetown-auto"
+          git config user.email "actions@users.noreply.github.com"
+          git add literature-audio-map.js .github/reports/literature-audio-report.json
+          if git diff --cached --quiet; then echo "No changes."; exit 0; fi
+          git commit -m "Refresh literature audio map"
+          git push
