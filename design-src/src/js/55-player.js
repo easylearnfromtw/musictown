@@ -83,12 +83,14 @@ const Player = (() => {
     const off = Offline.url(t);
     const q = Settings.get('quality');
     if (t.stream) {
-      const order = (q === 'hq' || q === 'lossless') ? [t.stream, LIT_MAP[t.shareId], off] : [off, LIT_MAP[t.shareId], t.stream];
+      const hi = t.lossless || t.flac || t.wav || t.hq || t.download || null;
+      const order = q === 'lossless' ? [hi, t.stream, LIT_MAP[t.shareId], off] : q === 'hq' ? [t.stream, hi, LIT_MAP[t.shareId], off] : [off, LIT_MAP[t.shareId], t.stream];
       return [...new Set(order.filter(Boolean))];
     }
     const local = t.audioSrc ? abs(t.audioSrc) : null, remote = (t.masterId && REMOTE_MAP[t.masterId]) || null, dl = t.download || null, nr = nullrightsAudio(t);
+    const hi = t.lossless || t.flac || t.wav || t.hq || null;
     let order;
-    if (q === 'lossless') order = [dl, remote, nr, local];
+    if (q === 'lossless') order = [hi, dl, remote, nr, local];
     else if (q === 'hq') order = [remote, dl, nr, local];
     else if (localAvail === false) order = [remote, dl, nr, local];
     else if (localAvail === true || q === 'saver' || (FX.level > 0)) order = [local, remote, dl, nr];
@@ -289,6 +291,14 @@ const Player = (() => {
       if (Math.abs(ct - lastTime) < .01) stuckTicks++; else stuckTicks = 0;
       lastTime = ct;
       const d = a.duration;
+      if (Number.isFinite(d) && d > 0 && activeName === 'fx' && FX.tailActive) {
+        const silent = Number(FX.silenceSec || 0), rem = d - ct;
+        if (silent >= 2.6 && ct < 10 && d > 20) {
+          try { a.currentTime = Math.min(10, ct + 3.5); FX.resetSilence?.(); Fader.seeked(); } catch (_) {}
+          return;
+        }
+        if (silent >= 2.6 && rem > .35 && rem < 12 && ct > 20 && Settings.get('repeat') !== 'one') { onEnded(); return; }
+      }
       if (Number.isFinite(d) && d > 0 && ct >= d - .35 && stuckTicks >= 2) { onEnded(); return; }
       if (stuckTicks >= 14 && a.readyState < 3) { stuckTicks = 0; onError(); }
     }

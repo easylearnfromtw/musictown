@@ -436,8 +436,8 @@ Router.register('library', (el) => {
     const drawSettings = async () => {
       const est = await Offline.estimate();
       byId('settings').innerHTML = `
-        <button class="setting setting--tail" type="button" id="setTail"><div><b>小尾巴 · 常態背景優化</b><span>K-weighted 響度一致化、門檻過濾、峰值保護與頻率依賴 Dynamic EQ；以整首趨勢校正，不追著每個強弱段落跑</span></div><span class="switch" role="switch" aria-checked="${Settings.get('tailEnabled') !== false}"></span></button>
-        <div class="setting setting--stack"><div><b>音質模式</b><span>${{ auto: '標準：保留自然動態與常態校正', hq: '高音質：動態校正、清晰度、瞬態感與輕量空氣重建', lossless: '修復+：更積極的數碼修復、清晰度與空氣感重建', saver: '省流量：使用較輕量音源並維持音量一致' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
+        <button class="setting setting--tail" type="button" id="setTail"><div><b>小尾巴 · 常態聽感優化</b><span>讓音樂更耐聽、更連貫：過長的真正靜音會自動收短；抑制爆音、尖銳與齒音，整理混濁，同時保留厚度、瞬態與空氣感，不把聲音磨成白開水。</span></div><span class="switch" role="switch" aria-checked="${Settings.get('tailEnabled') !== false}"></span></button>
+        <div class="setting setting--stack"><div><b>音質模式</b><span>${{ auto: '標準：自然動態＋小尾巴，適合大多數手機與耳機', hq: '高音質：強化微動態、瞬態、分離度與空氣感，保留原始質感', lossless: '無損：優先最高品質來源；以 32-bit float 重整細節、微動態與瞬態，並為手機／藍牙輸出保留峰值 headroom、整理超高頻能量，降低再次編碼的毛邊與刺耳。原始來源若為有損，不會被宣稱成真正無損檔', saver: '省流量：優先較輕量音源，小尾巴仍維持音量與刺耳控制' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
         <div class="setting setting--stack"><div><b>低音</b><span>120 Hz · 調整厚度與下盤</span></div><div id="eqBassSeg"></div></div>
         <div class="setting setting--stack"><div><b>人聲</b><span>2.2 kHz · 讓 vocal 往前或退後</span></div><div id="eqVocalSeg"></div></div>
         <div class="setting setting--stack"><div><b>高音</b><span>4.8 kHz · 調整亮度與空氣感</span></div><div id="eqTrebleSeg"></div></div>
@@ -448,8 +448,8 @@ Router.register('library', (el) => {
         <button class="setting" type="button" id="setDislikes"><div><b>不適合我</b><span>${Dislikes.size ? `${Dislikes.size} 首會在自動播放時略過 · 點一下清除` : '在歌曲選單標記後，自動播放會略過'}</span></div>${icon('ban')}</button>
         <button class="setting" type="button" id="setWelcome"><div><b>重新看一次歡迎頁</b><span>重新選擇想先去的地方</span></div>${icon('chevron')}</button>
         <button class="setting" type="button" id="setUpdate"><div><b>目前版本</b><span>${esc(MT_BUILD)} · 點一下檢查 GitHub Pages 更新</span></div>${icon('refresh')}</button>`;
-      byId('setTail').onclick = () => { const on = Settings.get('tailEnabled') !== false; Settings.set('tailEnabled', !on); drawSettings(); toast(on ? '小尾巴已暫停，可用來 A/B 對照' : '小尾巴已恢復常態背景優化'); };
-      Seg(byId('qualSeg'), { label: '音質模式', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'lossless', label: '修復+' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast(k === 'lossless' ? '進階數碼修復已套用' : k === 'hq' ? '高音質模式已開啟' : k === 'saver' ? '已切換省流量' : '已回到標準模式'); } });
+      byId('setTail').onclick = () => { const on = Settings.get('tailEnabled') !== false; Settings.set('tailEnabled', !on); drawSettings(); toast(on ? '小尾巴已暫停，可用來 A/B 對照' : '小尾巴已恢復常態聽感優化'); };
+      Seg(byId('qualSeg'), { label: '音質模式', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'lossless', label: '無損' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast(k === 'lossless' ? '無損模式已開啟 · 最高品質來源＋細節重整' : k === 'hq' ? '高音質模式已開啟' : k === 'saver' ? '已切換省流量' : '已回到標準模式'); } });
       const eqItems = [{ key:'-6', label:'-6' }, { key:'-3', label:'-3' }, { key:'0', label:'0' }, { key:'3', label:'+3' }, { key:'6', label:'+6' }];
       Seg(byId('eqBassSeg'), { label:'低音 dB', value:String(Settings.get('eqBass') || 0), items:eqItems, onChange:k => Settings.set('eqBass', Number(k)) });
       Seg(byId('eqVocalSeg'), { label:'人聲 dB', value:String(Settings.get('eqVocal') || 0), items:eqItems, onChange:k => Settings.set('eqVocal', Number(k)) });
