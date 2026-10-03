@@ -91,7 +91,7 @@ const Player = (() => {
     a.addEventListener('playing', () => { a._unlocked = true; if (!mine()) return; failStreak = 0; FX.setSurface(FX.level > 0); Fader.apply(); emitState(); ms.state(); });
     a.addEventListener('pause', () => { if (!mine()) return; FX.setSurface(false); emitState(); ms.state(); });
     a.addEventListener('timeupdate', () => { if (!mine()) return; bus.emit('time'); onProgress(); Fader.apply(); });
-    a.addEventListener('loadedmetadata', () => { if (!mine()) return; if (a._seekTo != null) { try { a.currentTime = a._seekTo; } catch (_) {} a._seekTo = null; } bus.emit('time'); ms.position(); });
+    a.addEventListener('loadedmetadata', () => { if (!mine()) return; if (a._seekTo != null) { try { a.currentTime = a._seekTo; } catch (_) {} a._seekTo = null; } bus.emit('time'); ms.position(); if (Number.isFinite(a.duration) && a.duration <= 90) setTimeout(warmNext, 250); });
     a.addEventListener('durationchange', () => { if (mine()) { bus.emit('time'); ms.position(); } });
     a.addEventListener('seeked', () => { if (mine()) { bus.emit('time'); ms.position(); Fader.seeked(); } });
     a.addEventListener('ended', () => { if (mine()) onEnded(); });
@@ -121,25 +121,26 @@ const Player = (() => {
   /* ---------- fades: 2 s in at the start, 3 s out at the end ----------
      Web Audio path: sample-accurate ramps on a music-only gain.
      Elsewhere: element.volume (iOS ignores it, hence the Web Audio route there). */
-  const FADE_IN = 2, FADE_OUT = 3;
+  const FADE_IN = 1.2, AUTO_FADE_IN = .45, FADE_OUT = .9;
   const Fader = (() => {
-    let endSet = false, startSet = false, raf = 0;
-    const envelope = (ct, d) => { let g = Math.min(1, ct / FADE_IN); if (Number.isFinite(d) && d > FADE_IN + FADE_OUT + 1) g = Math.min(g, (d - ct) / FADE_OUT); return clamp(g, 0, 1); };
+    let endSet = false, startSet = false, raf = 0, transition = 'manual';
+    const inSec = () => transition === 'auto' ? AUTO_FADE_IN : FADE_IN;
+    const envelope = (ct, d) => { const fi = inSec(); let g = Math.min(1, ct / fi); if (Number.isFinite(d) && d > fi + FADE_OUT + 1) g = Math.min(g, (d - ct) / FADE_OUT); return clamp(g, 0, 1); };
     function apply(force = false) {
       const a = el(), d = a.duration, ct = a.currentTime || 0;
       if (!fadesOn()) { if (force) reset(); return; }
       if (activeName === 'fx') {
         if (!FX.ctx) return;
-        const rem = Number.isFinite(d) ? d - ct : Infinity, long = Number.isFinite(d) && d > FADE_IN + FADE_OUT + 1;
+        const fi = inSec(), rem = Number.isFinite(d) ? d - ct : Infinity, long = Number.isFinite(d) && d > fi + FADE_OUT + 1;
         if (long && rem <= FADE_OUT + .3) { if (!endSet && !a.paused) { endSet = true; FX.fade.to(.0001, Math.max(.05, rem)); } }
-        else if (ct < FADE_IN - .05) { if (!startSet && !a.paused) { startSet = true; FX.fade.set(Math.max(.0001, envelope(ct, d))); FX.fade.to(1, FADE_IN - ct); } }
+        else if (ct < fi - .03) { if (!startSet && !a.paused) { startSet = true; FX.fade.set(Math.max(.0001, envelope(ct, d))); FX.fade.to(1, fi - ct); } }
         else if (force || endSet || FX.fade.value < .999) { endSet = false; FX.fade.to(1, .12); }
       } else if (!IS_IOS) {
         try { a.volume = envelope(ct, d); } catch (_) {}
         cancelAnimationFrame(raf); if (!a.paused && a.volume < 1 && !document.hidden) raf = requestAnimationFrame(() => apply());
       }
     }
-    function newTrack() { endSet = false; startSet = false; if (!fadesOn()) return; if (activeName === 'fx' && FX.ctx) FX.fade.set(.0001); else if (!IS_IOS) { try { el().volume = 0; } catch (_) {} } }
+    function newTrack(mode = 'manual') { transition = mode; endSet = false; startSet = false; if (!fadesOn()) return; const start = mode === 'auto' ? .18 : .0001; if (activeName === 'fx' && FX.ctx) FX.fade.set(start); else if (!IS_IOS) { try { el().volume = start; } catch (_) {} } }
     function seeked() { endSet = false; startSet = false; apply(true); }
     function reset() { if (FX.ctx) FX.fade.set(1); Object.values(els).forEach(a => { try { a.volume = 1; } catch (_) {} }); }
     bus.on('settings', ({ k }) => { if (k === 'fades') { reset(); apply(true); } });
@@ -147,15 +148,15 @@ const Player = (() => {
   })();
 
   /* ---------- load + play ---------- */
-  function load(t, { autoplay = true, startAt = 0 } = {}) {
+  function load(t, { autoplay = true, startAt = 0, transition = 'manual' } = {}) {
     if (!t) return;
     handoffSeq++; // invalidate any async vintage/original pipeline switch from the previous state
-    current = t; cands = sourcesFor(t); ci = 0; endHandledFor = null; prefetched = ''; lastTime = -1; stuckTicks = 0;
+    current = t; cands = sourcesFor(t); ci = 0; endHandledFor = null; prefetched = ''; warmKey = ''; try { warmAbort?.abort(); } catch (_) {} warmAbort = null; lastTime = -1; stuckTicks = 0;
     const url = cands[0];
     if (!url) { onError(); return; }
     activate(elementFor(url));
     if (activeName === 'fx') FX.ensure();
-    Fader.newTrack();
+    Fader.newTrack(transition);
     const a = el(); a._track = t; a._seekTo = startAt > 0 ? startAt : null;
     a.src = url;
     wantPlay = autoplay;
@@ -192,16 +193,45 @@ const Player = (() => {
   }
 
   /* ---------- progress, prefetch, watchdog ---------- */
-  let lastMsPos = 0;
+  let lastMsPos = 0, warmKey = '', warmAbort = null;
+  const preconnected = new Set();
+  function ensureAutoplayTail() {
+    if (peekNext() || Settings.get('autoplay') === false || !current) return peekNext();
+    const add = Reco.radio(current, 10, { avoid: queue.slice(-30).map(e => e.t) }).map(t => entry(t, { radio: true }));
+    if (add.length) { queue.push(...add); bus.emit('queue'); }
+    return peekNext();
+  }
+  function preconnect(url) {
+    try {
+      const u = new URL(url, document.baseURI); if (!/^https?:$/.test(u.protocol) || preconnected.has(u.origin)) return;
+      preconnected.add(u.origin);
+      const l = document.createElement('link'); l.rel = 'preconnect'; l.href = u.origin;
+      if (u.origin !== location.origin) l.crossOrigin = 'anonymous';
+      document.head.appendChild(l);
+    } catch (_) {}
+  }
+  function warmNext() {
+    const nx = ensureAutoplayTail(); if (!nx?.t) return;
+    const urls = sourcesFor(nx.t), url = urls[0]; if (!url) return;
+    const key = trackKey(nx.t) + '|' + url; if (key === warmKey) return;
+    warmKey = key; prefetched = key; preconnect(url);
+    if (graphWanted() && !FX.canProcess(url)) FX.probeCors(url).catch(() => {});
+    try {
+      const u = new URL(url, document.baseURI); if (!/^https?:$/.test(u.protocol)) return;
+      warmAbort?.abort(); warmAbort = new AbortController();
+      const timer = setTimeout(() => warmAbort?.abort(), 7000);
+      fetch(url, { headers: { Range: 'bytes=0-524287' }, cache: 'force-cache', priority: 'low', signal: warmAbort.signal })
+        .then(r => { try { return r.body?.cancel?.(); } catch (_) {} })
+        .catch(() => {})
+        .finally(() => clearTimeout(timer));
+    } catch (_) {}
+  }
   function onProgress() {
     const a = el(); const d = a.duration;
     if (performance.now() - lastMsPos > 4000) { lastMsPos = performance.now(); ms.position(); saveSession(); }
     if (!Number.isFinite(d) || d <= 0) return;
-    if (d - a.currentTime < 25 && !prefetched) {
-      prefetched = 'x'; const nx = peekNext();
-      const url = nx && sourcesFor(nx.t)[0];
-      if (url) { try { const u = new URL(url); if (u.origin === location.origin) fetch(url, { priority: 'low' }).then(r => r.body?.cancel?.()).catch(() => {}); } catch (_) {} }
-    }
+    const rem = d - a.currentTime;
+    if (rem < 55 && !warmKey) warmNext();
   }
   setInterval(() => {
     const a = el(); if (!current || a._unlocking || a._switching) return;
@@ -236,13 +266,14 @@ const Player = (() => {
     if (i >= queue.length) {
       if (Settings.get('repeat') === 'all' && queue.length) i = 0;
       else if (Settings.get('autoplay') !== false) {
-        const add = Reco.radio(current, 10, { avoid: queue.slice(-30).map(e => e.t) }).map(t => entry(t, { radio: true }));
-        queue.push(...add); bus.emit('queue');
+        ensureAutoplayTail();
+        i = index + 1;
+        while (i < queue.length && auto && Dislikes.has(queue[i].t)) i++;
       }
     }
     if (i >= queue.length) { wantPlay = false; emitState(); return; }
     index = i;
-    load(queue[index].t, { autoplay: keepWant ? (wantPlay || auto) : true });
+    load(queue[index].t, { autoplay: keepWant ? (wantPlay || auto) : true, transition: auto ? 'auto' : 'manual' });
     bus.emit('queue');
   }
 
@@ -283,20 +314,20 @@ const Player = (() => {
   function seek(sec) { const a = el(); try { if (Number.isFinite(sec)) a.currentTime = clamp(sec, 0, Number.isFinite(a.duration) ? a.duration - .05 : sec); } catch (_) {} bus.emit('time'); }
   function playNext(t) {
     if (!current) { playTrack(t); return; }
-    queue.splice(index + 1, 0, entry(t, { user: true })); bus.emit('queue'); toast('下一首播放');
+    queue.splice(index + 1, 0, entry(t, { user: true })); warmKey = ''; bus.emit('queue'); warmNext(); toast('下一首播放');
   }
   function addToQueue(t) {
     if (!current) { playTrack(t); return; }
     let p = index + 1; while (p < queue.length && queue[p].user) p++;
-    queue.splice(p, 0, entry(t, { user: true })); bus.emit('queue'); toast('已加入播放佇列');
+    queue.splice(p, 0, entry(t, { user: true })); warmKey = ''; bus.emit('queue'); warmNext(); toast('已加入播放佇列');
   }
-  function removeAt(i) { if (i <= index || i >= queue.length) return; queue.splice(i, 1); bus.emit('queue'); }
+  function removeAt(i) { if (i <= index || i >= queue.length) return; queue.splice(i, 1); warmKey = ''; bus.emit('queue'); warmNext(); }
   function setShuffle(on) {
     Settings.set('shuffle', !!on);
     const rest = queue.slice(index + 1);
     if (on) { shuffleBackup = queue.map(e => e.t); const mixed = Reco.smartShuffle(rest.map(e => e.t)); queue = queue.slice(0, index + 1).concat(mixed.map(t => entry(t))); }
     else if (shuffleBackup) { const i0 = shuffleBackup.indexOf(current); const tail = i0 >= 0 ? shuffleBackup.slice(i0 + 1) : rest.map(e => e.t); queue = queue.slice(0, index + 1).concat(tail.map(t => entry(t))); shuffleBackup = null; }
-    bus.emit('queue'); emitState();
+    warmKey = ''; bus.emit('queue'); warmNext(); emitState();
   }
   function cycleRepeat() { const r = Settings.get('repeat'); const n = r === 'off' ? 'all' : r === 'all' ? 'one' : 'off'; Settings.set('repeat', n); emitState(); return n; }
 

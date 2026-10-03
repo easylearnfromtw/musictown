@@ -427,8 +427,8 @@ Router.register('library', (el) => {
         <div class="setting setting--stack"><div><b>人聲</b><span>2.2 kHz · 讓 vocal 往前或退後</span></div><div id="eqVocalSeg"></div></div>
         <div class="setting setting--stack"><div><b>高音</b><span>4.8 kHz · 調整亮度與空氣感</span></div><div id="eqTrebleSeg"></div></div>
         <button class="setting" type="button" id="setEqReset"><div><b>重設聲音調整</b><span>低音、人聲、高音回到 0 dB</span></div>${icon('refresh')}</button>
-        <button class="setting" type="button" id="setFades"><div><b>淡入淡出</b><span>每首開頭 2 秒淡入、結尾 3 秒淡出</span></div><span class="switch" role="switch" aria-checked="${Settings.get('fades') !== false}"></span></button>
-        <button class="setting" type="button" id="setAuto"><div><b>自動延續播放</b><span>清單播完後，接著播放相近的歌</span></div><span class="switch" role="switch" aria-checked="${Settings.get('autoplay') !== false}"></span></button>
+        <button class="setting" type="button" id="setFades"><div><b>淡入淡出</b><span>手動播放柔和淡入；自動接歌採快速淡接，減少歌曲間空窗</span></div><span class="switch" role="switch" aria-checked="${Settings.get('fades') !== false}"></span></button>
+        <button class="setting" type="button" id="setAuto"><div><b>自動延續播放</b><span>清單接近結尾時先準備相近歌曲，讓下一首更快接上</span></div><span class="switch" role="switch" aria-checked="${Settings.get('autoplay') !== false}"></span></button>
         <div class="setting"><div><b>儲存空間</b><span>${Offline.count ? `已下載 ${Offline.count} 首 · ${fmtBytes(Offline.bytes())}` : '還沒有下載的歌'}${est?.quota ? ` · 這台裝置還可用約 ${fmtBytes(Math.max(0, est.quota - (est.usage || 0)))}` : ''}</span></div>${icon('cloud')}</div>
         <button class="setting" type="button" id="setDislikes"><div><b>不適合我</b><span>${Dislikes.size ? `${Dislikes.size} 首會在自動播放時略過 · 點一下清除` : '在歌曲選單標記後，自動播放會略過'}</span></div>${icon('ban')}</button>
         <button class="setting" type="button" id="setWelcome"><div><b>重新看一次歡迎頁</b><span>重新選擇想先去的地方</span></div>${icon('chevron')}</button>`;

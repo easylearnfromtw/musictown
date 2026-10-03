@@ -30,7 +30,7 @@ def load_catalog():
     raise SystemExit("no catalog found (pass a catalog .json or an index.html)")
 
 catalog, catalog_from = load_catalog()
-BUILD = "R11.8 · 2026-10-03 · CITYMUS Audio"
+BUILD = "R11.9 · 2026-10-03 · Smooth Autoplay"
 
 repo_root = ROOT.parent
 orig_builder = repo_root / "build_original_playlists.py"
