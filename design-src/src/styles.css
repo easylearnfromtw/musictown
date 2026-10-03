@@ -1518,3 +1518,136 @@ body { position: relative; }
   background:#fff url('assets/citymus-public-vinyl.svg') center/contain no-repeat!important;
 }
 .dest__art--original::before,.dest__art--original::after,.dest__art--original>*{display:none!important}
+
+
+/* CITYMUS R14.8 · centered welcome + half-disc vibes + matte originals */
+/* Welcome: keep the first screen compact, centered and visually weighted. */
+.welcome__step[data-step="1"]{
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  gap:0;
+  padding-top:calc(var(--safe-t) + 34px);
+  padding-bottom:calc(var(--safe-b) + 28px);
+}
+.welcome__step[data-step="1"] .welcome__globe{
+  width:110px;
+  height:110px;
+  margin:0 auto;
+  color:var(--indigo);
+}
+.welcome__step[data-step="1"] .welcome__globe .globe-mark{
+  width:110px;
+  height:110px;
+  stroke-width:1.08;
+}
+.welcome__step[data-step="1"] .welcome__word{display:none}
+.welcome__step[data-step="1"] .welcome__title{
+  margin-top:24px;
+  width:100%;
+}
+.welcome__step[data-step="1"] .welcome__title--brand img{
+  width:min(84vw,470px);
+  max-height:none;
+  margin:0 auto;
+  object-position:center;
+}
+.welcome__step[data-step="1"] .welcome__lede{
+  margin-top:24px;
+  max-width:21em;
+  font-size:clamp(17px,4.6vw,21px);
+  line-height:1.72;
+  text-align:center;
+}
+.welcome__step[data-step="1"] .welcome__cta{
+  width:min(100%,520px);
+  margin-top:30px;
+  gap:10px;
+}
+.welcome__step[data-step="1"] .welcome__cta .btn{
+  width:100%;
+  height:58px;
+}
+
+/* Style + mood cards: a half CD sits on the top edge, centered. */
+.tiles--vibe-rail .tile{
+  min-height:196px;
+  padding-top:72px;
+  overflow:hidden;
+}
+.tiles--vibe-rail .tile__art{
+  left:50%;
+  right:auto;
+  top:-58px;
+  bottom:auto;
+  width:118px;
+  height:118px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  opacity:1;
+  background:transparent;
+  box-shadow:none;
+}
+.tiles--vibe-rail .tile__art::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(250,252,253,.98) 0 12%,rgba(225,232,237,.9) 12.5% 19%,transparent 19.5%),
+    repeating-radial-gradient(circle at 50% 50%,rgba(92,105,118,0) 0 2.1px,rgba(92,105,118,.08) 2.1px 3.3px),
+    radial-gradient(circle at 35% 30%,#fff 0,color-mix(in srgb,var(--accent) 9%,#f1f5f8) 58%,color-mix(in srgb,var(--accent) 17%,#dce5eb) 100%);
+  border:1px solid rgba(132,149,163,.16);
+  box-shadow:0 10px 24px rgba(53,67,82,.10),inset 0 0 0 1px rgba(255,255,255,.78);
+}
+.tiles--vibe-rail .tile__art i,
+.tiles--vibe-rail .tile__art span{display:none!important}
+.tiles--vibe-rail .tile>b,
+.tiles--vibe-rail .tile>p{max-width:100%}
+.tiles--vibe-rail .tile:hover .tile__art{
+  transform:translateX(-50%);
+}
+
+/* Original playlists: matte disc, with the CITYMUS globe sitting in the original inner label. */
+.citymus-cover__vinyl{
+  background:
+    radial-gradient(circle at 50% 50%,#f8fafb 0 15.5%,#e7ecef 16% 23%,transparent 23.6%),
+    repeating-radial-gradient(circle at 50% 50%,rgba(102,116,127,0) 0 2.1px,rgba(102,116,127,.075) 2.1px 3.2px),
+    linear-gradient(145deg,#f3f5f6 0%,#e7ecef 55%,#dbe2e6 100%);
+  border:1px solid rgba(144,160,171,.24);
+  box-shadow:0 8px 18px rgba(54,72,86,.08),inset 0 0 0 1px rgba(255,255,255,.72);
+}
+.citymus-cover__vinyl::before{display:none}
+.citymus-cover__vinyl::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:18%;
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:rgba(249,250,251,.92);
+  border:1px solid rgba(100,116,128,.18);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.72);
+}
+.citymus-cover__globe{
+  left:50%;
+  top:50%;
+  width:11.5%;
+  translate:-50% -50%;
+  color:#53626e;
+}
+.citymus-cover__globe .globe-mark{
+  width:100%;
+  height:100%;
+  stroke-width:1.35;
+}
+
+/* Slightly quieter cover surface so the matte record is the focal point. */
+.citymus-cover{
+  background:
+    radial-gradient(circle at 18% 16%,rgba(207,232,251,.18),transparent 31%),
+    radial-gradient(circle at 82% 82%,rgba(251,215,228,.15),transparent 32%),
+    linear-gradient(155deg,#fff 0%,#fbfcfd 62%,#f4f6f8 100%);
+}

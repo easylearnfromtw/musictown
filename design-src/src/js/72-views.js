@@ -139,7 +139,7 @@ Router.register('home', (el) => {
         <div class="sec__head"><h2 class="sec__title">你的票夾</h2><button class="link-btn" type="button" id="toWallet" aria-label="全部票根">${icon('chevron')}</button></div>
         <div class="wallet" id="homeWallet"></div>
       </section>
-      <footer class="foot"><b>CITYMUS</b><span>以盡全力符合音樂版權之規定，若有違法，請洽：signwell.com.tw@gmail.com</span></footer>
+      <footer class="foot"><b>CITYMUS</b><span>已盡全力符合音樂版權之規定，若有違法，請洽：signwell.com.tw@gmail.com</span></footer>
     </div>`;
     const box = byId('homeBox');
     let group = GROUPS.find(g => g.key === Settings.get('homeGroup')) || GROUPS[0];
