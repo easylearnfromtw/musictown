@@ -21,13 +21,13 @@ permissions:
   id-token: write
 
 concurrency:
-  group: musicetown-auto-pages
+  group: citymus-production-pages
   cancel-in-progress: true
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
+    timeout-minutes: 60
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -44,33 +44,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install ffmpeg + Python deps
+      - name: Install Python deps
         shell: bash
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-
-      - name: Restore music cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            _master_audio
-            _fresh_audio_cache
-            _theme_audio_cache
-          key: musicetown-r891-64k-${{ hashFiles('verified_audio_manifest.json','fresh_city_profiles.json','theme_profiles.json') }}
-          restore-keys: |
-            musicetown-r891-64k-
-
-      - name: Install JAZZ / CROONER / ROCK / SPORT / LO-FI
-        run: python fetch_verified_audio.py --bitrate "64k"
-
-      - name: Curate city themes
-        run: python build_fresh_city_packs.py --per-city 50 --bitrate "64k"
-
-      - name: Curate EMO / RUNNING / POEM / TRADITIONAL BEIJING
-        run: python build_theme_packs.py --per-theme 50 --bitrate "64k"
 
       - name: Generate open CJK music supplement
         run: python build_cjk_open_music.py --max-per-language 24 --max-total 60
@@ -78,20 +56,20 @@ jobs:
       - name: Generate City Pass QR assets
         run: python generate_city_pass_qr.py
 
-      - name: Verify 1300 local fast-path MP3 files
-        run: python verify_music_install.py
-
-      - name: Prepare Pages artifact
+      - name: Prepare 2500-track Pages artifact
         run: python prepare_audio_site.py
 
       - name: Verify 2500-track runtime library
         shell: bash
         run: |
           python - <<'PY'
-          import json
+          import json, pathlib
           r=json.load(open("CITYMUS_LIBRARY_REPORT.json",encoding="utf-8"))
           assert r["count"]==2500, r
+          p=pathlib.Path("_site/citymus-library.js")
+          assert p.exists() and p.stat().st_size>100000
           print("CITYMUS runtime library:",r)
+          print("citymus-library.js bytes:",p.stat().st_size)
           PY
 
       - name: Upload Pages artifact

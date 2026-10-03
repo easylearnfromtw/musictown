@@ -46,10 +46,13 @@ folders=[
  "solemn-kyoto","miraculous-luoyang","champs-elysees","menacing-dubai",
  "rouge-tibet","fantasy-tainan","maldives-paradise"
 ]
+local_fast_paths=0
 for folder in folders:
     src=ROOT/folder
-    if not src.exists():raise SystemExit(f"Missing folder: {folder}")
+    if not src.exists():
+        continue
     shutil.copytree(src,SITE/folder)
+    local_fast_paths+=1
 
 size=sum(p.stat().st_size for p in SITE.rglob("*") if p.is_file())
-print(f"Prepared CITYMUS hybrid 2500-track site + themes + 文學: {size/1024/1024:.1f} MB")
+print(f"Prepared CITYMUS 2500-track production site: {size/1024/1024:.1f} MB · optional local fast-path folders {local_fast_paths}/{len(folders)}")
