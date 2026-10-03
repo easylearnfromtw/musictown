@@ -1506,3 +1506,15 @@ body { position: relative; }
 .dest--original .dest__code,.dest--original .dest__art{display:none}
 @media(max-width:680px){.hero__title--brand img{width:min(78vw,360px);max-height:86px}.citymus-cover--hero{border-radius:24px;margin-bottom:20px}}
 
+
+
+/* CITYMUS R14.7 · exact high-resolution public artwork reference */
+.tile--original .tile__art{
+  width:96px!important;height:96px!important;right:14px!important;bottom:14px!important;
+  border-radius:18px!important;background:#fff url('assets/citymus-public-vinyl.svg') center/cover no-repeat!important;
+}
+.tile--original .tile__art::before,.tile--original .tile__art::after,.tile--original .tile__art>*{display:none!important}
+.dest__art--original{
+  background:#fff url('assets/citymus-public-vinyl.svg') center/contain no-repeat!important;
+}
+.dest__art--original::before,.dest__art--original::after,.dest__art--original>*{display:none!important}
