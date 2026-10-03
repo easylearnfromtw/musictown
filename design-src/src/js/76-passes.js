@@ -451,7 +451,7 @@ const Share = (() => {
   /* ---------- Library Pass (R8 design) ---------- */
   const ref = t => { for (let gi = 0; gi < LIB_REF_THEMES.length; gi++) { const th = THEME_BY_T.get(LIB_REF_THEMES[gi]); if (!th) continue; const ti = th.tracks.findIndex(x => x.shareId === t.shareId); if (ti < 0 || ti >= 1296) continue; return gi.toString(36) + ti.toString(36).padStart(2, '0'); } return ''; };
   const fromRef = r => { if (!/^[0-9a-z]{3}$/i.test(r)) return null; const th = THEME_BY_T.get(LIB_REF_THEMES[parseInt(r[0], 36)]); return th?.tracks?.[parseInt(r.slice(1), 36)] || null; };
-  const libUrl = (name, list) => shareBase({ hash: `library=L2.${b64urlEncode({ n: String(name || 'MUSICETOWN LIBRARY').slice(0, 40) })}.${[...new Set(list.map(ref).filter(Boolean))].join('')}` });
+  const libUrl = (name, list) => shareBase({ hash: `library=L2.${b64urlEncode({ n: String(name || 'CITYMUS LIBRARY').slice(0, 40) })}.${[...new Set(list.map(ref).filter(Boolean))].join('')}` });
   function libraryPass(lib) {
     const list = Library.resolve(lib).filter(t => t.shareId); if (!list.length) { toast('這個收藏還沒有可分享的歌'); return; }
     const url = libUrl(lib.name, list); const locals = LocalFiles.tracks(lib.id).length;
@@ -461,7 +461,7 @@ const Share = (() => {
         ${PassSheet.head('LIBRARY PASS', '<span class="pass__live">SHAREABLE SNAPSHOT</span>')}
         <p class="pass__eyebrow pass__center">PERSONAL SOUND ARCHIVE</p>
         <h2 class="pass__big">${esc(lib.name)}</h2>
-        <p class="pass__meta">${list.length} TRACKS · MUSICETOWN SNAPSHOT</p>
+        <p class="pass__meta">${list.length} TRACKS · CITYMUS SNAPSHOT</p>
         ${PassSheet.rows(list.slice(0, 8))}${list.length > 8 ? `<p class="pass__more">＋ ${list.length - 8} 首</p>` : ''}
         <div class="pass__qr"><div class="pass__qrbox">${QR.svg(url, { ecl: 'M', fg: '#29465D' })}<span class="pass__qrlogo">${globeMark()}</span></div><small class="pass__label">SCAN TO OPEN</small></div>
         <div class="pass__fields pass__fields--2"><i class="pass__notch"></i><div><small>FORMAT</small><b>LIBRARY PASS</b></div><div><small>ACCESS</small><b>VIEW · PLAY · SAVE</b></div><div><small>LOCAL FILES</small><b>${locals ? 'NOT INCLUDED' : 'NONE'}</b></div><div><small>TRACKS</small><b>${list.length}</b></div></div>
@@ -487,7 +487,7 @@ const Share = (() => {
         <h2 class="pass__big pass__big--left">${esc(title)}</h2>
         <p class="pass__meta pass__meta--left">${esc(meta)}</p>
         ${PassSheet.rows(list)}
-        <footer class="pass__foot"><small class="pass__label">MUSICETOWN · CITY SOUND ARCHIVE</small><div><p>曲目來源可從歌曲資訊中查看。</p><b>CITYMUS</b></div></footer>
+        <footer class="pass__foot"><small class="pass__label">CITYMUS · CITY SOUND ARCHIVE</small><div><p>曲目來源可從歌曲資訊中查看。</p><b>CITYMUS</b></div></footer>
       </div></article>`,
       actions: `<button class="pbtn pbtn--primary" type="button" data-p>${icon('play')}<span>播放</span></button><button class="pbtn" type="button" data-s aria-label="${esc(saveLabel)}">${icon('listAdd')}</button><button class="pbtn" type="button" data-d aria-label="存到這台裝置">${icon('download')}</button>`,
       mount(sheet, api) {
