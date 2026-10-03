@@ -3,16 +3,6 @@ name: CITYMUS AUTO · Build 2500 + Deploy
 on:
   push:
     branches: [main]
-    paths:
-      - "*.py"
-      - "*.json"
-      - "*.html"
-      - "*.js"
-      - "*.webmanifest"
-      - "assets/**"
-      - "design-src/**"
-      - "requirements.txt"
-      - ".github/workflows/musicetown-auto.yml"
   workflow_dispatch:
 
 permissions:
