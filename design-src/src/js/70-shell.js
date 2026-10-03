@@ -342,6 +342,8 @@ function navFromPlayer(v, p) {
 function trackSheet(t) {
   const th = themeOf(t); const dis = Dislikes.has(t);
   const src = t.source && /^https?:/.test(t.source) ? t.source : '';
+  const lic = String(t.license || '').trim();
+  const showLic = !!lic && !/^(?:CC0|Public Domain|Public Domain Mark|PDM|PD\b)/i.test(lic);
   const off = !t.localPersonal && Offline.supported, has = off && Offline.has(t);
   const thName = th ? (th.kind === 'literature' ? th.cn : th.name) : '';
   Sheet.open({
@@ -356,7 +358,7 @@ function trackSheet(t) {
       ${th ? `<button type="button" data-a="go">${icon(th.kind === 'literature' ? 'book' : 'globe')}前往 ${esc(thName)}</button>` : ''}
       <button type="button" data-a="radio">${icon('radio')}從這首開始電台</button>
       ${t.localPersonal ? '' : `<button type="button" data-a="dislike">${icon('ban')}${dis ? '取消「不適合我」' : '不適合我 · 自動略過'}</button>`}
-      ${src ? `<a href="${esc(src)}" target="_blank" rel="noopener" data-a="src">${icon('source')}來源與授權 · ${esc(t.license || 'CC0')}</a>` : ''}
+      ${src ? `<a href="${esc(src)}" target="_blank" rel="noopener" data-a="src">${icon('source')}來源${showLic ? ` · ${esc(lic)}` : ''}</a>` : ''}
     </div>`,
     mount(body, s) {
       Artwork.cover(t, 160).then(u => { const a = $('#stArt', body); if (u && a) { a.style.backgroundImage = `url(${u})`; a.textContent = ''; } });
