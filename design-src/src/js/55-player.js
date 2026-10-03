@@ -486,12 +486,12 @@ const Player = (() => {
       // while the track-specific artwork is still being decoded.
       try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: fallbackArtwork() }); } catch (_) {}
 
-      // A larger square is used only for the OS media card; Artwork.cover caches
-      // it, so rapid foreground renders do not repeat the canvas work.
-      Artwork.coverURL(t, 1024).then(src => {
+      // Use one canonical 1536 px CITYMUS lock-screen master. The URL is
+      // versioned independently from track artwork, so iOS cannot reuse an old
+      // MUSICETOWN cache entry after a brand update.
+      Artwork.lockscreenURL(1536).then(src => {
         if (!src || seq !== metaSeq || current !== t) return;
-        const type = /\.png(?:\?|$)/i.test(src) ? 'image/png' : 'image/jpeg';
-        const art = [{ src, sizes: '1024x1024', type }, ...fallbackArtwork()];
+        const art = [{ src, sizes: '1536x1536', type: 'image/jpeg' }, ...fallbackArtwork()];
         try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: art }); } catch (_) {}
         bus.emit('artwork', { t, src });
       }).catch(() => {});

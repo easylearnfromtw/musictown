@@ -59,7 +59,7 @@ const Artwork = (() => {
   const ARCHIVO = 'Archivo, "Helvetica Neue", Arial, sans-serif', GARA = '"EB Garamond", Georgia, "Noto Serif TC", serif', CJK = '"Noto Serif TC", "Songti TC", serif';
 
   function record(x,cx,cy,R,label,t,opts={}){
-    const vc=vinylColor(t),frost=vc.material==='frost';x.save();x.shadowColor='rgba(42,58,70,.20)';x.shadowBlur=R*.16;x.shadowOffsetY=R*.055;
+    const vc=opts.vinyl||vinylColor(t),frost=vc.material==='frost';x.save();x.shadowColor='rgba(42,58,70,.20)';x.shadowBlur=R*.16;x.shadowOffsetY=R*.055;
     const disc=x.createRadialGradient(cx-R*.26,cy-R*.30,R*.04,cx,cy,R);if(frost){disc.addColorStop(0,'#FFFFFF');disc.addColorStop(.58,'#EEF4F8');disc.addColorStop(1,'#D7E2E9');}else{disc.addColorStop(0,'#FFFFFF');disc.addColorStop(.12,vc.hex);disc.addColorStop(.72,vc.hex);disc.addColorStop(1,'#EAF0F5');}x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.fillStyle=disc;x.fill();x.restore();
     x.strokeStyle=frost?'rgba(112,137,153,.14)':'rgba(255,255,255,.18)';x.lineWidth=Math.max(.7,R*.0042);for(let r=R*.36;r<R*.975;r+=R*.016){x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.stroke();}
     const sh=x.createLinearGradient(cx-R,cy-R,cx+R,cy+R);sh.addColorStop(0,'rgba(255,255,255,.62)');sh.addColorStop(.38,'rgba(255,255,255,.05)');sh.addColorStop(.62,'rgba(255,255,255,0)');sh.addColorStop(1,'rgba(255,255,255,.35)');x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.fillStyle=sh;x.fill();
@@ -219,5 +219,54 @@ const Artwork = (() => {
     return c;
   }
 
-  return { cover, coverURL, card, themeCard, ground, record, fonts };
+
+  /* High-resolution, brand-stable artwork for iOS lock screen / Control Center.
+     It deliberately does not depend on the current track so old cached MUSICETOWN
+     covers can never leak back into the system media card. */
+  async function lockscreenURL(S = 1536) {
+    await fonts();
+    const size = Math.max(768, Math.min(2048, Number(S) || 1536));
+    const ver = 'r153';
+    const url = new URL(`__citymus_art/${ver}-lockscreen-${size}.jpg`, document.baseURI).href;
+    try {
+      const hit = await caches.match(url);
+      if (hit) return url;
+    } catch (_) {}
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const x = c.getContext('2d', { alpha: false });
+    x.fillStyle = '#FFFFFF';
+    x.fillRect(0, 0, size, size);
+
+    const vinyl = { name:'Frosted Glass', hex:'#e2eaf4', material:'frost' };
+    record(
+      x,
+      size * .5,
+      size * .485,
+      size * .285,
+      null,
+      { artist:'CITYMUS', title:'CITYMUS LOCKSCREEN' },
+      { labelColor:'#F7F9FC', labelInk:'#53626E', vinyl }
+    );
+
+    x.fillStyle = '#050607';
+    x.textAlign = 'center';
+    x.textBaseline = 'alphabetic';
+    x.font = `900 ${Math.round(size * .074)}px "Arial Black", ${ARCHIVO}`;
+    x.fillText('CITYMUS.', size * .5, size * .785);
+
+    const blob = await new Promise(resolve => c.toBlob(resolve, 'image/jpeg', .96));
+    if (!blob) return c.toDataURL('image/jpeg', .96);
+    try {
+      const cache = await caches.open('citymus-lockscreen-r153');
+      await cache.put(url, new Response(blob, {
+        headers: { 'Content-Type':'image/jpeg', 'Cache-Control':'public, max-age=31536000, immutable' }
+      }));
+      return url;
+    } catch (_) {
+      return URL.createObjectURL(blob);
+    }
+  }
+
+  return { cover, coverURL, lockscreenURL, card, themeCard, ground, record, fonts };
 })();

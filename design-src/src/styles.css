@@ -1811,3 +1811,34 @@ main{
     margin-bottom:30px;
   }
 }
+
+
+/* CITYMUS R15.3 · no original-card peeking */
+/* Original playlists use a true one-card viewport. Neighbour cards remain
+   fully outside the clipping box instead of looking like a stacked deck. */
+.tiles--original-rail{
+  width:100%;
+  max-width:100%;
+  grid-auto-columns:100%!important;
+  gap:14px;
+  margin-left:0!important;
+  margin-right:0!important;
+  padding:4px 0 14px!important;
+  scroll-padding-inline:0!important;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  border-radius:24px;
+}
+.tiles--original-rail .tile--original{
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  margin:0!important;
+  transform:none!important;
+  scroll-snap-align:start!important;
+  scroll-snap-stop:always;
+}
+.tiles--original-rail .tile--original:hover{
+  transform:none!important;
+}
