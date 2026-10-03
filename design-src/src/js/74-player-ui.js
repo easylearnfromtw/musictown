@@ -249,10 +249,10 @@ const PlayerUI = (() => {
   byId('plPrev').onclick = () => Player.prev();
   byId('plShuffle').onclick = () => { haptic(); Player.setShuffle(!Settings.get('shuffle')); toast(Settings.get('shuffle') ? '隨機播放：開' : '隨機播放：關'); };
   byId('plRepeat').onclick = () => { haptic(); const r = Player.cycleRepeat(); toast({ off: '重複播放：關', all: '重複播放：整個清單', one: '重複播放：這一首' }[r]); };
-  byId('plFav').onclick = () => { if (Player.current) { toggleFav(Player.current); render(); } };
+  byId('plFav').onclick = e => { if (Player.current) { toggleFav(Player.current, e.currentTarget); render(); } };
   byId('plMore').onclick = () => Player.current && trackSheet(Player.current);
-  byId('plAdd').onclick = () => { const t = Player.current; if (t && !t.localPersonal) { haptic(); libraryPicker(t); } };
-  byId('plShare').onclick = () => { const t = Player.current; if (t) { haptic(); Share.track(t); } };
+  byId('plAdd').onclick = e => { const t = Player.current; if (t && !t.localPersonal) { haptic(); actionBurst(e.currentTarget, 'library'); libraryPicker(t); } };
+  byId('plShare').onclick = e => { const t = Player.current; if (t) { haptic(); actionBurst(e.currentTarget, 'share'); Share.track(t); } };
   byId('plDl').onclick = () => { const t = Player.current; if (!t) return; haptic(); if (Offline.has(t)) offlineSheet(t); else Offline.download(t).then(ok => ok && toast('已存到這台裝置，可離線播放')); };
   byId('plOut').onclick = () => { if (!Player.showRoutes()) Ritual.output(); };
   byId('plFrom').onclick = () => { const th = Player.context.theme ? THEME_BY_T.get(Player.context.theme) : themeOf(Player.current); if (th) navFromPlayer('theme', { slug: th.slug }); };

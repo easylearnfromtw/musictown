@@ -299,15 +299,16 @@ function bindRows(el, getTracks, onPlay) {
   el.addEventListener('click', e => {
     const r = resolveRow(e); if (!r) return;
     const act = e.target.closest('[data-act]')?.dataset.act;
-    if (act === 'fav') { e.stopPropagation(); toggleFav(r.t); return; }
+    if (act === 'fav') { e.stopPropagation(); toggleFav(r.t, e.target.closest('[data-act=fav]')); return; }
     if (act === 'more') { e.stopPropagation(); trackSheet(r.t); return; }
     if (act === 'remove') { e.stopPropagation(); bus.emit('row-remove', r.i); return; }
     haptic(); onPlay(r.t, r.i);
   });
   el.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('row')) { e.preventDefault(); const r = resolveRow(e); if (r) onPlay(r.t, r.i); } });
 }
-function toggleFav(t) {
+function toggleFav(t, sourceEl = null) {
   const on = Library.toggle(t); haptic(on ? 'success' : 'light');
+  if (sourceEl) actionBurst(sourceEl, on ? 'heart' : 'spark');
   toast(on ? `已收藏到 ${Library.active().name}` : `已從 ${Library.active().name} 移除`);
 }
 function refreshRows() {
@@ -368,7 +369,7 @@ function trackSheet(t) {
         else if (a === 'go') { s.close(); navFromPlayer('theme', { slug: th.slug }); }
         else if (a === 'radio') { s.close(); const list = [t, ...Reco.radio(t, 14)]; Player.playList(list, 0, { kind: 'radio', title: `${t.title} 電台` }); }
         else if (a === 'dislike') { const on = Dislikes.toggle(t); toast(on ? '之後自動播放會略過這首' : '已取消'); s.close(); }
-        else if (a === 'share') { s.close(); Share.track(t); }
+        else if (a === 'share') { actionBurst(e.target.closest('[data-a]'), 'share'); s.close(); Share.track(t); }
       });
     }
   });
@@ -382,7 +383,7 @@ function libraryPicker(t) {
       body.addEventListener('click', e => {
         const id = e.target.closest('[data-lib]')?.dataset.lib; if (!id) return;
         if (id === '__new') { libraryCreator({ seed: [t] }); return; }
-        const on = Library.toggle(t, id); toast(on ? `已加入 ${Library.all().find(l => l.id === id)?.name}` : '已移除'); s.close();
+        const b=e.target.closest('[data-lib]'); const on = Library.toggle(t, id); actionBurst(b, on ? 'library' : 'spark'); toast(on ? `已加入 ${Library.all().find(l => l.id === id)?.name}` : '已移除'); setTimeout(()=>s.close(), on ? 240 : 80);
       });
     }
   });

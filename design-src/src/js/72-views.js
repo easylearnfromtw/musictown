@@ -78,7 +78,7 @@ const postcardHTML = th => {
     <span class="postcard__txt"><b>${esc(th.name)}</b><span>${esc(th.cityCn)} · ${th.tracks.length} 首</span></span>
   </button>`;
 };
-const tileHTML = th => `<button class="tile${th.kind === 'original' ? ' tile--original' : ''}" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><small>${esc(th.code)}</small><b>${esc(th.name)}</b><span>${esc(th.cn)} · ${th.tracks.length} 首</span></button>`;
+const tileHTML = th => `<button class="tile tile--${esc(th.kind)}${th.kind === 'original' ? ' tile--original' : ''}" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><i class="tile__glow" aria-hidden="true"></i><span class="tile__top"><small>${esc(th.code)}</small><em>${esc(KIND_LABEL[th.kind] || 'PLAYLIST')}</em></span><b>${esc(th.name)}</b><span>${esc(th.cn)} · ${th.tracks.length} 首</span><p>${esc(th.line || '')}</p></button>`;
 const bookHTML = th => `<button class="book" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><span class="book__spine"><b>${esc(th.authorCn)}</b></span><span class="book__txt"><b>${esc(th.cn)}</b><em>${esc(th.name)}</em><span>${esc(th.era)}</span></span></button>`;
 function citiesOrdered() {
   const recent = Stats.recentThemes();
@@ -481,7 +481,7 @@ Router.register('theme', (el, p) => {
   const readable = lit && Reader.has(th.slug);
   setAccent(el, th);
   const kindTag = th.kind === 'city' ? `<span class="tag">${icon('ticket')}City Limited</span>` : `<span class="tag">${KIND_LABEL[th.kind] || ''}</span>`;
-  el.innerHTML = `<div class="wrap dest${lit ? ' dest--lit' : ''}${original ? ' dest--original' : ''}">
+  el.innerHTML = `<div class="wrap dest dest--${esc(th.kind)}${lit ? ' dest--lit' : ''}${original ? ' dest--original' : ''}">
     <header class="dest__hero">
       <span class="dest__code" aria-hidden="true">${esc(lit ? th.cn : th.code)}</span>
       <div class="dest__meta">${kindTag}${th.kind === 'city' ? `<span class="tag tnum" data-tz-label="${esc(th.tz)}">${esc(th.cityCn)} ${esc(localTimeIn(th.tz))}</span>` : ''}${lit ? `<span class="tag">${esc(th.era)}</span>` : ''}<span class="tag">${th.tracks.length} 首</span></div>
@@ -529,7 +529,7 @@ Router.register('theme', (el, p) => {
     if (a === 'pass') Pass.openCity(th);
     if (a === 'dl') { if (th.tracks.every(t => Offline.has(t))) toast('已全部存在這台裝置'); else Offline.downloadMany(th.tracks, themeTitle(th)); }
     if (a === 'read' && readable) Router.go('reader', { slug: th.slug });
-    if (a === 'share') Share.theme(th);
+    if (a === 'share') { actionBurst(e.target.closest('[data-a]'), 'share'); Share.theme(th); }
   };
   el._unsubs?.forEach(f => f());
   el._unsubs = [bus.on('geo', drawActions), bus.on('wallet', drawActions), bus.on('offline', drawActions)];
