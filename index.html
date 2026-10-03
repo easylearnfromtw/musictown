@@ -1175,23 +1175,20 @@ window.addEventListener('error', e => console.warn('[musicetown]', e?.error || e
 
 /* ---- 10-catalog.js ---- */
 /* ==========================================================================
-   Catalog · 23 core destinations + extension catalogs. Names are stable keys.
+   Catalog · 26 destinations. Names in MUSIC_DATA are the stable keys.
    ========================================================================== */
 const REMOTE_MAP = window.MUSICETOWN_REMOTE_AUDIO || {};
 /* 文學 · nineteen literary works, 25 public-domain / open-licence recordings each.
    Kept outside MUSIC_DATA so the CI's 26-theme / 1300-track checks stay untouched. */
 const LIT = Array.isArray(window.MUSICETOWN_LITERATURE) ? window.MUSICETOWN_LITERATURE : [];
 const LIT_MAP = window.MUSICETOWN_LITERATURE_MAP || {};
-const EXTRA_CITY = Array.isArray(window.MUSICETOWN_EXTRA_CITIES) ? window.MUSICETOWN_EXTRA_CITIES : [];
-const DATA = (Array.isArray(window.MUSIC_DATA) ? window.MUSIC_DATA : [])
-  .concat(EXTRA_CITY)
-  .concat(LIT.map(w => ({ t: w.t, sub: w.summary, key: `${w.authorCn} · ${w.era}`, tracks: w.tracks, literature: true })));
+const DATA = (Array.isArray(window.MUSIC_DATA) ? window.MUSIC_DATA : []).concat(LIT.map(w => ({ t: w.t, sub: w.summary, key: `${w.authorCn} · ${w.era}`, tracks: w.tracks, literature: true })));
 
 /* kind: city | style | mood. code = IATA-style identity used across the UI. */
 const META = {
   'TAIPEI DREAM':        { slug: 'taipei-style', code: 'TPE', name: 'Taipei Dream', cn: '台北夢', kind: 'city', region: 'asia', city: 'Taipei', cityCn: '台北', tz: 'Asia/Taipei', country: 'TW', accent: '#5f8f96', ink: '#2c4a4f', aliases: ['taipei', 'taipei city', 'new taipei', 'new taipei city', 'sanchong', 'banqiao', 'zhonghe', 'yonghe', 'xinzhuang', 'xindian'], line: '雨後的巷口、捷運末班車與臥室錄音的人聲。', summary: '雨夜、巷口、捷運與城市獨立人聲。TAIPEI DREAM 把台北都會的潮濕霓虹、日常節奏與輕微孤獨感收進一個抽屜。' },
-  'FANTASY TAINAN':      { slug: 'fantasy-tainan', code: 'TNN', name: 'Fantasy Tainan', cn: '府城之戀', kind: 'city', region: 'asia', city: 'Tainan', cityCn: '台南', tz: 'Asia/Taipei', country: 'TW', accent: '#B47B68', ink: '#5E4036', aliases: ['tainan', 'tainan city', 'anping', 'west central district'], line: '安平夕照、老屋木窗與南方暖風，讓府城慢慢走進黃昏。', summary: '老城、安平、廟埕與暖色黃昏。FANTASY TAINAN 用明亮而懷舊的旋律，把台南的慢步調與戀愛感收進一個抽屜。' },
-  'ROUGE TIBET':         { slug: 'rouge-tibet', code: 'LXA', name: 'Rouge Tibet', cn: '胭脂西域', kind: 'city', region: 'asia', city: 'Lhasa', cityCn: '拉薩', tz: 'Asia/Shanghai', country: 'CN', accent: '#A44855', ink: '#582932', aliases: ['lhasa', 'lhasa city', 'tibet', 'xizang'], line: '高原薄雪、紅牆與經幡，在稀薄空氣裡留下遠處鐘聲。', summary: '高原、紅牆、雪線與儀式感。ROUGE TIBET 偏莊嚴、空曠、神祕，以慢板與深色和聲形成帶有距離感的聲景。' },
+  'FANTASY TAINAN':      { slug: 'fantasy-tainan', code: 'TNN', name: 'Fantasy Tainan', cn: '府城之戀', kind: 'city', region: 'asia', city: 'Tainan', cityCn: '台南', tz: 'Asia/Taipei', country: 'TW', accent: '#b98269', ink: '#5b4034', aliases: ['tainan', 'tainan city', 'anping', 'west central district'], line: '夕陽落在赤崁樓與安平巷弄，木吉他與老城的暖風慢慢靠近。', summary: '古城、廟埕、老屋、海風與南方日光。FANTASY TAINAN 偏溫暖、懷舊、帶一點戀愛感的 folk / acoustic / world 聲景。' },
+  'ROUGE TIBET':         { slug: 'rouge-tibet', code: 'LXA', name: 'Rouge Tibet', cn: '胭脂西域', kind: 'city', region: 'asia', city: 'Lhasa', cityCn: '拉薩', tz: 'Asia/Shanghai', country: 'CN', accent: '#a65f55', ink: '#5a332e', aliases: ['lhasa', 'lasa', 'tibet', 'xizang', 'lhasa city'], line: '高原紅、風馬旗與寺院鐘聲，在稀薄空氣裡留下很長的尾韻。', summary: '高原、山風、寺院、鼓點與大片留白。ROUGE TIBET 以 world / folk / ritual / ambient 的開放授權錄音描繪藏地高原的深紅與遼闊。' },
   'MALDIVES PARADISE':  { slug: 'maldives-paradise', code: 'MLE', name: 'Maldives Paradise', cn: '仙境馬爾地夫', kind: 'city', region: 'asia', city: 'Maldives', cityCn: '馬爾地夫', tz: 'Indian/Maldives', country: 'MV', accent: '#79C9D2', ink: '#28555D', aliases: ['maldives', 'male', 'malé', 'hulhumale', 'kaafu'], line: '海水像玻璃一樣透明，白沙、珊瑚與日落把節拍放慢。', summary: '島嶼、潟湖、白沙、珊瑚礁與大片海面。MALDIVES PARADISE 以 tropical / ambient / acoustic / chill 的合法開放授權音樂描繪馬爾地夫。' },
   'OLD TOKYO':           { slug: 'old-tokyo', code: 'TYO', name: 'Old Tokyo', cn: '老東京', kind: 'city', region: 'asia', city: 'Tokyo', cityCn: '東京', tz: 'Asia/Tokyo', country: 'JP', accent: '#b07f86', ink: '#5a3c41', aliases: ['tokyo', 'shinjuku', 'shibuya', 'minato', 'chiyoda', 'taito', 'setagaya', 'suginami'], line: '首都高的霓虹、昭和餘暉與合成器流行。', summary: '昭和殘影、老東京夜色與都會旋律。OLD TOKYO 偏復古、細膩、略帶電影感，像深夜電車窗外倒退的街景。' },
   'SPLENDOR SHANGHAI':   { slug: 'splendor-shanghai', code: 'SHA', name: 'Splendor Shanghai', cn: '海上繁華', kind: 'city', region: 'asia', city: 'Shanghai', cityCn: '上海', tz: 'Asia/Shanghai', country: 'CN', accent: '#9a8270', ink: '#53443a', aliases: ['shanghai', 'shanghai city'], line: '舞廳爵士、靈魂樂與外灘的金色夜宴。', summary: '爵士舞廳、Art Deco 與老上海華麗聲響。SPLENDOR SHANGHAI 偏優雅、暖色、帶一點舊時代夜宴的節奏。' },
@@ -1222,21 +1219,305 @@ const META = {
 
 /* literature meta: kind 'literature' */
 LIT.forEach(w => { META[w.t] = { slug: w.slug, code: w.code, name: w.name, cn: w.cn, kind: 'literature', author: w.author, authorCn: w.authorCn, era: w.era, accent: w.accent, ink: w.ink, line: w.line, summary: w.summary }; });
+/* Original playlists · 25 tracks each, deterministically re-curated from the mother library. */
+const ORIGINAL_PLAYLISTS = [
+  {
+    "t": "MOONLIT HAZE",
+    "slug": "moonlit-haze",
+    "code": "YUE",
+    "name": "趁月色恍惚時",
+    "cn": "Moonlit Haze",
+    "accent": "#8B91AF",
+    "ink": "#42475F",
+    "line": "月色隔著薄霧落下來，輪廓、呼吸和時間都慢了半拍。",
+    "summary": "一張適合把焦點放鬆的夜色歌單。聲音不急著抵達哪裡，留著霧、回聲與朦朧的空隙，像凌晨抬頭時記不清楚的一段月光。",
+    "words": [
+      "dream",
+      "dreamy",
+      "ambient",
+      "lo-fi",
+      "slow night",
+      "soft room",
+      "haze",
+      "night",
+      "pacific rain",
+      "synth",
+      "velvet",
+      "chanson",
+      "mellow"
+    ]
+  },
+  {
+    "t": "DROWSY",
+    "slug": "drowsy",
+    "code": "AWK",
+    "name": "惺忪",
+    "cn": "Drowsy",
+    "accent": "#C4AA91",
+    "ink": "#624E3E",
+    "line": "眼睛睜開了，意識還留在枕頭與晨光之間。",
+    "summary": "剛醒來的聲音不該太完整。木吉他、柔軟人聲、低速節拍和一點室內殘響，像棉被還有溫度、窗簾才剛透進第一層光。",
+    "words": [
+      "soft",
+      "acoustic",
+      "folk",
+      "lo-fi",
+      "morning",
+      "warm",
+      "mellow",
+      "slow",
+      "lounge",
+      "bedroom",
+      "vocal",
+      "gentle",
+      "singer-songwriter"
+    ]
+  },
+  {
+    "t": "KISS",
+    "slug": "kiss",
+    "code": "KIS",
+    "name": "吻",
+    "cn": "Kiss",
+    "systemName": "刎",
+    "accent": "#9D5967",
+    "ink": "#502C35",
+    "line": "愛貼得太近時，吻與窒息只剩一線之隔。",
+    "summary": "不是溫柔的情歌，而是依戀逐漸變成命令、佔有與失控的愛。節拍越來越緊，情緒越來越沒有出口，保留被凝視、被控制、想逃卻又被拉回去的壓迫感。",
+    "words": [
+      "dark",
+      "tense",
+      "industrial",
+      "pulse",
+      "emo",
+      "rock",
+      "post-punk",
+      "night drive",
+      "synth",
+      "heavy",
+      "dramatic",
+      "distortion",
+      "obsession"
+    ]
+  },
+  {
+    "t": "FIELD SEA NOTES",
+    "slug": "field-sea-notes",
+    "code": "MON",
+    "name": "田海記趣",
+    "cn": "Field & Sea Notes",
+    "accent": "#87A7A0",
+    "ink": "#405B57",
+    "line": "把水面、田野、花與光拆成一筆一筆會流動的聲音。",
+    "summary": "以莫奈畫作的觀看方式策展：不追求清楚輪廓，而讓水光、田野、睡蓮、風與色彩彼此滲開。前景像民謠，遠景像環境音，整張歌單要有如詩、如畫的呼吸。",
+    "words": [
+      "coastal",
+      "pacific rain",
+      "acoustic",
+      "folk",
+      "ambient",
+      "soft",
+      "warm",
+      "garden",
+      "chanson",
+      "slow",
+      "nature",
+      "lounge",
+      "dream"
+    ]
+  },
+  {
+    "t": "OCEANIC",
+    "slug": "oceanic",
+    "code": "SEA",
+    "name": "汪洋",
+    "cn": "Oceanic",
+    "accent": "#668FA9",
+    "ink": "#315166",
+    "line": "看不見岸的藍，浪與呼吸把時間拉成更長的尺度。",
+    "summary": "不是海灘派對，而是海本身。從近岸的光、潮汐與風，慢慢游向沒有地標的深藍；低頻像暗流，長音像浪，最後只剩一種遼闊感。",
+    "words": [
+      "ocean",
+      "sea",
+      "coastal",
+      "pacific",
+      "ambient",
+      "wave",
+      "blue",
+      "island",
+      "tropical",
+      "slow",
+      "dream",
+      "synth",
+      "chill"
+    ]
+  },
+  {
+    "t": "TROUBADOUR",
+    "slug": "troubadour",
+    "code": "BRD",
+    "name": "吟遊詩人",
+    "cn": "Troubadour",
+    "accent": "#987A5E",
+    "ink": "#574433",
+    "line": "從一個人的弦聲出發，走過人群與夜色，再把故事帶回原點。",
+    "summary": "這張歌單按故事順序聽。開場像獨自上路，中段逐漸遇見人群、酒館與遠方，之後轉入夜色與失落；結尾再收回最初的木質感，讓第一首與最後幾首彼此照應。",
+    "phases": [
+      {
+        "n": 6,
+        "words": [
+          "acoustic",
+          "folk",
+          "singer-songwriter",
+          "soft",
+          "roots",
+          "americana"
+        ]
+      },
+      {
+        "n": 7,
+        "words": [
+          "folk",
+          "soul",
+          "upbeat",
+          "warm",
+          "lounge",
+          "vocal",
+          "groove"
+        ]
+      },
+      {
+        "n": 6,
+        "words": [
+          "slow night",
+          "dark",
+          "ballad",
+          "chanson",
+          "old room",
+          "emo",
+          "night"
+        ]
+      },
+      {
+        "n": 6,
+        "words": [
+          "acoustic",
+          "folk",
+          "soft",
+          "roots",
+          "singer-songwriter",
+          "warm"
+        ]
+      }
+    ]
+  },
+  {
+    "t": "LOOKING BACK",
+    "slug": "looking-back",
+    "code": "RET",
+    "name": "驀然回首",
+    "cn": "Looking Back",
+    "accent": "#7C8799",
+    "ink": "#3D4655",
+    "line": "前二十四首都在趕路，直到最後一首，才終於看見那個人。",
+    "summary": "整張歌單故意讓前段一直向前：快、急、城市感、像在人群裡反覆錯身。第 25 首才突然鬆開速度與張力，像跑了很久後回頭，真正要找的人一直站在燈火闌珊處。",
+    "rush": [
+      "running",
+      "high energy",
+      "motion",
+      "fast",
+      "downtown pulse",
+      "night drive",
+      "rock",
+      "punk",
+      "electronic",
+      "synth",
+      "upbeat",
+      "city"
+    ],
+    "resolve": [
+      "warm",
+      "soft room",
+      "acoustic",
+      "ballad",
+      "soul",
+      "love",
+      "slow",
+      "chanson",
+      "velvet",
+      "gentle"
+    ]
+  }
+];
+const ORIGINAL_POOL = (() => {
+  const seen = new Set(), out = [];
+  for (const d of (Array.isArray(window.MUSIC_DATA) ? window.MUSIC_DATA : [])) {
+    for (const t of (Array.isArray(d.tracks) ? d.tracks : [])) {
+      const k = t.masterId || t.audioSrc || (norm(t.artist) + '|' + norm(t.title));
+      if (!k || seen.has(k)) continue;
+      seen.add(k); out.push({ t, from: d.t });
+    }
+  }
+  return out;
+})();
+const originalKey = x => x.t.masterId || x.t.audioSrc || (norm(x.t.artist) + '|' + norm(x.t.title));
+const originalHay = x => [x.t.title, x.t.artist, x.t.vibe, x.t.genre, x.t.note, x.from].filter(Boolean).join(' ').toLowerCase();
+function originalPick(spec, count, used = new Set(), words = spec.words || []) {
+  const ranked = ORIGINAL_POOL.map(x => {
+    const hay = originalHay(x); let score = 0;
+    words.forEach((w, i) => { if (hay.includes(String(w).toLowerCase())) score += Math.max(2, 10 - Math.min(i, 7)); });
+    if (/cc0|public domain/i.test(String(x.t.license || ''))) score += 2;
+    return { x, score, tie: hash32(spec.t + '|' + originalKey(x)) };
+  }).sort((a, b) => b.score - a.score || a.tie - b.tie);
+  const out = [];
+  for (const row of ranked) {
+    const k = originalKey(row.x); if (used.has(k)) continue;
+    used.add(k); out.push(row.x); if (out.length >= count) break;
+  }
+  return out;
+}
+function originalSequence(spec) {
+  const used = new Set();
+  if (Array.isArray(spec.phases)) {
+    const out = [];
+    spec.phases.forEach(p => out.push(...originalPick(spec, p.n, used, p.words)));
+    return out.slice(0, 25);
+  }
+  if (spec.t === 'LOOKING BACK') return [...originalPick(spec, 24, used, spec.rush), ...originalPick(spec, 1, used, spec.resolve)];
+  return originalPick(spec, 25, used, spec.words);
+}
+function originalData(spec) {
+  const picked = originalSequence(spec);
+  return { t: spec.t, sub: spec.summary, key: '原創歌單 · 25 首 · 母庫重新策展', original: true,
+    tracks: picked.map((x, i) => ({ ...x.t, trackNo: i + 1, curatedTheme: spec.t,
+      curatedFrom: x.t.shareId || x.t.audioSrc || x.from, sourceTheme: x.from,
+      originalPlaylist: true, shareId: spec.slug + '-' + String(i + 1).padStart(3, '0'),
+      vibe: spec.name + ' · ' + (x.t.vibe || x.from || '') }))
+  };
+}
+ORIGINAL_PLAYLISTS.forEach(spec => {
+  META[spec.t] = { slug: spec.slug, code: spec.code, name: spec.name, cn: spec.cn, kind: 'original',
+    systemName: spec.systemName || '', accent: spec.accent, ink: spec.ink, line: spec.line, summary: spec.summary };
+});
+DATA.push(...ORIGINAL_PLAYLISTS.map(originalData));
+
 
 /* Groups for the glass box and filters */
 const GROUPS = [
-  { key: 'asia', label: '亞洲', en: 'Asia', names: ['TAIPEI DREAM', 'FANTASY TAINAN', 'ROUGE TIBET', 'MALDIVES PARADISE', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'TRADITIONAL BEIJING', 'BUSTLING HONG KONG', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG'] },
+  { key: 'asia', label: '亞洲', en: 'Asia', names: ['TAIPEI DREAM', 'FANTASY TAINAN', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'TRADITIONAL BEIJING', 'BUSTLING HONG KONG', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG', 'ROUGE TIBET'] },
   { key: 'europe', label: '歐洲', en: 'Europe', names: ['VAPOR LONDON', 'SLIGHTLY TIPSY ROME', 'CHAMPS-ÉLYSÉES', 'MENACING DUBAI'] },
   { key: 'americas', label: '美洲', en: 'Americas', names: ['VANCOUVER', 'NEW YORK', 'TROPICAL HAWAII', 'PSYCHEDELIC LA'] },
   { key: 'style', label: '風格', en: 'Styles', names: ['JAZZ', 'CROONER', 'ROCK', 'LO-FI'] },
   { key: 'mood', label: '心情', en: 'Moods', names: ['EMO', 'SPORT', 'RUNNING', 'POEM'] },
+  { key: 'original', label: '原創歌單', en: 'Original', names: ORIGINAL_PLAYLISTS.map(w => w.t) },
   { key: 'literature', label: '文學', en: 'Literature', names: LIT.map(w => w.t) }
 ].filter(g => g.names.length);
-const KIND_LABEL = { city: '城市', style: '風格', mood: '心情', literature: '文學' };
+const KIND_LABEL = { city: '城市', style: '風格', mood: '心情', original: '原創歌單', literature: '文學' };
 const REGION_LABEL = { asia: '亞洲', europe: '歐洲', mideast: '中東', americas: '美洲' };
 
 /* Landmarks for spot-edition tickets (GPS check-in, coordinates never stored) */
 const LANDMARKS = [
+  { id: 'west-lake-hangzhou', name: 'West Lake', cn: '西湖', code: 'HZH', area: 'Hangzhou', areaCn: '杭州', region: 'asia', theme: 'SPLENDOR SHANGHAI', lat: 30.2375, lng: 120.140833, r: 5200 },
   { id: 'taipei-101', name: 'Taipei 101', cn: '台北 101', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0340, lng: 121.5645, r: 650 },
   { id: 'ximending', name: 'Ximending', cn: '西門町', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0422, lng: 121.5077, r: 850 },
   { id: 'longshan-temple', name: 'Lungshan Temple', cn: '艋舺龍山寺', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0372, lng: 121.4999, r: 550 },
@@ -1331,6 +1612,7 @@ THEMES.forEach(th => th.tracks.forEach(t => { if (t.shareId && !TRACK_BY_SHARE.h
 const ALL_TRACKS = THEMES.flatMap(th => th.tracks);
 const CITY_THEMES = THEMES.filter(t => t.kind === 'city');
 const LIT_THEMES = THEMES.filter(t => t.kind === 'literature');
+const ORIGINAL_THEMES = THEMES.filter(t => t.kind === 'original');
 const themeOf = t => THEME_BY_T.get(t?.__theme || t?.curatedTheme || t?.libraryGenre) || null;
 const themeBySlug = s => THEME_BY_SLUG.get(String(s || '').toLowerCase()) || null;
 /* a recording can appear in several themes: dedupe by master */
@@ -1383,7 +1665,10 @@ const Settings = (() => {
     onboarded: false,
     homeGroup: 'asia',
     a2hsDismissed: false,
-    fades: true                 // 2 s fade-in · 3 s fade-out
+    fades: true,                // 2 s fade-in · 3 s fade-out
+    eqBass: 0,                  // dB · 120 Hz low shelf
+    eqVocal: 0,                 // dB · 2.2 kHz presence
+    eqTreble: 0                 // dB · 4.8 kHz high shelf
   }, store.get(K.settings, {}));
   return {
     get: k => s[k],
@@ -1993,9 +2278,14 @@ const FX = (() => {
     g.master = n(); g.master.connect(ctx.destination);
     // music chain (fed by the FX element when attached)
     g.input = n();
+    // user EQ lives before the vintage coloration so both can be combined
+    g.eqBass = ctx.createBiquadFilter(); g.eqBass.type = 'lowshelf'; g.eqBass.frequency.value = 120;
+    g.eqVocal = ctx.createBiquadFilter(); g.eqVocal.type = 'peaking'; g.eqVocal.frequency.value = 2200; g.eqVocal.Q.value = .9;
+    g.eqTreble = ctx.createBiquadFilter(); g.eqTreble.type = 'highshelf'; g.eqTreble.frequency.value = 4800;
     g.stereo = n(); g.monoSum = n(); g.monoSum.channelCount = 1; g.monoSum.channelCountMode = 'explicit'; g.monoSum.channelInterpretation = 'speakers';
     g.monoGain = n(); g.monoGain.gain.value = 0;
-    g.input.connect(g.stereo); g.input.connect(g.monoSum); g.monoSum.connect(g.monoGain);
+    g.input.connect(g.eqBass); g.eqBass.connect(g.eqVocal); g.eqVocal.connect(g.eqTreble);
+    g.eqTreble.connect(g.stereo); g.eqTreble.connect(g.monoSum); g.monoSum.connect(g.monoGain);
     g.hp = ctx.createBiquadFilter(); g.hp.type = 'highpass'; g.hp.Q.value = .6;
     g.lp = ctx.createBiquadFilter(); g.lp.type = 'lowpass'; g.lp.Q.value = .55;
     g.lp2 = ctx.createBiquadFilter(); g.lp2.type = 'lowpass'; g.lp2.Q.value = .5;
@@ -2027,6 +2317,7 @@ const FX = (() => {
     g.clickBus = n(); g.clickBP = ctx.createBiquadFilter(); g.clickBP.type = 'bandpass'; g.clickBP.frequency.value = 2400; g.clickBP.Q.value = .65;
     g.clickBus.connect(g.clickBP); g.clickBP.connect(g.surface);
     g.clicks = clickBuffers();
+    applyEQ(true);
     apply(level, true);
   }
 
@@ -2068,6 +2359,30 @@ const FX = (() => {
       }
     }
   }
+
+  const EQ_KEYS = ['eqBass','eqVocal','eqTreble'];
+  const eqActive = () => EQ_KEYS.some(k => Math.abs(Number(Settings.get(k) || 0)) > .01);
+  function applyEQ(instant = false) {
+    if (!g || !ctx) return;
+    const t = ctx.currentTime, k = instant ? .001 : .08;
+    const to = (param, v) => {
+      const x = clamp(Number(v) || 0, -6, 6);
+      try { param.cancelScheduledValues(t); param.setTargetAtTime(x, t, k); } catch (_) { param.value = x; }
+    };
+    to(g.eqBass.gain, Settings.get('eqBass'));
+    to(g.eqVocal.gain, Settings.get('eqVocal'));
+    to(g.eqTreble.gain, Settings.get('eqTreble'));
+  }
+  bus.on('settings', ({ k }) => {
+    if (!EQ_KEYS.includes(k)) return;
+    if (eqActive()) ensure();
+    applyEQ();
+    bus.emit('eq', {
+      bass: Number(Settings.get('eqBass') || 0),
+      vocal: Number(Settings.get('eqVocal') || 0),
+      treble: Number(Settings.get('eqTreble') || 0)
+    });
+  });
 
   function apply(lv, instant = false) {
     level = clamp(lv | 0, 0, 3);
@@ -2248,6 +2563,7 @@ const FX = (() => {
     ensure, attach, canProcess, probeCors, setSurface, needleDrop, Scratch, fade,
     get ctx() { return ctx; },
     get level() { return level; },
+    get eqActive() { return eqActive(); },
     setLevel(lv) { level = clamp(lv | 0, 0, 3); Settings.set('vintage', level); if (level > 0) ensure(); apply(level); bus.emit('vintage', level); },
     get running() { return !!ctx && ctx.state === 'running'; }
   };
@@ -2555,6 +2871,7 @@ const Player = (() => {
   let prefetched = '';
   let shuffleBackup = null;
   let airplay = false;
+  let handoffSeq = 0;
   let localAvail = sess.get('mt.localAudio', null); // null unknown · true · false
 
   /* ---------- where can this track be played from? ---------- */
@@ -2621,7 +2938,7 @@ const Player = (() => {
   /* ---------- choose element: FX twin only when vintage is on and the source can be processed ---------- */
   /* iOS ignores element.volume, so fades there need the Web Audio path */
   const fadesOn = () => Settings.get('fades') !== false;
-  const graphWanted = () => FX.level > 0 || (IS_IOS && fadesOn());
+  const graphWanted = () => FX.level > 0 || FX.eqActive || (IS_IOS && fadesOn());
   function elementFor(url) { return (graphWanted() && FX.canProcess(url) && (!document.hidden || FX.running || !FX.ctx)) ? 'fx' : 'direct'; }
   function activate(name) {
     if (name === activeName) return;
@@ -2662,6 +2979,7 @@ const Player = (() => {
   /* ---------- load + play ---------- */
   function load(t, { autoplay = true, startAt = 0 } = {}) {
     if (!t) return;
+    handoffSeq++; // invalidate any async vintage/original pipeline switch from the previous state
     current = t; cands = sourcesFor(t); ci = 0; endHandledFor = null; prefetched = ''; lastTime = -1; stuckTicks = 0;
     const url = cands[0];
     if (!url) { onError(); return; }
@@ -2716,7 +3034,7 @@ const Player = (() => {
     }
   }
   setInterval(() => {
-    const a = el(); if (!current || a._unlocking) return;
+    const a = el(); if (!current || a._unlocking || a._switching) return;
     if (a.ended && endHandledFor !== current) { onEnded(); return; }
     if (!a.paused && wantPlay) {
       const ct = a.currentTime;
@@ -2820,22 +3138,56 @@ const Player = (() => {
     if (want !== activeName) handoff(want);
     FX.setSurface(!a.paused && lv > 0);
   });
+  bus.on('settings', ({ k }) => {
+    if (!['eqBass','eqVocal','eqTreble'].includes(k) || !current) return;
+    const a = el(), url = a.currentSrc || a.src; if (!url) return;
+    const want = elementFor(url);
+    if (graphWanted() && !FX.canProcess(url)) FX.probeCors(url).then(ok => {
+      const cur = el().currentSrc || el().src;
+      if (ok && graphWanted() && cur === url && activeName !== 'fx') handoff('fx');
+    });
+    if (want !== activeName) handoff(want);
+  });
   function handoff(name) {
-    const from = el(), url = from.currentSrc || from.src, t = from.currentTime, playing = !from.paused;
-    const to = els[name];
+    const from = el(), url = from.currentSrc || from.src, at = from.currentTime || 0, playing = !from.paused, track = current;
+    const to = els[name]; if (!url || !track || to === from) return;
     if (name === 'fx' && !FX.attach(to)) return;
-    to._track = current; to.muted = true; to.src = url;
-    const go = () => {
-      try { to.currentTime = t + (playing ? .12 : 0); } catch (_) {}
-      if (!playing) { finish(); return; }
-      const p = to.play();
-      to.addEventListener('playing', finish, { once: true });
-      if (p && p.catch) p.catch(() => { to.muted = false; });
+    const seq = ++handoffSeq;
+    from._switching = true; to._switching = true;
+    to._track = track; to.muted = true; to.src = url;
+
+    const stale = () => seq !== handoffSeq || current !== track;
+    const cleanupTarget = () => {
+      if (to._track !== track) return;
+      try { to.pause(); to.removeAttribute('src'); to.load(); } catch (_) {}
+      to._track = null; to._switching = false; to.muted = false;
+    };
+    const fail = () => {
+      if (stale()) { cleanupTarget(); return; }
+      to._switching = false; to.muted = false; from._switching = false;
+      if (playing && from.paused) playEl(from);
+      emitState();
     };
     const finish = () => {
-      to.muted = false; from._switching = true; try { from.pause(); from.removeAttribute('src'); from.load(); } catch (_) {} from._track = null; from._switching = false;
-      activeName = name; Fader.seeked(); emitState(); FX.setSurface(isPlaying() && FX.level > 0);
+      if (stale()) { cleanupTarget(); from._switching = false; return; }
+      activeName = name;
+      to.muted = false; to._switching = false;
+      try { from.pause(); from.removeAttribute('src'); from.load(); } catch (_) {}
+      from._track = null; from._switching = false;
+      lastTime = to.currentTime || at; stuckTicks = 0;
+      Fader.seeked(); emitState(); FX.setSurface(isPlaying() && FX.level > 0);
     };
+    const go = () => {
+      if (stale()) { cleanupTarget(); from._switching = false; return; }
+      const d = Number.isFinite(to.duration) ? to.duration : from.duration;
+      const safeAt = Number.isFinite(d) && d > .4 ? Math.min(at, d - .35) : at;
+      try { to.currentTime = Math.max(0, safeAt); } catch (_) {}
+      if (!playing) { finish(); return; }
+      to.addEventListener('playing', finish, { once: true });
+      const p = to.play();
+      if (p && p.catch) p.catch(fail);
+    };
+    to.addEventListener('error', fail, { once: true });
     if (to.readyState >= 1) go(); else to.addEventListener('loadedmetadata', go, { once: true });
   }
   /* if iOS suspends Web Audio in the background, continue on the direct element */
@@ -2852,9 +3204,9 @@ const Player = (() => {
     const has = 'mediaSession' in navigator;
     function meta(t) {
       if (!has || !t) return;
-      const th = themeOf(t);
-      const album = th ? (th.kind === 'literature' ? `${th.cn} · ${th.authorCn}` : `${th.name} · ${th.cn}`) : 'musicetown · Library';
-      const base = { title: String(t.title || 'musicetown'), artist: [t.artist, t.note].filter(Boolean).join(' · '), album };
+      const th = themeOf(t), systemName = th?.systemName || '';
+      const album = th ? (th.kind === 'literature' ? `${th.cn} · ${th.authorCn}` : `${systemName || th.name} · ${th.cn}`) : 'musicetown · Library';
+      const base = { title: String(t.title || 'musicetown'), artist: [systemName, t.artist, t.note].filter(Boolean).join(' · '), album };
       try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: [{ src: abs('apple-touch-icon.png'), sizes: '180x180', type: 'image/png' }] }); } catch (_) {}
       Artwork.cover(t, 512).then(src => {
         if (!src || current !== t) return;
@@ -3899,7 +4251,7 @@ Router.register('home', (el) => {
         <section class="hero">
           <p class="hero__meta" id="homeMeta"></p>
           <h1 class="hero__title"><span>Music for</span><span>where you are.</span></h1>
-          <p class="hero__lede">二十三個目的地與十部文學作品，每一個都有一抽屜的聲音。人在當地的時候，還能收下一張城市限定的票根。</p>
+          <p class="hero__lede">城市、風格、心情、文學與原創歌單，各自都有一抽屜的聲音。人在當地的時候，還能收下一張城市限定的票根。</p>
           <div id="homeStub"></div>
         </section>
         <section class="box" aria-label="目的地收納盒">
@@ -3922,6 +4274,10 @@ Router.register('home', (el) => {
         <div class="books" id="homeBooks"></div>
       </section>
       <section class="sec">
+        <div class="sec__head"><h2 class="sec__title">原創歌單<small>每張 25 首 · 從母庫重新策展</small></h2></div>
+        <div class="tiles" id="homeOriginals"></div>
+      </section>
+      <section class="sec">
         <div class="sec__head"><h2 class="sec__title">風格與心情</h2></div>
         <div class="tiles" id="homeTiles"></div>
       </section>
@@ -3934,7 +4290,14 @@ Router.register('home', (el) => {
     const box = byId('homeBox');
     let group = GROUPS.find(g => g.key === Settings.get('homeGroup')) || GROUPS[0];
     let selected = 0;
-    const themesOf = g => g.names.map(n => THEME_BY_T.get(n)).filter(Boolean);
+    const themesOf = g => (g.names || []).map(n => THEME_BY_T.get(n)).filter(th => {
+      if (!th || !th.slug || !String(themeTitle(th) || '').trim()) return false;
+      // Asia must contain actual Asian city themes only. Stale catalog keys used
+      // to fall through to generic style/Jazz cards and render as blank chips.
+      if (g.key === 'asia') return th.kind === 'city' && th.region === 'asia';
+      if (g.key === 'original') return th.kind === 'original';
+      return true;
+    });
     const caption = i => {
       const ths = themesOf(group); const th = ths[i ?? selected] || ths[0]; if (!th) return;
       byId('boxName').textContent = themeTitle(th); byId('boxLine').textContent = th.kind === 'literature' ? `${th.authorCn} · ${th.line}` : `${th.cn} · ${th.line}`;
@@ -3954,9 +4317,10 @@ Router.register('home', (el) => {
     });
     renderIndex();
     byId('boxOpen').addEventListener('click', e => { const s = e.currentTarget.dataset.slug; if (s) Router.go('theme', { slug: s }); });
-    bindSlugClicks(byId('boxIndex')); bindSlugClicks(byId('homeRail')); bindSlugClicks(byId('homeTiles')); bindSlugClicks(byId('homeBooks'));
+    bindSlugClicks(byId('boxIndex')); bindSlugClicks(byId('homeRail')); bindSlugClicks(byId('homeOriginals')); bindSlugClicks(byId('homeTiles')); bindSlugClicks(byId('homeBooks'));
     byId('toCities').onclick = () => Router.go('cities');
     byId('toWallet').onclick = () => Router.go('library');
+    byId('homeOriginals').innerHTML = ORIGINAL_THEMES.map(tileHTML).join('');
     byId('homeTiles').innerHTML = THEMES.filter(t => t.kind === 'style' || t.kind === 'mood').map(tileHTML).join('');
     byId('homeBooks').innerHTML = LIT_THEMES.map(bookHTML).join('');
     const editRows = byId('editRows');
@@ -3980,7 +4344,7 @@ function homeDynamic(el) {
   byId('editSub').textContent = { morning: '早晨的選曲，輕快一點', day: '白天的選曲', evening: '傍晚的選曲', night: '夜晚的選曲，慢一點', late: '深夜的選曲，安靜一點' }[pod];
   const stub = byId('homeStub');
   if (th) {
-    const owned = Wallet.has(`city-${th.slug}`), lim = th?.t === 'TAIPEI DREAM' ? Limited.active() : null;
+    const owned = Wallet.has(`city-${th.slug}`), lim = Limited.active(th?.t);
     stub.innerHTML = `<button class="stub" type="button" style="${accentStyle(th)}"><span class="stub__code">${esc(th.code)}</span><span class="stub__txt"><b>${owned ? `你的${esc(th.cityCn)}票根` : `${esc(th.cityCn)}限定票根可領取`}</b><span>${lim ? `${esc(lim.label)}封面已開啟` : owned ? '在票夾裡，隨時打開' : `${esc(th.name)} · 只在當地發行`}</span></span>${icon('ticket')}</button>`;
     stub.firstElementChild.onclick = () => Pass.openCity(th);
   } else stub.innerHTML = '';
@@ -4011,7 +4375,7 @@ Router.register('cities', (el) => {
     el._built = true;
     el.innerHTML = `<div class="wrap">
       <h1 class="page-title">Cities</h1>
-      <p class="page-lede">十七座城市，各自的當地時間。人在城裡，就能收下那座城市的限定票根。</p>
+      <p class="page-lede">十五座城市，各自的當地時間。人在城裡，就能收下那座城市的限定票根。</p>
       <div class="mt-24" id="citySeg"></div>
       <div id="cityHere"></div>
       <div class="passgrid mt-16" id="passgrid"></div>
@@ -4209,12 +4573,21 @@ Router.register('library', (el) => {
       const est = await Offline.estimate();
       byId('settings').innerHTML = `
         <div class="setting setting--stack"><div><b>音質</b><span>${{ auto: '自動選擇最穩定的音源', hq: '優先串流原始高音質檔案', saver: '使用網站壓縮檔，省流量' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
+        <div class="setting setting--stack"><div><b>低音</b><span>120 Hz · 調整厚度與下盤</span></div><div id="eqBassSeg"></div></div>
+        <div class="setting setting--stack"><div><b>人聲</b><span>2.2 kHz · 讓 vocal 往前或退後</span></div><div id="eqVocalSeg"></div></div>
+        <div class="setting setting--stack"><div><b>高音</b><span>4.8 kHz · 調整亮度與空氣感</span></div><div id="eqTrebleSeg"></div></div>
+        <button class="setting" type="button" id="setEqReset"><div><b>重設聲音調整</b><span>低音、人聲、高音回到 0 dB</span></div>${icon('refresh')}</button>
         <button class="setting" type="button" id="setFades"><div><b>淡入淡出</b><span>每首開頭 2 秒淡入、結尾 3 秒淡出</span></div><span class="switch" role="switch" aria-checked="${Settings.get('fades') !== false}"></span></button>
         <button class="setting" type="button" id="setAuto"><div><b>自動延續播放</b><span>清單播完後，接著播放相近的歌</span></div><span class="switch" role="switch" aria-checked="${Settings.get('autoplay') !== false}"></span></button>
         <div class="setting"><div><b>儲存空間</b><span>${Offline.count ? `已下載 ${Offline.count} 首 · ${fmtBytes(Offline.bytes())}` : '還沒有下載的歌'}${est?.quota ? ` · 這台裝置還可用約 ${fmtBytes(Math.max(0, est.quota - (est.usage || 0)))}` : ''}</span></div>${icon('cloud')}</div>
         <button class="setting" type="button" id="setDislikes"><div><b>不適合我</b><span>${Dislikes.size ? `${Dislikes.size} 首會在自動播放時略過 · 點一下清除` : '在歌曲選單標記後，自動播放會略過'}</span></div>${icon('ban')}</button>
         <button class="setting" type="button" id="setWelcome"><div><b>重新看一次歡迎頁</b><span>重新選擇想先去的地方</span></div>${icon('chevron')}</button>`;
       Seg(byId('qualSeg'), { label: '音質', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast('下一首開始套用'); } });
+      const eqItems = [{ key:'-6', label:'-6' }, { key:'-3', label:'-3' }, { key:'0', label:'0' }, { key:'3', label:'+3' }, { key:'6', label:'+6' }];
+      Seg(byId('eqBassSeg'), { label:'低音 dB', value:String(Settings.get('eqBass') || 0), items:eqItems, onChange:k => Settings.set('eqBass', Number(k)) });
+      Seg(byId('eqVocalSeg'), { label:'人聲 dB', value:String(Settings.get('eqVocal') || 0), items:eqItems, onChange:k => Settings.set('eqVocal', Number(k)) });
+      Seg(byId('eqTrebleSeg'), { label:'高音 dB', value:String(Settings.get('eqTreble') || 0), items:eqItems, onChange:k => Settings.set('eqTreble', Number(k)) });
+      byId('setEqReset').onclick = () => { Settings.set('eqBass',0); Settings.set('eqVocal',0); Settings.set('eqTreble',0); drawSettings(); toast('聲音調整已重設'); };
       byId('setFades').onclick = () => { Settings.set('fades', !(Settings.get('fades') !== false)); drawSettings(); };
       byId('setAuto').onclick = () => { Settings.set('autoplay', !(Settings.get('autoplay') !== false)); drawSettings(); };
       byId('setDislikes').onclick = () => { if (!Dislikes.size) return; Dislikes.clear(); toast('已清除「不適合我」'); drawSettings(); };
