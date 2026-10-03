@@ -43,3 +43,15 @@ jobs:
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO \
             build
+
+      - name: Package Xcode project
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent ios CITYMUS-iOS-Companion.zip
+
+      - name: Upload Xcode project artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CITYMUS-iOS-Companion
+          path: CITYMUS-iOS-Companion.zip
+          if-no-files-found: error
+          retention-days: 14
