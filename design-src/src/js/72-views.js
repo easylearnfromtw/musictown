@@ -78,8 +78,9 @@ const postcardHTML = th => {
     <span class="postcard__txt"><b>${esc(th.name)}</b><span>${esc(th.cityCn)} · ${th.tracks.length} 首</span></span>
   </button>`;
 };
+const originalCoverHTML = (th, extra = '') => `<span class="citymus-cover ${extra}" aria-hidden="true"><span class="citymus-cover__word">${esc(String(th.cn || th.code || 'CITYMUS').toUpperCase())}</span><span class="citymus-cover__vinyl"></span><span class="citymus-cover__globe">${globeMark()}</span><span class="citymus-cover__cn">${esc(th.name || th.cn || 'CITYMUS')}</span><span class="citymus-cover__brand">CITYMUS · ORIGINAL</span></span>`;
 const tileHTML = th => {
-  const visual = ['original','style','mood'].includes(th.kind) ? `<span class="tile__art tile__art--${esc(th.kind)}" aria-hidden="true"><i></i><i></i><i></i><span>${esc(th.code)}</span></span>` : '';
+  const visual = th.kind === 'original' ? originalCoverHTML(th, 'citymus-cover--tile') : ['style','mood'].includes(th.kind) ? `<span class="tile__art tile__art--${esc(th.kind)}" aria-hidden="true"><i></i><i></i><i></i><span>${esc(th.code)}</span></span>` : '';
   return `<button class="tile tile--${esc(th.kind)}${th.kind === 'original' ? ' tile--original' : ''}" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><i class="tile__glow" aria-hidden="true"></i>${visual}<span class="tile__top"><small>${esc(th.code)}</small><em>${esc(KIND_LABEL[th.kind] || 'PLAYLIST')}</em></span><b>${esc(th.name)}</b><span>${esc(th.cn)} · ${th.tracks.length} 首</span><p>${esc(th.line || '')}</p></button>`;
 };
 const bookHTML = th => `<button class="book" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><span class="book__spine"><b>${esc(th.authorCn)}</b></span><span class="book__txt"><b>${esc(th.cn)}</b><em>${esc(th.name)}</em><span>${esc(th.era)}</span></span></button>`;
@@ -103,7 +104,7 @@ Router.register('home', (el) => {
       <div class="home-grid">
         <section class="hero">
           <p class="hero__meta" id="homeMeta"></p>
-          <h1 class="hero__title"><span>CITYMUS</span></h1>
+          <h1 class="hero__title hero__title--brand"><img src="assets/citymus-wordmark.png" alt="CITYMUS"></h1>
           <p class="hero__lede">顛頗、晃蕩、恍惚時，用CITYMUS緩解相思</p>
           <div id="homeStub"></div>
         </section>
@@ -507,7 +508,7 @@ Router.register('theme', (el, p) => {
   el.innerHTML = `<div class="wrap dest dest--${esc(th.kind)}${lit ? ' dest--lit' : ''}${original ? ' dest--original' : ''}">
     <header class="dest__hero">
       <span class="dest__code" aria-hidden="true">${esc(lit ? th.cn : th.code)}</span>
-      ${editorial ? `<div class="dest__art dest__art--${esc(th.kind)}" aria-hidden="true"><span>${esc(th.code)}</span><i></i><i></i><i></i></div>` : ''}
+      ${original ? originalCoverHTML(th, 'citymus-cover--hero') : editorial ? `<div class="dest__art dest__art--${esc(th.kind)}" aria-hidden="true"><span>${esc(th.code)}</span><i></i><i></i><i></i></div>` : ''}
       <div class="dest__meta">${kindTag}${th.kind === 'city' ? `<span class="tag tnum" data-tz-label="${esc(th.tz)}">${esc(th.cityCn)} ${esc(localTimeIn(th.tz))}</span>` : ''}${lit ? `<span class="tag">${esc(th.era)}</span>` : ''}<span class="tag">${th.tracks.length} 首</span></div>
       <h1 class="dest__title" id="destTitle">${esc(lit ? th.cn : th.name)}</h1>
       <p class="dest__cn">${esc(lit ? `${th.name} · ${th.authorCn} ${th.author}` : th.cn)}</p>

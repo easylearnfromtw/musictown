@@ -58,89 +58,22 @@ const Artwork = (() => {
   }
   const ARCHIVO = 'Archivo, "Helvetica Neue", Arial, sans-serif', GARA = '"EB Garamond", Georgia, "Noto Serif TC", serif', CJK = '"Noto Serif TC", "Songti TC", serif';
 
-  function record(x, cx, cy, R, label, t, opts = {}) {
-    const vc = vinylColor(t);
-    x.save(); x.shadowColor = 'rgba(17,22,40,.28)'; x.shadowBlur = R * .18; x.shadowOffsetY = R * .07;
-    x.beginPath(); x.arc(cx, cy, R, 0, Math.PI * 2); x.fillStyle = vc.material === 'frost' ? '#EEF2F8' : vc.hex; x.fill(); x.restore();
-    x.strokeStyle = vc.material === 'black' ? 'rgba(255,255,255,.07)' : 'rgba(24,33,58,.08)'; x.lineWidth = Math.max(1, R * .006);
-    for (let r = R * .4; r < R * .97; r += R * .028) { x.beginPath(); x.arc(cx, cy, r, 0, Math.PI * 2); x.stroke(); }
-    const gl = x.createLinearGradient(cx - R, cy - R, cx + R, cy + R); gl.addColorStop(0, 'rgba(255,255,255,.22)'); gl.addColorStop(.45, 'rgba(255,255,255,0)'); gl.addColorStop(.6, 'rgba(255,255,255,0)'); gl.addColorStop(1, 'rgba(255,255,255,.14)');
-    x.beginPath(); x.arc(cx, cy, R, 0, Math.PI * 2); x.fillStyle = gl; x.fill();
-    x.beginPath(); x.arc(cx, cy, R * .34, 0, Math.PI * 2); x.fillStyle = opts.labelColor || '#F6F8FC'; x.fill();
-    if (label) { x.fillStyle = opts.labelInk || '#29465D'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.font = `700 ${R * .13}px ${ARCHIVO}`; x.fillText(label, cx, cy - R * .12); }
-    x.beginPath(); x.arc(cx, cy, R * .025, 0, Math.PI * 2); x.fillStyle = 'rgba(24,33,58,.55)'; x.fill();
+  function record(x,cx,cy,R,label,t,opts={}){
+    const vc=vinylColor(t),frost=vc.material==='frost';x.save();x.shadowColor='rgba(42,58,70,.20)';x.shadowBlur=R*.16;x.shadowOffsetY=R*.055;
+    const disc=x.createRadialGradient(cx-R*.26,cy-R*.30,R*.04,cx,cy,R);if(frost){disc.addColorStop(0,'#FFFFFF');disc.addColorStop(.58,'#EEF4F8');disc.addColorStop(1,'#D7E2E9');}else{disc.addColorStop(0,'#FFFFFF');disc.addColorStop(.12,vc.hex);disc.addColorStop(.72,vc.hex);disc.addColorStop(1,'#EAF0F5');}x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.fillStyle=disc;x.fill();x.restore();
+    x.strokeStyle=frost?'rgba(112,137,153,.14)':'rgba(255,255,255,.18)';x.lineWidth=Math.max(.7,R*.0042);for(let r=R*.36;r<R*.975;r+=R*.016){x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.stroke();}
+    const sh=x.createLinearGradient(cx-R,cy-R,cx+R,cy+R);sh.addColorStop(0,'rgba(255,255,255,.62)');sh.addColorStop(.38,'rgba(255,255,255,.05)');sh.addColorStop(.62,'rgba(255,255,255,0)');sh.addColorStop(1,'rgba(255,255,255,.35)');x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.fillStyle=sh;x.fill();
+    x.beginPath();x.arc(cx,cy,R*.31,0,Math.PI*2);x.fillStyle=opts.labelColor||'#F7F9FC';x.fill();x.strokeStyle='rgba(77,95,108,.15)';x.lineWidth=Math.max(1,R*.006);x.stroke();
+    const ink=opts.labelInk||'#566571',ring='CITYMUS · CITY SOUND ARCHIVE · ';x.save();x.translate(cx,cy);x.fillStyle=ink;x.textAlign='center';x.textBaseline='middle';x.font=`700 ${Math.max(7,R*.052)}px ${ARCHIVO}`;[...ring].forEach((ch,i,a)=>{x.save();x.rotate(i/a.length*Math.PI*2);x.fillText(ch,0,-R*.245);x.restore();});x.strokeStyle=ink;x.lineWidth=Math.max(1.2,R*.011);x.beginPath();x.arc(0,0,R*.073,0,Math.PI*2);x.stroke();x.beginPath();x.ellipse(0,0,R*.031,R*.073,0,0,Math.PI*2);x.stroke();x.beginPath();x.ellipse(0,0,R*.073,R*.031,0,0,Math.PI*2);x.stroke();if(label){x.font=`700 ${Math.max(7,R*.05)}px ${ARCHIVO}`;x.fillText(String(label),0,R*.145);}x.restore();x.beginPath();x.arc(cx,cy,R*.017,0,Math.PI*2);x.fillStyle='rgba(55,70,80,.78)';x.fill();
   }
-
-  async function paint(t, S = 512) {
-    await fonts();
-    const th = themeOf(t), c = document.createElement('canvas'); c.width = c.height = S; const x = c.getContext('2d');
-    const g = ground(t, th), lim = Limited.active(th?.t);
-    x.textBaseline = 'alphabetic';
-    if (lim) {
-      // Taipei Limited: porcelain ground, wordmark behind the record
-      x.fillStyle = '#F6F8FC'; x.fillRect(0, 0, S, S);
-      const [w, cn] = await Promise.all([Limited.load(lim.word), Limited.load(lim.cn)]);
-      if (w) { const ww = S * .9, wh = ww * w.height / w.width; x.drawImage(w, (S - ww) / 2, S * .07, ww, wh); }
-      record(x, S / 2, S * .56, S * .3, g.n < 10 ? `0${g.n}` : String(g.n), t, { labelColor: '#F6F8FC' });
-      if (cn) { const cw = S * .2, ch = cw * cn.height / cn.width; x.drawImage(cn, (S - cw) / 2, S * .89, cw, ch); }
-      return c;
-    }
-    const kind = th?.kind || 'style';
-    /* CITYMUS public sleeve · scalable canvas version of the supplied reference.
-       Taipei Limited stays on its dedicated wordmark/台北 composition above. */
-    if (kind !== 'literature') {
-      x.fillStyle = '#FCFCFD'; x.fillRect(0, 0, S, S);
-      const cx = S * .5, cy = S * .43, R = S * .30;
-      record(x, cx, cy, R, null, t, { labelColor: '#F7F9FB', labelInk: '#53606D' });
-
-      x.save(); x.translate(cx, cy);
-      x.fillStyle = '#53606D'; x.textAlign = 'center'; x.textBaseline = 'middle';
-      x.font = `700 ${Math.max(9,S * .018)}px ${ARCHIVO}`;
-      const ring = 'CITYMUS · CITY SOUND ARCHIVE · ';
-      [...ring].forEach((ch, i, a) => {
-        x.save(); x.rotate(i / a.length * Math.PI * 2); x.fillText(ch, 0, -R * .29); x.restore();
-      });
-      x.strokeStyle = '#53606D'; x.lineWidth = Math.max(1.3, S * .0032);
-      x.beginPath(); x.arc(0, 0, R * .12, 0, Math.PI * 2); x.stroke();
-      x.beginPath(); x.ellipse(0, 0, R * .052, R * .12, 0, 0, Math.PI * 2); x.stroke();
-      x.beginPath(); x.ellipse(0, 0, R * .12, R * .052, 0, 0, Math.PI * 2); x.stroke();
-      x.restore();
-
-      x.fillStyle = '#0B0B0C'; x.textAlign = 'center'; x.textBaseline = 'alphabetic';
-      x.font = `900 ${S * .082}px "Arial Black",${ARCHIVO}`;
-      x.fillText('CITYMUS.', S * .5, S * .80);
-      return c;
-    }
-    x.fillStyle = g.bg; x.fillRect(0, 0, S, S);
-    if (kind === 'city') {
-      // a ticket stub: the code, a perforation, the song number
-      x.fillStyle = g.fg; x.font = `700 ${S * .36}px ${ARCHIVO}`; x.textAlign = 'left';
-      x.fillText(th.code, S * .07, S * .42);
-      x.globalAlpha = .75; x.font = `700 ${S * .042}px ${ARCHIVO}`; x.fillText('CITY LIMITED MUSIC PASS', S * .08, S * .53); x.globalAlpha = 1;
-      x.setLineDash([S * .03, S * .025]); x.strokeStyle = g.fg; x.globalAlpha = .4; x.lineWidth = S * .006; x.beginPath(); x.moveTo(S * .06, S * .64); x.lineTo(S * .94, S * .64); x.stroke(); x.setLineDash([]); x.globalAlpha = 1;
-      x.fillStyle = mix(g.bg, g.dark ? '#000000' : '#FFFFFF', .35); [0, S].forEach(px => { x.beginPath(); x.arc(px, S * .64, S * .045, 0, Math.PI * 2); x.fill(); });
-      x.fillStyle = g.fg; x.font = `italic 400 ${S * .3}px ${GARA}`; x.textAlign = 'right'; x.fillText(String(g.n).padStart(2, '0'), S * .93, S * .93);
-      x.textAlign = 'left'; x.font = `500 ${S * .055}px ${CJK}`; x.fillText(th.cityCn || '', S * .08, S * .9);
-    } else if (kind === 'literature') {
-      // a book jacket: vertical title, author, a thin frame, the song number
-      x.strokeStyle = g.fg; x.globalAlpha = .35; x.lineWidth = S * .004; x.strokeRect(S * .05, S * .05, S * .9, S * .9); x.globalAlpha = 1;
-      x.fillStyle = g.fg; x.textAlign = 'center'; x.textBaseline = 'top';
-      const title = [...th.cn]; const fs = title.length > 4 ? S * .13 : S * .17;
-      x.font = `900 ${fs}px ${CJK}`; title.forEach((ch, k) => x.fillText(ch, S * .76, S * .1 + k * fs * 1.04));
-      x.font = `500 ${S * .045}px ${CJK}`; x.globalAlpha = .8; [...(th.authorCn || '')].forEach((ch, k) => x.fillText(ch, S * .6, S * .12 + k * S * .055)); x.globalAlpha = 1;
-      x.textAlign = 'left'; x.textBaseline = 'alphabetic';
-      x.font = `italic 400 ${S * .34}px ${GARA}`; x.fillText(String(g.n).padStart(2, '0'), S * .09, S * .9);
-      x.font = `500 ${S * .045}px ${CJK}`; x.globalAlpha = .85; const note = String(t.note || '').slice(0, 10); x.fillText(note, S * .1, S * .55); x.globalAlpha = 1;
-    } else {
-      // style & mood: a record in the corner, the code, the song number
-      record(x, S * .64, S * .62, S * .42, th?.code || 'MT', t, { labelColor: g.bg, labelInk: g.fg });
-      x.fillStyle = g.fg; x.textAlign = 'left'; x.font = `700 ${S * .15}px ${ARCHIVO}`; x.fillText(th?.code || 'MT', S * .07, S * .2);
-      x.font = `italic 400 ${S * .2}px ${GARA}`; x.fillText(String(g.n).padStart(2, '0'), S * .07, S * .38);
-    }
-    x.textAlign = 'left'; x.textBaseline = 'alphabetic'; x.fillStyle = g.fg; x.globalAlpha = .7; x.font = `700 ${S * .032}px ${ARCHIVO}`;
-    if (kind !== 'literature') x.fillText('CITYMUS', S * .08, S * .965 - (kind === 'city' ? S * .12 : 0));
-    x.globalAlpha = 1;
-    return c;
+  function fitArtworkText(x,text,maxW,maxPx,minPx,family,weight='700'){let px=maxPx,s=String(text||'');while(px>minPx){x.font=`${weight} ${px}px ${family}`;if(x.measureText(s).width<=maxW)break;px-=2;}return px;}
+  async function paint(t,S=512){
+    await fonts();const th=themeOf(t),c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d'),g=ground(t,th),lim=Limited.active(th?.t),kind=th?.kind||'style';x.textBaseline='alphabetic';
+    if(kind==='literature'){x.fillStyle=g.bg;x.fillRect(0,0,S,S);x.strokeStyle=g.fg;x.globalAlpha=.35;x.lineWidth=S*.004;x.strokeRect(S*.05,S*.05,S*.9,S*.9);x.globalAlpha=1;x.fillStyle=g.fg;x.textAlign='center';x.textBaseline='top';const title=[...(th?.cn||'')],fs=title.length>4?S*.13:S*.17;x.font=`900 ${fs}px ${CJK}`;title.forEach((ch,k)=>x.fillText(ch,S*.76,S*.1+k*fs*1.04));x.font=`500 ${S*.045}px ${CJK}`;x.globalAlpha=.8;[...(th?.authorCn||'')].forEach((ch,k)=>x.fillText(ch,S*.6,S*.12+k*S*.055));x.globalAlpha=1;x.textAlign='left';x.textBaseline='alphabetic';x.font=`italic 400 ${S*.34}px ${GARA}`;x.fillText(String(g.n).padStart(2,'0'),S*.09,S*.9);x.font=`500 ${S*.045}px ${CJK}`;x.globalAlpha=.85;x.fillText(String(t.note||'').slice(0,10),S*.1,S*.55);x.globalAlpha=1;return c;}
+    const bg=x.createLinearGradient(0,0,S,S);bg.addColorStop(0,'#FFFFFF');bg.addColorStop(.58,'#FBFCFE');bg.addColorStop(1,'#F1F5F8');x.fillStyle=bg;x.fillRect(0,0,S,S);const blue=x.createRadialGradient(S*.18,S*.18,0,S*.18,S*.18,S*.42);blue.addColorStop(0,'rgba(207,232,251,.26)');blue.addColorStop(1,'rgba(207,232,251,0)');x.fillStyle=blue;x.fillRect(0,0,S,S);const pink=x.createRadialGradient(S*.84,S*.82,0,S*.84,S*.82,S*.38);pink.addColorStop(0,'rgba(251,215,228,.20)');pink.addColorStop(1,'rgba(251,215,228,0)');x.fillStyle=pink;x.fillRect(0,0,S,S);
+    if(lim){const w=await Limited.load(lim.word);if(w){const ww=S*.90,wh=ww*w.height/w.width;x.drawImage(w,(S-ww)/2,S*.075,ww,wh);}}else{const word=String(kind==='city'?(th?.city||th?.name||th?.code):kind==='spot'?(th?.city||th?.name||th?.code):kind==='original'?(th?.cn||th?.code||th?.name):(th?.name||th?.code||'CITYMUS')).toUpperCase();x.fillStyle='#090A0C';x.textAlign='center';const px=fitArtworkText(x,word,S*.92,S*.19,S*.082,ARCHIVO,'700');x.font=`700 ${px}px ${ARCHIVO}`;x.fillText(word,S/2,S*.215);}
+    record(x,S/2,S*.515,S*.315,null,t,{labelColor:'#F7F9FC',labelInk:'#52616E'});
+    if(lim){const cn=await Limited.load(lim.cn);if(cn){const cw=S*.21,ch=cw*cn.height/cn.width;x.drawImage(cn,(S-cw)/2,S*.835,cw,ch);}}else{const bottom=String(kind==='city'?(th?.cityCn||th?.cn||th?.name):kind==='spot'?(th?.cn||th?.cityCn||th?.name):kind==='original'?(th?.name||th?.cn):(th?.cn||th?.name||'CITYMUS'));const fam=/[\u3400-\u9fff]/.test(bottom)?CJK:ARCHIVO;const px=fitArtworkText(x,bottom,S*.80,S*.105,S*.050,fam,'900');x.fillStyle='#0A0B0D';x.textAlign='center';x.font=`900 ${px}px ${fam}`;x.fillText(bottom,S/2,S*.895);}const suffix=kind==='original'?'ORIGINAL':kind==='city'?'CITY SOUND ARCHIVE':kind==='spot'?'LANDMARK':String(KIND_LABEL?.[kind]||'PLAYLIST').toUpperCase();x.fillStyle='#788390';x.textAlign='center';x.font=`700 ${S*.022}px ${ARCHIVO}`;x.fillText(`CITYMUS · ${suffix}`,S/2,S*.947);return c;
   }
 
   const cache = new Map();
@@ -165,7 +98,7 @@ const Artwork = (() => {
         const c = await paint(t, S);
         const blob = await new Promise(resolve => c.toBlob(resolve, 'image/jpeg', .92));
         if (!blob) throw new Error('artwork blob failed');
-        const artCache = await caches.open('mt-artwork-v1');
+        const artCache = await caches.open('mt-artwork-v2');
         await artCache.put(url, new Response(blob, {
           headers: { 'Content-Type': 'image/jpeg', 'Cache-Control': 'public, max-age=31536000, immutable' }
         }));

@@ -8,7 +8,7 @@ const Welcome = (() => {
     <section class="welcome__step is-active" data-step="1">
       <div class="welcome__globe">${globeMark()}</div>
       <p class="welcome__word">CITYMUS</p>
-      <h1 class="welcome__title"><span>CITYMUS</span></h1>
+      <h1 class="welcome__title welcome__title--brand"><img src="assets/citymus-wordmark.png" alt="CITYMUS"></h1>
       <p class="welcome__lede">顛頗、晃蕩、恍惚時，用CITYMUS緩解相思</p>
       <div class="welcome__cta"><button class="btn btn--primary" type="button" data-next>選一個目的地</button><button class="btn btn--glass" type="button" data-skip>直接進入</button></div>
     </section>

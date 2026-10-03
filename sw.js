@@ -1,12 +1,12 @@
 /* CITYMUS service worker · caches the app shell so the Home Screen app
    opens without a connection. Audio is never touched here: downloaded songs
    live in IndexedDB and stream/range requests go straight to the network. */
-const VERSION = 'R14.6-2026-10-03-CITYMUS-BRAND';
+const VERSION = 'R11.9-2026-10-03-CITYMUS-ORIGINAL-SLEEVE';
 const CACHE = 'mt-shell-' + VERSION;
 const SHELL = ['./', 'index.html', 'remote-audio-map.js', 'extra-city-catalog.js', 'literature-catalog.js', 'literature-audio-map.js', 'site.webmanifest',
   'apple-touch-icon.png', 'assets/icons/apple-touch-icon-152.png', 'assets/icons/apple-touch-icon-167.png',
   'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'favicon.svg',
-  'assets/limited/taipei-word.png', 'assets/limited/taipei-cn.png'];
+  'assets/limited/taipei-word.png', 'assets/limited/taipei-cn.png', 'assets/citymus-wordmark.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(SHELL.map(u => c.add(new Request(u, { cache: 'reload' })).catch(() => null)))).then(() => self.skipWaiting()));

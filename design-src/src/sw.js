@@ -1,10 +1,10 @@
 /* CITYMUS service worker · caches the app shell so the Home Screen app
    opens without a connection. Audio is never touched here: downloaded songs
    live in IndexedDB and stream/range requests go straight to the network. */
-const VERSION = 'R14.6-2026-10-03-CITYMUS-BRAND';
+const VERSION = 'R14.6-2026-10-03-CITYMUS-BRAND-ARTWORK';
 const CACHE = 'mt-shell-' + VERSION;
 const SHELL = ['./', 'index.html', 'remote-audio-map.js', 'literature-catalog.js', 'literature-audio-map.js', 'citymus-library.js', 'ebook-catalog.js', 'site.webmanifest',
-  'apple-touch-icon.png', 'assets/icons/apple-touch-icon-152.png', 'assets/icons/apple-touch-icon-167.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'favicon.svg', 'assets/limited/taipei-word.png', 'assets/limited/taipei-cn.png'];
+  'apple-touch-icon.png', 'assets/icons/apple-touch-icon-152.png', 'assets/icons/apple-touch-icon-167.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'favicon.svg', 'assets/limited/taipei-word.png', 'assets/limited/taipei-cn.png', 'assets/citymus-wordmark.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(SHELL.map(u => c.add(new Request(u, { cache: 'reload' })).catch(() => null)))).then(() => self.skipWaiting()));
@@ -18,7 +18,7 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   if (/\.(mp3|m4a|ogg|oga|flac|wav|aac|opus)$/i.test(url.pathname)) return;
   if (url.origin === location.origin && url.pathname.includes('/__citymus_art/')) {
-    e.respondWith(caches.open('mt-artwork-v1').then(c => c.match(req).then(hit => hit || new Response('', { status: 404 }))));
+    e.respondWith(caches.open('mt-artwork-v2').then(c => c.match(req).then(hit => hit || new Response('', { status: 404 }))));
     return;
   }
   if (req.mode === 'navigate' && url.origin === location.origin) {
