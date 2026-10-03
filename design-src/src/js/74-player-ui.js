@@ -244,19 +244,26 @@ const PlayerUI = (() => {
   bus.on('queue', () => { if (open && root.classList.contains('q-open')) drawQueue(); });
 
   /* ---------- controls ---------- */
-  byId('plPlay').onclick = () => { haptic(); Player.toggle(); };
-  byId('plNext').onclick = () => Player.next();
-  byId('plPrev').onclick = () => Player.prev();
-  byId('plShuffle').onclick = () => { haptic(); Player.setShuffle(!Settings.get('shuffle')); toast(Settings.get('shuffle') ? '隨機播放：開' : '隨機播放：關'); };
-  byId('plRepeat').onclick = () => { haptic(); const r = Player.cycleRepeat(); toast({ off: '重複播放：關', all: '重複播放：整個清單', one: '重複播放：這一首' }[r]); };
-  byId('plFav').onclick = e => { if (Player.current) { toggleFav(Player.current, e.currentTarget); render(); } };
-  byId('plMore').onclick = () => Player.current && trackSheet(Player.current);
-  byId('plAdd').onclick = () => { const t = Player.current; if (t && !t.localPersonal) { haptic(); libraryPicker(t); } };
-  byId('plShare').onclick = e => { const t = Player.current; if (t) { haptic(); actionBurst(e.currentTarget, 'share', '分享'); Share.track(t); } };
-  byId('plDl').onclick = () => { const t = Player.current; if (!t) return; haptic(); if (Offline.has(t)) offlineSheet(t); else Offline.download(t).then(ok => ok && toast('已存到這台裝置，可離線播放')); };
-  byId('plOut').onclick = () => { if (!Player.showRoutes()) Ritual.output(); };
-  byId('plFrom').onclick = () => { const th = Player.context.theme ? THEME_BY_T.get(Player.context.theme) : themeOf(Player.current); if (th) navFromPlayer('theme', { slug: th.slug }); };
-  byId('plClose').onclick = () => hide();
+  const control = (id, fn) => {
+    const b = byId(id); if (!b) return;
+    b.onclick = e => { e.preventDefault(); e.stopPropagation(); fn(e); };
+    // Keep iOS player controls out of the sheet-dismiss gesture recogniser.
+    b.addEventListener('pointerdown', e => e.stopPropagation(), { passive: true });
+    b.addEventListener('touchstart', e => e.stopPropagation(), { passive: true });
+  };
+  control('plPlay', () => { haptic(); Player.toggle(); });
+  control('plNext', () => Player.next());
+  control('plPrev', () => Player.prev());
+  control('plShuffle', () => { haptic(); Player.setShuffle(!Settings.get('shuffle')); toast(Settings.get('shuffle') ? '隨機播放：開' : '隨機播放：關'); });
+  control('plRepeat', () => { haptic(); const r = Player.cycleRepeat(); toast({ off: '重複播放：關', all: '重複播放：整個清單', one: '重複播放：這一首' }[r]); });
+  control('plFav', e => { if (Player.current) { toggleFav(Player.current, e.currentTarget); render(); } });
+  control('plMore', () => Player.current && trackSheet(Player.current));
+  control('plAdd', () => { const t = Player.current; if (t && !t.localPersonal) { haptic(); libraryPicker(t); } });
+  control('plShare', e => { const t = Player.current; if (t) { haptic(); actionBurst(e.currentTarget, 'share', '分享'); Share.track(t); } });
+  control('plDl', () => { const t = Player.current; if (!t) return; haptic(); if (Offline.has(t)) offlineSheet(t); else Offline.download(t).then(ok => ok && toast('已存到這台裝置，可離線播放')); });
+  control('plOut', () => { haptic(); if (!Player.showRoutes()) Ritual.output(); });
+  control('plFrom', () => { const th = Player.context.theme ? THEME_BY_T.get(Player.context.theme) : themeOf(Player.current); if (th) navFromPlayer('theme', { slug: th.slug }); });
+  control('plClose', () => hide());
 
   /* ---------- open / close with the morph ---------- */
   const EASE = 'cubic-bezier(.32,.72,0,1)';
@@ -338,6 +345,23 @@ const PlayerUI = (() => {
   bus.on('offline', () => open && drawDl());
   bus.on('offline-progress', () => open && drawDl());
   bus.on('needs-tap', () => toast('點一下播放鍵繼續'));
+
+  /* When iOS returns to the PWA/Safari from the lock-screen Now Playing card,
+     reopen the same full-player surface instead of leaving the listener on a
+     stale underlying page. Web apps cannot control the OS artwork tap itself,
+     but they can make the return path deterministic once the page is resumed. */
+  const RETURN_KEY = 'mt.nowPlayingReturn.v1';
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (Player.current && Player.playing) sess.set(RETURN_KEY, { at: Date.now(), track: Player.current.shareId || '' });
+      return;
+    }
+    const r = sess.get(RETURN_KEY, null);
+    if (IS_IOS && Player.current && r && Date.now() - Number(r.at || 0) < 12 * 60 * 60 * 1000) {
+      sess.set(RETURN_KEY, null);
+      setTimeout(() => { if (!open && Player.current) show(); }, 120);
+    }
+  }, { passive: true });
 
   return { show, hide, get isOpen() { return open; }, consumeHistoryClose() { const c = closingViaUI; closingViaUI = false; return c; } };
 })();
