@@ -85,8 +85,33 @@ const Artwork = (() => {
       if (cn) { const cw = S * .2, ch = cw * cn.height / cn.width; x.drawImage(cn, (S - cw) / 2, S * .89, cw, ch); }
       return c;
     }
-    x.fillStyle = g.bg; x.fillRect(0, 0, S, S);
     const kind = th?.kind || 'style';
+    /* CITYMUS public sleeve · scalable canvas version of the supplied reference.
+       Taipei Limited stays on its dedicated wordmark/台北 composition above. */
+    if (kind !== 'literature') {
+      x.fillStyle = '#FCFCFD'; x.fillRect(0, 0, S, S);
+      const cx = S * .5, cy = S * .43, R = S * .30;
+      record(x, cx, cy, R, null, t, { labelColor: '#F7F9FB', labelInk: '#53606D' });
+
+      x.save(); x.translate(cx, cy);
+      x.fillStyle = '#53606D'; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.font = `700 ${Math.max(9,S * .018)}px ${ARCHIVO}`;
+      const ring = 'CITYMUS · CITY SOUND ARCHIVE · ';
+      [...ring].forEach((ch, i, a) => {
+        x.save(); x.rotate(i / a.length * Math.PI * 2); x.fillText(ch, 0, -R * .29); x.restore();
+      });
+      x.strokeStyle = '#53606D'; x.lineWidth = Math.max(1.3, S * .0032);
+      x.beginPath(); x.arc(0, 0, R * .12, 0, Math.PI * 2); x.stroke();
+      x.beginPath(); x.ellipse(0, 0, R * .052, R * .12, 0, 0, Math.PI * 2); x.stroke();
+      x.beginPath(); x.ellipse(0, 0, R * .12, R * .052, 0, 0, Math.PI * 2); x.stroke();
+      x.restore();
+
+      x.fillStyle = '#0B0B0C'; x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+      x.font = `900 ${S * .082}px "Arial Black",${ARCHIVO}`;
+      x.fillText('CITYMUS.', S * .5, S * .80);
+      return c;
+    }
+    x.fillStyle = g.bg; x.fillRect(0, 0, S, S);
     if (kind === 'city') {
       // a ticket stub: the code, a perforation, the song number
       x.fillStyle = g.fg; x.font = `700 ${S * .36}px ${ARCHIVO}`; x.textAlign = 'left';
@@ -113,7 +138,7 @@ const Artwork = (() => {
       x.font = `italic 400 ${S * .2}px ${GARA}`; x.fillText(String(g.n).padStart(2, '0'), S * .07, S * .38);
     }
     x.textAlign = 'left'; x.textBaseline = 'alphabetic'; x.fillStyle = g.fg; x.globalAlpha = .7; x.font = `700 ${S * .032}px ${ARCHIVO}`;
-    if (kind !== 'literature') x.fillText('MUSICETOWN', S * .08, S * .965 - (kind === 'city' ? S * .12 : 0));
+    if (kind !== 'literature') x.fillText('CITYMUS', S * .08, S * .965 - (kind === 'city' ? S * .12 : 0));
     x.globalAlpha = 1;
     return c;
   }
@@ -167,12 +192,12 @@ const Artwork = (() => {
       if (w) { const ww = W - 200, wh = ww * w.height / w.width; x.drawImage(w, 100, 120, ww, wh); }
       record(x, W / 2, 560, 330, null, { ...t, title: t.title }, { labelColor: '#F6F8FC' });
       x.save(); x.translate(W / 2, 560); x.fillStyle = '#29465D'; x.font = `700 22px ${ARCHIVO}`; x.textAlign = 'center';
-      const ring = 'MUSICETOWN · CITY SOUND ARCHIVE · '; [...ring].forEach((ch, i, a) => { x.save(); x.rotate(i / a.length * Math.PI * 2); x.fillText(ch, 0, -90); x.restore(); }); x.restore();
+      const ring = 'CITYMUS · CITY SOUND ARCHIVE · '; [...ring].forEach((ch, i, a) => { x.save(); x.rotate(i / a.length * Math.PI * 2); x.fillText(ch, 0, -90); x.restore(); }); x.restore();
       if (cn) { const cw = 200, ch = cw * cn.height / cn.width; x.drawImage(cn, (W - cw) / 2, 925, cw, ch); }
     } else {
       x.save(); rr(60, 60, W - 120, 640, 48); x.clip(); x.fillStyle = g.bg; x.fillRect(60, 60, W - 120, 640); x.restore();
       x.fillStyle = g.fg; x.font = `700 230px ${ARCHIVO}`; x.textAlign = 'left'; x.fillText(th?.kind === 'literature' ? th.code : (th?.code || 'MT'), 110, 330);
-      x.globalAlpha = .75; x.font = `700 26px ${ARCHIVO}`; x.fillText(th?.kind === 'literature' ? `${th.cn} · ${th.authorCn}` : (th ? `${th.name.toUpperCase()} · ${th.cn}` : 'MUSICETOWN'), 116, 400); x.globalAlpha = 1;
+      x.globalAlpha = .75; x.font = `700 26px ${ARCHIVO}`; x.fillText(th?.kind === 'literature' ? `${th.cn} · ${th.authorCn}` : (th ? `${th.name.toUpperCase()} · ${th.cn}` : 'CITYMUS'), 116, 400); x.globalAlpha = 1;
       record(x, W - 300, 560, 230, null, t, { labelColor: g.bg });
     }
     x.textAlign = 'center'; x.fillStyle = '#8583A0'; x.font = `700 24px ${ARCHIVO}`;
