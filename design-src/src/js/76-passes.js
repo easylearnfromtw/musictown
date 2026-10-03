@@ -463,7 +463,7 @@ const Share = (() => {
         <h2 class="pass__big pass__big--left">${esc(title)}</h2>
         <p class="pass__meta pass__meta--left">${esc(meta)}</p>
         ${PassSheet.rows(list)}
-        <footer class="pass__foot"><small class="pass__label">MUSICETOWN · CITY SOUND ARCHIVE</small><div><p>所有曲目都來自標示 CC0、CC 授權或公有領域的來源。</p><b>CITYMUS</b></div></footer>
+        <footer class="pass__foot"><small class="pass__label">MUSICETOWN · CITY SOUND ARCHIVE</small><div><p>曲目來源可從歌曲資訊中查看。</p><b>CITYMUS</b></div></footer>
       </div></article>`,
       actions: `<button class="pbtn pbtn--primary" type="button" data-p>${icon('play')}<span>播放</span></button><button class="pbtn" type="button" data-s aria-label="${esc(saveLabel)}">${icon('listAdd')}</button><button class="pbtn" type="button" data-d aria-label="存到這台裝置">${icon('download')}</button>`,
       mount(sheet, api) {
