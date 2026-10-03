@@ -43,6 +43,288 @@ const META = {
 
 /* literature meta: kind 'literature' */
 LIT.forEach(w => { META[w.t] = { slug: w.slug, code: w.code, name: w.name, cn: w.cn, kind: 'literature', author: w.author, authorCn: w.authorCn, era: w.era, accent: w.accent, ink: w.ink, line: w.line, summary: w.summary }; });
+/* Original playlists · 25 tracks each, deterministically re-curated from the mother library. */
+const ORIGINAL_PLAYLISTS = [
+  {
+    "t": "MOONLIT HAZE",
+    "slug": "moonlit-haze",
+    "code": "YUE",
+    "name": "趁月色恍惚時",
+    "cn": "Moonlit Haze",
+    "accent": "#8B91AF",
+    "ink": "#42475F",
+    "line": "月色隔著薄霧落下來，輪廓、呼吸和時間都慢了半拍。",
+    "summary": "一張適合把焦點放鬆的夜色歌單。聲音不急著抵達哪裡，留著霧、回聲與朦朧的空隙，像凌晨抬頭時記不清楚的一段月光。",
+    "words": [
+      "dream",
+      "dreamy",
+      "ambient",
+      "lo-fi",
+      "slow night",
+      "soft room",
+      "haze",
+      "night",
+      "pacific rain",
+      "synth",
+      "velvet",
+      "chanson",
+      "mellow"
+    ]
+  },
+  {
+    "t": "DROWSY",
+    "slug": "drowsy",
+    "code": "AWK",
+    "name": "惺忪",
+    "cn": "Drowsy",
+    "accent": "#C4AA91",
+    "ink": "#624E3E",
+    "line": "眼睛睜開了，意識還留在枕頭與晨光之間。",
+    "summary": "剛醒來的聲音不該太完整。木吉他、柔軟人聲、低速節拍和一點室內殘響，像棉被還有溫度、窗簾才剛透進第一層光。",
+    "words": [
+      "soft",
+      "acoustic",
+      "folk",
+      "lo-fi",
+      "morning",
+      "warm",
+      "mellow",
+      "slow",
+      "lounge",
+      "bedroom",
+      "vocal",
+      "gentle",
+      "singer-songwriter"
+    ]
+  },
+  {
+    "t": "KISS",
+    "slug": "kiss",
+    "code": "KIS",
+    "name": "吻",
+    "cn": "Kiss",
+    "systemName": "刎",
+    "accent": "#9D5967",
+    "ink": "#502C35",
+    "line": "愛貼得太近時，吻與窒息只剩一線之隔。",
+    "summary": "不是溫柔的情歌，而是依戀逐漸變成命令、佔有與失控的愛。節拍越來越緊，情緒越來越沒有出口，保留被凝視、被控制、想逃卻又被拉回去的壓迫感。",
+    "words": [
+      "dark",
+      "tense",
+      "industrial",
+      "pulse",
+      "emo",
+      "rock",
+      "post-punk",
+      "night drive",
+      "synth",
+      "heavy",
+      "dramatic",
+      "distortion",
+      "obsession"
+    ]
+  },
+  {
+    "t": "FIELD SEA NOTES",
+    "slug": "field-sea-notes",
+    "code": "MON",
+    "name": "田海記趣",
+    "cn": "Field & Sea Notes",
+    "accent": "#87A7A0",
+    "ink": "#405B57",
+    "line": "把水面、田野、花與光拆成一筆一筆會流動的聲音。",
+    "summary": "以莫奈畫作的觀看方式策展：不追求清楚輪廓，而讓水光、田野、睡蓮、風與色彩彼此滲開。前景像民謠，遠景像環境音，整張歌單要有如詩、如畫的呼吸。",
+    "words": [
+      "coastal",
+      "pacific rain",
+      "acoustic",
+      "folk",
+      "ambient",
+      "soft",
+      "warm",
+      "garden",
+      "chanson",
+      "slow",
+      "nature",
+      "lounge",
+      "dream"
+    ]
+  },
+  {
+    "t": "OCEANIC",
+    "slug": "oceanic",
+    "code": "SEA",
+    "name": "汪洋",
+    "cn": "Oceanic",
+    "accent": "#668FA9",
+    "ink": "#315166",
+    "line": "看不見岸的藍，浪與呼吸把時間拉成更長的尺度。",
+    "summary": "不是海灘派對，而是海本身。從近岸的光、潮汐與風，慢慢游向沒有地標的深藍；低頻像暗流，長音像浪，最後只剩一種遼闊感。",
+    "words": [
+      "ocean",
+      "sea",
+      "coastal",
+      "pacific",
+      "ambient",
+      "wave",
+      "blue",
+      "island",
+      "tropical",
+      "slow",
+      "dream",
+      "synth",
+      "chill"
+    ]
+  },
+  {
+    "t": "TROUBADOUR",
+    "slug": "troubadour",
+    "code": "BRD",
+    "name": "吟遊詩人",
+    "cn": "Troubadour",
+    "accent": "#987A5E",
+    "ink": "#574433",
+    "line": "從一個人的弦聲出發，走過人群與夜色，再把故事帶回原點。",
+    "summary": "這張歌單按故事順序聽。開場像獨自上路，中段逐漸遇見人群、酒館與遠方，之後轉入夜色與失落；結尾再收回最初的木質感，讓第一首與最後幾首彼此照應。",
+    "phases": [
+      {
+        "n": 6,
+        "words": [
+          "acoustic",
+          "folk",
+          "singer-songwriter",
+          "soft",
+          "roots",
+          "americana"
+        ]
+      },
+      {
+        "n": 7,
+        "words": [
+          "folk",
+          "soul",
+          "upbeat",
+          "warm",
+          "lounge",
+          "vocal",
+          "groove"
+        ]
+      },
+      {
+        "n": 6,
+        "words": [
+          "slow night",
+          "dark",
+          "ballad",
+          "chanson",
+          "old room",
+          "emo",
+          "night"
+        ]
+      },
+      {
+        "n": 6,
+        "words": [
+          "acoustic",
+          "folk",
+          "soft",
+          "roots",
+          "singer-songwriter",
+          "warm"
+        ]
+      }
+    ]
+  },
+  {
+    "t": "LOOKING BACK",
+    "slug": "looking-back",
+    "code": "RET",
+    "name": "驀然回首",
+    "cn": "Looking Back",
+    "accent": "#7C8799",
+    "ink": "#3D4655",
+    "line": "前二十四首都在趕路，直到最後一首，才終於看見那個人。",
+    "summary": "整張歌單故意讓前段一直向前：快、急、城市感、像在人群裡反覆錯身。第 25 首才突然鬆開速度與張力，像跑了很久後回頭，真正要找的人一直站在燈火闌珊處。",
+    "rush": [
+      "running",
+      "high energy",
+      "motion",
+      "fast",
+      "downtown pulse",
+      "night drive",
+      "rock",
+      "punk",
+      "electronic",
+      "synth",
+      "upbeat",
+      "city"
+    ],
+    "resolve": [
+      "warm",
+      "soft room",
+      "acoustic",
+      "ballad",
+      "soul",
+      "love",
+      "slow",
+      "chanson",
+      "velvet",
+      "gentle"
+    ]
+  }
+];
+const ORIGINAL_POOL = (() => {
+  const seen = new Set(), out = [];
+  for (const d of (Array.isArray(window.MUSIC_DATA) ? window.MUSIC_DATA : [])) {
+    for (const t of (Array.isArray(d.tracks) ? d.tracks : [])) {
+      const k = t.masterId || t.audioSrc || (norm(t.artist) + '|' + norm(t.title));
+      if (!k || seen.has(k)) continue;
+      seen.add(k); out.push({ t, from: d.t });
+    }
+  }
+  return out;
+})();
+const originalKey = x => x.t.masterId || x.t.audioSrc || (norm(x.t.artist) + '|' + norm(x.t.title));
+const originalHay = x => [x.t.title, x.t.artist, x.t.vibe, x.t.genre, x.t.note, x.from].filter(Boolean).join(' ').toLowerCase();
+function originalPick(spec, count, used = new Set(), words = spec.words || []) {
+  const ranked = ORIGINAL_POOL.map(x => {
+    const hay = originalHay(x); let score = 0;
+    words.forEach((w, i) => { if (hay.includes(String(w).toLowerCase())) score += Math.max(2, 10 - Math.min(i, 7)); });
+    if (/cc0|public domain/i.test(String(x.t.license || ''))) score += 2;
+    return { x, score, tie: hash32(spec.t + '|' + originalKey(x)) };
+  }).sort((a, b) => b.score - a.score || a.tie - b.tie);
+  const out = [];
+  for (const row of ranked) {
+    const k = originalKey(row.x); if (used.has(k)) continue;
+    used.add(k); out.push(row.x); if (out.length >= count) break;
+  }
+  return out;
+}
+function originalSequence(spec) {
+  const used = new Set();
+  if (Array.isArray(spec.phases)) {
+    const out = [];
+    spec.phases.forEach(p => out.push(...originalPick(spec, p.n, used, p.words)));
+    return out.slice(0, 25);
+  }
+  if (spec.t === 'LOOKING BACK') return [...originalPick(spec, 24, used, spec.rush), ...originalPick(spec, 1, used, spec.resolve)];
+  return originalPick(spec, 25, used, spec.words);
+}
+function originalData(spec) {
+  const picked = originalSequence(spec);
+  return { t: spec.t, sub: spec.summary, key: '原創歌單 · 25 首 · 母庫重新策展', original: true,
+    tracks: picked.map((x, i) => ({ ...x.t, trackNo: i + 1, curatedTheme: spec.t,
+      curatedFrom: x.t.shareId || x.t.audioSrc || x.from, sourceTheme: x.from,
+      originalPlaylist: true, shareId: spec.slug + '-' + String(i + 1).padStart(3, '0'),
+      vibe: spec.name + ' · ' + (x.t.vibe || x.from || '') }))
+  };
+}
+ORIGINAL_PLAYLISTS.forEach(spec => {
+  META[spec.t] = { slug: spec.slug, code: spec.code, name: spec.name, cn: spec.cn, kind: 'original',
+    systemName: spec.systemName || '', accent: spec.accent, ink: spec.ink, line: spec.line, summary: spec.summary };
+});
+DATA.push(...ORIGINAL_PLAYLISTS.map(originalData));
+
 
 /* Groups for the glass box and filters */
 const GROUPS = [
@@ -51,13 +333,15 @@ const GROUPS = [
   { key: 'americas', label: '美洲', en: 'Americas', names: ['VANCOUVER', 'NEW YORK', 'TROPICAL HAWAII', 'PSYCHEDELIC LA'] },
   { key: 'style', label: '風格', en: 'Styles', names: ['JAZZ', 'CROONER', 'ROCK', 'LO-FI'] },
   { key: 'mood', label: '心情', en: 'Moods', names: ['EMO', 'SPORT', 'RUNNING', 'POEM'] },
+  { key: 'original', label: '原創歌單', en: 'Original', names: ORIGINAL_PLAYLISTS.map(w => w.t) },
   { key: 'literature', label: '文學', en: 'Literature', names: LIT.map(w => w.t) }
 ].filter(g => g.names.length);
-const KIND_LABEL = { city: '城市', style: '風格', mood: '心情', literature: '文學' };
+const KIND_LABEL = { city: '城市', style: '風格', mood: '心情', original: '原創歌單', literature: '文學' };
 const REGION_LABEL = { asia: '亞洲', europe: '歐洲', mideast: '中東', americas: '美洲' };
 
 /* Landmarks for spot-edition tickets (GPS check-in, coordinates never stored) */
 const LANDMARKS = [
+  { id: 'west-lake-hangzhou', name: 'West Lake', cn: '西湖', code: 'HZH', area: 'Hangzhou', areaCn: '杭州', region: 'asia', theme: 'SPLENDOR SHANGHAI', lat: 30.2375, lng: 120.140833, r: 5200 },
   { id: 'taipei-101', name: 'Taipei 101', cn: '台北 101', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0340, lng: 121.5645, r: 650 },
   { id: 'ximending', name: 'Ximending', cn: '西門町', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0422, lng: 121.5077, r: 850 },
   { id: 'longshan-temple', name: 'Lungshan Temple', cn: '艋舺龍山寺', code: 'TPE', area: 'Taipei', areaCn: '台北', region: 'asia', theme: 'TAIPEI DREAM', lat: 25.0372, lng: 121.4999, r: 550 },
@@ -152,6 +436,7 @@ THEMES.forEach(th => th.tracks.forEach(t => { if (t.shareId && !TRACK_BY_SHARE.h
 const ALL_TRACKS = THEMES.flatMap(th => th.tracks);
 const CITY_THEMES = THEMES.filter(t => t.kind === 'city');
 const LIT_THEMES = THEMES.filter(t => t.kind === 'literature');
+const ORIGINAL_THEMES = THEMES.filter(t => t.kind === 'original');
 const themeOf = t => THEME_BY_T.get(t?.__theme || t?.curatedTheme || t?.libraryGenre) || null;
 const themeBySlug = s => THEME_BY_SLUG.get(String(s || '').toLowerCase()) || null;
 /* a recording can appear in several themes: dedupe by master */
