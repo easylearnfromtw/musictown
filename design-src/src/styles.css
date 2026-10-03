@@ -1279,3 +1279,45 @@ body { position: relative; }
   .sec--originals .tile--original .tile__art { width: 82px; height: 82px; }
   .sec--originals .tile--original > b { font-size: clamp(23px, 7.2vw, 29px); }
 }
+
+
+/* Reader lives inside each literature theme instead of as a home-page shelf. */
+@layer components {
+  .reader-gateway {
+    width: 100%;
+    min-height: 68px;
+    margin-top: 12px;
+    padding: 12px 14px 12px 16px;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 38px minmax(0,1fr) 22px;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    color: var(--accent-ink);
+    background:
+      linear-gradient(145deg, color-mix(in srgb,var(--accent) 16%,#fff), rgba(255,255,255,.94));
+    box-shadow: var(--shadow-1), inset 0 0 0 1px color-mix(in srgb,var(--accent) 28%,var(--line));
+  }
+  .reader-gateway > .i:first-child {
+    width: 30px;
+    height: 30px;
+  }
+  .reader-gateway > .i:last-child {
+    width: 18px;
+    height: 18px;
+    color: var(--ink-3);
+  }
+  .reader-gateway span { min-width: 0; }
+  .reader-gateway b {
+    display: block;
+    font: 700 17px/1.2 var(--serif);
+    color: var(--ink);
+  }
+  .reader-gateway small {
+    display: block;
+    margin-top: 4px;
+    font: 600 11px/1.3 var(--ui);
+    color: var(--ink-3);
+  }
+}
