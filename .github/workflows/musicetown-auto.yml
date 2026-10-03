@@ -22,7 +22,7 @@ permissions:
 
 concurrency:
   group: musicetown-auto-pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
