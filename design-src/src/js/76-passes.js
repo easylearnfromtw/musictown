@@ -144,7 +144,7 @@ const Pass = (() => {
         const id = `spot-${hit.lm.id}`;
         const tk = Wallet.has(id) ? Wallet.all().find(x => x.id === id) : issueSpot(hit.lm);
         const fresh = Wallet.add(tk); if (fresh) haptic('success');
-        const th = THEME_BY_T.get(hit.lm.theme); if (th && (hit.lm.code || th.code) === th.code) Geo.confirm(th.t, 'GPS');
+        const th = THEME_BY_T.get(hit.lm.theme); if (th?.kind === 'city' && (hit.lm.code || th.code) === th.code) Geo.confirm(th.t, 'GPS');
         openTicket(tk, { fresh }); return;
       }
       const near = target ? ranked.find(x => x.lm.id === target.id) : ranked[0];
