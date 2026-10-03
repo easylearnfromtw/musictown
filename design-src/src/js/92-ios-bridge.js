@@ -20,7 +20,7 @@ const IOSCompanionBridge = (() => {
   async function publishPlayback(withArtwork=false){
     const t=Player.current,p=playbackPayload(); if(!t||!p)return; post(p);
     if(!withArtwork)return; const seq=++artSeq;
-    try{const src=await Artwork.cover(t,384);if(seq===artSeq&&Player.current===t&&src)post({type:'artwork',shareId:t.shareId||'',dataURL:src});}catch(_){}
+    try{const src=await Artwork.cover(t,1024);if(seq===artSeq&&Player.current===t&&src)post({type:'artwork',shareId:t.shareId||'',dataURL:src});}catch(_){}
   }
   async function publishRecommendations(){
     const picks=Reco.todaysEdit(3).filter(Boolean);
