@@ -1,24 +1,85 @@
 {
   "id": "./",
-  "name": "musicetown",
-  "short_name": "musicetown",
+  "name": "CITYMUS",
+  "short_name": "CITYMUS",
   "description": "Music for where you are — city sound archive with city-limited ticket stubs.",
   "lang": "zh-Hant",
-  "start_url": "./",
+  "start_url": "./?source=pwa",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#F5F6FA",
   "theme_color": "#F5F6FA",
-  "categories": ["music", "travel", "entertainment"],
+  "categories": [
+    "music",
+    "travel",
+    "entertainment"
+  ],
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
-    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
   ],
   "shortcuts": [
-    { "name": "城市出發看板", "short_name": "城市", "url": "./?tab=cities", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] },
-    { "name": "我的收藏", "short_name": "收藏", "url": "./?tab=library", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] }
-  ]
+    {
+      "name": "城市出發看板",
+      "short_name": "城市",
+      "url": "./?tab=cities",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "CITYMUS Reader",
+      "short_name": "電子書",
+      "url": "./?read=pride-and-prejudice",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "我的收藏",
+      "short_name": "收藏",
+      "url": "./?tab=library",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
 }
