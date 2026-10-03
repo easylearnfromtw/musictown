@@ -140,7 +140,14 @@ Router.register('home', (el) => {
     const box = byId('homeBox');
     let group = GROUPS.find(g => g.key === Settings.get('homeGroup')) || GROUPS[0];
     let selected = 0;
-    const themesOf = g => g.names.map(n => THEME_BY_T.get(n)).filter(Boolean);
+    const themesOf = g => (g.names || []).map(n => THEME_BY_T.get(n)).filter(th => {
+      if (!th || !th.slug || !String(themeTitle(th) || '').trim()) return false;
+      // Asia must contain actual Asian city themes only. Stale catalog keys used
+      // to fall through to generic style/Jazz cards and render as blank chips.
+      if (g.key === 'asia') return th.kind === 'city' && th.region === 'asia';
+      if (g.key === 'original') return th.kind === 'original';
+      return true;
+    });
     const caption = i => {
       const ths = themesOf(group); const th = ths[i ?? selected] || ths[0]; if (!th) return;
       byId('boxName').textContent = themeTitle(th); byId('boxLine').textContent = th.kind === 'literature' ? `${th.authorCn} · ${th.line}` : `${th.cn} · ${th.line}`;
@@ -416,12 +423,21 @@ Router.register('library', (el) => {
       const est = await Offline.estimate();
       byId('settings').innerHTML = `
         <div class="setting setting--stack"><div><b>音質</b><span>${{ auto: '自動選擇最穩定的音源', hq: '優先串流原始高音質檔案', saver: '使用網站壓縮檔，省流量' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
+        <div class="setting setting--stack"><div><b>低音</b><span>120 Hz · 調整厚度與下盤</span></div><div id="eqBassSeg"></div></div>
+        <div class="setting setting--stack"><div><b>人聲</b><span>2.2 kHz · 讓 vocal 往前或退後</span></div><div id="eqVocalSeg"></div></div>
+        <div class="setting setting--stack"><div><b>高音</b><span>4.8 kHz · 調整亮度與空氣感</span></div><div id="eqTrebleSeg"></div></div>
+        <button class="setting" type="button" id="setEqReset"><div><b>重設聲音調整</b><span>低音、人聲、高音回到 0 dB</span></div>${icon('refresh')}</button>
         <button class="setting" type="button" id="setFades"><div><b>淡入淡出</b><span>每首開頭 2 秒淡入、結尾 3 秒淡出</span></div><span class="switch" role="switch" aria-checked="${Settings.get('fades') !== false}"></span></button>
         <button class="setting" type="button" id="setAuto"><div><b>自動延續播放</b><span>清單播完後，接著播放相近的歌</span></div><span class="switch" role="switch" aria-checked="${Settings.get('autoplay') !== false}"></span></button>
         <div class="setting"><div><b>儲存空間</b><span>${Offline.count ? `已下載 ${Offline.count} 首 · ${fmtBytes(Offline.bytes())}` : '還沒有下載的歌'}${est?.quota ? ` · 這台裝置還可用約 ${fmtBytes(Math.max(0, est.quota - (est.usage || 0)))}` : ''}</span></div>${icon('cloud')}</div>
         <button class="setting" type="button" id="setDislikes"><div><b>不適合我</b><span>${Dislikes.size ? `${Dislikes.size} 首會在自動播放時略過 · 點一下清除` : '在歌曲選單標記後，自動播放會略過'}</span></div>${icon('ban')}</button>
         <button class="setting" type="button" id="setWelcome"><div><b>重新看一次歡迎頁</b><span>重新選擇想先去的地方</span></div>${icon('chevron')}</button>`;
       Seg(byId('qualSeg'), { label: '音質', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast('下一首開始套用'); } });
+      const eqItems = [{ key:'-6', label:'-6' }, { key:'-3', label:'-3' }, { key:'0', label:'0' }, { key:'3', label:'+3' }, { key:'6', label:'+6' }];
+      Seg(byId('eqBassSeg'), { label:'低音 dB', value:String(Settings.get('eqBass') || 0), items:eqItems, onChange:k => Settings.set('eqBass', Number(k)) });
+      Seg(byId('eqVocalSeg'), { label:'人聲 dB', value:String(Settings.get('eqVocal') || 0), items:eqItems, onChange:k => Settings.set('eqVocal', Number(k)) });
+      Seg(byId('eqTrebleSeg'), { label:'高音 dB', value:String(Settings.get('eqTreble') || 0), items:eqItems, onChange:k => Settings.set('eqTreble', Number(k)) });
+      byId('setEqReset').onclick = () => { Settings.set('eqBass',0); Settings.set('eqVocal',0); Settings.set('eqTreble',0); drawSettings(); toast('聲音調整已重設'); };
       byId('setFades').onclick = () => { Settings.set('fades', !(Settings.get('fades') !== false)); drawSettings(); };
       byId('setAuto').onclick = () => { Settings.set('autoplay', !(Settings.get('autoplay') !== false)); drawSettings(); };
       byId('setDislikes').onclick = () => { if (!Dislikes.size) return; Dislikes.clear(); toast('已清除「不適合我」'); drawSettings(); };
