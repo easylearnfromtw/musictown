@@ -425,7 +425,7 @@ Router.register('library', (el) => {
     const drawSettings = async () => {
       const est = await Offline.estimate();
       byId('settings').innerHTML = `
-        <button class="setting setting--tail" type="button" id="setTail"><div><b>小尾巴 · 常態背景優化</b><span>慢速音量一致化、峰值保護、去濁／抑刺耳微校正；預設全站常駐，不把動態壓扁</span></div><span class="switch" role="switch" aria-checked="${Settings.get('tailEnabled') !== false}"></span></button>
+        <button class="setting setting--tail" type="button" id="setTail"><div><b>小尾巴 · 常態背景優化</b><span>K-weighted 響度一致化、門檻過濾、峰值保護與頻率依賴 Dynamic EQ；以整首趨勢校正，不追著每個強弱段落跑</span></div><span class="switch" role="switch" aria-checked="${Settings.get('tailEnabled') !== false}"></span></button>
         <div class="setting setting--stack"><div><b>高音質模式</b><span>${{ auto: '標準：只保留小尾巴常態校正', hq: 'Adaptive HiFi：動態校正、清晰度、瞬態感與輕量空氣重建', lossless: '無損（演算法）：更積極的數碼修復；仍不宣稱把有損檔變成真正 Lossless', saver: '省流量：使用壓縮音源，小尾巴仍維持音量與峰值一致' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
         <div class="setting setting--stack"><div><b>低音</b><span>120 Hz · 調整厚度與下盤</span></div><div id="eqBassSeg"></div></div>
         <div class="setting setting--stack"><div><b>人聲</b><span>2.2 kHz · 讓 vocal 往前或退後</span></div><div id="eqVocalSeg"></div></div>

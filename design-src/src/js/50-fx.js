@@ -80,6 +80,12 @@ const FX = (() => {
     g.tailHarsh = ctx.createBiquadFilter(); g.tailHarsh.type = 'peaking'; g.tailHarsh.frequency.value = 3600; g.tailHarsh.Q.value = .9;
     g.tailAir = ctx.createBiquadFilter(); g.tailAir.type = 'highshelf'; g.tailAir.frequency.value = 12000;
     g.tailMeter = ctx.createAnalyser(); g.tailMeter.fftSize = 2048; g.tailMeter.smoothingTimeConstant = .86;
+    // BS.1770-inspired K-weighting measurement path. It never reaches the
+    // audible mix; the zero-gain sink merely keeps the analysis graph alive.
+    g.kShelf = ctx.createBiquadFilter(); g.kShelf.type = 'highshelf'; g.kShelf.frequency.value = 1681.974; g.kShelf.gain.value = 4.0;
+    g.kHP = ctx.createBiquadFilter(); g.kHP.type = 'highpass'; g.kHP.frequency.value = 38.135; g.kHP.Q.value = .50;
+    g.kMeter = ctx.createAnalyser(); g.kMeter.fftSize = 16384; g.kMeter.smoothingTimeConstant = 0;
+    g.kSink = n(); g.kSink.gain.value = 0;
     g.tailGain = n();
     g.tailComp = ctx.createDynamicsCompressor(); g.tailComp.threshold.value = -16; g.tailComp.knee.value = 24; g.tailComp.ratio.value = 1.18; g.tailComp.attack.value = .035; g.tailComp.release.value = .65;
     g.tailLimit = ctx.createDynamicsCompressor(); g.tailLimit.threshold.value = -1.4; g.tailLimit.knee.value = 0; g.tailLimit.ratio.value = 20; g.tailLimit.attack.value = .003; g.tailLimit.release.value = .09;
@@ -104,7 +110,9 @@ const FX = (() => {
     g.monoGain = n(); g.monoGain.gain.value = 0;
 
     g.input.connect(g.tailHP); g.tailHP.connect(g.tailMud); g.tailMud.connect(g.tailHarsh); g.tailHarsh.connect(g.tailAir);
-    g.tailAir.connect(g.tailMeter); g.tailAir.connect(g.tailGain); g.tailGain.connect(g.tailComp); g.tailComp.connect(g.tailLimit); g.tailLimit.connect(g.qSub);
+    g.tailAir.connect(g.tailMeter); g.tailAir.connect(g.tailGain);
+    g.tailAir.connect(g.kShelf); g.kShelf.connect(g.kHP); g.kHP.connect(g.kMeter); g.kMeter.connect(g.kSink); g.kSink.connect(g.master);
+    g.tailGain.connect(g.tailComp); g.tailComp.connect(g.tailLimit); g.tailLimit.connect(g.qSub);
     g.qSub.connect(g.qMud); g.qMud.connect(g.qClarity); g.qClarity.connect(g.qHarsh); g.qHarsh.connect(g.qAir); g.qAir.connect(g.qComp); g.qComp.connect(g.qGain);
     g.qHarsh.connect(g.airHP); g.airHP.connect(g.airDrive); g.airDrive.connect(g.airMix); g.airMix.connect(g.qGain);
     g.qGain.connect(g.eqBass); g.eqBass.connect(g.eqVocal); g.eqVocal.connect(g.eqTreble);
@@ -187,12 +195,37 @@ const FX = (() => {
   }
 
   const tailActive = () => Settings.get('tailEnabled') !== false;
-  let tailTimer = 0, tailAvgDb = -18, tailGainDb = 0, tailFrames = 0;
-  let tailTime = null, tailFreq = null;
+  const TAIL_TARGET_LUFS = -16.0;
+  const TAIL_ABS_GATE = -70.0;
+  const TAIL_REL_GATE = 10.0;
+  let tailTimer = 0, tailGainDb = 0, tailFrames = 0;
+  let tailLufs = -18, tailShortLufs = -18, loudBlocks = [];
+  let tailTime = null, tailFreq = null, kTime = null;
+  let deq = { mud: 0, harsh: 0, air: 0 };
+
   const db = v => 20 * Math.log10(Math.max(1e-7, v));
   const amp = d => Math.pow(10, d / 20);
+  const lufsEnergy = l => Math.pow(10, (l + .691) / 10);
+  const energyLufs = e => -0.691 + 10 * Math.log10(Math.max(1e-12, e));
+  const meanEnergy = list => list.length ? list.reduce((s,l) => s + lufsEnergy(l), 0) / list.length : 0;
+
+  function gatedLoudness(blocks) {
+    const absolute = blocks.filter(v => Number.isFinite(v) && v > TAIL_ABS_GATE);
+    if (!absolute.length) return null;
+    const ungated = energyLufs(meanEnergy(absolute));
+    const gate = Math.max(TAIL_ABS_GATE, ungated - TAIL_REL_GATE);
+    const gated = absolute.filter(v => v >= gate);
+    if (!gated.length) return ungated;
+    return energyLufs(meanEnergy(gated));
+  }
+  function smoothBand(key, target, attack = .16, release = .035) {
+    const cur = deq[key] || 0, faster = Math.abs(target) > Math.abs(cur);
+    deq[key] = cur + (target - cur) * (faster ? attack : release);
+    return deq[key];
+  }
   function resetTail() {
-    tailAvgDb = -18; tailGainDb = 0; tailFrames = 0;
+    tailGainDb = 0; tailFrames = 0; tailLufs = -18; tailShortLufs = -18; loudBlocks = [];
+    deq = { mud: 0, harsh: 0, air: 0 };
     if (g?.tailGain && ctx) {
       try { g.tailGain.gain.cancelScheduledValues(ctx.currentTime); g.tailGain.gain.setTargetAtTime(1, ctx.currentTime, .08); } catch (_) {}
     }
@@ -201,52 +234,99 @@ const FX = (() => {
     if (!g || !ctx) return;
     const on = tailActive(), t = ctx.currentTime, k = instant ? .001 : .20;
     const to = (param, v) => { try { param.cancelScheduledValues(t); param.setTargetAtTime(v, t, k); } catch (_) { param.value = v; } };
-    // Baseline coloration stays deliberately tiny: correction, not "effect".
     to(g.tailHP.frequency, on ? 18 : 10);
-    to(g.tailMud.gain, on ? -.18 : 0);
-    to(g.tailHarsh.gain, on ? -.12 : 0);
-    to(g.tailAir.gain, on ? .12 : 0);
+    to(g.tailMud.gain, on ? -.12 : 0);
+    to(g.tailHarsh.gain, on ? -.08 : 0);
+    to(g.tailAir.gain, on ? .08 : 0);
     if (!on) { to(g.tailGain.gain, 1); tailGainDb = 0; }
   }
   function bandAvg(arr, lo, hi) {
     const nyq = (ctx?.sampleRate || 48000) / 2, n = arr.length;
     const a = clamp(Math.floor(lo / nyq * n), 0, n - 1), b = clamp(Math.ceil(hi / nyq * n), a + 1, n);
-    let s = 0, c = 0; for (let i = a; i < b; i++) { const v = arr[i]; if (Number.isFinite(v)) { s += v; c++; } }
+    let s = 0, c = 0;
+    for (let i = a; i < b; i++) { const v = arr[i]; if (Number.isFinite(v)) { s += v; c++; } }
     return c ? s / c : -100;
   }
   function tailTick() {
     if (!g || !ctx || ctx.state !== 'running' || !tailActive()) return;
     tailTime ||= new Float32Array(g.tailMeter.fftSize);
     tailFreq ||= new Float32Array(g.tailMeter.frequencyBinCount);
+    kTime ||= new Float32Array(g.kMeter.fftSize);
+
+    // Sample-peak safety remains separate from loudness normalization.
     g.tailMeter.getFloatTimeDomainData(tailTime);
-    let ss = 0, peak = 0;
-    for (let i = 0; i < tailTime.length; i++) { const x = tailTime[i]; ss += x * x; if (Math.abs(x) > peak) peak = Math.abs(x); }
-    const rmsDb = db(Math.sqrt(ss / Math.max(1, tailTime.length)));
-    if (rmsDb > -52) {
-      const a = tailFrames < 8 ? .20 : .055; tailAvgDb += (rmsDb - tailAvgDb) * a; tailFrames++;
-      let wanted = clamp(-18.2 - tailAvgDb, -6.0, 5.5);
-      // Leave about 1.2 dB peak headroom. Loud tracks are turned down faster;
-      // quiet tracks come up very slowly to avoid audible pumping.
-      const peakDb = db(peak); wanted = Math.min(wanted, -1.2 - peakDb);
-      const tau = wanted < tailGainDb ? .65 : 3.8;
-      tailGainDb += (wanted - tailGainDb) * (wanted < tailGainDb ? .22 : .055);
-      try { g.tailGain.gain.setTargetAtTime(amp(tailGainDb), ctx.currentTime, tau); } catch (_) {}
+    let peak = 0;
+    for (let i = 0; i < tailTime.length; i++) peak = Math.max(peak, Math.abs(tailTime[i]));
+
+    // K-weighted block loudness. This is a real-time BS.1770-inspired estimator,
+    // not a standards-certified offline LUFS meter: browser channel handling and
+    // true-peak oversampling are intentionally kept lightweight.
+    g.kMeter.getFloatTimeDomainData(kTime);
+    let ms = 0;
+    for (let i = 0; i < kTime.length; i++) ms += kTime[i] * kTime[i];
+    ms /= Math.max(1, kTime.length);
+    const blockLufs = energyLufs(ms);
+
+    if (Number.isFinite(blockLufs) && blockLufs > TAIL_ABS_GATE) {
+      loudBlocks.push(blockLufs);
+      if (loudBlocks.length > 120) loudBlocks.shift(); // ~30 s rolling history
+      tailFrames++;
+
+      const integrated = gatedLoudness(loudBlocks);
+      const recent = loudBlocks.slice(-12); // ~3 s short-term window
+      const shortTerm = recent.length ? energyLufs(meanEnergy(recent)) : integrated;
+
+      if (integrated != null) {
+        tailLufs += (integrated - tailLufs) * (tailFrames < 6 ? .22 : .075);
+        if (shortTerm != null) tailShortLufs += (shortTerm - tailShortLufs) * .14;
+
+        // Normalize the track estimate, not each quiet/loud passage. This keeps
+        // classical/Jazz macrodynamics intact while songs converge in loudness.
+        let wanted = clamp(TAIL_TARGET_LUFS - tailLufs, -6.0, 5.5);
+        if (tailFrames < 4 && wanted > 0) wanted = 0; // never boost an intro before enough evidence
+
+        const peakDb = db(peak);
+        wanted = Math.min(wanted, -1.2 - peakDb); // sample-peak headroom
+        const reducing = wanted < tailGainDb;
+        tailGainDb += (wanted - tailGainDb) * (reducing ? .18 : .028);
+        try { g.tailGain.gain.setTargetAtTime(amp(tailGainDb), ctx.currentTime, reducing ? .7 : 4.2); } catch (_) {}
+      }
     }
 
-    // Very gentle content-aware baseline correction.
+    // Frequency-dependent Dynamic EQ. Each band has its own detector, range,
+    // attack and release, so a transient problem is corrected without turning
+    // the whole Tail into a static EQ preset.
     g.tailMeter.getFloatFrequencyData(tailFreq);
-    const lowMid = bandAvg(tailFreq, 120, 300), body = bandAvg(tailFreq, 500, 1800);
-    const presence = bandAvg(tailFreq, 2500, 4500), sibilance = bandAvg(tailFreq, 6000, 9000), air = bandAvg(tailFreq, 11000, 16000);
-    const mudCut = clamp((lowMid - body - 3) * -.055, -.55, 0);
-    const harshCut = clamp((presence - body - 2) * -.05 + (sibilance - body - 4) * -.025, -.55, 0);
-    const airLift = clamp((body - air - 20) * .012, 0, .22);
+    const lowMid = bandAvg(tailFreq, 120, 320), body = bandAvg(tailFreq, 500, 1800);
+    const presence = bandAvg(tailFreq, 2500, 4500), sibilance = bandAvg(tailFreq, 6000, 9000);
+    const air = bandAvg(tailFreq, 11000, Math.min(17000, (ctx.sampleRate || 48000) * .45));
+
+    const mudExcess = Math.max(0, lowMid - body - 2.5);
+    const presenceExcess = Math.max(0, presence - body - 2.0);
+    const sibExcess = Math.max(0, sibilance - body - 4.0);
+    const airDeficit = Math.max(0, body - air - 20.0);
+
+    const mudTarget = clamp(-mudExcess * .10, -1.10, 0);
+    const harshTarget = clamp(-(presenceExcess * .085 + sibExcess * .055), -1.20, 0);
+    const airTarget = clamp(airDeficit * .018, 0, .32);
+
+    const mud = smoothBand('mud', mudTarget, .18, .035);
+    const harsh = smoothBand('harsh', harshTarget, .22, .040);
+    const airLift = smoothBand('air', airTarget, .055, .12);
     const tt = ctx.currentTime;
     try {
-      g.tailMud.gain.setTargetAtTime(-.18 + mudCut, tt, .9);
-      g.tailHarsh.gain.setTargetAtTime(-.12 + harshCut, tt, .75);
-      g.tailAir.gain.setTargetAtTime(.12 + airLift, tt, 1.2);
+      g.tailMud.gain.setTargetAtTime(-.12 + mud, tt, .34);
+      g.tailHarsh.gain.setTargetAtTime(-.08 + harsh, tt, .24);
+      g.tailAir.gain.setTargetAtTime(.08 + airLift, tt, .70);
     } catch (_) {}
-    bus.emit('tail-meter', { gainDb: tailGainDb, loudnessDb: tailAvgDb });
+
+    bus.emit('tail-meter', {
+      gainDb: tailGainDb,
+      lufs: tailLufs,
+      shortLufs: tailShortLufs,
+      targetLufs: TAIL_TARGET_LUFS,
+      deq: { mud, harsh, air: airLift }
+    });
   }
   function startTailLoop() {
     if (tailTimer) return;
@@ -486,6 +566,7 @@ const FX = (() => {
     get qualityActive() { return qualityActive(); },
     get tailActive() { return tailActive(); },
     get tailGainDb() { return tailGainDb; },
+    get tailLufs() { return tailLufs; },
     setLevel(lv) { level = clamp(lv | 0, 0, 3); Settings.set('vintage', level); if (level > 0) ensure(); apply(level); bus.emit('vintage', level); },
     get running() { return !!ctx && ctx.state === 'running'; }
   };
