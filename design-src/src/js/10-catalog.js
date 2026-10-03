@@ -887,13 +887,13 @@ const EXTRA_THEME_SPECS = [
 function extraThemeData(spec) {
   const count = Number(spec.count || 50), preset = ORIGINAL_PRESET_BY_T.get(spec.t);
   if (preset && Array.isArray(preset.tracks) && preset.tracks.length === count) {
-    return { t: spec.t, sub: spec.summary, key: (spec.kind === 'spot' ? '景點歌單' : '城市主題') + ' · ' + count + ' 首 · 2500 首合法母庫策展',
+    return { t: spec.t, sub: spec.summary, key: (spec.kind === 'spot' ? '地標歌單' : '城市主題') + ' · ' + count + ' 首 · 2500 首合法母庫策展',
       tracks: preset.tracks.map((t, i) => ({ ...t, trackNo: i + 1, curatedTheme: spec.t,
         shareId: t.shareId || (spec.slug + '-' + String(i + 1).padStart(3, '0')),
         vibe: t.vibe || (spec.cn + ' · ' + (t.genre || 'Mother Library')) })) };
   }
   const picked = originalPick(spec, count, new Set(), spec.words || []);
-  return { t: spec.t, sub: spec.summary, key: (spec.kind === 'spot' ? '景點歌單' : '城市主題') + ' · 母庫策展',
+  return { t: spec.t, sub: spec.summary, key: (spec.kind === 'spot' ? '地標歌單' : '城市主題') + ' · 母庫策展',
     tracks: picked.map((x, i) => ({ ...x.t, trackNo: i + 1, curatedTheme: spec.t, curatedFrom: x.t.shareId || x.t.audioSrc || x.from,
       sourceTheme: x.from, shareId: spec.slug + '-' + String(i + 1).padStart(3, '0'), vibe: spec.cn + ' · ' + (x.t.vibe || x.from || '') })) };
 }
@@ -911,14 +911,14 @@ const GROUPS = [
   { key: 'asia', label: '亞洲', en: 'Asia', names: ['TAIPEI DREAM', 'FANTASY TAINAN', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'TRADITIONAL BEIJING', 'BUSTLING HONG KONG', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG', 'ROUGE TIBET', 'ELECTRIC SEOUL', 'MONSOON KUALA LUMPUR', 'GOLDEN MANILA', 'SAFFRON BANGKOK', 'HEAVENLY TIANJING', 'GINKGO NANJING'] },
   { key: 'europe', label: '歐洲', en: 'Europe', names: ['VAPOR LONDON', 'SLIGHTLY TIPSY ROME', 'CHAMPS-ÉLYSÉES', 'MENACING DUBAI', 'CONCRETE BERLIN', 'TIDAL ROTTERDAM'] },
   { key: 'oceania', label: '大洋洲', en: 'Oceania', names: ['HARBOUR SYDNEY', 'QUIET CANBERRA'] },
-  { key: 'landmark', label: '景點', en: 'Landmarks', names: ['SYDNEY OPERA HOUSE'] },
+  { key: 'landmark', label: '地標', en: 'Landmarks', names: ['SYDNEY OPERA HOUSE'] },
   { key: 'americas', label: '美洲', en: 'Americas', names: ['VANCOUVER', 'NEW YORK', 'TROPICAL HAWAII', 'PSYCHEDELIC LA'] },
   { key: 'style', label: '風格', en: 'Styles', names: ['JAZZ', 'CROONER', 'ROCK', 'LO-FI'] },
   { key: 'mood', label: '心情', en: 'Moods', names: ['EMO', 'SPORT', 'RUNNING', 'POEM'] },
   { key: 'original', label: '原創歌單', en: 'Original', names: ORIGINAL_PLAYLISTS.map(w => w.t) },
   { key: 'literature', label: '文學', en: 'Literature', names: LIT.map(w => w.t) }
 ].filter(g => g.names.length);
-const KIND_LABEL = { city: '城市', spot: '景點', style: '風格', mood: '心情', original: '原創歌單', literature: '文學' };
+const KIND_LABEL = { city: '城市', spot: '地標', style: '風格', mood: '心情', original: '原創歌單', literature: '文學' };
 const REGION_LABEL = { asia: '亞洲', europe: '歐洲', oceania: '大洋洲', mideast: '中東', americas: '美洲' };
 
 /* Landmarks for spot-edition tickets (GPS check-in, coordinates never stored) */
