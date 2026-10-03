@@ -326,6 +326,106 @@ const ORIGINAL_PLAYLISTS = [
       "piano"
     ],
     "ordered": true
+  },
+  {
+    "t": "BREEZE",
+    "slug": "breeze",
+    "code": "BRZ",
+    "name": "微風",
+    "cn": "Breeze",
+    "accent": "#9DB9B0",
+    "ink": "#445E57",
+    "line": "風從窗邊掠過，不催促，也不留下重量。",
+    "summary": "輕盈、乾淨、帶一點木質與日光。以 acoustic、soft indie、bossa、calm 與空氣感為主，像走路時剛好吹來的一陣風。",
+    "words": [
+      "breeze",
+      "soft",
+      "acoustic",
+      "calm",
+      "gentle",
+      "folk",
+      "bossa",
+      "light",
+      "warm",
+      "chill",
+      "indie",
+      "air"
+    ]
+  },
+  {
+    "t": "MORNING VEIL",
+    "slug": "morning-veil",
+    "code": "ASY",
+    "name": "朝煙",
+    "cn": "Morning Veil",
+    "accent": "#B8B7AA",
+    "ink": "#5B5B52",
+    "line": "清晨還沒完全醒，薄煙先把城市的輪廓擦淡。",
+    "summary": "介於夜與日之間的灰白時刻。minimal piano、ambient、柔和人聲與極低速節拍，讓聲音像晨霧一樣慢慢散開。",
+    "words": [
+      "morning",
+      "ambient",
+      "minimal",
+      "piano",
+      "soft",
+      "calm",
+      "mist",
+      "dawn",
+      "gentle",
+      "slow",
+      "dream",
+      "acoustic"
+    ]
+  },
+  {
+    "t": "EVENING MIST",
+    "slug": "evening-mist",
+    "code": "XLA",
+    "name": "夕嵐",
+    "cn": "Evening Mist",
+    "accent": "#8C91A3",
+    "ink": "#444A5B",
+    "line": "夕光退下山脊，風把暮色一層一層帶進來。",
+    "summary": "比朝煙更深、更有距離感。從暖色 acoustic 走向 twilight ambient、cinematic 與一點點憂鬱，像傍晚山氣升起後慢慢看不清遠方。",
+    "words": [
+      "evening",
+      "twilight",
+      "ambient",
+      "cinematic",
+      "folk",
+      "acoustic",
+      "melancholy",
+      "dusk",
+      "slow",
+      "atmospheric",
+      "warm",
+      "night"
+    ]
+  },
+  {
+    "t": "RED BRICK",
+    "slug": "red-brick",
+    "code": "RBK",
+    "name": "紅磚",
+    "cn": "Red Brick",
+    "accent": "#A76552",
+    "ink": "#5A382F",
+    "line": "紅磚牆留著午後的熱，腳步、咖啡與舊街的聲音貼在一起。",
+    "summary": "有質地、有溫度，也有一點老城感。選曲偏 warm indie、jazz、soul、folk、analog 與鬆弛 groove，像舊建築裡一整個下午的橘紅色光線。",
+    "words": [
+      "warm",
+      "indie",
+      "jazz",
+      "soul",
+      "folk",
+      "analog",
+      "groove",
+      "acoustic",
+      "vintage",
+      "lounge",
+      "brick",
+      "old room"
+    ]
   }
 ];
 const ORIGINAL_POOL = (() => {

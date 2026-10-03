@@ -145,7 +145,8 @@ def main():
         print(f"\n{spec['name']} · {theme}")
         for t in tracks: print(f"  {t['trackNo']:02d}. {t['artist']} — {t['title']} [{t['curationPhase']}] score={t['curationScore']}")
     masters=[t["masterId"] for p in playlists for t in p["tracks"]]
-    if len(masters)!=175 or len(set(masters))!=175: raise RuntimeError("original playlists are not 175 globally unique masters")
+    expected=len(playlists)*25
+    if len(masters)!=expected or len(set(masters))!=expected: raise RuntimeError(f"original playlists are not {expected} globally unique masters")
     OUT.write_text(json.dumps(playlists,ensure_ascii=False,separators=(",",":")),encoding="utf-8")
     REPORT.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
     print(f"\noriginal playlists: {len(playlists)} themes / {len(masters)} globally unique legal-library tracks")
