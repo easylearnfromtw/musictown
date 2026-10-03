@@ -911,11 +911,10 @@ const GROUPS = [
   { key: 'asia', label: '亞洲', en: 'Asia', names: ['TAIPEI DREAM', 'FANTASY TAINAN', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'TRADITIONAL BEIJING', 'BUSTLING HONG KONG', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG', 'ROUGE TIBET', 'ELECTRIC SEOUL', 'MONSOON KUALA LUMPUR', 'GOLDEN MANILA', 'SAFFRON BANGKOK', 'HEAVENLY TIANJING', 'GINKGO NANJING'] },
   { key: 'europe', label: '歐洲', en: 'Europe', names: ['VAPOR LONDON', 'SLIGHTLY TIPSY ROME', 'CHAMPS-ÉLYSÉES', 'MENACING DUBAI', 'CONCRETE BERLIN', 'TIDAL ROTTERDAM'] },
   { key: 'oceania', label: '大洋洲', en: 'Oceania', names: ['HARBOUR SYDNEY', 'QUIET CANBERRA'] },
-  { key: 'landmark', label: '地標', en: 'Landmarks', names: ['SYDNEY OPERA HOUSE'] },
   { key: 'americas', label: '美洲', en: 'Americas', names: ['VANCOUVER', 'NEW YORK', 'TROPICAL HAWAII', 'PSYCHEDELIC LA'] },
   { key: 'style', label: '風格', en: 'Styles', names: ['JAZZ', 'CROONER', 'ROCK', 'LO-FI'] },
   { key: 'mood', label: '心情', en: 'Moods', names: ['EMO', 'SPORT', 'RUNNING', 'POEM'] },
-  { key: 'original', label: '原創歌單', en: 'Original', names: ORIGINAL_PLAYLISTS.map(w => w.t) },
+  { key: 'original', label: '原創', en: 'Original', names: ORIGINAL_PLAYLISTS.map(w => w.t) },
   { key: 'literature', label: '文學', en: 'Literature', names: LIT.map(w => w.t) }
 ].filter(g => g.names.length);
 const KIND_LABEL = { city: '城市', spot: '地標', style: '風格', mood: '心情', original: '原創歌單', literature: '文學' };
