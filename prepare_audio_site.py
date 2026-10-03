@@ -15,7 +15,7 @@ ROOT=Path(__file__).resolve().parent
 
 # Build the whitelisted public-domain original-text catalog first.
 ebook_builder=ROOT/"build_ebooks.py"
-if ebook_builder.exists():
+if ebook_builder.exists() and not (ROOT/"ebook-catalog.js").exists():
     subprocess.run([sys.executable, str(ebook_builder)], cwd=ROOT, check=True)
 
 # The curation steps above this job rewrite MUSIC_DATA in root/index.html.
