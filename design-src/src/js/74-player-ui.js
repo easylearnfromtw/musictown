@@ -18,7 +18,11 @@ const PlayerUI = (() => {
         <div class="player__from"><small id="plFromLabel">播放自</small><button type="button" id="plFrom"></button></div>
         <button class="icon-btn" type="button" id="plMore" aria-label="更多選項">${icon('more')}</button>
       </header>
-      <div class="stage" id="plStage">
+      <div class="stage is-cover" id="plStage">
+        <button class="album-cover" id="plCover" type="button" aria-label="切換到彩膠互動">
+          <img id="plCoverImg" alt="" decoding="async">
+          <span class="album-cover__hint">${icon('vinyl')}<b>VINYL</b></span>
+        </button>
         <div class="limited" id="plLimited" aria-hidden="true"></div>
         <div class="vinyl" id="plVinyl" role="slider" tabindex="0" aria-label="唱片：順時針拖曳快轉，逆時針倒轉" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
           <div class="vinyl__rotor" id="plRotor">
@@ -53,7 +57,18 @@ const PlayerUI = (() => {
     </div></div>
   </div>`;
   const sheet = byId('plSheet'), scroller = byId('plScroll'), vinyl = byId('plVinyl'), rotor = byId('plRotor'), stage = byId('plStage');
-  let open = false, closingViaUI = false;
+  const coverBtn = byId('plCover'), coverImg = byId('plCoverImg');
+  let open = false, closingViaUI = false, coverSeq = 0;
+
+  function showCoverMode() {
+    stage.classList.add('is-cover');
+    coverBtn?.setAttribute('aria-expanded', 'false');
+  }
+  function showVinylMode() {
+    stage.classList.remove('is-cover');
+    coverBtn?.setAttribute('aria-expanded', 'true');
+  }
+  coverBtn?.addEventListener('click', () => { haptic(); showVinylMode(); });
 
   /* ---------- vinyl rotation on the compositor ---------- */
   const spin = rotor.animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }], { duration: PERIOD * 1000, iterations: Infinity });
@@ -95,6 +110,13 @@ const PlayerUI = (() => {
     byId('plArtist').textContent = [t.artist, t.note].filter(Boolean).join(' · ');
     byId('plCode').textContent = th?.code || 'MT';
     const vc = vinylColor(t); vinyl.dataset.material = vc.material; vinyl.style.setProperty('--disc', vc.hex); vinyl.setAttribute('aria-valuetext', `${vc.name} 唱片`);
+    showCoverMode();
+    const seq = ++coverSeq;
+    coverImg.alt = `${t.title || 'CITYMUS'} 封面`;
+    Artwork.cover(t, 900).then(src => {
+      if (seq !== coverSeq || Player.current !== t || !src) return;
+      coverImg.src = src;
+    }).catch(() => {});
     const ctx = Player.context; byId('plFrom').textContent = ctx.title || (th ? (th.kind === 'literature' ? th.cn : th.name) : '音樂庫');
     const fav = Library.isFav(t); const f = byId('plFav'); f.hidden = !!t.localPersonal; f.classList.toggle('is-fav', fav); f.innerHTML = icon(fav ? 'heartFill' : 'heart'); f.setAttribute('aria-label', fav ? '從收藏移除' : '加入收藏');
     let host = ''; try { host = t.source ? new URL(t.source).host.replace(/^www\./, '') : ''; } catch (_) {}
@@ -156,6 +178,7 @@ const PlayerUI = (() => {
   const angleOf = e => { const r = vinyl.getBoundingClientRect(); return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI; };
   const wrap = d => { while (d > 180) d -= 360; while (d < -180) d += 360; return d; };
   vinyl.addEventListener('pointerdown', e => {
+    showVinylMode();
     if (!Player.current || (e.pointerType === 'mouse' && e.button)) return;
     e.preventDefault();
     const a = Player.el; const dur = Player.time.dur;
