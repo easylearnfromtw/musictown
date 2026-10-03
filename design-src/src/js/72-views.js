@@ -78,7 +78,10 @@ const postcardHTML = th => {
     <span class="postcard__txt"><b>${esc(th.name)}</b><span>${esc(th.cityCn)} · ${th.tracks.length} 首</span></span>
   </button>`;
 };
-const tileHTML = th => `<button class="tile tile--${esc(th.kind)}${th.kind === 'original' ? ' tile--original' : ''}" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><i class="tile__glow" aria-hidden="true"></i><span class="tile__top"><small>${esc(th.code)}</small><em>${esc(KIND_LABEL[th.kind] || 'PLAYLIST')}</em></span><b>${esc(th.name)}</b><span>${esc(th.cn)} · ${th.tracks.length} 首</span><p>${esc(th.line || '')}</p></button>`;
+const tileHTML = th => {
+  const visual = ['original','style','mood'].includes(th.kind) ? `<span class="tile__art tile__art--${esc(th.kind)}" aria-hidden="true"><i></i><i></i><i></i><span>${esc(th.code)}</span></span>` : '';
+  return `<button class="tile tile--${esc(th.kind)}${th.kind === 'original' ? ' tile--original' : ''}" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><i class="tile__glow" aria-hidden="true"></i>${visual}<span class="tile__top"><small>${esc(th.code)}</small><em>${esc(KIND_LABEL[th.kind] || 'PLAYLIST')}</em></span><b>${esc(th.name)}</b><span>${esc(th.cn)} · ${th.tracks.length} 首</span><p>${esc(th.line || '')}</p></button>`;
+};
 const bookHTML = th => `<button class="book" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><span class="book__spine"><b>${esc(th.authorCn)}</b></span><span class="book__txt"><b>${esc(th.cn)}</b><em>${esc(th.name)}</em><span>${esc(th.era)}</span></span></button>`;
 function citiesOrdered() {
   const recent = Stats.recentThemes();
@@ -123,12 +126,12 @@ Router.register('home', (el) => {
         <div class="sec__head"><h2 class="sec__title">文學<small>依作品的時代與心緒選曲 · 公有領域與 CC 授權錄音</small></h2></div>
         <div class="books" id="homeBooks"></div>
       </section>
-      <section class="sec">
+      <section class="sec sec--originals">
         <div class="sec__head"><h2 class="sec__title">原創歌單<small>每張 25 首 · 從母庫重新策展</small></h2></div>
         <div class="tiles" id="homeOriginals"></div>
       </section>
-      <section class="sec">
-        <div class="sec__head"><h2 class="sec__title">風格與心情</h2></div>
+      <section class="sec sec--vibes">
+        <div class="sec__head"><h2 class="sec__title">風格與心情<small>依節奏、質地與情緒找到當下</small></h2></div>
         <div class="tiles" id="homeTiles"></div>
       </section>
       <section class="sec" id="homeWalletSec" hidden>
@@ -479,11 +482,13 @@ Router.register('theme', (el, p) => {
   const lit = th.kind === 'literature';
   const original = th.kind === 'original';
   const readable = lit && Reader.has(th.slug);
+  const editorial = ['original','style','mood'].includes(th.kind);
   setAccent(el, th);
   const kindTag = th.kind === 'city' ? `<span class="tag">${icon('ticket')}City Limited</span>` : `<span class="tag">${KIND_LABEL[th.kind] || ''}</span>`;
   el.innerHTML = `<div class="wrap dest dest--${esc(th.kind)}${lit ? ' dest--lit' : ''}${original ? ' dest--original' : ''}">
     <header class="dest__hero">
       <span class="dest__code" aria-hidden="true">${esc(lit ? th.cn : th.code)}</span>
+      ${editorial ? `<div class="dest__art dest__art--${esc(th.kind)}" aria-hidden="true"><span>${esc(th.code)}</span><i></i><i></i><i></i></div>` : ''}
       <div class="dest__meta">${kindTag}${th.kind === 'city' ? `<span class="tag tnum" data-tz-label="${esc(th.tz)}">${esc(th.cityCn)} ${esc(localTimeIn(th.tz))}</span>` : ''}${lit ? `<span class="tag">${esc(th.era)}</span>` : ''}<span class="tag">${th.tracks.length} 首</span></div>
       <h1 class="dest__title" id="destTitle">${esc(lit ? th.cn : th.name)}</h1>
       <p class="dest__cn">${esc(lit ? `${th.name} · ${th.authorCn} ${th.author}` : th.cn)}</p>
@@ -529,7 +534,7 @@ Router.register('theme', (el, p) => {
     if (a === 'pass') Pass.openCity(th);
     if (a === 'dl') { if (th.tracks.every(t => Offline.has(t))) toast('已全部存在這台裝置'); else Offline.downloadMany(th.tracks, themeTitle(th)); }
     if (a === 'read' && readable) Router.go('reader', { slug: th.slug });
-    if (a === 'share') { actionBurst(e.target.closest('[data-a]'), 'share'); Share.theme(th); }
+    if (a === 'share') { actionBurst(e.target.closest('[data-a]'), 'share', '分享歌單'); Share.theme(th); }
   };
   el._unsubs?.forEach(f => f());
   el._unsubs = [bus.on('geo', drawActions), bus.on('wallet', drawActions), bus.on('offline', drawActions)];

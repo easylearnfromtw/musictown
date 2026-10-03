@@ -216,13 +216,23 @@ document.addEventListener('pointerdown', e => {
   window.addEventListener('pointerup', up, true); window.addEventListener('pointercancel', up, true);
 }, { passive: true });
 
-function actionBurst(el, kind = 'spark') {
-  if (!el || REDUCE) return;
+function actionBurst(el, kind = 'spark', label = '') {
+  if (!el) return;
+  el.classList.remove('is-actioned'); void el.offsetWidth; el.classList.add('is-actioned');
+  setTimeout(() => el.classList.remove('is-actioned'), 620);
   const r = el.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
-  try { el.animate([{ transform:'scale(1)' }, { transform:'scale(.86)' }, { transform:'scale(1.08)' }, { transform:'scale(1)' }], { duration:420, easing:'cubic-bezier(.2,.9,.2,1)' }); } catch (_) {}
-  const layer = document.createElement('span'); layer.className = 'microburst microburst--' + kind; layer.style.left = x + 'px'; layer.style.top = y + 'px';
-  const glyph = kind === 'heart' ? '♥' : kind === 'library' ? '+' : kind === 'share' ? '•' : '✦';
-  for (let i=0;i<7;i++) { const p=document.createElement('i'), a=(Math.PI*2*i/7)-Math.PI/2, d=26+(i%3)*8; p.textContent=glyph; p.style.setProperty('--dx',Math.cos(a)*d+'px'); p.style.setProperty('--dy',Math.sin(a)*d+'px'); p.style.setProperty('--delay',(i*18)+'ms'); layer.appendChild(p); }
-  document.body.appendChild(layer); setTimeout(()=>layer.remove(),760);
+  if (!REDUCE) {
+    try { el.animate([{ transform:'scale(1)' }, { transform:'scale(.84)' }, { transform:'scale(1.1)' }, { transform:'scale(1)' }], { duration:460, easing:'cubic-bezier(.2,.9,.2,1)' }); } catch (_) {}
+    const layer = document.createElement('span'); layer.className = 'microburst microburst--' + kind; layer.style.left = x + 'px'; layer.style.top = y + 'px';
+    const glyph = kind === 'heart' ? '♥' : kind === 'library' ? '+' : kind === 'share' ? '•' : '✦', count = kind === 'heart' ? 9 : kind === 'share' ? 6 : 8;
+    for (let i=0;i<count;i++) { const p=document.createElement('i'), a=(Math.PI*2*i/count)-Math.PI/2, d=28+(i%3)*10; p.textContent=glyph; p.style.setProperty('--dx',Math.cos(a)*d+'px'); p.style.setProperty('--dy',Math.sin(a)*d+'px'); p.style.setProperty('--delay',(i*16)+'ms'); layer.appendChild(p); }
+    document.body.appendChild(layer); setTimeout(()=>layer.remove(),820);
+  }
+  if (label) {
+    document.querySelector('.action-feedback')?.remove();
+    const note=document.createElement('span'); note.className='action-feedback action-feedback--'+kind; note.textContent=label;
+    note.style.left=clamp(x,72,innerWidth-72)+'px'; note.style.top=Math.max(66,y-48)+'px';
+    document.body.appendChild(note); setTimeout(()=>note.classList.add('is-in'),16); setTimeout(()=>note.remove(),1050);
+  }
 }
 window.addEventListener('error', e => console.warn('[musicetown]', e?.error || e?.message));

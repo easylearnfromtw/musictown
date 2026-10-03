@@ -308,7 +308,7 @@ function bindRows(el, getTracks, onPlay) {
 }
 function toggleFav(t, sourceEl = null) {
   const on = Library.toggle(t); haptic(on ? 'success' : 'light');
-  if (sourceEl) actionBurst(sourceEl, on ? 'heart' : 'spark');
+  if (sourceEl) actionBurst(sourceEl, on ? 'heart' : 'spark', on ? '已收藏' : '已取消收藏');
   toast(on ? `已收藏到 ${Library.active().name}` : `已從 ${Library.active().name} 移除`);
 }
 function refreshRows() {
@@ -369,7 +369,7 @@ function trackSheet(t) {
         else if (a === 'go') { s.close(); navFromPlayer('theme', { slug: th.slug }); }
         else if (a === 'radio') { s.close(); const list = [t, ...Reco.radio(t, 14)]; Player.playList(list, 0, { kind: 'radio', title: `${t.title} 電台` }); }
         else if (a === 'dislike') { const on = Dislikes.toggle(t); toast(on ? '之後自動播放會略過這首' : '已取消'); s.close(); }
-        else if (a === 'share') { actionBurst(e.target.closest('[data-a]'), 'share'); s.close(); Share.track(t); }
+        else if (a === 'share') { actionBurst(e.target.closest('[data-a]'), 'share', '分享'); setTimeout(()=>s.close(),120); Share.track(t); }
       });
     }
   });
@@ -383,7 +383,7 @@ function libraryPicker(t) {
       body.addEventListener('click', e => {
         const id = e.target.closest('[data-lib]')?.dataset.lib; if (!id) return;
         if (id === '__new') { libraryCreator({ seed: [t] }); return; }
-        const b=e.target.closest('[data-lib]'); const on = Library.toggle(t, id); actionBurst(b, on ? 'library' : 'spark'); toast(on ? `已加入 ${Library.all().find(l => l.id === id)?.name}` : '已移除'); setTimeout(()=>s.close(), on ? 240 : 80);
+        const b=e.target.closest('[data-lib]'); const on = Library.toggle(t, id); const libName=Library.all().find(l => l.id === id)?.name || '收藏庫'; actionBurst(b, on ? 'library' : 'spark', on ? `已加入 ${libName}` : '已移除'); toast(on ? `已加入 ${libName}` : '已移除'); setTimeout(()=>s.close(), on ? 320 : 100);
       });
     }
   });
