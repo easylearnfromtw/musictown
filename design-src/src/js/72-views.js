@@ -123,7 +123,7 @@ Router.register('home', (el) => {
         <div class="rail" id="homeRail"></div>
       </section>
       <section class="sec">
-        <div class="sec__head"><h2 class="sec__title">文學<small>依作品的時代與心緒選曲 · 可閱讀作品會標示「可閱讀原文」</small></h2></div>
+        <div class="sec__head"><h2 class="sec__title">文學<small>依作品的時代與心緒選曲</small></h2></div>
         <div class="books" id="homeBooks"></div>
       </section>
       <section class="sec sec--originals">
@@ -504,6 +504,7 @@ Router.register('theme', (el, p) => {
       <p class="dest__line">${lit ? `「${esc(th.line)}」` : esc(th.line)}</p>
       ${th.data.sub ? `<button class="link-btn dest__more" type="button" id="destMore" aria-expanded="false">${lit ? '關於選曲' : '關於這個抽屜'} ${icon('down')}</button><p class="dest__desc" id="destDesc" hidden>${esc(th.data.sub)}</p>` : ''}
       <div class="actionbar" id="actionbar"></div>
+      ${readable ? `<button class="reader-gateway" type="button" id="readerGateway">${icon('book')}<span><b>閱讀原文</b><small>CITYMUS Reader · ${esc(th.cn)}</small></span>${icon('chevron')}</button>` : ''}
       ${th.data.archiveEdit ? `<p class="note">${icon('sparkle')}<span>這個目的地的 50 首專屬選曲還在策展中，現在先從 CITYMUS 的曲庫挑出最接近的聲音暫代。完成安裝後會自動換上正式選曲。</span></p>` : ''}
     </header>
     <section class="sec">
@@ -522,6 +523,7 @@ Router.register('theme', (el, p) => {
       <p class="rights">${esc(th.data.key || '')}。歌曲選單可查看來源資訊。</p></section>`}
   </div>`;
   const more = byId('destMore'); if (more) more.onclick = () => { const d = byId('destDesc'); d.hidden = !d.hidden; more.setAttribute('aria-expanded', String(!d.hidden)); };
+  const readerGateway = byId('readerGateway'); if (readerGateway) readerGateway.onclick = () => { haptic(); Router.go('reader', { slug: th.slug }); };
   // fixed slots: play · shuffle · pass/radio · download · share (icons only)
   const drawActions = () => {
     const st = Pass.stateFor(th);
@@ -530,8 +532,7 @@ Router.register('theme', (el, p) => {
         : st === 'owned' ? `<button class="action is-ready" type="button" data-a="pass" aria-label="打開我的票根">${icon('ticket')}</button>`
           : `<button class="action is-locked" type="button" data-a="pass" aria-label="到${esc(th.cityCn)}解鎖票根">${icon('lock')}</button>`;
     const allOff = th.tracks.length && th.tracks.every(t => Offline.has(t));
-    byId('actionbar').classList.toggle('has-reader', readable);
-    byId('actionbar').innerHTML = `<button class="action action--primary" type="button" data-a="play" aria-label="播放">${icon('play')}</button><button class="action" type="button" data-a="shuffle" aria-label="隨機播放">${icon('shuffle')}</button>${slot3}${readable ? `<button class="action action--reader" type="button" data-a="read" aria-label="閱讀原文">${icon('book')}</button>` : ''}<button class="action${allOff ? ' is-ready' : ''}" type="button" data-a="dl" aria-label="${allOff ? '已全部存在這台裝置' : '全部存到這台裝置'}">${icon(allOff ? 'downloaded' : 'download')}</button><button class="action" type="button" data-a="share" aria-label="分享">${icon('share')}</button>`;
+    byId('actionbar').innerHTML = `<button class="action action--primary" type="button" data-a="play" aria-label="播放">${icon('play')}</button><button class="action" type="button" data-a="shuffle" aria-label="隨機播放">${icon('shuffle')}</button>${slot3}<button class="action${allOff ? ' is-ready' : ''}" type="button" data-a="dl" aria-label="${allOff ? '已全部存在這台裝置' : '全部存到這台裝置'}">${icon(allOff ? 'downloaded' : 'download')}</button><button class="action" type="button" data-a="share" aria-label="分享">${icon('share')}</button>`;
   };
   drawActions();
   byId('actionbar').onclick = e => {
@@ -542,7 +543,6 @@ Router.register('theme', (el, p) => {
     if (a === 'radio') { const seed = Reco.drawFive(th)[0]; Player.playList([seed, ...Reco.radio(seed, 14)], 0, { kind: 'radio', title: `${themeTitle(th)} 電台`, theme: th.t }); }
     if (a === 'pass') Pass.openCity(th);
     if (a === 'dl') { if (th.tracks.every(t => Offline.has(t))) toast('已全部存在這台裝置'); else Offline.downloadMany(th.tracks, themeTitle(th)); }
-    if (a === 'read' && readable) Router.go('reader', { slug: th.slug });
     if (a === 'share') { actionBurst(e.target.closest('[data-a]'), 'share', '分享歌單'); Share.theme(th); }
   };
   el._unsubs?.forEach(f => f());
