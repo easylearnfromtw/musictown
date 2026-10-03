@@ -888,10 +888,10 @@
   </div>
   <div class="tabbar glass" id="tabbar" role="tablist" aria-label="分頁">
     <div class="tab-lens" id="tabLens" aria-hidden="true"><div class="tab-lens__track" id="tabLensTrack"></div></div>
-    <button class="tab" type="button" role="tab" data-tab="home" data-icon="home" aria-selected="true"><span>探索</span></button>
-    <button class="tab" type="button" role="tab" data-tab="cities" data-icon="board" aria-selected="false"><span>城市</span></button>
-    <button class="tab" type="button" role="tab" data-tab="search" data-icon="search" aria-selected="false"><span>搜尋</span></button>
-    <button class="tab" type="button" role="tab" data-tab="library" data-icon="library" aria-selected="false"><span>收藏</span></button>
+    <button class="tab" type="button" role="tab" data-tab="home" data-icon="home" aria-label="探索" aria-selected="true"></button>
+    <button class="tab" type="button" role="tab" data-tab="cities" data-icon="board" aria-label="城市" aria-selected="false"></button>
+    <button class="tab" type="button" role="tab" data-tab="search" data-icon="search" aria-label="搜尋" aria-selected="false"></button>
+    <button class="tab" type="button" role="tab" data-tab="library" data-icon="library" aria-label="收藏" aria-selected="false"></button>
   </div>
 </nav>
 <div class="player" id="player" aria-hidden="true" role="dialog" aria-label="播放器"></div>
@@ -3750,7 +3750,7 @@ Router.register('home', (el) => {
         <div class="sec__head"><h2 class="sec__title">你的票夾</h2><button class="link-btn" type="button" id="toWallet" aria-label="全部票根">${icon('chevron')}</button></div>
         <div class="wallet" id="homeWallet"></div>
       </section>
-      <footer class="foot"><b>musicetown</b><span>${THEMES.length} 個主題 · ${TOTAL_TRACKS} 首 · 音樂皆來自標示 CC0、CC 授權或公有領域的來源</span><span>${MT_BUILD}</span></footer>
+      <footer class="foot"><b>musicetown</b><span>以盡全力符合音樂版權之規定，若有違法，請洽：signwell.com.tw@gmail.com</span></footer>
     </div>`;
     const box = byId('homeBox');
     let group = GROUPS.find(g => g.key === Settings.get('homeGroup')) || GROUPS[0];
@@ -3962,7 +3962,7 @@ Router.register('library', (el) => {
         <div id="a2hsSlot"></div>
         <div class="settings mt-16" id="settings"></div>
       </section>
-      <footer class="foot"><b>musicetown</b><span>播放清單、票夾、下載與本機音樂只存在這台裝置上。</span><span>${MT_BUILD}</span></footer>
+      <footer class="foot"><b>musicetown</b><span>播放清單、票夾、下載與本機音樂只存在這台裝置上。</span></footer>
     </div>`;
     const gridEl = byId('libGrid'), rowsEl = byId('libRows');
     let filter = 'all', view = null; // view: null = active library, '__offline' = downloads
