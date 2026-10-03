@@ -17,6 +17,10 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET' || req.headers.has('range')) return;
   const url = new URL(req.url);
   if (/\.(mp3|m4a|ogg|oga|flac|wav|aac|opus)$/i.test(url.pathname)) return;
+  if (url.origin === location.origin && url.pathname.includes('/__citymus_art/')) {
+    e.respondWith(caches.open('mt-artwork-v1').then(c => c.match(req).then(hit => hit || new Response('', { status: 404 }))));
+    return;
+  }
   if (req.mode === 'navigate' && url.origin === location.origin) {
     e.respondWith(fetch(req).then(r => { const copy = r.clone(); caches.open(CACHE).then(c => c.put('index.html', copy)).catch(() => {}); return r; })
       .catch(() => caches.match('index.html').then(r => r || caches.match('./'))));
