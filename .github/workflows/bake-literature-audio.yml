@@ -1,6 +1,6 @@
 name: Check literature audio
 
-# Checks the 350 文學 streams and repairs renamed files inside the same
+# Checks the 450 文學 streams and repairs renamed files inside the same
 # Internet Archive item. Runs on demand, monthly, or when this file or the
 # script changes. It never touches index.html or MUSIC_DATA.
 on:
@@ -43,4 +43,6 @@ jobs:
           git add literature-audio-map.js .github/reports/literature-audio-report.json
           if git diff --cached --quiet; then echo "No changes."; exit 0; fi
           git commit -m "Refresh literature audio map"
+          git fetch origin main
+          git rebase origin/main
           git push

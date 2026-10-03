@@ -301,7 +301,7 @@ const LIB_REF_THEMES = ['JAZZ', 'CROONER', 'ROCK', 'SPORT', 'LO-FI', 'TAIPEI DRE
   /* appended in R11 — order is part of the L2 format */
   'DREAM OF THE RED CHAMBER', 'THE GOLDEN CANGUE', 'LOVE IN A FALLEN CITY', 'TAIPEI PEOPLE', 'CALL TO ARMS', 'JOURNEY UNDER THE MIDNIGHT SUN', 'IN SEARCH OF THE SUPERNATURAL', 'ROBINSON CRUSOE', 'PRIDE AND PREJUDICE', 'A TALE OF TWO CITIES',
   /* appended in R11.3 — keep old L2 indexes stable */
-  'ROUGE TIBET', 'FANTASY TAINAN', 'PEACH BLOSSOM SPRING', 'XIANG YU ANNALS', 'MEMORIAL ON THE NORTHERN EXPEDITION', 'STRANGE TALES FROM A CHINESE STUDIO'];
+  'ROUGE TIBET', 'FANTASY TAINAN', 'PEACH BLOSSOM SPRING', 'XIANG YU ANNALS', 'MEMORIAL ON THE NORTHERN EXPEDITION', 'STRANGE TALES FROM A CHINESE STUDIO', 'ONE THOUSAND AND ONE NIGHTS', 'THE SCHOLARS', 'TO LIVE', 'THE PLUM IN THE GOLDEN VASE'];
 const Share = (() => {
   const trackList = (tracks, title) => [`musicetown · ${title}`, '', ...tracks.map((t, i) => `${pad2(i + 1)}. ${t.title} — ${t.artist}`)].join('\n');
   const mixUrl = (tracks, title) => shareBase({ hash: 'mix=' + b64urlEncode({ v: 1, title: String(title || 'musicetown playlist').slice(0, 80), ids: [...new Set(tracks.map(t => t.shareId).filter(Boolean))] }) });

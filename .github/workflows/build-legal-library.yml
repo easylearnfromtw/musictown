@@ -1,0 +1,39 @@
+name: Build legal 2500 music library
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/scripts/build_legal_music_library.py"
+      - ".github/workflows/build-legal-library.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "41 2 * * 0"
+permissions:
+  contents: write
+concurrency:
+  group: legal-music-library
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests beautifulsoup4
+      - name: Build verified metadata library
+        run: python .github/scripts/build_legal_music_library.py --target 2500
+      - name: Commit library
+        shell: bash
+        run: |
+          set -e
+          git config user.name "musicetown-auto"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/legal_music_library.json data/legal_music_library_report.json
+          if git diff --cached --quiet; then echo "No changes."; exit 0; fi
+          git commit -m "Refresh 2500-track legal music library"
+          git fetch origin main
+          git rebase origin/main
+          git push

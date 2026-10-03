@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Literature themes · 14 works × 25 public-domain / open-licence recordings.
+"""Literature themes · 18 works × 25 public-domain / open-licence recordings.
 
 Every recording below was checked on the Internet Archive (file listing + item
 licence) on 2026-10-03. Composers all died more than 50 years ago (the newest is
@@ -305,14 +305,15 @@ for w in WORKS:
 
 dups = {k: v for k, v in used.items() if len(v) > 1}
 assert not dups, dups
-EXTRA_LITERATURE_KEYS = {"PEACH BLOSSOM SPRING","XIANG YU ANNALS","MEMORIAL ON THE NORTHERN EXPEDITION","STRANGE TALES FROM A CHINESE STUDIO"}
+PRESERVE_LITERATURE_KEYS = {"ROBINSON CRUSOE","PEACH BLOSSOM SPRING","XIANG YU ANNALS","MEMORIAL ON THE NORTHERN EXPEDITION","STRANGE TALES FROM A CHINESE STUDIO","ONE THOUSAND AND ONE NIGHTS","THE SCHOLARS","TO LIVE","THE PLUM IN THE GOLDEN VASE"}
 existing_path = ROOT / "src" / "literature.json"
 if existing_path.exists():
     try:
         previous = json.loads(existing_path.read_text(encoding="utf-8"))
-        extras = [w for w in previous if w.get("t") in EXTRA_LITERATURE_KEYS]
-        if extras:
-            out.extend(extras)
+        prev_by_t = {w.get("t"): w for w in previous if w.get("t") in PRESERVE_LITERATURE_KEYS}
+        out = [prev_by_t.get(w.get("t"), w) for w in out]
+        present = {w.get("t") for w in out}
+        out.extend(w for k, w in prev_by_t.items() if k not in present)
     except Exception:
         pass
 existing_path.write_text(json.dumps(out, ensure_ascii=False, indent=0), encoding="utf-8")
