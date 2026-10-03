@@ -1357,3 +1357,42 @@ body { position: relative; }
     grid-auto-columns: 260px;
   }
 }
+
+
+/* CITYMUS R13.9 · originals / styles / moods follow the same folded rail pattern */
+@layer components {
+  .tiles--rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 0 calc(-1 * var(--gutter));
+    padding: 4px var(--gutter) 14px;
+    scroll-padding-inline: var(--gutter);
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+  }
+  .tiles--rail::-webkit-scrollbar { display: none; }
+  .tiles--rail .tile {
+    width: 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  .tiles--original-rail { grid-auto-columns: min(86vw, 360px); }
+  .tiles--vibe-rail { grid-auto-columns: min(74vw, 290px); }
+
+  /* The rail owns horizontal layout; keep the internal editorial balance
+     of original cards without letting desktop grid rules take over. */
+  .tiles--original-rail .tile--original {
+    min-height: 190px;
+  }
+}
+@media (min-width: 760px) {
+  .tiles--original-rail { grid-auto-columns: 350px; }
+  .tiles--vibe-rail { grid-auto-columns: 270px; }
+}
