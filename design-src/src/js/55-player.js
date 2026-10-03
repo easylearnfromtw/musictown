@@ -443,23 +443,20 @@ const Player = (() => {
   /* if iOS suspends Web Audio in the background, continue on the direct element */
   bus.on('fx-state', st => {
     if (activeName === 'fx' && st !== 'running' && wantPlay) {
-      FX.ensure();
-      setTimeout(() => { if (activeName === 'fx' && !FX.running && wantPlay) handoff('direct'); }, 700);
+      if (!document.hidden) { FX.ensure(); return; }
+      // Only background suspension is allowed to trigger a native-audio handoff.
+      setTimeout(() => {
+        if (document.hidden && activeName === 'fx' && !FX.running && wantPlay && current) handoff('direct');
+      }, 900);
     }
   });
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      // iOS may suspend AudioContext shortly after backgrounding. Hand off while
-      // the page still has execution time so lock-screen playback stays native.
-      if (IS_IOS && activeName === 'fx' && wantPlay && current) handoff('direct');
-      return;
+    // Navigation / app switching must not itself swap media elements. The
+    // existing fx-state fallback below handles a *real* suspended AudioContext.
+    // This keeps the exact same track/source alive when iPhone changes screens.
+    if (!document.hidden && FX.ctx && FX.ctx.state !== 'running') {
+      FX.ctx.resume().catch(() => {});
     }
-    if (FX.ctx && FX.ctx.state !== 'running') FX.ctx.resume().catch(() => {});
-    // Restore the requested processing path only after the page is foregrounded.
-    if (IS_IOS && current && wantPlay) setTimeout(() => {
-      const a = el(), url = a.currentSrc || a.src; if (!url) return;
-      const want = elementFor(url); if (want !== activeName) handoff(want);
-    }, 180);
   }, { passive: true });
 
   /* ---------- Media Session (iPhone lock screen, Control Center, AirPods) ---------- */
