@@ -3,7 +3,7 @@
    ========================================================================== */
 (function boot() {
   const q = new URLSearchParams(location.search);
-  const deep = q.has('theme') || location.hash.length > 1 || q.has('previewCityPass') || q.has('previewLibraryPass') || q.has('previewAudioLink') || q.has('previewMonthly') || q.has('limited');
+  const deep = q.has('theme') || q.has('read') || location.hash.length > 1 || q.has('previewCityPass') || q.has('previewLibraryPass') || q.has('previewAudioLink') || q.has('previewMonthly') || q.has('limited');
   Router.start();
   Player.restore();
   Mini.render();
@@ -38,6 +38,18 @@
         html: `<div class="a2hs"><img src="apple-touch-icon.png" alt=""><div><b>1 · 點 Safari 下方的 ${icon('share')}</b><p>在分享選單往下捲。</p></div></div><div class="a2hs mt-8"><img src="apple-touch-icon.png" alt=""><div><b>2 · 選「加入主畫面」</b><p>主畫面會出現 CITYMUS 的圖示；從那裡打開，下載的歌會穩定保留，沒有網路也能聽。</p></div></div>` }) });
     }, 9000);
   }
+
+  // Remove accidental literal newline markers if an upstream generated payload
+  // ever leaves "/n" or "\\n" as a standalone DOM text node.
+  try {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const bad = [];
+    while (walker.nextNode()) {
+      const n = walker.currentNode, t = String(n.nodeValue || '').trim();
+      if ((t === '/n' || t === '\\n') && !n.parentElement?.closest('script,style,pre,code')) bad.push(n);
+    }
+    bad.forEach(n => n.remove());
+  } catch (_) {}
 
   document.documentElement.classList.add('is-ready');
 })();
