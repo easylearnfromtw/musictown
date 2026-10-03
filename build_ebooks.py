@@ -9,11 +9,11 @@ ROOT=Path(__file__).resolve().parent
 OUT=ROOT/"ebook-catalog.js"; REPORT=ROOT/"EBOOK_REPORT.json"
 S=requests.Session(); S.headers.update({"User-Agent":"CITYMUS-Reader/12.4 (+https://github.com/easylearnfromtw/musictown)"})
 SOURCES=[
-{"slug":"red-cliff-rhapsody","theme":"RED CLIFF RHAPSODY","title":"赤壁賦","author":"蘇軾","lang":"zh-Hant","kind":"wiki","url":"https://zh.wikisource.org/zh-hant/%E5%89%8D%E8%B5%A4%E5%A3%81%E8%B3%A6","source":"維基文庫 · 前赤壁賦","start":"壬戌之秋","end":"東方既白","rights":"原作公有領域；只收錄中文原文，不使用現代翻譯。"},
+{"slug":"red-cliff-rhapsody","theme":"RED CLIFF RHAPSODY","title":"赤壁賦","author":"蘇軾","lang":"zh-Hant","kind":"wiki","url":"https://zh.wikisource.org/zh-hant/%E7%B6%93%E5%8F%B2%E7%99%BE%E5%AE%B6%E9%9B%9C%E9%88%94/%E5%8D%B75","source":"維基文庫 · 經史百家雜鈔／卷5 · 前赤壁賦","start":"壬戌之秋","end":"不知東方之既白","rights":"原作公有領域；只收錄中文原文，不使用現代翻譯。"},
 {"slug":"childhood-delights","theme":"CHILDHOOD DELIGHTS","title":"兒時記趣","author":"沈復","lang":"zh-Hant","kind":"wiki","url":"https://zh.wikisource.org/wiki/%E9%97%B2%E6%83%85%E8%AE%B0%E8%B6%A3","source":"維基文庫 · 浮生六記／卷二 閒情記趣","start":"余憶童稚時","end":"此皆幼時閒情也","rights":"《浮生六記》原作公有領域；只收錄兒時記趣原文段落。"},
 {"slug":"peach-blossom-spring","theme":"PEACH BLOSSOM SPRING","title":"桃花源記","author":"陶淵明","lang":"zh-Hant","kind":"wiki","url":"https://zh.wikisource.org/zh-hant/%E6%A1%83%E8%8A%B1%E6%BA%90%E8%A8%98","source":"維基文庫 · 桃花源記","rights":"古典原作公有領域；只呈現中文原文。"},
 {"slug":"chu-shi-biao","theme":"MEMORIAL ON THE NORTHERN EXPEDITION","title":"出師表","author":"諸葛亮","lang":"zh-Hant","kind":"wiki","url":"https://zh.wikisource.org/zh-hant/%E5%89%8D%E5%87%BA%E5%B8%88%E8%A1%A8","source":"維基文庫 · 前出師表","rights":"古典原作公有領域；只呈現中文原文。"},
-{"slug":"li-sao","theme":"LI SAO","title":"離騷","author":"屈原","lang":"zh-Hant","kind":"wiki","url":"https://zh.wikisource.org/zh-hant/%E9%9B%A2%E9%A8%B7","source":"維基文庫 · 離騷","start":"帝高陽之苗裔兮","end":"吾將從彭咸之所居","rights":"古典原作公有領域；只呈現中文原文。"},
+{"slug":"li-sao","theme":"LI SAO","title":"離騷","author":"屈原","lang":"zh-Hant","kind":"wiki","url":"https://zh.wikisource.org/zh-hant/%E7%B6%93%E5%8F%B2%E7%99%BE%E5%AE%B6%E9%9B%9C%E9%88%94/%E5%8D%B73","source":"維基文庫 · 經史百家雜鈔／卷3 · 離騷","start":"帝高陽之苗裔兮","end":"吾將從彭咸之所居","rights":"古典原作公有領域；只呈現中文原文。"},
 {"slug":"sherlock-holmes","theme":"THE ADVENTURES OF SHERLOCK HOLMES","title":"The Adventures of Sherlock Holmes","author":"Arthur Conan Doyle","lang":"en","kind":"pg","id":1661,"url":"https://www.gutenberg.org/ebooks/1661","source":"Project Gutenberg eBook #1661","rights":"Original English text only. Project Gutenberg identifies this eBook as public domain in the USA."},
 {"slug":"pride-and-prejudice","theme":"PRIDE AND PREJUDICE","title":"Pride and Prejudice","author":"Jane Austen","lang":"en","kind":"pg","id":1342,"url":"https://www.gutenberg.org/ebooks/1342","source":"Project Gutenberg eBook #1342","rights":"Original English text only. Project Gutenberg identifies this eBook as public domain in the USA."},
 {"slug":"a-tale-of-two-cities","theme":"A TALE OF TWO CITIES","title":"A Tale of Two Cities","author":"Charles Dickens","lang":"en","kind":"pg","id":98,"url":"https://www.gutenberg.org/ebooks/98","source":"Project Gutenberg eBook #98","rights":"Original English text only. Project Gutenberg identifies this eBook as public domain in the USA."},
@@ -63,14 +63,14 @@ def wiki(s):
     # Classical Wikisource pages often use poem/div markup instead of <p>.
     # Search the whole rendered source text so we preserve the original wording
     # while ignoring navigation before/after exact public-domain markers.
-    joined="\n".join(clean(x) for x in root.stripped_strings if clean(x))
+    joined="".join(clean(x) for x in root.stripped_strings if clean(x))
     a=joined.find(s["start"]);b=joined.find(s["end"],a if a>=0 else 0)
     if a<0 or b<0:raise RuntimeError("excerpt markers missing")
     excerpt=joined[a:b+len(s["end"])]
     ps=paras(re.sub(r"\n+", "\n\n", excerpt))
     if len(ps)==1 and len(ps[0])>220:
       # Classical verse/prose rendered as one DOM block: split softly at full stops.
-      ps=[clean(x) for x in re.split(r"(?<=[。！？])", ps[0]) if clean(x)]
+      ps=[clean(x) for x in re.split(r"(?<=[。！？；])", ps[0]) if clean(x)]
     return [{"id":"original","title":s["title"],"paragraphs":ps}]
   out=[];cur={"id":"original","title":s["title"],"paragraphs":[]}
   for tag,t in blocks:
