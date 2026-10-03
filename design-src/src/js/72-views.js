@@ -292,7 +292,7 @@ Router.register('search', (el) => {
   if (!el._built) {
     el._built = true;
     el.innerHTML = `<div class="wrap">
-      <h1 class="page-title">Search</h1><p class="page-lede">CITYMUS Library · ${CITYMUS_LIBRARY_COUNT.toLocaleString()} 首合法曲庫${window.CITYMUS_LIBRARY_REPORT?.cjkIncluded ? ` · 含 ${window.CITYMUS_LIBRARY_REPORT.cjkIncluded} 首中／日／韓開放授權錄音` : ``}</p>
+      <h1 class="page-title">Search</h1><p class="page-lede">CITYMUS Library · ${CITYMUS_LIBRARY_COUNT.toLocaleString()} 首曲目${window.CITYMUS_LIBRARY_REPORT?.cjkIncluded ? ` · 含 ${window.CITYMUS_LIBRARY_REPORT.cjkIncluded} 首中／日／韓曲目` : ``}</p>
       <label class="searchbox glass"><span class="sr-only">搜尋</span>${icon('search')}<input id="q" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="城市、作品、作者、歌名"><button class="icon-btn icon-btn--sm" type="button" id="qClear" aria-label="清除" hidden>${icon('close')}</button></label>
       <div class="filters" id="qFilters"></div>
       <div class="mt-24" id="qOut"></div>
@@ -438,7 +438,7 @@ Router.register('library', (el) => {
       const est = await Offline.estimate();
       byId('settings').innerHTML = `
         <button class="setting setting--tail" type="button" id="setTail"><div><b>小尾巴 · 常態背景優化</b><span>K-weighted 響度一致化、門檻過濾、峰值保護與頻率依賴 Dynamic EQ；以整首趨勢校正，不追著每個強弱段落跑</span></div><span class="switch" role="switch" aria-checked="${Settings.get('tailEnabled') !== false}"></span></button>
-        <div class="setting setting--stack"><div><b>高音質模式</b><span>${{ auto: '標準：只保留小尾巴常態校正', hq: 'Adaptive HiFi：動態校正、清晰度、瞬態感與輕量空氣重建', lossless: '無損（演算法）：更積極的數碼修復；仍不宣稱把有損檔變成真正 Lossless', saver: '省流量：使用壓縮音源，小尾巴仍維持音量與峰值一致' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
+        <div class="setting setting--stack"><div><b>音質模式</b><span>${{ auto: '標準：保留自然動態與常態校正', hq: '高音質：動態校正、清晰度、瞬態感與輕量空氣重建', lossless: '修復+：更積極的數碼修復、清晰度與空氣感重建', saver: '省流量：使用較輕量音源並維持音量一致' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
         <div class="setting setting--stack"><div><b>低音</b><span>120 Hz · 調整厚度與下盤</span></div><div id="eqBassSeg"></div></div>
         <div class="setting setting--stack"><div><b>人聲</b><span>2.2 kHz · 讓 vocal 往前或退後</span></div><div id="eqVocalSeg"></div></div>
         <div class="setting setting--stack"><div><b>高音</b><span>4.8 kHz · 調整亮度與空氣感</span></div><div id="eqTrebleSeg"></div></div>
@@ -449,7 +449,7 @@ Router.register('library', (el) => {
         <button class="setting" type="button" id="setDislikes"><div><b>不適合我</b><span>${Dislikes.size ? `${Dislikes.size} 首會在自動播放時略過 · 點一下清除` : '在歌曲選單標記後，自動播放會略過'}</span></div>${icon('ban')}</button>
         <button class="setting" type="button" id="setWelcome"><div><b>重新看一次歡迎頁</b><span>重新選擇想先去的地方</span></div>${icon('chevron')}</button>`;
       byId('setTail').onclick = () => { const on = Settings.get('tailEnabled') !== false; Settings.set('tailEnabled', !on); drawSettings(); toast(on ? '小尾巴已暫停，可用來 A/B 對照' : '小尾巴已恢復常態背景優化'); };
-      Seg(byId('qualSeg'), { label: '高音質模式', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'lossless', label: '無損' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast(k === 'lossless' ? '進階數碼修復已套用；不等同真正 Lossless' : k === 'hq' ? 'Adaptive HiFi 已開啟' : k === 'saver' ? '已切換省流量；小尾巴仍運作' : '已回到標準模式；小尾巴仍運作'); } });
+      Seg(byId('qualSeg'), { label: '音質模式', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'lossless', label: '修復+' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast(k === 'lossless' ? '進階數碼修復已套用' : k === 'hq' ? '高音質模式已開啟' : k === 'saver' ? '已切換省流量' : '已回到標準模式'); } });
       const eqItems = [{ key:'-6', label:'-6' }, { key:'-3', label:'-3' }, { key:'0', label:'0' }, { key:'3', label:'+3' }, { key:'6', label:'+6' }];
       Seg(byId('eqBassSeg'), { label:'低音 dB', value:String(Settings.get('eqBass') || 0), items:eqItems, onChange:k => Settings.set('eqBass', Number(k)) });
       Seg(byId('eqVocalSeg'), { label:'人聲 dB', value:String(Settings.get('eqVocal') || 0), items:eqItems, onChange:k => Settings.set('eqVocal', Number(k)) });
@@ -517,14 +517,14 @@ Router.register('theme', (el, p) => {
       <div class="drawer-actions"><button class="btn" type="button" id="reroll">${icon('refresh')}換一組</button><button class="btn" type="button" id="drawRandom" aria-label="隨機播放一首">${icon('shuffle')}抽一首</button></div>
     </section>
     <section class="sec">
-      <div class="sec__head"><h2 class="sec__title">全部曲目<small>${th.tracks.length} 首${lit ? ' · 皆為公有領域或 CC 授權錄音' : th.data.bpm ? ` · ${esc(th.data.bpm)}` : ''}</small></h2></div>
+      <div class="sec__head"><h2 class="sec__title">全部曲目<small>${th.tracks.length} 首${lit ? '' : th.data.bpm ? ` · ${esc(th.data.bpm)}` : ''}</small></h2></div>
       <div class="tracks-tools"><label class="minisearch">${icon('search')}<span class="sr-only">在這裡搜尋</span><input id="tq" type="search" placeholder="${lit ? '搜尋曲名、章回、作曲家' : '搜尋這裡的歌'}" autocomplete="off"></label><div id="sortSeg"></div></div>
       <div class="panel"><div class="rows" id="themeRows"></div></div>
     </section>
-    ${lit ? `<section class="sec"><div class="sec__head"><h2 class="sec__title">選曲與授權</h2></div><p class="rights">每一首都選自作曲者逝世超過五十年的作品，錄音本身也是公有領域（Public Domain Mark、CC0）或 CC 授權（CC BY、CC BY-SA），來源為 Internet Archive 上 Musopen 等計畫的公開錄音。點歌曲選單可查看演奏者、來源與授權。</p></section>`
+    ${lit ? `<section class="sec"><div class="sec__head"><h2 class="sec__title">關於選曲</h2></div><p class="rights">曲目依作品時代、情緒與聲音質地策展；演奏者與來源資訊可從歌曲選單查看。</p></section>`
       : `<section class="sec"><div class="sec__head"><h2 class="sec__title">聲音輪廓</h2></div>
       <div class="meters">${metersOf(th).map(m => `<div class="meter"><span>${esc(m[0])}</span><i style="--v:${clamp(+m[1] || 0, 0, 100)}%"></i><b>${esc(m[1])}</b></div>`).join('')}</div>
-      <p class="rights">${esc(th.data.key || '')}。所有曲目皆來自來源頁明確標示 CC0 1.0 Universal 或公有領域的作品，點歌曲選單可查看來源與授權。</p></section>`}
+      <p class="rights">${esc(th.data.key || '')}。歌曲選單可查看來源資訊。</p></section>`}
   </div>`;
   const more = byId('destMore'); if (more) more.onclick = () => { const d = byId('destDesc'); d.hidden = !d.hidden; more.setAttribute('aria-expanded', String(!d.hidden)); };
   // fixed slots: play · shuffle · pass/radio · download · share (icons only)
