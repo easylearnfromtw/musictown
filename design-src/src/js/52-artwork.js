@@ -165,5 +165,75 @@ const Artwork = (() => {
     return c;
   }
 
-  return { cover, card, ground, record, fonts };
+
+  /* Literature playlist share card: editorial book-cover composition.
+     Keeps the visual center around the title block instead of a generic record. */
+  async function themeCard(th) {
+    await fonts();
+    const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+    const accent = th?.accent || '#8A91B6', ink = th?.ink || '#3E3D55';
+    const rr = (X, Y, w, h, r) => { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); };
+    const fitLine = (txt, maxW, maxPx, minPx, fontFamily, weight='700') => {
+      let px = maxPx; const s = String(txt || '');
+      while (px > minPx) { x.font = `${weight} ${px}px ${fontFamily}`; if (x.measureText(s).width <= maxW) break; px -= 2; }
+      return px;
+    };
+    x.fillStyle = '#F4F1EA'; x.fillRect(0, 0, W, H);
+
+    x.save(); x.shadowColor='rgba(54,48,42,.13)'; x.shadowBlur=70; x.shadowOffsetY=28;
+    rr(72, 66, 936, 1218, 44); x.fillStyle='#FFFDF8'; x.fill(); x.restore();
+
+    // book spine / left visual mass
+    rr(72, 66, 126, 1218, 44); x.fillStyle=accent; x.fill();
+    x.save(); x.translate(135, 1168); x.rotate(-Math.PI/2);
+    x.fillStyle='rgba(255,255,255,.94)'; x.textAlign='left'; x.font=`700 30px ${CJK}`;
+    x.fillText(String(th?.authorCn || th?.author || 'CITYMUS'), 0, 0);
+    x.restore();
+
+    // small masthead and oversized code watermark balance the spine
+    x.fillStyle='#8F8A82'; x.textAlign='left'; x.font=`700 24px ${ARCHIVO}`;
+    x.fillText('CITYMUS · LITERATURE', 246, 142);
+    x.fillStyle=accent; x.globalAlpha=.12; x.font=`700 220px ${ARCHIVO}`; x.textAlign='right';
+    x.fillText(String(th?.code || 'LIT'), 946, 334); x.globalAlpha=1;
+
+    // centered title block: primary visual center
+    x.textAlign='left'; x.fillStyle=ink;
+    const title = String(th?.cn || th?.name || 'Literature');
+    const titlePx = fitLine(title, 660, 118, 72, CJK, '800');
+    x.font=`800 ${titlePx}px ${CJK}`; x.fillText(title, 246, 430);
+
+    x.fillStyle='#6F6A64'; x.font=`italic 500 46px ${GARA}`;
+    let en=String(th?.name || ''); while(x.measureText(en).width>660 && en.length>8) en=en.slice(0,-2); if(en!==String(th?.name||'')) en+='…';
+    x.fillText(en, 248, 505);
+
+    x.fillStyle='#8A857E'; x.font=`600 28px ${CJK}`;
+    x.fillText([th?.authorCn, th?.era].filter(Boolean).join(' · '), 248, 574);
+
+    // quiet editorial rule + quote
+    x.fillStyle=accent; x.globalAlpha=.7; x.fillRect(248, 630, 120, 3); x.globalAlpha=1;
+    x.fillStyle=ink; x.font=`500 34px ${CJK}`;
+    const quote='「'+String(th?.line || '').replace(/[「」]/g,'')+'」';
+    const chars=[...quote]; const lines=[]; let line='';
+    for(const ch of chars){ const test=line+ch; if(x.measureText(test).width>650 && line){lines.push(line); line=ch;} else line=test; }
+    if(line) lines.push(line);
+    lines.slice(0,3).forEach((ln,i)=>x.fillText(ln,248,710+i*58));
+
+    // simple book-page motif at lower right
+    x.save(); x.translate(760, 968); x.rotate(-.055);
+    rr(-122,-154,244,308,24); x.fillStyle='#F5F0E6'; x.fill();
+    x.strokeStyle='rgba(62,61,85,.12)'; x.lineWidth=2; x.stroke();
+    x.fillStyle=accent; x.globalAlpha=.22; for(let i=0;i<6;i++) x.fillRect(-82,-88+i*34,164-(i%3)*24,3); x.globalAlpha=1;
+    x.restore();
+
+    // QR and footer
+    try {
+      x.fillStyle='#FFFFFF'; rr(248, 1012, 176, 176, 18); x.fill();
+      QR.draw(x, shareBase({ theme: th.slug }), 260, 1024, 152, { ecl:'M', fg: ink });
+    } catch (_) {}
+    x.fillStyle='#97928B'; x.textAlign='left'; x.font=`700 18px ${ARCHIVO}`; x.fillText('SCAN TO OPEN', 248, 1226);
+    x.textAlign='right'; x.fillStyle=ink; x.font=`700 23px ${ARCHIVO}`; x.fillText('CITYMUS.', 946, 1226);
+    return c;
+  }
+
+  return { cover, card, themeCard, ground, record, fonts };
 })();
