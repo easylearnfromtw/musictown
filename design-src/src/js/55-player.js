@@ -488,9 +488,9 @@ const Player = (() => {
 
       // A larger square is used only for the OS media card; Artwork.cover caches
       // it, so rapid foreground renders do not repeat the canvas work.
-      Artwork.cover(t, 1024).then(src => {
+      Artwork.coverURL(t, 1024).then(src => {
         if (!src || seq !== metaSeq || current !== t) return;
-        const type = /^data:image\/png|\.png(?:\?|$)/i.test(src) ? 'image/png' : 'image/jpeg';
+        const type = /\.png(?:\?|$)/i.test(src) ? 'image/png' : 'image/jpeg';
         const art = [{ src, sizes: '1024x1024', type }, ...fallbackArtwork()];
         try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: art }); } catch (_) {}
         bus.emit('artwork', { t, src });
