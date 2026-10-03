@@ -442,7 +442,8 @@ Router.register('library', (el) => {
         <button class="setting" type="button" id="setAuto"><div><b>自動延續播放</b><span>清單接近結尾時先準備相近歌曲，讓下一首更快接上</span></div><span class="switch" role="switch" aria-checked="${Settings.get('autoplay') !== false}"></span></button>
         <div class="setting"><div><b>儲存空間</b><span>${Offline.count ? `已下載 ${Offline.count} 首 · ${fmtBytes(Offline.bytes())}` : '還沒有下載的歌'}${est?.quota ? ` · 這台裝置還可用約 ${fmtBytes(Math.max(0, est.quota - (est.usage || 0)))}` : ''}</span></div>${icon('cloud')}</div>
         <button class="setting" type="button" id="setDislikes"><div><b>不適合我</b><span>${Dislikes.size ? `${Dislikes.size} 首會在自動播放時略過 · 點一下清除` : '在歌曲選單標記後，自動播放會略過'}</span></div>${icon('ban')}</button>
-        <button class="setting" type="button" id="setWelcome"><div><b>重新看一次歡迎頁</b><span>重新選擇想先去的地方</span></div>${icon('chevron')}</button>`;
+        <button class="setting" type="button" id="setWelcome"><div><b>重新看一次歡迎頁</b><span>重新選擇想先去的地方</span></div>${icon('chevron')}</button>
+        <button class="setting" type="button" id="setUpdate"><div><b>目前版本</b><span>${esc(MT_BUILD)} · 點一下檢查 GitHub Pages 更新</span></div>${icon('refresh')}</button>`;
       byId('setTail').onclick = () => { const on = Settings.get('tailEnabled') !== false; Settings.set('tailEnabled', !on); drawSettings(); toast(on ? '小尾巴已暫停，可用來 A/B 對照' : '小尾巴已恢復常態背景優化'); };
       Seg(byId('qualSeg'), { label: '音質模式', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'lossless', label: '修復+' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast(k === 'lossless' ? '進階數碼修復已套用' : k === 'hq' ? '高音質模式已開啟' : k === 'saver' ? '已切換省流量' : '已回到標準模式'); } });
       const eqItems = [{ key:'-6', label:'-6' }, { key:'-3', label:'-3' }, { key:'0', label:'0' }, { key:'3', label:'+3' }, { key:'6', label:'+6' }];
@@ -454,6 +455,15 @@ Router.register('library', (el) => {
       byId('setAuto').onclick = () => { Settings.set('autoplay', !(Settings.get('autoplay') !== false)); drawSettings(); };
       byId('setDislikes').onclick = () => { if (!Dislikes.size) return; Dislikes.clear(); toast('已清除「不適合我」'); drawSettings(); };
       byId('setWelcome').onclick = () => Welcome.open();
+      byId('setUpdate').onclick = async () => {
+        const b = byId('setUpdate'); b.disabled = true;
+        try {
+          const reg = await navigator.serviceWorker?.getRegistration?.();
+          if (reg) await reg.update();
+          toast(`目前執行版本 · ${MT_BUILD}`, { ms: 4200 });
+        } catch (_) { toast(`目前執行版本 · ${MT_BUILD}`, { ms: 4200 }); }
+        finally { b.disabled = false; }
+      };
       const slot = byId('a2hsSlot');
       slot.innerHTML = (IS_IOS && !STANDALONE) ? `<div class="a2hs"><img src="apple-touch-icon.png" alt=""><div><b>加入主畫面</b><p>在 Safari 點 ${icon('share')} 分享，再選「加入主畫面」。之後從主畫面開啟：全螢幕、鎖定畫面與靈動島都能控制播放，下載的歌也會穩定保留在 iPhone 上。</p></div></div>` : '';
     };
