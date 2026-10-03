@@ -1,0 +1,52 @@
+name: Bootstrap musicetown R11 overlay
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "deploy-r11/READY"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: musicetown-r11-bootstrap
+  cancel-in-progress: true
+
+jobs:
+  apply-overlay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reassemble and apply R11.1 overlay
+        shell: bash
+        run: |
+          set -euo pipefail
+          find deploy-r11 -type f -name 'part-*' -print0 | sort -z | xargs -0 cat | base64 -d > /tmp/musicetown-r11.1-overlay.zip
+          echo "145211c88eedfd032006b308d553b2b8736108987a8be82bd980917ed24376de  /tmp/musicetown-r11.1-overlay.zip" | sha256sum -c -
+          unzip -t /tmp/musicetown-r11.1-overlay.zip
+          unzip -o /tmp/musicetown-r11.1-overlay.zip -d .
+          rm -rf deploy-r11
+          rm -f .github/workflows/deploy-r11-bootstrap.yml
+
+      - name: Commit R11.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "musicetown-bootstrap"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Upgrade MUSICTOWN to R11.1 performance"
+          git push
+
+      - name: Trigger production deployment
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh workflow run musicetown-auto.yml --ref main
