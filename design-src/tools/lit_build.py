@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Literature themes · 18 works × 25 public-domain / open-licence recordings.
+"""Literature themes · 19 works × 25 public-domain / open-licence recordings.
 
 Every recording below was checked on the Internet Archive (file listing + item
 licence) on 2026-10-03. Composers all died more than 50 years ago (the newest is
@@ -305,7 +305,7 @@ for w in WORKS:
 
 dups = {k: v for k, v in used.items() if len(v) > 1}
 assert not dups, dups
-PRESERVE_LITERATURE_KEYS = {"ROBINSON CRUSOE","PEACH BLOSSOM SPRING","XIANG YU ANNALS","MEMORIAL ON THE NORTHERN EXPEDITION","STRANGE TALES FROM A CHINESE STUDIO","ONE THOUSAND AND ONE NIGHTS","THE SCHOLARS","TO LIVE","THE PLUM IN THE GOLDEN VASE"}
+PRESERVE_LITERATURE_KEYS = {"ROBINSON CRUSOE","PEACH BLOSSOM SPRING","XIANG YU ANNALS","MEMORIAL ON THE NORTHERN EXPEDITION","STRANGE TALES FROM A CHINESE STUDIO","ONE THOUSAND AND ONE NIGHTS","THE SCHOLARS","TO LIVE","THE PLUM IN THE GOLDEN VASE","LI SAO"}
 existing_path = ROOT / "src" / "literature.json"
 if existing_path.exists():
     try:

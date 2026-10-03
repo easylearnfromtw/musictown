@@ -188,7 +188,7 @@ const MonthlyTracker = (() => {
     'MALDIVES PARADISE':'熱帶慵懶','BUSTLING HONG KONG':'霓虹城市','SEOUL GLOW':'都會流行','MACAU CASINO':'華麗夜色',
     'JAZZ':'爵士','CROONER':'經典人聲','ROCK':'搖滾','LO-FI':'低傳真','EMO':'情緒搖滾','SPORT':'高能量',
     'RUNNING':'節奏感','POEM':'詩意民謠','SUN MOON LAKE':'靜謐自然','ALISHAN CHIAYI':'山林晨霧','GIZA ECHOES':'古文明',
-    'YELLOWSTONE WONDER':'原野自然'
+    'YELLOWSTONE WONDER':'原野自然','LI SAO':'楚辭求索'
   };
   function makeSummary(key, { demo = false } = {}) {
     const src = ledger[key] || {};

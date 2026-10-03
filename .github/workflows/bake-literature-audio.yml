@@ -1,6 +1,6 @@
 name: Check literature audio
 
-# Checks the 450 文學 streams and repairs renamed files inside the same
+# Checks the 475 文學 streams and repairs renamed files inside the same
 # Internet Archive item. Runs on demand, monthly, or when this file or the
 # script changes. It never touches index.html or MUSIC_DATA.
 on:

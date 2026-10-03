@@ -30,7 +30,7 @@ def load_catalog():
     raise SystemExit("no catalog found (pass a catalog .json or an index.html)")
 
 catalog, catalog_from = load_catalog()
-BUILD = "R11.4 · 2026-10-03 · 44 Themes"
+BUILD = "R11.6 · 2026-10-03 · Li Sao"
 
 css = (SRC / "styles.css").read_text(encoding="utf-8")
 js_files = sorted((SRC / "js").glob("*.js"))

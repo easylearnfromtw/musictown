@@ -2,8 +2,8 @@
    Catalog · 26 destinations. Names in MUSIC_DATA are the stable keys.
    ========================================================================== */
 const REMOTE_MAP = window.MUSICETOWN_REMOTE_AUDIO || {};
-/* 文學 · eighteen literary works, 25 public-domain / open-licence recordings each.
-   Kept outside MUSIC_DATA so the CI's 23-theme / 1150-track checks stay untouched. */
+/* 文學 · nineteen literary works, 25 public-domain / open-licence recordings each.
+   Kept outside MUSIC_DATA so the CI's 26-theme / 1300-track checks stay untouched. */
 const LIT = Array.isArray(window.MUSICETOWN_LITERATURE) ? window.MUSICETOWN_LITERATURE : [];
 const LIT_MAP = window.MUSICETOWN_LITERATURE_MAP || {};
 const DATA = (Array.isArray(window.MUSIC_DATA) ? window.MUSIC_DATA : []).concat(LIT.map(w => ({ t: w.t, sub: w.summary, key: `${w.authorCn} · ${w.era}`, tracks: w.tracks, literature: true })));
