@@ -2,7 +2,7 @@
   "id": "./",
   "name": "CITYMUS",
   "short_name": "CITYMUS",
-  "description": "Music for where you are — city sound archive with city-limited ticket stubs.",
+  "description": "顛頗、晃蕩、恍惚時，用CITYMUS緩解相思",
   "lang": "zh-Hant",
   "start_url": "./?source=pwa",
   "scope": "./",
