@@ -101,7 +101,7 @@ Router.register('home', (el) => {
         <section class="hero">
           <p class="hero__meta" id="homeMeta"></p>
           <h1 class="hero__title"><span>Music for</span><span>where you are.</span></h1>
-          <p class="hero__lede">二十三個目的地與十部文學作品，每一個都有一抽屜的聲音。人在當地的時候，還能收下一張城市限定的票根。</p>
+          <p class="hero__lede">城市、風格、心情、文學與原創歌單，各自都有一抽屜的聲音。人在當地的時候，還能收下一張城市限定的票根。</p>
           <div id="homeStub"></div>
         </section>
         <section class="box" aria-label="目的地收納盒">
@@ -122,6 +122,10 @@ Router.register('home', (el) => {
       <section class="sec">
         <div class="sec__head"><h2 class="sec__title">文學<small>依作品的時代與心緒選曲 · 公有領域與 CC 授權錄音</small></h2></div>
         <div class="books" id="homeBooks"></div>
+      </section>
+      <section class="sec">
+        <div class="sec__head"><h2 class="sec__title">原創歌單<small>每張 25 首 · 從母庫重新策展</small></h2></div>
+        <div class="tiles" id="homeOriginals"></div>
       </section>
       <section class="sec">
         <div class="sec__head"><h2 class="sec__title">風格與心情</h2></div>
@@ -156,9 +160,10 @@ Router.register('home', (el) => {
     });
     renderIndex();
     byId('boxOpen').addEventListener('click', e => { const s = e.currentTarget.dataset.slug; if (s) Router.go('theme', { slug: s }); });
-    bindSlugClicks(byId('boxIndex')); bindSlugClicks(byId('homeRail')); bindSlugClicks(byId('homeTiles')); bindSlugClicks(byId('homeBooks'));
+    bindSlugClicks(byId('boxIndex')); bindSlugClicks(byId('homeRail')); bindSlugClicks(byId('homeOriginals')); bindSlugClicks(byId('homeTiles')); bindSlugClicks(byId('homeBooks'));
     byId('toCities').onclick = () => Router.go('cities');
     byId('toWallet').onclick = () => Router.go('library');
+    byId('homeOriginals').innerHTML = ORIGINAL_THEMES.map(tileHTML).join('');
     byId('homeTiles').innerHTML = THEMES.filter(t => t.kind === 'style' || t.kind === 'mood').map(tileHTML).join('');
     byId('homeBooks').innerHTML = LIT_THEMES.map(bookHTML).join('');
     const editRows = byId('editRows');
