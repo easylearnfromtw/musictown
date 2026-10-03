@@ -124,7 +124,7 @@ Router.register('home', (el) => {
       </section>
       <section class="sec">
         <div class="sec__head"><h2 class="sec__title">文學<small>依作品的時代與心緒選曲</small></h2></div>
-        <div class="books" id="homeBooks"></div>
+        <div class="books books--rail" id="homeBooks"></div>
       </section>
       <section class="sec sec--originals">
         <div class="sec__head"><h2 class="sec__title">原創歌單<small>每張 25 首 · 從母庫重新策展</small></h2></div>
