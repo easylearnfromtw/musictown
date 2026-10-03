@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: write
-  actions: write
 
 concurrency:
   group: musicetown-r11-bootstrap
@@ -28,24 +27,15 @@ jobs:
           set -euo pipefail
           cat deploy-r11/part-* | base64 -d > /tmp/musicetown-r11.1-overlay.zip
           unzip -t /tmp/musicetown-r11.1-overlay.zip
-          unzip -o /tmp/musicetown-r11.1-overlay.zip -d .
+          unzip -o /tmp/musicetown-r11.1-overlay.zip -d . -x '.github/workflows/*'
           rm -rf deploy-r11
-          rm -f .github/workflows/deploy-r11-bootstrap.yml
 
-      - name: Commit R11.1
+      - name: Commit R11.1 website sources
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "musicetown-bootstrap"
           git config user.email "actions@users.noreply.github.com"
-          git add -A
+          git add -A -- ':!.github/workflows'
           git commit -m "Upgrade MUSICTOWN to R11.1 performance"
           git push
-
-      - name: Trigger production deployment
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          gh workflow run musicetown-auto.yml --ref main
