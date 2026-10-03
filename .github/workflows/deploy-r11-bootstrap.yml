@@ -30,8 +30,8 @@ jobs:
           echo "145211c88eedfd032006b308d553b2b8736108987a8be82bd980917ed24376de  /tmp/musicetown-r11.1-overlay.zip" | sha256sum -c -
           unzip -t /tmp/musicetown-r11.1-overlay.zip
           unzip -o /tmp/musicetown-r11.1-overlay.zip -d .
+          git restore --source=HEAD --worktree .github/workflows
           rm -rf deploy-r11
-          rm -f .github/workflows/deploy-r11-bootstrap.yml
 
       - name: Commit R11.1
         shell: bash
