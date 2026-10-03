@@ -1,0 +1,91 @@
+name: musicetown AUTO · Build 1150 + Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "*.py"
+      - "*.json"
+      - "*.html"
+      - "*.js"
+      - "*.webmanifest"
+      - "assets/**"
+      - "design-src/**"
+      - "requirements.txt"
+      - ".github/workflows/musicetown-auto.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: musicetown-auto-pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ffmpeg + Python deps
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Restore music cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            _master_audio
+            _fresh_audio_cache
+            _theme_audio_cache
+          key: musicetown-r891-64k-${{ hashFiles('verified_audio_manifest.json','fresh_city_profiles.json','theme_profiles.json') }}
+          restore-keys: |
+            musicetown-r891-64k-
+
+      - name: Install JAZZ / CROONER / ROCK / SPORT / LO-FI
+        run: python fetch_verified_audio.py --bitrate "64k"
+
+      - name: Curate city themes
+        run: python build_fresh_city_packs.py --per-city 50 --bitrate "64k"
+
+      - name: Curate EMO / RUNNING / POEM / TRADITIONAL BEIJING
+        run: python build_theme_packs.py --per-theme 50 --bitrate "64k"
+
+      - name: Generate City Pass QR assets
+        run: python generate_city_pass_qr.py
+
+      - name: Verify all 1150 MP3 files
+        run: python verify_music_install.py
+
+      - name: Prepare Pages artifact
+        run: python prepare_audio_site.py
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
