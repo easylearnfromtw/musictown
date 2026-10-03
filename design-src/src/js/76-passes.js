@@ -52,7 +52,7 @@ const Geo = (() => {
    ========================================================================== */
 const PassSheet = (() => {
   const root = byId('ticketModal'); let api = null;
-  function open({ html, actions = '', accent = null, label = 'musicetown pass', mount = null }) {
+  function open({ html, actions = '', accent = null, label = 'CITYMUS pass', mount = null }) {
     if (api) close(true);
     root.innerHTML = `<div class="passsheet__scrim"></div><section class="passsheet" role="dialog" aria-modal="true" aria-label="${esc(label)}" style="${accentStyle(accent)}"><div class="passsheet__scroll">${html}</div>${actions ? `<div class="passsheet__bar">${actions}</div>` : ''}</section>`;
     const sheet = $('.passsheet', root), scroller = $('.passsheet__scroll', root);
@@ -82,7 +82,7 @@ const PassSheet = (() => {
     const run = chip.repeat(4);
     return `<div class="pass__marquee" aria-hidden="true"><div class="pass__track">${run}${run}</div></div>`;
   }
-  const head = (kind, right = '') => `<header class="pass__head"><span class="pass__globe">${globeMark()}</span><div class="pass__brand"><b>MUSICTOWN</b><span>${esc(kind)}</span></div>${right}<button class="pass__x" type="button" data-x aria-label="關閉">${icon('close')}</button></header>`;
+  const head = (kind, right = '') => `<header class="pass__head"><span class="pass__globe">${globeMark()}</span><div class="pass__brand"><b>CITYMUS</b><span>${esc(kind)}</span></div>${right}<button class="pass__x" type="button" data-x aria-label="關閉">${icon('close')}</button></header>`;
   const rows = list => `<ol class="pass__rows">${list.map((t, i) => `<li data-i="${i}"><em>${pad2(i + 1)}</em><span><b>${esc(t.title)}</b><small>${esc(t.artist || '')}</small></span><i>${icon('play')}</i></li>`).join('')}</ol>`;
   return { open, close, marquee, head, rows, get isOpen() { return !!api; } };
 })();
@@ -92,7 +92,7 @@ const PassSheet = (() => {
    ========================================================================== */
 const Pass = (() => {
   const today = () => { const d = new Date(); return `${d.getFullYear()}.${pad2(d.getMonth() + 1)}.${pad2(d.getDate())}`; };
-  const ticketNo = code => { const d = new Date(); let r = ''; try { const a = new Uint16Array(1); crypto.getRandomValues(a); r = String(a[0] % 10000).padStart(4, '0'); } catch (_) { r = String(Math.floor(Math.random() * 1e4)).padStart(4, '0'); } return `MT-${code}-${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}-${r}`; };
+  const ticketNo = code => { const d = new Date(); let r = ''; try { const a = new Uint16Array(1); crypto.getRandomValues(a); r = String(a[0] % 10000).padStart(4, '0'); } catch (_) { r = String(Math.floor(Math.random() * 1e4)).padStart(4, '0'); } return `CM-${code}-${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}-${r}`; };
   function hot5(th, seed) {
     const withPlays = th.tracks.filter(t => Number(t.plays) > 0);
     if (withPlays.length >= 5) return withPlays.slice().sort((a, b) => b.plays - a.plays).slice(0, 5);
@@ -171,7 +171,7 @@ const Pass = (() => {
     const spot = tk.kind === 'spot';
     const desc = spot ? `${tk.spot}限定。${th.line}` : (th.summary || th.line);
     return `<article class="pass" aria-label="${esc(spot ? tk.spot : th.cityCn)} 票根">
-      ${PassSheet.marquee(url, spot ? 'MUSICTOWN · SPOT LINK' : 'MUSICTOWN · CITY LINK')}
+      ${PassSheet.marquee(url, spot ? 'CITYMUS · SPOT LINK' : 'CITYMUS · CITY LINK')}
       <div class="pass__inner">
         ${PassSheet.head(spot ? 'SPOT EDITION MUSIC PASS' : 'CITY LIMITED MUSIC PASS')}
         <div class="pass__code">${esc(tk.code)}</div>
@@ -179,7 +179,7 @@ const Pass = (() => {
         <h2 class="pass__title">${esc((spot ? (tk.area || tk.city || th.name) : th.name).toUpperCase())}</h2>
         <p class="pass__desc">${esc(desc)}</p>
         <div class="pass__fields"><i class="pass__notch"></i>
-          <div><small>PROGRAM</small><b>MUSICTOWN</b></div>
+          <div><small>PROGRAM</small><b>CITYMUS</b></div>
           <div><small>${spot ? 'SPOT' : 'LOCATION'}</small><b>${esc(spot ? tk.spot : tk.where)}</b></div>
           <div><small>STATUS</small><b>${tk.how === 'GPS' ? 'GPS CHECK-IN' : 'IP CITY MATCH'}</b></div>
           <div><small>TICKET</small><b>${esc(tk.no)}</b></div>
@@ -190,7 +190,7 @@ const Pass = (() => {
           ${PassSheet.rows(tracks)}
         </section>
         <footer class="pass__foot"><small class="pass__label">${spot ? 'GPS CHECK-IN' : 'APPROXIMATE LOCATION'} · COLLECTIBLE DIGITAL TICKET</small>
-          <div><p>${spot ? '座標只在這台裝置上比對，musicetown 不儲存你的位置。' : '城市以連線位置估算，musicetown 不儲存你的完整 IP。'}${fresh ? ' 已收進票夾。' : ''}</p><b>musicetown · ${esc(tk.code)}</b></div>
+          <div><p>${spot ? '座標只在這台裝置上比對，CITYMUS 不儲存你的位置。' : '城市以連線位置估算，CITYMUS 不儲存你的完整 IP。'}${fresh ? ' 已收進票夾。' : ''}</p><b>CITYMUS · ${esc(tk.code)}</b></div>
         </footer>
       </div>
     </article>`;
@@ -208,7 +208,7 @@ const Pass = (() => {
         $('[data-play]', sheet).onclick = () => play(0);
         $$('.pass__rows li', sheet).forEach(li => li.onclick = () => play(Number(li.dataset.i)));
         $('[data-save]', sheet).onclick = e => saveImage(tk, e.currentTarget);
-        $('[data-share]', sheet).onclick = async e => { const b = e.currentTarget; b.disabled = true; const blob = await ticketPNG(tk).catch(() => null); b.disabled = false; shareFiles({ blob, name: `musicetown-${tk.id}.png`, title: `musicetown · ${th.name}`, text: `${tk.kind === 'spot' ? tk.spot : th.cityCn} 的限定票根 · ${th.name}`, url: shareBase({ theme: th.slug }) }); };
+        $('[data-share]', sheet).onclick = async e => { const b = e.currentTarget; b.disabled = true; const blob = await ticketPNG(tk).catch(() => null); b.disabled = false; shareFiles({ blob, name: `CITYMUS-${tk.id}.png`, title: `CITYMUS · ${th.name}`, text: `${tk.kind === 'spot' ? tk.spot : th.cityCn} 的限定票根 · ${th.name}`, url: shareBase({ theme: th.slug }) }); };
       }
     });
   }
@@ -227,7 +227,7 @@ const Pass = (() => {
     x.fillStyle = '#fff'; rr(104, 104, 212, 212, 18); x.fill();
     QR.draw(x, shareBase({ theme: th.slug }), 114, 114, 192, { fg: ink });
     x.textBaseline = 'alphabetic'; x.textAlign = 'left';
-    x.fillStyle = ink; x.font = `700 31px ${ARC}`; x.fillText('MUSICTOWN', 360, 145);
+    x.fillStyle = ink; x.font = `700 31px ${ARC}`; x.fillText('CITYMUS', 360, 145);
     x.fillStyle = soft; x.font = `700 15px ${ARC}`; x.fillText(spot ? 'SPOT EDITION MUSIC PASS' : 'CITY LIMITED MUSIC PASS', 360, 180);
     x.fillStyle = acc; x.font = `700 64px ${ARC}`; x.textAlign = 'right'; x.fillText(tk.code, 930, 262); x.textAlign = 'left';
     x.setLineDash([14, 12]); x.strokeStyle = 'rgba(41,70,93,.2)'; x.lineWidth = 2; x.beginPath(); x.moveTo(104, 350); x.lineTo(930, 350); x.stroke(); x.setLineDash([]);
@@ -237,7 +237,7 @@ const Pass = (() => {
     const desc = spot ? `${tk.spot}限定。${th.line}` : (th.summary || th.line); const lines = []; let cur = '';
     for (const ch of desc) { if (x.measureText(cur + ch).width > 820) { lines.push(cur); cur = ch; } else cur += ch; } if (cur) lines.push(cur);
     lines.slice(0, 3).forEach((l, i) => x.fillText(l, 105, 535 + i * 38));
-    const fields = [['PROGRAM', 'MUSICTOWN'], [spot ? 'SPOT' : 'LOCATION', spot ? tk.spot : tk.where], ['STATUS', tk.how === 'GPS' ? 'GPS CHECK-IN' : 'APPROX. IP MATCH'], ['TICKET', tk.no]];
+    const fields = [['PROGRAM', 'CITYMUS'], [spot ? 'SPOT' : 'LOCATION', spot ? tk.spot : tk.where], ['STATUS', tk.how === 'GPS' ? 'GPS CHECK-IN' : 'APPROX. IP MATCH'], ['TICKET', tk.no]];
     fields.forEach(([k, v], i) => { const fx = 105 + i * 206; x.fillStyle = soft; x.font = `700 13px ${ARC}`; x.fillText(k, fx, 705); x.fillStyle = ink; x.font = `700 18px ${ARC}`; let vv = String(v); while (x.measureText(vv).width > 190 && vv.length > 3) vv = vv.slice(0, -2); if (vv !== String(v)) vv += '…'; x.fillText(vv, fx, 738); });
     x.fillStyle = acc; x.font = `700 14px ${ARC}`; x.fillText('LOCAL SOUND INDEX', 105, 818);
     x.fillStyle = ink; x.font = `700 34px ${CJK}`; x.fillText(spot ? '為這裡挑的五首' : '熱門音樂 · HOT 5', 105, 868);
@@ -250,13 +250,13 @@ const Pass = (() => {
       x.font = `700 13px ${ARC}`; x.textAlign = 'right'; x.fillText('HOT', 898, y + 52); x.textAlign = 'left';
     });
     x.fillStyle = acc; x.font = `700 13px ${ARC}`; x.fillText(`${spot ? 'GPS CHECK-IN' : 'APPROXIMATE LOCATION'} · COLLECTIBLE DIGITAL TICKET`, 105, 1572);
-    x.fillStyle = soft; x.font = `500 15px ${ARC}`; x.fillText(spot ? 'Coordinates are compared on this device only.' : 'IP city is approximate. musicetown does not store your full IP address.', 105, 1604);
-    x.fillStyle = ink; x.font = `700 14px ${ARC}`; x.textAlign = 'right'; x.fillText(`musicetown · ${tk.code}`, 930, 1604);
+    x.fillStyle = soft; x.font = `500 15px ${ARC}`; x.fillText(spot ? 'Coordinates are compared on this device only.' : 'IP city is approximate. CITYMUS does not store your full IP address.', 105, 1604);
+    x.fillStyle = ink; x.font = `700 14px ${ARC}`; x.textAlign = 'right'; x.fillText(`CITYMUS · ${tk.code}`, 930, 1604);
     return await new Promise(r => c.toBlob(r, 'image/png'));
   }
   async function saveImage(tk, btn) {
     btn && (btn.disabled = true);
-    try { const blob = await ticketPNG(tk); await shareFiles({ blob, name: `musicetown-${tk.id}.png`, title: 'musicetown ticket', save: true }); }
+    try { const blob = await ticketPNG(tk); await shareFiles({ blob, name: `CITYMUS-${tk.id}.png`, title: 'CITYMUS ticket', save: true }); }
     catch (e) { console.warn(e); toast('暫時無法產生圖片'); }
     btn && (btn.disabled = false);
   }
@@ -287,7 +287,7 @@ const Pass = (() => {
     const list = Wallet.all();
     if (list.length) return openTicket(list[0]);
     Sheet.open({ title: 'City Pass', sub: '城市與景點的限定票根',
-      html: `<p class="sheet-note">人在 musicetown 的十八座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
+      html: `<p class="sheet-note">人在 CITYMUS 的十八座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
       mount(b, s) { $('[data-c]', b).onclick = () => { s.close(); Router.go('cities'); }; $('[data-s]', b).onclick = () => { s.close(); checkInSpot(); }; } });
   });
   bus.on('geo', t => { document.documentElement.classList.toggle('has-pass', !!t && !Wallet.has(`city-${THEME_BY_T.get(t)?.slug}`)); });
@@ -302,14 +302,14 @@ const Pass = (() => {
    ========================================================================== */
 const MonthlyPass = (() => {
   const html = s => '<article class="monthly-pass" aria-label="' + esc(s.monthLabel) + ' 聆聽月報">' +
-    '<header class="monthly-pass__head"><b>MUSICTOWN.</b><span>CITY SOUND ARCHIVE</span></header>' +
+    '<header class="monthly-pass__head"><b>CITYMUS.</b><span>CITY SOUND ARCHIVE</span></header>' +
     '<div class="monthly-pass__hero"><div><small>MONTHLY</small><h2>LISTENING<br>REPORT</h2><p>' + esc(s.issueDate) + '</p></div><i class="monthly-pass__disc">' + globeMark() + '</i></div>' +
     '<div class="monthly-pass__rule"></div>' +
     '<div class="monthly-pass__stats"><div><small>TOTAL LISTENING</small><b>' + s.hours.toFixed(1) + '<em> hrs</em></b></div><div><small>TRACKS PLAYED</small><b>' + s.tracks + '</b></div></div>' +
     '<div class="monthly-pass__taste"><small>TASTE FINGERPRINT</small><div>' + s.tastes.map(x => '<span>' + esc(x) + '</span>').join('') + '</div></div>' +
     '<p class="monthly-pass__desc">' + esc(s.desc) + '</p>' +
     '<div class="monthly-pass__route"><span><small>MONTH</small><b>' + esc(s.monthLabel) + '</b></span><span><small>COLLECTIBLE CODE</small><b>' + esc(s.code) + '</b></span></div>' +
-    '<footer><span>ISSUED EVERY MONTH ON THE 10TH</span><b>MUSICTOWN.</b></footer></article>';
+    '<footer><span>ISSUED EVERY MONTH ON THE 10TH</span><b>CITYMUS.</b></footer></article>';
 
   async function png(s) {
     await Artwork.fonts();
@@ -319,7 +319,7 @@ const MonthlyPass = (() => {
     const rr=(X,Y,w,h,r)=>{x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath();};
     x.save(); x.shadowColor='rgba(41,70,93,.14)'; x.shadowBlur=44; x.shadowOffsetY=18; rr(70,60,940,1230,44); x.fillStyle='#FBFCFE'; x.fill(); x.restore();
     x.strokeStyle='rgba(47,54,84,.12)'; x.lineWidth=2; rr(70,60,940,1230,44); x.stroke();
-    x.fillStyle='#111722'; x.font='700 31px '+ARC; x.fillText('MUSICTOWN.',110,125);
+    x.fillStyle='#111722'; x.font='700 31px '+ARC; x.fillText('CITYMUS.',110,125);
     x.fillStyle='#8E93AA'; x.font='700 15px '+ARC; x.textAlign='right'; x.fillText('CITY SOUND ARCHIVE',970,123); x.textAlign='left';
     x.strokeStyle='rgba(47,54,84,.20)'; x.beginPath(); x.moveTo(110,158); x.lineTo(970,158); x.stroke();
     x.fillStyle='#111722'; x.font='700 104px '+ARC; x.fillText('MONTHLY',110,310);
@@ -339,7 +339,7 @@ const MonthlyPass = (() => {
     x.setLineDash([10,10]);x.strokeStyle='rgba(47,54,84,.20)';x.beginPath();x.moveTo(110,1145);x.lineTo(970,1145);x.stroke();x.setLineDash([]);
     x.fillStyle='#8E93AA';x.font='700 14px '+ARC;x.fillText('MONTH',110,1190);x.fillText('COLLECTIBLE CODE',530,1190);
     x.fillStyle='#111722';x.font='600 26px '+CJK;x.fillText(s.monthLabel,110,1230);x.font='700 23px '+ARC;x.fillText(s.code,530,1230);
-    x.fillStyle='#111722';x.font='700 25px '+ARC;x.fillText('MUSICTOWN.',110,1270);
+    x.fillStyle='#111722';x.font='700 25px '+ARC;x.fillText('CITYMUS.',110,1270);
     return await new Promise(r=>c.toBlob(r,'image/png'));
   }
   function open(s) {
@@ -349,8 +349,8 @@ const MonthlyPass = (() => {
       html: html(s),
       actions: '<button class="pbtn pbtn--primary" type="button" data-month-save aria-label="存成圖片">' + icon('image') + '<span>儲存</span></button><button class="pbtn" type="button" data-month-share aria-label="分享">' + icon('share') + '</button>',
       mount(sheet) {
-        $('[data-month-save]',sheet).onclick = async e => { const b=e.currentTarget;b.disabled=true;const blob=await png(s);b.disabled=false;await shareFiles({blob,name:'musicetown-monthly-'+s.month+'.png',title:'musicetown monthly report',save:true}); };
-        $('[data-month-share]',sheet).onclick = async e => { const b=e.currentTarget;b.disabled=true;const blob=await png(s);b.disabled=false;await shareFiles({blob,name:'musicetown-monthly-'+s.month+'.png',title:'musicetown · '+s.monthLabel,text:s.desc}); };
+        $('[data-month-save]',sheet).onclick = async e => { const b=e.currentTarget;b.disabled=true;const blob=await png(s);b.disabled=false;await shareFiles({blob,name:'CITYMUS-monthly-'+s.month+'.png',title:'CITYMUS monthly report',save:true}); };
+        $('[data-month-share]',sheet).onclick = async e => { const b=e.currentTarget;b.disabled=true;const blob=await png(s);b.disabled=false;await shareFiles({blob,name:'CITYMUS-monthly-'+s.month+'.png',title:'CITYMUS · '+s.monthLabel,text:s.desc}); };
       }
     });
   }
@@ -359,7 +359,7 @@ const MonthlyPass = (() => {
 })();
 
 /* share a file through the iOS share sheet (Save Image, AirDrop, Messages…) */
-async function shareFiles({ blob, name, title = 'musicetown', text = '', url = '', save = false }) {
+async function shareFiles({ blob, name, title = 'CITYMUS', text = '', url = '', save = false }) {
   if (blob) {
     const file = new File([blob], name, { type: blob.type || 'image/png' });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -385,15 +385,15 @@ const LIB_REF_THEMES = ['JAZZ', 'CROONER', 'ROCK', 'SPORT', 'LO-FI', 'TAIPEI DRE
   /* appended in R11.3 — keep old L2 indexes stable */
   'ROUGE TIBET', 'FANTASY TAINAN', 'PEACH BLOSSOM SPRING', 'XIANG YU ANNALS', 'MEMORIAL ON THE NORTHERN EXPEDITION', 'STRANGE TALES FROM A CHINESE STUDIO', 'ONE THOUSAND AND ONE NIGHTS', 'THE SCHOLARS', 'TO LIVE', 'THE PLUM IN THE GOLDEN VASE', 'MALDIVES PARADISE'];
 const Share = (() => {
-  const trackList = (tracks, title) => [`musicetown · ${title}`, '', ...tracks.map((t, i) => `${pad2(i + 1)}. ${t.title} — ${t.artist}`)].join('\n');
-  const mixUrl = (tracks, title) => shareBase({ hash: 'mix=' + b64urlEncode({ v: 1, title: String(title || 'musicetown playlist').slice(0, 80), ids: [...new Set(tracks.map(t => t.shareId).filter(Boolean))] }) });
+  const trackList = (tracks, title) => [`CITYMUS · ${title}`, '', ...tracks.map((t, i) => `${pad2(i + 1)}. ${t.title} — ${t.artist}`)].join('\n');
+  const mixUrl = (tracks, title) => shareBase({ hash: 'mix=' + b64urlEncode({ v: 1, title: String(title || 'CITYMUS playlist').slice(0, 80), ids: [...new Set(tracks.map(t => t.shareId).filter(Boolean))] }) });
   const trackUrl = t => shareBase({ hash: 't=' + encodeURIComponent(t.shareId) });
   function shareSheet({ title, sub, url, text, accent, listText }) {
     Sheet.open({
       accent, title: '分享', sub: title,
-      html: `<div class="stubline" style="${accentStyle(accent)}"><b>${esc(accent?.code || 'MT')}</b><span>${esc(sub)}</span></div><div class="sheet-actions sheet-actions--3"><button class="btn btn--primary" type="button" data-n aria-label="分享">${icon('share')}</button><button class="btn" type="button" data-c aria-label="複製連結">${icon('link')}</button><button class="btn" type="button" data-l aria-label="複製曲目">${icon('list')}</button></div>`,
+      html: `<div class="stubline" style="${accentStyle(accent)}"><b>${esc(accent?.code || 'CM')}</b><span>${esc(sub)}</span></div><div class="sheet-actions sheet-actions--3"><button class="btn btn--primary" type="button" data-n aria-label="分享">${icon('share')}</button><button class="btn" type="button" data-c aria-label="複製連結">${icon('link')}</button><button class="btn" type="button" data-l aria-label="複製曲目">${icon('list')}</button></div>`,
       mount(b, s) {
-        $('[data-n]', b).onclick = async () => { const r = await nativeShare({ title: `musicetown · ${title}`, text, url }); if (r === 'shared') s.close(); };
+        $('[data-n]', b).onclick = async () => { const r = await nativeShare({ title: `CITYMUS · ${title}`, text, url }); if (r === 'shared') s.close(); };
         $('[data-c]', b).onclick = async () => { await copyText(url); toast('已複製連結'); };
         $('[data-l]', b).onclick = async () => { await copyText(listText); toast('已複製曲目'); };
       }
@@ -404,7 +404,7 @@ const Share = (() => {
     const clean = list.filter(t => t.shareId); if (!clean.length) { toast('本機音樂無法分享'); return; }
     if (clean.length === 1) return track(clean[0]);
     const th = themeOf(clean[0]);
-    shareSheet({ title, sub: `${clean.length} 首 · musicetown`, url: mixUrl(clean, title), text: `${title} · ${clean.length} 首`, accent: th, listText: trackList(clean, title) });
+    shareSheet({ title, sub: `${clean.length} 首 · CITYMUS`, url: mixUrl(clean, title), text: `${title} · ${clean.length} 首`, accent: th, listText: trackList(clean, title) });
   }
   /* one song: a card (Taipei edition when in Taipei) + link */
   async function track(t) {
@@ -417,9 +417,9 @@ const Share = (() => {
         <div class="sheet-actions sheet-actions--3"><button class="btn btn--primary" type="button" data-n aria-label="分享">${icon('share')}</button><button class="btn" type="button" data-c aria-label="複製連結">${icon('link')}</button><button class="btn" type="button" data-s aria-label="存成圖片">${icon('image')}</button></div>`,
       async mount(b, s) {
         Artwork.card(t).then(c => new Promise(r => c.toBlob(r, 'image/png'))).then(bl => { blob = bl; if (!bl) return; src = URL.createObjectURL(bl); const host = $('#scImg', b); if (host) host.innerHTML = `<img src="${src}" alt="${esc(t.title)} 分享卡">`; }).catch(() => {});
-        $('[data-n]', b).onclick = async () => { const r = await shareFiles({ blob, name: `musicetown-${t.shareId}.png`, title: `musicetown · ${t.title}`, text: `${t.title} — ${t.artist}${th ? ` · ${th.kind === 'literature' ? th.cn : th.name}` : ''}`, url }); if (r === 'shared') s.close(); };
+        $('[data-n]', b).onclick = async () => { const r = await shareFiles({ blob, name: `CITYMUS-${t.shareId}.png`, title: `CITYMUS · ${t.title}`, text: `${t.title} — ${t.artist}${th ? ` · ${th.kind === 'literature' ? th.cn : th.name}` : ''}`, url }); if (r === 'shared') s.close(); };
         $('[data-c]', b).onclick = async () => { await copyText(url); toast('已複製連結'); };
-        $('[data-s]', b).onclick = async () => { if (blob) await shareFiles({ blob, name: `musicetown-${t.shareId}.png`, save: true }); };
+        $('[data-s]', b).onclick = async () => { if (blob) await shareFiles({ blob, name: `CITYMUS-${t.shareId}.png`, save: true }); };
       }
     });
   }
@@ -445,7 +445,7 @@ const Share = (() => {
       </div></article>`,
       actions: `<button class="pbtn pbtn--primary pbtn--wide" type="button" data-n>${icon('share')}<span>SHARE PASS</span></button><button class="pbtn" type="button" data-c aria-label="複製連結">${icon('link')}</button>`,
       mount(sheet) {
-        $('[data-n]', sheet).onclick = () => nativeShare({ title: `musicetown · ${lib.name}`, text: `${lib.name} · ${list.length} 首 · Library Pass`, url });
+        $('[data-n]', sheet).onclick = () => nativeShare({ title: `CITYMUS · ${lib.name}`, text: `${lib.name} · ${list.length} 首 · Library Pass`, url });
         $('[data-c]', sheet).onclick = async () => { await copyText(url); toast('已複製 Library Pass 連結'); };
         $$('.pass__rows li', sheet).forEach(li => li.onclick = () => { PassSheet.close(); Player.playList(list, Number(li.dataset.i), { kind: 'library', title: lib.name }); });
       }
@@ -457,13 +457,13 @@ const Share = (() => {
     const th = themeOf(list[0]);
     PassSheet.open({
       accent: th, label: title,
-      html: `<article class="pass pass--received">${PassSheet.marquee(url, `MUSICTOWN · ${kind}`)}<div class="pass__inner">
+      html: `<article class="pass pass--received">${PassSheet.marquee(url, `CITYMUS · ${kind}`)}<div class="pass__inner">
         ${PassSheet.head(`${kind} · RECEIVED`)}
         <p class="pass__eyebrow">SOMEONE SHARED THIS WITH YOU</p>
         <h2 class="pass__big pass__big--left">${esc(title)}</h2>
         <p class="pass__meta pass__meta--left">${esc(meta)}</p>
         ${PassSheet.rows(list)}
-        <footer class="pass__foot"><small class="pass__label">MUSICETOWN · CITY SOUND ARCHIVE</small><div><p>所有曲目都來自標示 CC0、CC 授權或公有領域的來源。</p><b>musicetown</b></div></footer>
+        <footer class="pass__foot"><small class="pass__label">MUSICETOWN · CITY SOUND ARCHIVE</small><div><p>所有曲目都來自標示 CC0、CC 授權或公有領域的來源。</p><b>CITYMUS</b></div></footer>
       </div></article>`,
       actions: `<button class="pbtn pbtn--primary" type="button" data-p>${icon('play')}<span>播放</span></button><button class="pbtn" type="button" data-s aria-label="${esc(saveLabel)}">${icon('listAdd')}</button><button class="pbtn" type="button" data-d aria-label="存到這台裝置">${icon('download')}</button>`,
       mount(sheet, api) {

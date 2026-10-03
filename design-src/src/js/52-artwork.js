@@ -150,7 +150,7 @@ const Artwork = (() => {
       record(x, W - 300, 560, 230, null, t, { labelColor: g.bg });
     }
     x.textAlign = 'center'; x.fillStyle = '#8583A0'; x.font = `700 24px ${ARCHIVO}`;
-    x.fillText(`musicetown · ${(th ? (th.kind === 'literature' ? th.cn : th.name) : 'Library').toUpperCase()}`, W / 2, lim ? 1080 : 800);
+    x.fillText(`CITYMUS · ${(th ? (th.kind === 'literature' ? th.cn : th.name) : 'Library').toUpperCase()}`, W / 2, lim ? 1080 : 800);
     x.fillStyle = '#3E3D55'; let tt = String(t.title || ''); x.font = `500 66px ${GARA}`;
     while (x.measureText(tt).width > W - 220 && tt.length > 6) tt = tt.slice(0, -2); if (tt !== String(t.title || '')) tt += '…';
     x.fillText(tt, W / 2, lim ? 1160 : 890);

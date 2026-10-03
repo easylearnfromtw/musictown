@@ -102,7 +102,7 @@ const PlayerUI = (() => {
     byId('plStory').innerHTML = t.localPersonal ? `<h3>本機音樂</h3><p>這首來自你的裝置，只存在這個瀏覽器，不會上傳。</p>` :
       th?.kind === 'literature'
         ? `<h3>${esc(th.cn)} · ${esc(t.note || '')}</h3><p>${esc(t.composerCn || '')}〈${esc(t.title)}〉。${esc(th.line)}</p><p class="story__src">演奏 ${esc(t.performer || 'Musopen')} · 作曲者逝於 ${esc(t.composerDied || '')} 年 · ${esc(t.license)}${host ? ` · <a href="${esc(t.source)}" target="_blank" rel="noopener">${esc(host)}</a>` : ''}</p>`
-        : `<h3>關於這首歌</h3><p>〈${esc(t.title)}〉收錄在 ${esc(th?.name || 'musicetown')}${th ? `（${esc(th.cn)}）` : ''}。${esc(th?.line || '')}</p><div class="story__tags">${tags.map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div><p class="story__src">授權 ${esc(t.license || 'CC0')}${host ? ` · <a href="${esc(t.source)}" target="_blank" rel="noopener">${esc(host)}</a>` : ''}</p>`;
+        : `<h3>關於這首歌</h3><p>〈${esc(t.title)}〉收錄在 ${esc(th?.name || 'CITYMUS')}${th ? `（${esc(th.cn)}）` : ''}。${esc(th?.line || '')}</p><div class="story__tags">${tags.map(x => `<span class="tag">${esc(x)}</span>`).join('')}</div><p class="story__src">授權 ${esc(t.license || 'CC0')}${host ? ` · <a href="${esc(t.source)}" target="_blank" rel="noopener">${esc(host)}</a>` : ''}</p>`;
     drawLimited(); drawVintageState(); drawDl(); state(); if (root.classList.contains('q-open')) drawQueue();
     byId('plOut').innerHTML = icon(Player.airplay ? 'airplay' : 'headphones');
   }

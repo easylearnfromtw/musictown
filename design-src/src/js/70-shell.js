@@ -116,7 +116,7 @@ const Shell = (() => {
   function setLeft(mode) {
     if (leftMode === mode) return; leftMode = mode;
     tbLeft.innerHTML = mode === 'back' ? icon('back') : globeMark();
-    tbLeft.setAttribute('aria-label', mode === 'back' ? '返回' : 'musicetown 首頁');
+    tbLeft.setAttribute('aria-label', mode === 'back' ? '返回' : 'CITYMUS 首頁');
   }
   function setRight(mode) {
     if (rightMode === mode) return; rightMode = mode; tbRight.dataset.mode = mode;
@@ -212,7 +212,7 @@ const Mini = (() => {
     const t = Player.current; document.documentElement.classList.toggle('has-mini', !!t);
     if (!t) return;
     const th = themeOf(t);
-    title.textContent = t.title || 'musicetown'; subEl.textContent = `${t.artist || ''}${th ? ' · ' + th.name : ''}`;
+    title.textContent = t.title || 'CITYMUS'; subEl.textContent = `${t.artist || ''}${th ? ' · ' + th.name : ''}`;
     setAccent(box, th);
   }
   function state() {

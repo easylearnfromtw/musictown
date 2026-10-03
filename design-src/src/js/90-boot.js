@@ -35,7 +35,7 @@
       if (Welcome.isOpen || Sheet.isOpen) return;
       Settings.set('a2hsDismissed', true);
       toast('加入主畫面，像 App 一樣使用', { action: '怎麼做', ms: 6000, onAction: () => Sheet.open({ title: '加入主畫面', sub: '全螢幕開啟，鎖定畫面也能控制播放',
-        html: `<div class="a2hs"><img src="apple-touch-icon.png" alt=""><div><b>1 · 點 Safari 下方的 ${icon('share')}</b><p>在分享選單往下捲。</p></div></div><div class="a2hs mt-8"><img src="apple-touch-icon.png" alt=""><div><b>2 · 選「加入主畫面」</b><p>主畫面會出現 musicetown 的圖示；從那裡打開，下載的歌會穩定保留，沒有網路也能聽。</p></div></div>` }) });
+        html: `<div class="a2hs"><img src="apple-touch-icon.png" alt=""><div><b>1 · 點 Safari 下方的 ${icon('share')}</b><p>在分享選單往下捲。</p></div></div><div class="a2hs mt-8"><img src="apple-touch-icon.png" alt=""><div><b>2 · 選「加入主畫面」</b><p>主畫面會出現 CITYMUS 的圖示；從那裡打開，下載的歌會穩定保留，沒有網路也能聽。</p></div></div>` }) });
     }, 9000);
   }
 
@@ -43,4 +43,5 @@
 })();
 
 /* small public handle for debugging and the native shell */
-window.musicetown = Object.freeze({ version: MT_BUILD, Player, Reco, Settings, FX, Geo, Pass, Router, Drawer, Offline, Artwork, Limited, Share });
+window.CITYMUS = Object.freeze({ version: MT_BUILD, Player, Reco, Settings, FX, Geo, Pass, Router, Drawer, Offline, Artwork, Limited, Share });
+window.musicetown = window.CITYMUS; // legacy API alias for old integrations
