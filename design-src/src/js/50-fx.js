@@ -72,20 +72,41 @@ const FX = (() => {
     g.master = n(); g.master.connect(ctx.destination);
     // music chain (fed by the FX element when attached)
     g.input = n();
-    // source-quality restoration comes first, then the user's own EQ.
+    // CITYMUS Tail: an always-on, conservative baseline layer.
+    // It equalizes perceived level slowly, keeps headroom, and only makes tiny
+    // tonal corrections. This is intentionally separate from the active HiFi mode.
+    g.tailHP = ctx.createBiquadFilter(); g.tailHP.type = 'highpass'; g.tailHP.frequency.value = 18; g.tailHP.Q.value = .52;
+    g.tailMud = ctx.createBiquadFilter(); g.tailMud.type = 'peaking'; g.tailMud.frequency.value = 210; g.tailMud.Q.value = .72;
+    g.tailHarsh = ctx.createBiquadFilter(); g.tailHarsh.type = 'peaking'; g.tailHarsh.frequency.value = 3600; g.tailHarsh.Q.value = .9;
+    g.tailAir = ctx.createBiquadFilter(); g.tailAir.type = 'highshelf'; g.tailAir.frequency.value = 12000;
+    g.tailMeter = ctx.createAnalyser(); g.tailMeter.fftSize = 2048; g.tailMeter.smoothingTimeConstant = .86;
+    g.tailGain = n();
+    g.tailComp = ctx.createDynamicsCompressor(); g.tailComp.threshold.value = -16; g.tailComp.knee.value = 24; g.tailComp.ratio.value = 1.18; g.tailComp.attack.value = .035; g.tailComp.release.value = .65;
+    g.tailLimit = ctx.createDynamicsCompressor(); g.tailLimit.threshold.value = -1.4; g.tailLimit.knee.value = 0; g.tailLimit.ratio.value = 20; g.tailLimit.attack.value = .003; g.tailLimit.release.value = .09;
+
+    // Active quality enhancement comes after Tail.
     g.qSub = ctx.createBiquadFilter(); g.qSub.type = 'highpass'; g.qSub.frequency.value = 10; g.qSub.Q.value = .55;
     g.qMud = ctx.createBiquadFilter(); g.qMud.type = 'peaking'; g.qMud.frequency.value = 240; g.qMud.Q.value = .72;
     g.qClarity = ctx.createBiquadFilter(); g.qClarity.type = 'peaking'; g.qClarity.frequency.value = 2900; g.qClarity.Q.value = .72;
     g.qHarsh = ctx.createBiquadFilter(); g.qHarsh.type = 'peaking'; g.qHarsh.frequency.value = 6200; g.qHarsh.Q.value = 1.05;
     g.qAir = ctx.createBiquadFilter(); g.qAir.type = 'highshelf'; g.qAir.frequency.value = 10500;
     g.qComp = ctx.createDynamicsCompressor(); g.qGain = n();
+    // A very quiet high-band harmonic branch adds "air" without brute-force treble boost.
+    g.airHP = ctx.createBiquadFilter(); g.airHP.type = 'highpass'; g.airHP.frequency.value = 7200; g.airHP.Q.value = .55;
+    g.airDrive = ctx.createWaveShaper(); g.airDrive.curve = satCurve(1.45); g.airDrive.oversample = '2x';
+    g.airMix = n(); g.airMix.gain.value = 0;
+
     // user EQ remains independent and is applied after the restoration profile.
     g.eqBass = ctx.createBiquadFilter(); g.eqBass.type = 'lowshelf'; g.eqBass.frequency.value = 120;
     g.eqVocal = ctx.createBiquadFilter(); g.eqVocal.type = 'peaking'; g.eqVocal.frequency.value = 2200; g.eqVocal.Q.value = .9;
     g.eqTreble = ctx.createBiquadFilter(); g.eqTreble.type = 'highshelf'; g.eqTreble.frequency.value = 4800;
     g.stereo = n(); g.monoSum = n(); g.monoSum.channelCount = 1; g.monoSum.channelCountMode = 'explicit'; g.monoSum.channelInterpretation = 'speakers';
     g.monoGain = n(); g.monoGain.gain.value = 0;
-    g.input.connect(g.qSub); g.qSub.connect(g.qMud); g.qMud.connect(g.qClarity); g.qClarity.connect(g.qHarsh); g.qHarsh.connect(g.qAir); g.qAir.connect(g.qComp); g.qComp.connect(g.qGain);
+
+    g.input.connect(g.tailHP); g.tailHP.connect(g.tailMud); g.tailMud.connect(g.tailHarsh); g.tailHarsh.connect(g.tailAir);
+    g.tailAir.connect(g.tailMeter); g.tailAir.connect(g.tailGain); g.tailGain.connect(g.tailComp); g.tailComp.connect(g.tailLimit); g.tailLimit.connect(g.qSub);
+    g.qSub.connect(g.qMud); g.qMud.connect(g.qClarity); g.qClarity.connect(g.qHarsh); g.qHarsh.connect(g.qAir); g.qAir.connect(g.qComp); g.qComp.connect(g.qGain);
+    g.qHarsh.connect(g.airHP); g.airHP.connect(g.airDrive); g.airDrive.connect(g.airMix); g.airMix.connect(g.qGain);
     g.qGain.connect(g.eqBass); g.eqBass.connect(g.eqVocal); g.eqVocal.connect(g.eqTreble);
     g.eqTreble.connect(g.stereo); g.eqTreble.connect(g.monoSum); g.monoSum.connect(g.monoGain);
     g.hp = ctx.createBiquadFilter(); g.hp.type = 'highpass'; g.hp.Q.value = .6;
@@ -119,9 +140,11 @@ const FX = (() => {
     g.clickBus = n(); g.clickBP = ctx.createBiquadFilter(); g.clickBP.type = 'bandpass'; g.clickBP.frequency.value = 2400; g.clickBP.Q.value = .65;
     g.clickBus.connect(g.clickBP); g.clickBP.connect(g.surface);
     g.clicks = clickBuffers();
+    applyTail(true);
     applyQuality(true);
     applyEQ(true);
     apply(level, true);
+    startTailLoop();
   }
 
   let nextClick = 0, nextTick = 0, crackleTimer = 0;
@@ -163,22 +186,90 @@ const FX = (() => {
     }
   }
 
+  const tailActive = () => Settings.get('tailEnabled') !== false;
+  let tailTimer = 0, tailAvgDb = -18, tailGainDb = 0, tailFrames = 0;
+  let tailTime = null, tailFreq = null;
+  const db = v => 20 * Math.log10(Math.max(1e-7, v));
+  const amp = d => Math.pow(10, d / 20);
+  function resetTail() {
+    tailAvgDb = -18; tailGainDb = 0; tailFrames = 0;
+    if (g?.tailGain && ctx) {
+      try { g.tailGain.gain.cancelScheduledValues(ctx.currentTime); g.tailGain.gain.setTargetAtTime(1, ctx.currentTime, .08); } catch (_) {}
+    }
+  }
+  function applyTail(instant = false) {
+    if (!g || !ctx) return;
+    const on = tailActive(), t = ctx.currentTime, k = instant ? .001 : .20;
+    const to = (param, v) => { try { param.cancelScheduledValues(t); param.setTargetAtTime(v, t, k); } catch (_) { param.value = v; } };
+    // Baseline coloration stays deliberately tiny: correction, not "effect".
+    to(g.tailHP.frequency, on ? 18 : 10);
+    to(g.tailMud.gain, on ? -.18 : 0);
+    to(g.tailHarsh.gain, on ? -.12 : 0);
+    to(g.tailAir.gain, on ? .12 : 0);
+    if (!on) { to(g.tailGain.gain, 1); tailGainDb = 0; }
+  }
+  function bandAvg(arr, lo, hi) {
+    const nyq = (ctx?.sampleRate || 48000) / 2, n = arr.length;
+    const a = clamp(Math.floor(lo / nyq * n), 0, n - 1), b = clamp(Math.ceil(hi / nyq * n), a + 1, n);
+    let s = 0, c = 0; for (let i = a; i < b; i++) { const v = arr[i]; if (Number.isFinite(v)) { s += v; c++; } }
+    return c ? s / c : -100;
+  }
+  function tailTick() {
+    if (!g || !ctx || ctx.state !== 'running' || !tailActive()) return;
+    tailTime ||= new Float32Array(g.tailMeter.fftSize);
+    tailFreq ||= new Float32Array(g.tailMeter.frequencyBinCount);
+    g.tailMeter.getFloatTimeDomainData(tailTime);
+    let ss = 0, peak = 0;
+    for (let i = 0; i < tailTime.length; i++) { const x = tailTime[i]; ss += x * x; if (Math.abs(x) > peak) peak = Math.abs(x); }
+    const rmsDb = db(Math.sqrt(ss / Math.max(1, tailTime.length)));
+    if (rmsDb > -52) {
+      const a = tailFrames < 8 ? .20 : .055; tailAvgDb += (rmsDb - tailAvgDb) * a; tailFrames++;
+      let wanted = clamp(-18.2 - tailAvgDb, -6.0, 5.5);
+      // Leave about 1.2 dB peak headroom. Loud tracks are turned down faster;
+      // quiet tracks come up very slowly to avoid audible pumping.
+      const peakDb = db(peak); wanted = Math.min(wanted, -1.2 - peakDb);
+      const tau = wanted < tailGainDb ? .65 : 3.8;
+      tailGainDb += (wanted - tailGainDb) * (wanted < tailGainDb ? .22 : .055);
+      try { g.tailGain.gain.setTargetAtTime(amp(tailGainDb), ctx.currentTime, tau); } catch (_) {}
+    }
+
+    // Very gentle content-aware baseline correction.
+    g.tailMeter.getFloatFrequencyData(tailFreq);
+    const lowMid = bandAvg(tailFreq, 120, 300), body = bandAvg(tailFreq, 500, 1800);
+    const presence = bandAvg(tailFreq, 2500, 4500), sibilance = bandAvg(tailFreq, 6000, 9000), air = bandAvg(tailFreq, 11000, 16000);
+    const mudCut = clamp((lowMid - body - 3) * -.055, -.55, 0);
+    const harshCut = clamp((presence - body - 2) * -.05 + (sibilance - body - 4) * -.025, -.55, 0);
+    const airLift = clamp((body - air - 20) * .012, 0, .22);
+    const tt = ctx.currentTime;
+    try {
+      g.tailMud.gain.setTargetAtTime(-.18 + mudCut, tt, .9);
+      g.tailHarsh.gain.setTargetAtTime(-.12 + harshCut, tt, .75);
+      g.tailAir.gain.setTargetAtTime(.12 + airLift, tt, 1.2);
+    } catch (_) {}
+    bus.emit('tail-meter', { gainDb: tailGainDb, loudnessDb: tailAvgDb });
+  }
+  function startTailLoop() {
+    if (tailTimer) return;
+    tailTimer = setInterval(tailTick, 260);
+  }
+  bus.on('track', resetTail);
+
   const QUALITY_PROFILES = {
-    auto:     { hp: 10, mud: 0,    clarity: 0,   harsh: 0,    air: 0,    threshold: 0,  knee: 0,  ratio: 1,    attack: .003, release: .25, out: 1 },
-    saver:    { hp: 10, mud: 0,    clarity: 0,   harsh: 0,    air: 0,    threshold: 0,  knee: 0,  ratio: 1,    attack: .003, release: .25, out: 1 },
-    hq:       { hp: 20, mud: -.45, clarity: .45, harsh: -.28, air: .65,  threshold: -4, knee: 12, ratio: 1.06, attack: .008, release: .18, out: .985 },
-    lossless: { hp: 22, mud: -.75, clarity: .78, harsh: -.52, air: 1.05, threshold: -6, knee: 18, ratio: 1.10, attack: .010, release: .24, out: .975 }
+    auto:     { hp: 10, mud: 0,    clarity: 0,   harsh: 0,    air: 0,    threshold: 0,  knee: 0,  ratio: 1,    attack: .003, release: .25, out: 1,     airMix: 0 },
+    saver:    { hp: 10, mud: 0,    clarity: 0,   harsh: 0,    air: 0,    threshold: 0,  knee: 0,  ratio: 1,    attack: .003, release: .25, out: 1,     airMix: 0 },
+    hq:       { hp: 18, mud: -.32, clarity: .42, harsh: -.30, air: .50, threshold: -7, knee: 18, ratio: 1.08, attack: .012, release: .28, out: .970, airMix: .018 },
+    lossless: { hp: 18, mud: -.50, clarity: .58, harsh: -.44, air: .72, threshold: -8, knee: 20, ratio: 1.10, attack: .014, release: .32, out: .958, airMix: .026 }
   };
   const qualityActive = () => ['hq','lossless'].includes(Settings.get('quality'));
   function applyQuality(instant = false) {
     if (!g || !ctx) return;
     const p = QUALITY_PROFILES[Settings.get('quality')] || QUALITY_PROFILES.auto;
-    const t = ctx.currentTime, k = instant ? .001 : .10;
+    const t = ctx.currentTime, k = instant ? .001 : .12;
     const to = (param, v) => { try { param.cancelScheduledValues(t); param.setTargetAtTime(v, t, k); } catch (_) { param.value = v; } };
     to(g.qSub.frequency, p.hp);
     to(g.qMud.gain, p.mud); to(g.qClarity.gain, p.clarity); to(g.qHarsh.gain, p.harsh); to(g.qAir.gain, p.air);
     to(g.qComp.threshold, p.threshold); to(g.qComp.knee, p.knee); to(g.qComp.ratio, p.ratio);
-    to(g.qComp.attack, p.attack); to(g.qComp.release, p.release); to(g.qGain.gain, p.out);
+    to(g.qComp.attack, p.attack); to(g.qComp.release, p.release); to(g.qGain.gain, p.out); to(g.airMix.gain, p.airMix);
   }
 
   const EQ_KEYS = ['eqBass','eqVocal','eqTreble'];
@@ -195,6 +286,7 @@ const FX = (() => {
     to(g.eqTreble.gain, Settings.get('eqTreble'));
   }
   bus.on('settings', ({ k }) => {
+    if (k === 'tailEnabled') { if (tailActive()) ensure(); applyTail(); resetTail(); bus.emit('tail-state', tailActive()); return; }
     if (k === 'quality') {
       if (qualityActive()) ensure();
       applyQuality();
@@ -392,6 +484,8 @@ const FX = (() => {
     get level() { return level; },
     get eqActive() { return eqActive(); },
     get qualityActive() { return qualityActive(); },
+    get tailActive() { return tailActive(); },
+    get tailGainDb() { return tailGainDb; },
     setLevel(lv) { level = clamp(lv | 0, 0, 3); Settings.set('vintage', level); if (level > 0) ensure(); apply(level); bus.emit('vintage', level); },
     get running() { return !!ctx && ctx.state === 'running'; }
   };

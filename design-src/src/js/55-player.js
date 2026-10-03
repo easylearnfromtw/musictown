@@ -108,7 +108,7 @@ const Player = (() => {
   /* ---------- choose element: FX twin only when vintage is on and the source can be processed ---------- */
   /* iOS ignores element.volume, so fades there need the Web Audio path */
   const fadesOn = () => Settings.get('fades') !== false;
-  const graphWanted = () => FX.level > 0 || FX.eqActive || FX.qualityActive || (IS_IOS && fadesOn());
+  const graphWanted = () => FX.tailActive || FX.level > 0 || FX.eqActive || FX.qualityActive || (IS_IOS && fadesOn());
   function elementFor(url) { return (graphWanted() && FX.canProcess(url) && (!document.hidden || FX.running || !FX.ctx)) ? 'fx' : 'direct'; }
   function activate(name) {
     if (name === activeName) return;

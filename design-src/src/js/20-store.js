@@ -21,6 +21,7 @@ const Settings = (() => {
   const legacyVintage = Number(store.raw(K.vintageLegacy)) || 0;
   const s = Object.assign({
     quality: 'auto',            // auto | hq | lossless | saver
+    tailEnabled: true,          // CITYMUS Tail: loudness leveling + baseline correction
     vintage: legacyVintage > 0 ? (legacyVintage < 34 ? 1 : legacyVintage < 67 ? 2 : 3) : 0,
     autoplay: true,
     shuffle: false,

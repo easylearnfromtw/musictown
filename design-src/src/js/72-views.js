@@ -425,7 +425,8 @@ Router.register('library', (el) => {
     const drawSettings = async () => {
       const est = await Offline.estimate();
       byId('settings').innerHTML = `
-        <div class="setting setting--stack"><div><b>音質</b><span>${{ auto: '自動選擇最穩定的音源', hq: '原始高音質音源優先＋透明化 DSP', lossless: '無損（演算法）：去濁、抑刺耳、重建空氣感；非原生 lossless 檔', saver: '使用網站壓縮檔，省流量' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
+        <button class="setting setting--tail" type="button" id="setTail"><div><b>小尾巴 · 常態背景優化</b><span>慢速音量一致化、峰值保護、去濁／抑刺耳微校正；預設全站常駐，不把動態壓扁</span></div><span class="switch" role="switch" aria-checked="${Settings.get('tailEnabled') !== false}"></span></button>
+        <div class="setting setting--stack"><div><b>高音質模式</b><span>${{ auto: '標準：只保留小尾巴常態校正', hq: 'Adaptive HiFi：動態校正、清晰度、瞬態感與輕量空氣重建', lossless: '無損（演算法）：更積極的數碼修復；仍不宣稱把有損檔變成真正 Lossless', saver: '省流量：使用壓縮音源，小尾巴仍維持音量與峰值一致' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
         <div class="setting setting--stack"><div><b>低音</b><span>120 Hz · 調整厚度與下盤</span></div><div id="eqBassSeg"></div></div>
         <div class="setting setting--stack"><div><b>人聲</b><span>2.2 kHz · 讓 vocal 往前或退後</span></div><div id="eqVocalSeg"></div></div>
         <div class="setting setting--stack"><div><b>高音</b><span>4.8 kHz · 調整亮度與空氣感</span></div><div id="eqTrebleSeg"></div></div>
@@ -435,7 +436,8 @@ Router.register('library', (el) => {
         <div class="setting"><div><b>儲存空間</b><span>${Offline.count ? `已下載 ${Offline.count} 首 · ${fmtBytes(Offline.bytes())}` : '還沒有下載的歌'}${est?.quota ? ` · 這台裝置還可用約 ${fmtBytes(Math.max(0, est.quota - (est.usage || 0)))}` : ''}</span></div>${icon('cloud')}</div>
         <button class="setting" type="button" id="setDislikes"><div><b>不適合我</b><span>${Dislikes.size ? `${Dislikes.size} 首會在自動播放時略過 · 點一下清除` : '在歌曲選單標記後，自動播放會略過'}</span></div>${icon('ban')}</button>
         <button class="setting" type="button" id="setWelcome"><div><b>重新看一次歡迎頁</b><span>重新選擇想先去的地方</span></div>${icon('chevron')}</button>`;
-      Seg(byId('qualSeg'), { label: '音質', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'lossless', label: '無損' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast(k === 'lossless' ? '無損演算法已套用；下一首優先原始音源' : k === 'hq' ? '高音質處理已套用；下一首優先原始音源' : k === 'saver' ? '已切換省流量' : '已切換自動音質'); } });
+      byId('setTail').onclick = () => { const on = Settings.get('tailEnabled') !== false; Settings.set('tailEnabled', !on); drawSettings(); toast(on ? '小尾巴已暫停，可用來 A/B 對照' : '小尾巴已恢復常態背景優化'); };
+      Seg(byId('qualSeg'), { label: '高音質模式', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'lossless', label: '無損' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast(k === 'lossless' ? '進階數碼修復已套用；不等同真正 Lossless' : k === 'hq' ? 'Adaptive HiFi 已開啟' : k === 'saver' ? '已切換省流量；小尾巴仍運作' : '已回到標準模式；小尾巴仍運作'); } });
       const eqItems = [{ key:'-6', label:'-6' }, { key:'-3', label:'-3' }, { key:'0', label:'0' }, { key:'3', label:'+3' }, { key:'6', label:'+6' }];
       Seg(byId('eqBassSeg'), { label:'低音 dB', value:String(Settings.get('eqBass') || 0), items:eqItems, onChange:k => Settings.set('eqBass', Number(k)) });
       Seg(byId('eqVocalSeg'), { label:'人聲 dB', value:String(Settings.get('eqVocal') || 0), items:eqItems, onChange:k => Settings.set('eqVocal', Number(k)) });
