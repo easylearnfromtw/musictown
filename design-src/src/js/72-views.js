@@ -103,8 +103,8 @@ Router.register('home', (el) => {
       <div class="home-grid">
         <section class="hero">
           <p class="hero__meta" id="homeMeta"></p>
-          <h1 class="hero__title"><span>Music for</span><span>where you are.</span></h1>
-          <p class="hero__lede">城市、風格、心情、文學與原創歌單，各自都有一抽屜的聲音。人在當地的時候，還能收下一張城市限定的票根。</p>
+          <h1 class="hero__title"><span>CITYMUS</span></h1>
+          <p class="hero__lede">顛頗、晃蕩、恍惚時，用CITYMUS緩解相思</p>
           <div id="homeStub"></div>
         </section>
         <section class="box" aria-label="目的地收納盒">
@@ -425,7 +425,7 @@ Router.register('library', (el) => {
     byId('monthlyReports').addEventListener('click', e => { const b=e.target.closest('[data-monthly]'); if(b) MonthlyPass.open(MonthlyTracker.get(b.dataset.monthly)); });
     const drawWallet = () => {
       const list = Wallet.all();
-      byId('libWallet').innerHTML = list.length ? `<div class="wallet">${list.map(walletCardHTML).join('')}</div>` : `<div class="empty"><b>還沒有票根</b><p>人在城市裡，打開那座城市就能領取 City Pass；到了地標，也能用定位打卡收下景點票根。</p><button class="btn btn--small" type="button" data-to-cities>看所有城市</button></div>`;
+      byId('libWallet').innerHTML = list.length ? `<div class="wallet">${list.map(walletCardHTML).join('')}</div>` : `<div class="empty"><b>還沒有票根</b><p>人在城市裡，打開那座城市就能領取 City Pass；到了地標，也能用定位打卡收下地標票根。</p><button class="btn btn--small" type="button" data-to-cities>看所有城市</button></div>`;
       const b = byId('libWallet').querySelector('[data-to-cities]'); if (b) b.onclick = () => Router.go('cities');
     };
     byId('libWallet').addEventListener('click', e => { const b = e.target.closest('[data-tk]'); if (b) Pass.openTicket(Wallet.all().find(x => x.id === b.dataset.tk)); });
