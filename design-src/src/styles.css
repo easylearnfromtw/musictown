@@ -1739,3 +1739,22 @@ main{
   scroll-snap-align:start;
   scroll-snap-stop:always;
 }
+
+
+/* CITYMUS R15.1 · restore interactive vinyl scratching */
+/* Full player opens on the record again, so clockwise / counter-clockwise
+   dragging is immediately discoverable and the scratch FX gesture can fire. */
+.stage:not(.is-cover) .vinyl{
+  pointer-events:auto;
+  touch-action:none;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+}
+.stage:not(.is-cover) .vinyl__rotor{
+  pointer-events:none;
+}
+/* Keep the hidden square cover from intercepting touches while vinyl mode is active. */
+.stage:not(.is-cover) .album-cover{
+  pointer-events:none!important;
+}

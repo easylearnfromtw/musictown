@@ -18,7 +18,7 @@ const PlayerUI = (() => {
         <div class="player__from"><small id="plFromLabel">播放自</small><button type="button" id="plFrom"></button></div>
         <button class="icon-btn" type="button" id="plMore" aria-label="更多選項">${icon('more')}</button>
       </header>
-      <div class="stage is-cover" id="plStage">
+      <div class="stage" id="plStage">
         <button class="album-cover" id="plCover" type="button" aria-label="切換到彩膠互動">
           <img id="plCoverImg" alt="" decoding="async">
           <span class="album-cover__hint">${icon('vinyl')}<b>VINYL</b></span>
@@ -110,7 +110,7 @@ const PlayerUI = (() => {
     byId('plArtist').textContent = [t.artist, t.note].filter(Boolean).join(' · ');
     byId('plCode').textContent = th?.code || 'MT';
     const vc = vinylColor(t); vinyl.dataset.material = vc.material; vinyl.style.setProperty('--disc', vc.hex); vinyl.setAttribute('aria-valuetext', `${vc.name} 唱片`);
-    showCoverMode();
+    showVinylMode();
     const seq = ++coverSeq;
     coverImg.alt = `${t.title || 'CITYMUS'} 封面`;
     Artwork.cover(t, 900).then(src => {
@@ -183,6 +183,7 @@ const PlayerUI = (() => {
     e.preventDefault();
     const a = Player.el; const dur = Player.time.dur;
     FX.ensure(); // inside the gesture: wakes Web Audio on iOS so the scratch is heard
+    try { if (FX.ctx && FX.ctx.state !== 'running') FX.ctx.resume().catch(() => {}); } catch (_) {}
     scrubbing = { id: e.pointerId, ang: angleOf(e), turns: 0, base: a.currentTime || 0, t: performance.now(), speed: 0, was: Player.pauseForScrub(), target: a.currentTime || 0, lastTick: Math.floor((a.currentTime || 0) / 15) };
     try { vinyl.setPointerCapture(e.pointerId); } catch (_) {}
     cancelAnimationFrame(ramp); spin.pause(); syncSpin(true);
