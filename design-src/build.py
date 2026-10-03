@@ -30,7 +30,7 @@ def load_catalog():
     raise SystemExit("no catalog found (pass a catalog .json or an index.html)")
 
 catalog, catalog_from = load_catalog()
-BUILD = "R15.4 · 2026-10-04 · Original Card Content Cleanup"
+BUILD = "R15.5 · 2026-10-04 · Universal Clean Card Rails"
 
 repo_root = ROOT.parent
 orig_builder = repo_root / "build_original_playlists.py"

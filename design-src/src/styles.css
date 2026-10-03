@@ -1870,3 +1870,169 @@ main{
   color:var(--ink-3);
   -webkit-line-clamp:2;
 }
+
+
+/* CITYMUS R15.5 · universal clean card rails */
+@media(max-width:759px){
+  .tiles--original-rail,
+  .tiles--vibe-rail{
+    display:grid!important;
+    grid-auto-flow:column!important;
+    grid-template-columns:none!important;
+    grid-auto-columns:100%!important;
+    width:100%!important;
+    max-width:100%!important;
+    gap:14px!important;
+    margin:0!important;
+    padding:4px 0 14px!important;
+    scroll-padding-inline:0!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scroll-snap-type:x mandatory!important;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    touch-action:pan-x pan-y;
+  }
+  .tiles--original-rail::-webkit-scrollbar,
+  .tiles--vibe-rail::-webkit-scrollbar{display:none}
+  .tiles--original-rail .tile,
+  .tiles--vibe-rail .tile{
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+    margin:0!important;
+    transform:none!important;
+    scroll-snap-align:start!important;
+    scroll-snap-stop:always!important;
+  }
+  .tiles--original-rail .tile:hover,
+  .tiles--vibe-rail .tile:hover{transform:none!important}
+}
+
+/* Every original playlist uses the same public template — no per-theme card variant. */
+.tiles--original-rail .tile--original::after{content:none!important;display:none!important}
+.tiles--original-rail .tile--original{padding:16px 16px 18px!important;background:#fff!important}
+.tiles--original-rail .citymus-cover--tile{width:100%!important;margin:0 0 14px!important;border-radius:22px!important}
+.tiles--original-rail .tile__top{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:14px!important;
+  justify-content:flex-start!important;
+  margin:0!important;
+}
+.tiles--original-rail .tile__top small{
+  position:static!important;
+  padding:0!important;
+  background:none!important;
+  font:800 11px/1 var(--display)!important;
+  letter-spacing:.12em!important;
+  color:var(--accent-ink)!important;
+}
+.tiles--original-rail .tile__top em{
+  font:700 10px/1 var(--display)!important;
+  letter-spacing:.12em!important;
+  color:var(--ink-3)!important;
+  font-style:normal!important;
+}
+.tiles--original-rail .tile__original-meta{
+  display:block!important;
+  margin-top:24px!important;
+  font:600 15px/1.35 var(--ui)!important;
+  color:var(--ink-2)!important;
+}
+.tiles--original-rail .tile--original>p{
+  margin-top:14px!important;
+  max-width:100%!important;
+  font:500 13px/1.65 var(--ui)!important;
+  color:var(--ink-3)!important;
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+  overflow:hidden!important;
+}
+
+/* Style / mood cards share one clean full-width template, with the requested half record on top. */
+.tiles--vibe-rail .tile{
+  position:relative!important;
+  min-height:330px!important;
+  padding:86px 24px 28px!important;
+  overflow:hidden!important;
+  background:#fff!important;
+  border-radius:24px!important;
+  box-shadow:inset 0 0 0 1px var(--line),0 10px 24px rgba(41,52,86,.05)!important;
+}
+.tiles--vibe-rail .tile__art{
+  position:absolute!important;
+  left:50%!important;
+  right:auto!important;
+  top:-58px!important;
+  width:126px!important;
+  height:126px!important;
+  transform:translateX(-50%)!important;
+  border-radius:50%!important;
+  opacity:1!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  pointer-events:none!important;
+}
+.tiles--vibe-rail .tile__art::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(250,252,253,.98) 0 12%,rgba(225,232,237,.9) 12.5% 19%,transparent 19.5%),
+    repeating-radial-gradient(circle at 50% 50%,rgba(92,105,118,0) 0 2.1px,rgba(92,105,118,.08) 2.1px 3.3px),
+    radial-gradient(circle at 35% 30%,#fff 0,color-mix(in srgb,var(--accent) 9%,#f1f5f8) 58%,color-mix(in srgb,var(--accent) 17%,#dce5eb) 100%);
+  border:1px solid rgba(132,149,163,.16);
+  box-shadow:0 10px 24px rgba(53,67,82,.10),inset 0 0 0 1px rgba(255,255,255,.78);
+}
+.tiles--vibe-rail .tile__art span,
+.tiles--vibe-rail .tile__art i{display:none!important}
+.tiles--vibe-rail .tile__top{
+  position:relative!important;
+  z-index:2!important;
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:center!important;
+  margin:0 0 70px!important;
+}
+.tiles--vibe-rail .tile__top small{
+  position:static!important;
+  padding:0!important;
+  font:800 11px/1 var(--display)!important;
+  letter-spacing:.12em!important;
+  color:var(--ink-3)!important;
+}
+.tiles--vibe-rail .tile__top em{
+  font:700 10px/1 var(--display)!important;
+  letter-spacing:.12em!important;
+  color:var(--ink-3)!important;
+  font-style:normal!important;
+}
+.tiles--vibe-rail .tile>b{
+  position:relative!important;
+  z-index:2!important;
+  display:block!important;
+  max-width:100%!important;
+  font:500 clamp(42px,11vw,64px)/1 var(--latin)!important;
+  color:var(--ink)!important;
+}
+.tiles--vibe-rail .tile>span:not(.tile__top){
+  position:relative!important;
+  z-index:2!important;
+  display:block!important;
+  margin-top:16px!important;
+  font:600 14px/1.35 var(--ui)!important;
+  color:var(--ink-2)!important;
+}
+.tiles--vibe-rail .tile>p{
+  position:relative!important;
+  z-index:2!important;
+  margin-top:22px!important;
+  max-width:100%!important;
+  font:500 13px/1.6 var(--ui)!important;
+  color:var(--ink-3)!important;
+}
