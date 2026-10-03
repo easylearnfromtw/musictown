@@ -104,8 +104,8 @@ Router.register('home', (el) => {
       <div class="home-grid">
         <section class="hero">
           <p class="hero__meta" id="homeMeta"></p>
-          <h1 class="hero__title hero__title--brand"><img src="assets/citymus-wordmark.png" alt="CITYMUS"></h1>
-          <p class="hero__lede">顛頗、晃蕩、恍惚時，用CITYMUS緩解相思</p>
+          <h1 class="hero__title hero__title--brand"><span>CITYMUS</span></h1>
+          <p class="hero__lede">顛簸、晃蕩、恍惚時，用CITYMUS緩解相思</p>
           <div id="homeStub"></div>
         </section>
         <section class="box" aria-label="目的地收納盒">

@@ -1674,3 +1674,68 @@ body { position: relative; }
   .pass__head{gap:10px;padding-right:52px}
   .pass__x{width:42px;height:42px}
 }
+
+
+/* CITYMUS R15.0 · home brand + viewport lock + clean original rail */
+/* 1. Put a guaranteed visible CITYMUS wordmark in the home hero. */
+.hero__title--brand{
+  display:block;
+  width:100%;
+  margin-top:26px;
+  min-height:0;
+  line-height:1;
+}
+.hero__title--brand > span{
+  display:block;
+  font:900 clamp(58px,17vw,96px)/.84 var(--display);
+  letter-spacing:-.07em;
+  color:var(--ink);
+  white-space:nowrap;
+}
+
+/* 2. The document itself must never pan sideways.
+   Horizontal rails keep their own local scrolling. */
+html,
+body{
+  width:100%;
+  max-width:100vw;
+  overflow-x:clip!important;
+  overscroll-behavior-x:none;
+}
+body{position:relative}
+#app,
+.view,
+main{
+  width:100%;
+  max-width:100vw;
+  overflow-x:clip;
+}
+.wrap,
+.home-grid,
+.dest,
+.player__inner,
+.sheet__body{
+  min-width:0;
+  max-width:100%;
+}
+@supports not (overflow:clip){
+  html,body,#app,.view,main{overflow-x:hidden!important}
+}
+.rail,
+.books--rail,
+.tiles--rail{
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* 3. Original-playlist rail starts flush with the content column.
+   No previous cards / shadows are allowed to peek out on the left. */
+.tiles--original-rail{
+  margin-left:0;
+  padding-left:0;
+  scroll-padding-left:0;
+}
+.tiles--original-rail .tile{
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+}
