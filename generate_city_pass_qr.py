@@ -10,6 +10,8 @@ OUT.mkdir(parents=True,exist_ok=True)
 BASE="https://easylearnfromtw.github.io/musictown/"
 SLUGS=[
  "taipei-style",
+ "fantasy-tainan",
+ "rouge-tibet",
  "old-tokyo",
  "splendor-shanghai",
  "vancouver",

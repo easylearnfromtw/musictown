@@ -18,7 +18,7 @@ for name in [
     "index.html","404.html",".nojekyll","MUSIC_INSTALL_REPORT.json","theme_curation_manifest.json","city-pass-preview.html",
     "site.webmanifest","apple-touch-icon.png","icon-192.png","icon-512.png","icon-maskable-512.png",
     "favicon.svg","favicon-32.png","remote-audio-map.js",
-    "sw.js","literature-catalog.js","literature-audio-map.js",
+    "sw.js","extra-city-catalog.js","literature-catalog.js","literature-audio-map.js",
 ]:
     p=ROOT/name
     if p.exists():shutil.copy2(p,SITE/name)

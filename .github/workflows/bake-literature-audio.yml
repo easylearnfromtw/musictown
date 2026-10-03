@@ -1,6 +1,6 @@
 name: Check literature audio
 
-# Checks the 250 文學 streams and repairs renamed files inside the same
+# Checks the 350 文學 streams and repairs renamed files inside the same
 # Internet Archive item. Runs on demand, monthly, or when this file or the
 # script changes. It never touches index.html or MUSIC_DATA.
 on:
@@ -23,7 +23,7 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

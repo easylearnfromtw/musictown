@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="musicetown-build" content="R11.1 · 2026-10-03 · Performance">
+<meta name="musicetown-build" content="R11.3 · 2026-10-03 · 39 Themes">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>musicetown · Music for where you are</title>
 <meta name="description" content="以城市、文學與心情策展的音樂。人在當地時，收下只屬於那座城市的限定票根。">
@@ -45,6 +45,7 @@
 <link rel="dns-prefetch" href="//archive.org">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,600;0,700;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+TC:wght@500;700;900&display=swap">
 <script src="remote-audio-map.js"></script>
+<script src="extra-city-catalog.js"></script>
 <script src="literature-catalog.js"></script>
 <script src="literature-audio-map.js"></script>
 <style>
@@ -915,7 +916,7 @@ window.MUSIC_DATA = [{"t":"JAZZ","sub":"偏人聲、夜色、爵士／blues／ac
 /* ==========================================================================
    musicetown R11 · core utilities
    ========================================================================== */
-const MT_BUILD = 'R11.1 · 2026-10-03 · Performance';
+const MT_BUILD = 'R11.3 · 2026-10-03 · 39 Themes';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 const byId = id => document.getElementById(id);
@@ -1134,18 +1135,23 @@ window.addEventListener('error', e => console.warn('[musicetown]', e?.error || e
 
 /* ---- 10-catalog.js ---- */
 /* ==========================================================================
-   Catalog · 23 destinations. Names in MUSIC_DATA are the stable keys.
+   Catalog · 23 core destinations + extension catalogs. Names are stable keys.
    ========================================================================== */
 const REMOTE_MAP = window.MUSICETOWN_REMOTE_AUDIO || {};
-/* 文學 · ten literary works, 25 public-domain / open-licence recordings each.
+/* 文學 · fourteen literary works, 25 public-domain / open-licence recordings each.
    Kept outside MUSIC_DATA so the CI's 23-theme / 1150-track checks stay untouched. */
 const LIT = Array.isArray(window.MUSICETOWN_LITERATURE) ? window.MUSICETOWN_LITERATURE : [];
 const LIT_MAP = window.MUSICETOWN_LITERATURE_MAP || {};
-const DATA = (Array.isArray(window.MUSIC_DATA) ? window.MUSIC_DATA : []).concat(LIT.map(w => ({ t: w.t, sub: w.summary, key: `${w.authorCn} · ${w.era}`, tracks: w.tracks, literature: true })));
+const EXTRA_CITY = Array.isArray(window.MUSICETOWN_EXTRA_CITIES) ? window.MUSICETOWN_EXTRA_CITIES : [];
+const DATA = (Array.isArray(window.MUSIC_DATA) ? window.MUSIC_DATA : [])
+  .concat(EXTRA_CITY)
+  .concat(LIT.map(w => ({ t: w.t, sub: w.summary, key: `${w.authorCn} · ${w.era}`, tracks: w.tracks, literature: true })));
 
 /* kind: city | style | mood. code = IATA-style identity used across the UI. */
 const META = {
   'TAIPEI DREAM':        { slug: 'taipei-style', code: 'TPE', name: 'Taipei Dream', cn: '台北夢', kind: 'city', region: 'asia', city: 'Taipei', cityCn: '台北', tz: 'Asia/Taipei', country: 'TW', accent: '#5f8f96', ink: '#2c4a4f', aliases: ['taipei', 'taipei city', 'new taipei', 'new taipei city', 'sanchong', 'banqiao', 'zhonghe', 'yonghe', 'xinzhuang', 'xindian'], line: '雨後的巷口、捷運末班車與臥室錄音的人聲。', summary: '雨夜、巷口、捷運與城市獨立人聲。TAIPEI DREAM 把台北都會的潮濕霓虹、日常節奏與輕微孤獨感收進一個抽屜。' },
+  'FANTASY TAINAN':      { slug: 'fantasy-tainan', code: 'TNN', name: 'Fantasy Tainan', cn: '府城之戀', kind: 'city', region: 'asia', city: 'Tainan', cityCn: '台南', tz: 'Asia/Taipei', country: 'TW', accent: '#B47B68', ink: '#5E4036', aliases: ['tainan', 'tainan city', 'anping', 'west central district'], line: '安平夕照、老屋木窗與南方暖風，讓府城慢慢走進黃昏。', summary: '老城、安平、廟埕與暖色黃昏。FANTASY TAINAN 用明亮而懷舊的旋律，把台南的慢步調與戀愛感收進一個抽屜。' },
+  'ROUGE TIBET':         { slug: 'rouge-tibet', code: 'LXA', name: 'Rouge Tibet', cn: '胭脂西域', kind: 'city', region: 'asia', city: 'Lhasa', cityCn: '拉薩', tz: 'Asia/Shanghai', country: 'CN', accent: '#A44855', ink: '#582932', aliases: ['lhasa', 'lhasa city', 'tibet', 'xizang'], line: '高原薄雪、紅牆與經幡，在稀薄空氣裡留下遠處鐘聲。', summary: '高原、紅牆、雪線與儀式感。ROUGE TIBET 偏莊嚴、空曠、神祕，以慢板與深色和聲形成帶有距離感的聲景。' },
   'OLD TOKYO':           { slug: 'old-tokyo', code: 'TYO', name: 'Old Tokyo', cn: '老東京', kind: 'city', region: 'asia', city: 'Tokyo', cityCn: '東京', tz: 'Asia/Tokyo', country: 'JP', accent: '#b07f86', ink: '#5a3c41', aliases: ['tokyo', 'shinjuku', 'shibuya', 'minato', 'chiyoda', 'taito', 'setagaya', 'suginami'], line: '首都高的霓虹、昭和餘暉與合成器流行。', summary: '昭和殘影、老東京夜色與都會旋律。OLD TOKYO 偏復古、細膩、略帶電影感，像深夜電車窗外倒退的街景。' },
   'SPLENDOR SHANGHAI':   { slug: 'splendor-shanghai', code: 'SHA', name: 'Splendor Shanghai', cn: '海上繁華', kind: 'city', region: 'asia', city: 'Shanghai', cityCn: '上海', tz: 'Asia/Shanghai', country: 'CN', accent: '#9a8270', ink: '#53443a', aliases: ['shanghai', 'shanghai city'], line: '舞廳爵士、靈魂樂與外灘的金色夜宴。', summary: '爵士舞廳、Art Deco 與老上海華麗聲響。SPLENDOR SHANGHAI 偏優雅、暖色、帶一點舊時代夜宴的節奏。' },
   'TRADITIONAL BEIJING': { slug: 'traditional-beijing', code: 'BJS', name: 'Traditional Beijing', cn: '京味北京', kind: 'city', region: 'asia', city: 'Beijing', cityCn: '北京', tz: 'Asia/Shanghai', country: 'CN', accent: '#9b3a4b', ink: '#54232c', aliases: ['beijing', 'beijing city'], line: '京劇唱腔、鑼鼓與胡同裡的老戲台。', summary: '京劇唱腔、鑼鼓、嗩吶與傳統戲曲舞台感。TRADITIONAL BEIJING 把京味戲劇張力與古典器樂聲響集中在一起。' },
@@ -1175,7 +1181,7 @@ LIT.forEach(w => { META[w.t] = { slug: w.slug, code: w.code, name: w.name, cn: w
 
 /* Groups for the glass box and filters */
 const GROUPS = [
-  { key: 'asia', label: '亞洲', en: 'Asia', names: ['TAIPEI DREAM', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'TRADITIONAL BEIJING', 'BUSTLING HONG KONG', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG'] },
+  { key: 'asia', label: '亞洲', en: 'Asia', names: ['TAIPEI DREAM', 'FANTASY TAINAN', 'ROUGE TIBET', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'TRADITIONAL BEIJING', 'BUSTLING HONG KONG', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG'] },
   { key: 'europe', label: '歐洲', en: 'Europe', names: ['VAPOR LONDON', 'SLIGHTLY TIPSY ROME', 'CHAMPS-ÉLYSÉES', 'MENACING DUBAI'] },
   { key: 'americas', label: '美洲', en: 'Americas', names: ['VANCOUVER', 'NEW YORK', 'TROPICAL HAWAII', 'PSYCHEDELIC LA'] },
   { key: 'style', label: '風格', en: 'Styles', names: ['JAZZ', 'CROONER', 'ROCK', 'LO-FI'] },
@@ -1188,6 +1194,8 @@ const REGION_LABEL = { asia: '亞洲', europe: '歐洲', mideast: '中東', amer
 /* Landmarks for spot-edition tickets (GPS check-in, coordinates never stored) */
 const LANDMARKS = [
   { id: 'taipei-101', name: 'Taipei 101', cn: '台北 101', theme: 'TAIPEI DREAM', lat: 25.0340, lng: 121.5645, r: 650 },
+  { id: 'anping-fort', name: 'Anping Old Fort', cn: '安平古堡', theme: 'FANTASY TAINAN', lat: 23.0016, lng: 120.1607, r: 900 },
+  { id: 'potala-palace', name: 'Potala Palace', cn: '布達拉宮', theme: 'ROUGE TIBET', lat: 29.6578, lng: 91.1172, r: 1200 },
   { id: 'tokyo-tower', name: 'Tokyo Tower', cn: '東京鐵塔', theme: 'OLD TOKYO', lat: 35.6586, lng: 139.7454, r: 550 },
   { id: 'shibuya-crossing', name: 'Shibuya Crossing', cn: '澀谷十字路口', theme: 'OLD TOKYO', lat: 35.6595, lng: 139.7005, r: 450 },
   { id: 'the-bund', name: 'The Bund', cn: '外灘', theme: 'SPLENDOR SHANGHAI', lat: 31.2400, lng: 121.4900, r: 1000 },
@@ -2151,7 +2159,7 @@ const Artwork = (() => {
   async function paint(t, S = 512) {
     await fonts();
     const th = themeOf(t), c = document.createElement('canvas'); c.width = c.height = S; const x = c.getContext('2d');
-    const g = ground(t, th), lim = Limited.active();
+    const g = ground(t, th), lim = th?.t === 'TAIPEI DREAM' ? Limited.active() : null;
     x.textBaseline = 'alphabetic';
     if (lim) {
       // Taipei Limited: porcelain ground, wordmark behind the record
@@ -2198,7 +2206,7 @@ const Artwork = (() => {
   const cache = new Map();
   function cover(t, S = 512) {
     if (!t) return Promise.resolve(null);
-    const k = `${trackKey(t)}|${S}|${Limited.active() ? 'L' : ''}`;
+    const k = `${trackKey(t)}|${S}|${themeOf(t)?.t === 'TAIPEI DREAM' && Limited.active() ? 'L' : ''}`;
     if (cache.has(k)) return cache.get(k);
     const p = paint(t, S).then(c => c.toDataURL('image/jpeg', .9)).catch(() => null);
     cache.set(k, p); if (cache.size > 60) cache.delete(cache.keys().next().value);
@@ -2209,7 +2217,7 @@ const Artwork = (() => {
   async function card(t) {
     await fonts();
     const th = themeOf(t), W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
-    const lim = Limited.active(), g = ground(t, th);
+    const lim = th?.t === 'TAIPEI DREAM' ? Limited.active() : null, g = ground(t, th);
     x.fillStyle = '#F6F8FC'; x.fillRect(0, 0, W, H);
     const rr = (X, Y, w, h, r) => { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); };
     x.save(); x.shadowColor = 'rgba(41,70,93,.14)'; x.shadowBlur = 60; x.shadowOffsetY = 24; rr(60, 60, W - 120, H - 120, 48); x.fillStyle = '#FFFFFF'; x.fill(); x.restore();
@@ -3801,7 +3809,7 @@ function homeDynamic(el) {
   byId('editSub').textContent = { morning: '早晨的選曲，輕快一點', day: '白天的選曲', evening: '傍晚的選曲', night: '夜晚的選曲，慢一點', late: '深夜的選曲，安靜一點' }[pod];
   const stub = byId('homeStub');
   if (th) {
-    const owned = Wallet.has(`city-${th.slug}`), lim = Limited.active();
+    const owned = Wallet.has(`city-${th.slug}`), lim = th?.t === 'TAIPEI DREAM' ? Limited.active() : null;
     stub.innerHTML = `<button class="stub" type="button" style="${accentStyle(th)}"><span class="stub__code">${esc(th.code)}</span><span class="stub__txt"><b>${owned ? `你的${esc(th.cityCn)}票根` : `${esc(th.cityCn)}限定票根可領取`}</b><span>${lim ? `${esc(lim.label)}封面已開啟` : owned ? '在票夾裡，隨時打開' : `${esc(th.name)} · 只在當地發行`}</span></span>${icon('ticket')}</button>`;
     stub.firstElementChild.onclick = () => Pass.openCity(th);
   } else stub.innerHTML = '';
@@ -3832,7 +3840,7 @@ Router.register('cities', (el) => {
     el._built = true;
     el.innerHTML = `<div class="wrap">
       <h1 class="page-title">Cities</h1>
-      <p class="page-lede">十五座城市，各自的當地時間。人在城裡，就能收下那座城市的限定票根。</p>
+      <p class="page-lede">十七座城市，各自的當地時間。人在城裡，就能收下那座城市的限定票根。</p>
       <div class="mt-24" id="citySeg"></div>
       <div id="cityHere"></div>
       <div class="passgrid mt-16" id="passgrid"></div>
@@ -4222,7 +4230,7 @@ const PlayerUI = (() => {
 
   /* ---------- Taipei Limited: the wordmark sits behind the record ---------- */
   function drawLimited() {
-    const lim = Limited.active(), host = byId('plLimited');
+    const th = themeOf(Player.current); const lim = th?.t === 'TAIPEI DREAM' ? Limited.active() : null, host = byId('plLimited');
     stage.classList.toggle('is-limited', !!lim);
     if (!lim) { host.innerHTML = ''; return; }
     if (!host.firstChild) host.innerHTML = `<img class="limited__word" src="${lim.word}" alt="" decoding="async"><img class="limited__cn" src="${lim.cn}" alt="" decoding="async"><span class="limited__tag">${esc(lim.label)}</span>`;
@@ -4502,7 +4510,7 @@ function offlineSheet(t) {
    Geo · approximate city by IP (ipwho.is, IP itself never stored),
    precise check-ins by GPS only when the listener taps "check in".
    ========================================================================== */
-const CITY_CENTER = { TPE: [25.0330, 121.5654], TYO: [35.6762, 139.6503], SHA: [31.2304, 121.4737], BJS: [39.9042, 116.4074], HKG: [22.3193, 114.1694], KYO: [35.0116, 135.7681], LYA: [34.6197, 112.4540], LON: [51.5072, -0.1276], ROM: [41.9028, 12.4964], PAR: [48.8566, 2.3522], DXB: [25.2048, 55.2708], YVR: [49.2827, -123.1207], NYC: [40.7128, -74.0060], HNL: [21.3099, -157.8581], LAX: [34.0522, -118.2437] };
+const CITY_CENTER = { TPE: [25.0330, 121.5654], TNN: [22.9999, 120.2270], LXA: [29.6520, 91.1721], TYO: [35.6762, 139.6503], SHA: [31.2304, 121.4737], BJS: [39.9042, 116.4074], HKG: [22.3193, 114.1694], KYO: [35.0116, 135.7681], LYA: [34.6197, 112.4540], LON: [51.5072, -0.1276], ROM: [41.9028, 12.4964], PAR: [48.8566, 2.3522], DXB: [25.2048, 55.2708], YVR: [49.2827, -123.1207], NYC: [40.7128, -74.0060], HNL: [21.3099, -157.8581], LAX: [34.0522, -118.2437] };
 const distKm = (a, b) => { const R = 6371, r = x => x * Math.PI / 180, dLa = r(b[0] - a[0]), dLo = r(b[1] - a[1]); const h = Math.sin(dLa / 2) ** 2 + Math.cos(r(a[0])) * Math.cos(r(b[0])) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); };
 
 const Geo = (() => {
@@ -4767,7 +4775,7 @@ const Pass = (() => {
     const list = Wallet.all();
     if (list.length) return openTicket(list[0]);
     Sheet.open({ title: 'City Pass', sub: '城市與景點的限定票根',
-      html: `<p class="sheet-note">人在 musicetown 的十五座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
+      html: `<p class="sheet-note">人在 musicetown 的十七座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
       mount(b, s) { $('[data-c]', b).onclick = () => { s.close(); Router.go('cities'); }; $('[data-s]', b).onclick = () => { s.close(); checkInSpot(); }; } });
   });
   bus.on('geo', t => { document.documentElement.classList.toggle('has-pass', !!t && !Wallet.has(`city-${THEME_BY_T.get(t)?.slug}`)); });

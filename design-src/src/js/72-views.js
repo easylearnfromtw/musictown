@@ -182,7 +182,7 @@ function homeDynamic(el) {
   byId('editSub').textContent = { morning: '早晨的選曲，輕快一點', day: '白天的選曲', evening: '傍晚的選曲', night: '夜晚的選曲，慢一點', late: '深夜的選曲，安靜一點' }[pod];
   const stub = byId('homeStub');
   if (th) {
-    const owned = Wallet.has(`city-${th.slug}`), lim = Limited.active();
+    const owned = Wallet.has(`city-${th.slug}`), lim = th?.t === 'TAIPEI DREAM' ? Limited.active() : null;
     stub.innerHTML = `<button class="stub" type="button" style="${accentStyle(th)}"><span class="stub__code">${esc(th.code)}</span><span class="stub__txt"><b>${owned ? `你的${esc(th.cityCn)}票根` : `${esc(th.cityCn)}限定票根可領取`}</b><span>${lim ? `${esc(lim.label)}封面已開啟` : owned ? '在票夾裡，隨時打開' : `${esc(th.name)} · 只在當地發行`}</span></span>${icon('ticket')}</button>`;
     stub.firstElementChild.onclick = () => Pass.openCity(th);
   } else stub.innerHTML = '';
@@ -213,7 +213,7 @@ Router.register('cities', (el) => {
     el._built = true;
     el.innerHTML = `<div class="wrap">
       <h1 class="page-title">Cities</h1>
-      <p class="page-lede">十五座城市，各自的當地時間。人在城裡，就能收下那座城市的限定票根。</p>
+      <p class="page-lede">十七座城市，各自的當地時間。人在城裡，就能收下那座城市的限定票根。</p>
       <div class="mt-24" id="citySeg"></div>
       <div id="cityHere"></div>
       <div class="passgrid mt-16" id="passgrid"></div>
