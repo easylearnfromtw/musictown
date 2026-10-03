@@ -128,11 +128,11 @@ Router.register('home', (el) => {
       </section>
       <section class="sec sec--originals">
         <div class="sec__head"><h2 class="sec__title">原創歌單<small>每張 25 首 · 從母庫重新策展</small></h2></div>
-        <div class="tiles" id="homeOriginals"></div>
+        <div class="tiles tiles--rail tiles--original-rail" id="homeOriginals"></div>
       </section>
       <section class="sec sec--vibes">
         <div class="sec__head"><h2 class="sec__title">風格與心情<small>依節奏、質地與情緒找到當下</small></h2></div>
-        <div class="tiles" id="homeTiles"></div>
+        <div class="tiles tiles--rail tiles--vibe-rail" id="homeTiles"></div>
       </section>
       <section class="sec" id="homeWalletSec" hidden>
         <div class="sec__head"><h2 class="sec__title">你的票夾</h2><button class="link-btn" type="button" id="toWallet" aria-label="全部票根">${icon('chevron')}</button></div>
