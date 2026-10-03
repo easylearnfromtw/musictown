@@ -8,8 +8,8 @@ const Welcome = (() => {
     <section class="welcome__step is-active" data-step="1">
       <div class="welcome__globe">${globeMark()}</div>
       <p class="welcome__word">CITYMUS</p>
-      <h1 class="welcome__title"><span>Music for</span><span>where you are.</span></h1>
-      <p class="welcome__lede">每座城市、每部作品、每種心情，都有一抽屜的聲音。人在當地的時候，還能收下一張只屬於那裡的票根。</p>
+      <h1 class="welcome__title"><span>CITYMUS</span></h1>
+      <p class="welcome__lede">顛頗、晃蕩、恍惚時，用CITYMUS緩解相思</p>
       <div class="welcome__cta"><button class="btn btn--primary" type="button" data-next>選一個目的地</button><button class="btn btn--glass" type="button" data-skip>直接進入</button></div>
     </section>
     <section class="welcome__step" data-step="2">
