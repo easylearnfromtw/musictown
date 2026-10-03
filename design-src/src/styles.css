@@ -1425,3 +1425,64 @@ body { position: relative; }
   .tiles--original-rail { grid-auto-columns: 350px; }
   .tiles--vibe-rail { grid-auto-columns: 270px; }
 }
+
+
+/* CITYMUS R14.6 · brand system + public vinyl artwork */
+:root{--citymus-word:"Arial Black","Archivo Black","Archivo","Helvetica Neue",Arial,sans-serif}
+.tb-word{font-family:var(--citymus-word);font-weight:900;letter-spacing:-.035em}
+.hero__title,.welcome__title{font-family:var(--citymus-word);font-weight:900;letter-spacing:-.058em;line-height:.88}
+.hero__title span,.welcome__title span{display:block}
+.hero__lede{max-width:30em}
+
+/* Original playlists use the new CITYMUS public sleeve: porcelain card,
+   translucent-groove record, globe centre and CITYMUS wordmark. */
+.tile--original{min-height:210px;background:#fff}
+.tile--original .tile__art{
+  width:94px;height:116px;right:14px;bottom:14px;border-radius:18px;
+  background:#fff;opacity:1;overflow:hidden;
+  box-shadow:0 10px 26px rgba(41,52,86,.10),inset 0 0 0 1px rgba(47,54,84,.06)
+}
+.tile--original .tile__art::before{
+  content:"";position:absolute;left:9px;top:8px;width:76px;height:76px;border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,#f8fafc 0 13%,transparent 13.5%),
+    repeating-radial-gradient(circle at 50% 50%,rgba(78,96,112,0) 0 1.6px,rgba(78,96,112,.075) 1.6px 2.3px),
+    radial-gradient(circle at 34% 28%,rgba(255,255,255,.98),rgba(238,244,248,.96) 58%,rgba(220,231,239,.88));
+  box-shadow:0 10px 20px rgba(69,89,104,.10),inset 0 0 0 1px rgba(255,255,255,.88)
+}
+.tile--original .tile__art::after{
+  content:"CITYMUS.";position:absolute;left:0;right:0;bottom:10px;text-align:center;
+  font:900 12px/1 var(--citymus-word);letter-spacing:-.055em;color:#111
+}
+.tile--original .tile__art span{display:none}
+.tile--original .tile__art i{display:block!important;z-index:2;border:1.4px solid #566574;background:transparent;opacity:.92}
+.tile--original .tile__art i:nth-child(1){left:39px;top:37px;width:16px;height:16px;border-radius:50%}
+.tile--original .tile__art i:nth-child(2){left:43px;top:37px;width:8px;height:16px;border-radius:50%}
+.tile--original .tile__art i:nth-child(3){left:39px;top:42px;width:16px;height:7px;border-radius:50%}
+
+.dest__art--original{
+  border-radius:30px;background:#fff!important;
+  box-shadow:0 24px 64px rgba(41,52,86,.12),inset 0 0 0 1px rgba(47,54,84,.06)!important
+}
+.dest__art--original::before{
+  content:"";position:absolute;left:13%;right:13%;top:10%;aspect-ratio:1;border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,#f8fafc 0 13%,transparent 13.5%),
+    repeating-radial-gradient(circle at 50% 50%,rgba(78,96,112,0) 0 2px,rgba(78,96,112,.07) 2px 3px),
+    radial-gradient(circle at 34% 28%,#fff,#eef4f8 58%,#dce7ee);
+  box-shadow:0 16px 34px rgba(69,89,104,.10),inset 0 0 0 1px rgba(255,255,255,.9)
+}
+.dest__art--original::after{
+  content:"CITYMUS.";position:absolute;left:0;right:0;bottom:11%;text-align:center;
+  font:900 clamp(16px,3vw,26px)/1 var(--citymus-word);letter-spacing:-.06em;color:#0c0c0d
+}
+.dest__art--original span{display:none}
+.dest__art--original i{display:block!important;z-index:2;border:2px solid #566574!important;background:transparent!important;opacity:.92!important}
+.dest__art--original i:nth-child(2){left:46%;top:38%;width:9%;height:9%;border-radius:50%}
+.dest__art--original i:nth-child(3){left:48.3%;top:38%;width:4.4%;height:9%;border-radius:50%}
+.dest__art--original i:nth-child(4){left:46%;top:40.8%;width:9%;height:3.8%;border-radius:50%;transform:none!important}
+
+@media(max-width:680px){
+  .hero__title{font-size:clamp(54px,16vw,82px)}
+  .tile--original{min-height:190px}
+}
