@@ -28,7 +28,10 @@ const Settings = (() => {
     onboarded: false,
     homeGroup: 'asia',
     a2hsDismissed: false,
-    fades: true                 // 2 s fade-in · 3 s fade-out
+    fades: true,                // 2 s fade-in · 3 s fade-out
+    eqBass: 0,                  // dB · 120 Hz low shelf
+    eqVocal: 0,                 // dB · 2.2 kHz presence
+    eqTreble: 0                 // dB · 4.8 kHz high shelf
   }, store.get(K.settings, {}));
   return {
     get: k => s[k],
