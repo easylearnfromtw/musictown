@@ -981,6 +981,14 @@ const HYDRATE_WORDS = {
 (function hydrateEmptyThemes() {
   for (const d of DATA) {
     if (!d || (Array.isArray(d.tracks) && d.tracks.length)) continue;
+    const preset = ORIGINAL_PRESET_BY_T.get(d.t);
+    if (preset && Array.isArray(preset.tracks) && preset.tracks.length >= 50) {
+      d.tracks = preset.tracks.slice(0, 50).map((t, i) => ({ ...t, trackNo: i + 1, curatedTheme: d.t, formalCuration: true }));
+      d.installPending = false;
+      d.archiveEdit = false;
+      d.formalCuration = true;
+      continue;
+    }
     const words = HYDRATE_WORDS[d.t]; const meta = META[d.t];
     if (!words || !meta) continue;
     const seen = new Set(), pool = [];
