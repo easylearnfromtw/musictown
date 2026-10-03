@@ -103,7 +103,7 @@ const Player = (() => {
   /* ---------- choose element: FX twin only when vintage is on and the source can be processed ---------- */
   /* iOS ignores element.volume, so fades there need the Web Audio path */
   const fadesOn = () => Settings.get('fades') !== false;
-  const graphWanted = () => FX.level > 0 || (IS_IOS && fadesOn());
+  const graphWanted = () => FX.level > 0 || FX.eqActive || (IS_IOS && fadesOn());
   function elementFor(url) { return (graphWanted() && FX.canProcess(url) && (!document.hidden || FX.running || !FX.ctx)) ? 'fx' : 'direct'; }
   function activate(name) {
     if (name === activeName) return;
@@ -302,6 +302,16 @@ const Player = (() => {
     if (graphWanted() && !FX.canProcess(url)) FX.probeCors(url).then(ok => { if (ok && graphWanted() && el().src === url && activeName !== 'fx') handoff('fx'); });
     if (want !== activeName) handoff(want);
     FX.setSurface(!a.paused && lv > 0);
+  });
+  bus.on('settings', ({ k }) => {
+    if (!['eqBass','eqVocal','eqTreble'].includes(k) || !current) return;
+    const a = el(), url = a.currentSrc || a.src; if (!url) return;
+    const want = elementFor(url);
+    if (graphWanted() && !FX.canProcess(url)) FX.probeCors(url).then(ok => {
+      const cur = el().currentSrc || el().src;
+      if (ok && graphWanted() && cur === url && activeName !== 'fx') handoff('fx');
+    });
+    if (want !== activeName) handoff(want);
   });
   function handoff(name) {
     const from = el(), url = from.currentSrc || from.src, at = from.currentTime || 0, playing = !from.paused, track = current;
