@@ -22,7 +22,7 @@ const PlayerUI = (() => {
         <div class="limited" id="plLimited" aria-hidden="true"></div>
         <div class="vinyl" id="plVinyl" role="slider" tabindex="0" aria-label="唱片：順時針拖曳快轉，逆時針倒轉" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
           <div class="vinyl__rotor" id="plRotor">
-            <div class="vinyl__label"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="plRing" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"/></defs><text><textPath href="#plRing" textLength="226" lengthAdjust="spacing">MUSICETOWN · CITY SOUND ARCHIVE ·</textPath></text></svg><span class="vinyl__code" id="plCode"></span></div>
+            <div class="vinyl__label"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="plRing" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"/></defs><text><textPath href="#plRing" textLength="226" lengthAdjust="spacing">CITYMUS · CITY SOUND ARCHIVE ·</textPath></text></svg><span class="vinyl__code" id="plCode"></span></div>
           </div>
           <div class="vinyl__sheen"></div><div class="vinyl__hole"></div>
         </div>
