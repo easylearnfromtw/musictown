@@ -246,7 +246,8 @@ const Player = (() => {
     const list = tracks.filter(Boolean); if (!list.length) return;
     let first = list[clamp(start, 0, list.length - 1)];
     let arr = list;
-    if (Settings.get('shuffle')) { shuffleBackup = list.slice(); arr = Reco.smartShuffle(list, first); }
+    const ordered = !!(ctx.theme && THEME_BY_T.get(ctx.theme)?.ordered);
+    if (Settings.get('shuffle') && !ordered) { shuffleBackup = list.slice(); arr = Reco.smartShuffle(list, first); }
     else shuffleBackup = null;
     queue = arr.map(t => entry(t)); index = Math.max(0, arr.indexOf(first));
     context = Object.assign({ kind: 'list', title: '', theme: null }, ctx);

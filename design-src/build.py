@@ -12,7 +12,7 @@ The catalog line is written exactly as `window.MUSIC_DATA = <json>;\n` so the
 CI curation scripts (build_theme_packs.py / build_fresh_city_packs.py /
 verify_music_install.py) keep finding and rewriting it.
 """
-import json, re, sys, pathlib
+import json, re, sys, pathlib, subprocess
 
 ROOT = pathlib.Path(__file__).resolve().parent
 SRC = ROOT / "src"
@@ -32,6 +32,13 @@ def load_catalog():
 catalog, catalog_from = load_catalog()
 BUILD = "R11.7 · 2026-10-03 · Original Playlists"
 
+repo_root = ROOT.parent
+orig_builder = repo_root / "build_original_playlists.py"
+orig_generated = repo_root / "data" / "original_playlists.generated.json"
+if orig_builder.exists() and (repo_root / "data" / "legal_music_library.json").exists():
+    subprocess.run([sys.executable, str(orig_builder)], cwd=repo_root, check=True)
+original_playlists = json.loads(orig_generated.read_text(encoding="utf-8")) if orig_generated.exists() else []
+
 css = (SRC / "styles.css").read_text(encoding="utf-8")
 js_files = sorted((SRC / "js").glob("*.js"))
 js = "\n".join(f"/* ---- {p.name} ---- */\n" + p.read_text(encoding="utf-8") for p in js_files)
@@ -47,8 +54,10 @@ if sp.exists():
 head = (SRC / "head.html").read_text(encoding="utf-8").replace("__BUILD__", BUILD).replace("__CSS__", css).replace("__SPLASH__", splash.strip())
 body = (SRC / "body.html").read_text(encoding="utf-8")
 cat = json.dumps(catalog, ensure_ascii=False, separators=(",", ":"))
+orig = json.dumps(original_playlists, ensure_ascii=False, separators=(",", ":"))
 html = (head + body
         + '<script id="musicetown-inline-catalog">\nwindow.MUSIC_DATA = ' + cat + ';\n</script>\n'
+        + '<script id="musicetown-original-playlists">\nwindow.MUSICETOWN_ORIGINALS = ' + orig + ';\n</script>\n'
         + '<script id="musicetown-app">\n(() => {\n\'use strict\';\n' + js + '\n})();\n</script>\n</body>\n</html>\n')
 
 # contract check: the CI regex must capture exactly our catalog
