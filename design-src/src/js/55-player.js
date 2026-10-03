@@ -36,6 +36,9 @@ const Player = (() => {
   let prefetched = '';
   let shuffleBackup = null;
   let airplay = false;
+  let airplayActive = false;
+  let routePickerPending = false;
+  let routePickerTimer = 0;
   let handoffSeq = 0;
   let localAvail = sess.get('mt.localAudio', null); // null unknown · true · false
   let audioProxy = '', proxyReady = false;
@@ -145,7 +148,18 @@ const Player = (() => {
     a.addEventListener('error', () => { if (mine() && a.getAttribute('src')) onError(); });
     a.addEventListener('waiting', () => { if (mine()) bus.emit('buffering', true); });
     a.addEventListener('canplay', () => { if (mine()) bus.emit('buffering', false); });
-    a.addEventListener('webkitplaybacktargetavailabilitychanged', e => { airplay = e.availability === 'available'; bus.emit('airplay', airplay); });
+    a.addEventListener('webkitplaybacktargetavailabilitychanged', e => { airplay = e.availability === 'available'; bus.emit('airplay', airplay || airplayActive); });
+    a.addEventListener('webkitcurrentplaybacktargetiswirelesschanged', () => {
+      if (a !== els.direct) return;
+      airplayActive = !!a.webkitCurrentPlaybackTargetIsWireless;
+      routePickerPending = false;
+      if (routePickerTimer) { clearTimeout(routePickerTimer); routePickerTimer = 0; }
+      bus.emit('airplay', airplayActive || airplay);
+      if (!airplayActive && current) {
+        const url = a.currentSrc || a.src;
+        if (graphWanted() && FX.canProcess(url) && !document.hidden && activeName !== 'fx') handoff('fx');
+      }
+    });
   }
   Object.values(els).forEach(wire);
 
@@ -156,7 +170,7 @@ const Player = (() => {
   /* iOS ignores element.volume, so fades there need the Web Audio path */
   const fadesOn = () => Settings.get('fades') !== false;
   const graphWanted = () => FX.tailActive || FX.level > 0 || FX.eqActive || FX.qualityActive || (IS_IOS && fadesOn());
-  function elementFor(url) { return (graphWanted() && FX.canProcess(url) && (!document.hidden || FX.running || !FX.ctx)) ? 'fx' : 'direct'; }
+  function elementFor(url) { if (airplayActive || routePickerPending) return 'direct'; return (graphWanted() && FX.canProcess(url) && (!document.hidden || FX.running || !FX.ctx)) ? 'fx' : 'direct'; }
   function activate(name) {
     if (name === activeName) return;
     const prev = el(); activeName = name;
@@ -408,9 +422,9 @@ const Player = (() => {
     });
     if (want !== activeName) handoff(want);
   });
-  function handoff(name) {
+  function handoff(name, done = null) {
     const from = el(), url = from.currentSrc || from.src, at = from.currentTime || 0, playing = !from.paused, track = current;
-    const to = els[name]; if (!url || !track || to === from) return;
+    const to = els[name]; if (!url || !track) { if (done) done(false); return; } if (to === from) { if (done) done(true); return; }
     if (name === 'fx' && !FX.attach(to)) return;
     const seq = ++handoffSeq;
     from._switching = true; to._switching = true;
@@ -427,6 +441,7 @@ const Player = (() => {
       to._switching = false; to.muted = false; from._switching = false;
       if (playing && from.paused) playEl(from);
       emitState();
+      if (done) done(false);
     };
     const finish = () => {
       if (stale()) { cleanupTarget(); from._switching = false; return; }
@@ -436,6 +451,7 @@ const Player = (() => {
       from._track = null; from._switching = false;
       lastTime = to.currentTime || at; stuckTicks = 0;
       Fader.seeked(); emitState(); FX.setSurface(isPlaying() && FX.level > 0);
+      if (done) done(true);
     };
     const go = () => {
       if (stale()) { cleanupTarget(); from._switching = false; return; }
@@ -495,14 +511,13 @@ const Player = (() => {
       // Explicitly clear the previous OS media card first. iOS can otherwise
       // keep an old MUSICETOWN bitmap even after the page has new metadata.
       try { navigator.mediaSession.metadata = null; } catch (_) {}
-      try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: fallbackArtwork() }); } catch (_) {}
+      try { navigator.mediaSession.metadata = new MediaMetadata(base); } catch (_) {}
 
-      // Use one canonical 1536 px CITYMUS lock-screen master. The URL is
-      // versioned independently from track artwork, so iOS cannot reuse an old
-      // MUSICETOWN cache entry after a brand update.
+      // Publish only the current CITYMUS master. A per-page blob URL avoids
+      // iOS/Safari reusing an old MUSICETOWN HTTP artwork cache entry.
       Artwork.lockscreenURL(1536).then(src => {
         if (!src || seq !== metaSeq || current !== t) return;
-        const art = [{ src, sizes: '1536x1536', type: 'image/jpeg' }, ...fallbackArtwork()];
+        const art = [{ src, sizes: '1536x1536', type: 'image/jpeg' }];
         try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: art }); } catch (_) {}
         bus.emit('artwork', { t, src });
       }).catch(() => {});
@@ -591,14 +606,31 @@ const Player = (() => {
 
   return {
     playList, playTrack, toggle, next, prev, jump, seek, playNext, addToQueue, removeAt, setShuffle, cycleRepeat, restore, sourcesFor,
-    showRoutes() { const a = el(); if (a.webkitShowPlaybackTargetPicker) { try { a.webkitShowPlaybackTargetPicker(); return true; } catch (_) {} } return false; },
+    showRoutes() {
+      const target = els.direct;
+      if (!target.webkitShowPlaybackTargetPicker) return false;
+      try {
+        routePickerPending = true;
+        if (routePickerTimer) clearTimeout(routePickerTimer);
+        if (activeName !== 'direct' && current) handoff('direct');
+        target.webkitShowPlaybackTargetPicker();
+        routePickerTimer = setTimeout(() => {
+          routePickerPending = false; routePickerTimer = 0;
+          if (!airplayActive && current) {
+            const url = target.currentSrc || target.src;
+            if (graphWanted() && FX.canProcess(url) && !document.hidden && activeName !== 'fx') handoff('fx');
+          }
+        }, 8000);
+        return true;
+      } catch (_) { routePickerPending = false; return false; }
+    },
     get el() { return el(); },
     get current() { return current; },
     get queue() { return queue; },
     get index() { return index; },
     get context() { return context; },
     get playing() { return isPlaying(); },
-    get airplay() { return airplay || !!window.WebKitPlaybackTargetAvailabilityEvent; },
+    get airplay() { return airplayActive || airplay || !!window.WebKitPlaybackTargetAvailabilityEvent; },
     get time() { const a = el(); return { cur: a.currentTime || 0, dur: Number.isFinite(a.duration) ? a.duration : 0, buffered: a.buffered }; },
     pauseForScrub() { const a = el(); const was = !a.paused; if (was) { a._switching = true; a.pause(); a._switching = false; } return was; },
     resumeAfterScrub(was) { const a = el(); if (was) { wantPlay = true; playEl(a); } emitState(); }

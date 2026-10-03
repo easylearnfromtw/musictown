@@ -9,13 +9,15 @@
   Mini.render();
   if (!Settings.get('onboarded') && !deep) Welcome.open(); else Geo.ensure();
   Share.readHash();
+  /* CITYMUS_LOCKSCREEN_PREWARM_R157 */
+  setTimeout(() => Artwork.lockscreenURL?.(1536).catch(() => {}), 120);
 
-  /* CITYMUS_SW_REFRESH_R156
+  /* CITYMUS_SW_REFRESH_R157
      Force Safari / Home Screen installs to fetch the newest worker script.
      A one-time reload after controller change prevents an old cached document
      from continuing to publish stale Media Session artwork. */
   if ('serviceWorker' in navigator) {
-    const reloadKey = 'citymus-sw-r156-reloaded';
+    const reloadKey = 'citymus-sw-r157-reloaded';
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       try {
         if (!sessionStorage.getItem(reloadKey)) {

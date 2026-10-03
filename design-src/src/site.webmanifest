@@ -2,7 +2,7 @@
   "id": "./",
   "name": "CITYMUS",
   "short_name": "CITYMUS",
-  "description": "顛頗、晃蕩、恍惚時，用CITYMUS緩解相思",
+  "description": "顛簸、晃蕩、恍惚時，用CITYMUS緩解相思",
   "lang": "zh-Hant",
   "start_url": "./?source=pwa",
   "scope": "./",
@@ -81,5 +81,6 @@
   ],
   "launch_handler": {
     "client_mode": "navigate-existing"
-  }
+  },
+  "prefer_related_applications": false
 }

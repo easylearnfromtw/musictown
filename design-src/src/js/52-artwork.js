@@ -223,49 +223,52 @@ const Artwork = (() => {
   /* High-resolution, brand-stable artwork for iOS lock screen / Control Center.
      It deliberately does not depend on the current track so old cached MUSICETOWN
      covers can never leak back into the system media card. */
+  let lockscreenBlobURL = '';
   async function lockscreenURL(S = 1536) {
+    if (lockscreenBlobURL) return lockscreenBlobURL;
     await fonts();
-    const size = Math.max(768, Math.min(2048, Number(S) || 1536));
-    const ver = 'r156';
-    const url = new URL(`__citymus_art/${ver}-lockscreen-${size}.jpg`, document.baseURI).href;
-    try {
-      const hit = await caches.match(url);
-      if (hit) return url;
-    } catch (_) {}
+    const size = Math.max(1024, Math.min(2048, Number(S) || 1536));
     const c = document.createElement('canvas');
     c.width = c.height = size;
     const x = c.getContext('2d', { alpha: false });
-    x.fillStyle = '#FFFFFF';
-    x.fillRect(0, 0, size, size);
+    x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, size, size);
 
-    const vinyl = { name:'Frosted Glass', hex:'#e2eaf4', material:'frost' };
-    record(
-      x,
-      size * .5,
-      size * .485,
-      size * .285,
-      null,
-      { artist:'CITYMUS', title:'CITYMUS LOCKSCREEN' },
-      { labelColor:'#F7F9FC', labelInk:'#53626E', vinyl }
-    );
-
-    x.fillStyle = '#050607';
-    x.textAlign = 'center';
-    x.textBaseline = 'alphabetic';
-    x.font = `900 ${Math.round(size * .074)}px "Arial Black", ${ARCHIVO}`;
-    x.fillText('CITYMUS.', size * .5, size * .785);
-
-    const blob = await new Promise(resolve => c.toBlob(resolve, 'image/jpeg', .96));
-    if (!blob) return c.toDataURL('image/jpeg', .96);
-    try {
-      const cache = await caches.open('citymus-lockscreen-r156');
-      await cache.put(url, new Response(blob, {
-        headers: { 'Content-Type':'image/jpeg', 'Cache-Control':'public, max-age=31536000, immutable' }
-      }));
-      return url;
-    } catch (_) {
-      return URL.createObjectURL(blob);
+    const cx = size * .5, cy = size * .455, R = size * .285;
+    // frosted translucent-looking disc
+    const grad = x.createRadialGradient(cx - R*.28, cy - R*.30, R*.05, cx, cy, R);
+    grad.addColorStop(0, '#FFFFFF'); grad.addColorStop(.58, '#F1F6F9'); grad.addColorStop(1, '#DCE7EE');
+    x.save(); x.shadowColor='rgba(69,89,104,.12)'; x.shadowBlur=size*.020; x.shadowOffsetY=size*.012;
+    x.fillStyle=grad; x.beginPath(); x.arc(cx,cy,R,0,Math.PI*2); x.fill(); x.restore();
+    for(let r=R*.46;r<R*.985;r+=Math.max(2,size*.0032)){
+      x.strokeStyle='rgba(82,101,116,.070)'; x.lineWidth=Math.max(1,size*.0007);
+      x.beginPath(); x.arc(cx,cy,r,0,Math.PI*2); x.stroke();
     }
+    const labelR=R*.285;
+    x.fillStyle='#F8FAFB'; x.strokeStyle='#DFE8EE'; x.lineWidth=Math.max(2,size*.0014);
+    x.beginPath(); x.arc(cx,cy,labelR,0,Math.PI*2); x.fill(); x.stroke();
+
+    // ring text
+    x.save(); x.translate(cx,cy); x.fillStyle='#53626E'; x.textAlign='center'; x.textBaseline='middle';
+    x.font=`700 ${Math.round(size*.017)}px ${ARCHIVO}`;
+    const ring='CITYMUS · CITY SOUND ARCHIVE · ';
+    [...ring].forEach((ch,i,a)=>{ x.save(); x.rotate(i/a.length*Math.PI*2); x.fillText(ch,0,-R*.205); x.restore(); });
+    // globe mark
+    x.strokeStyle='#53626E'; x.lineWidth=Math.max(3,size*.0032);
+    const gr=R*.105;
+    x.beginPath(); x.arc(0,0,gr,0,Math.PI*2); x.stroke();
+    x.beginPath(); x.ellipse(0,0,gr*.42,gr,0,0,Math.PI*2); x.stroke();
+    x.beginPath(); x.ellipse(0,0,gr,gr*.42,0,0,Math.PI*2); x.stroke();
+    x.fillStyle='#53626E'; x.beginPath(); x.arc(0,0,Math.max(3,size*.003),0,Math.PI*2); x.fill();
+    x.restore();
+
+    x.fillStyle='#050607'; x.textAlign='center'; x.textBaseline='alphabetic';
+    x.font=`900 ${Math.round(size*.073)}px "Arial Black", ${ARCHIVO}`;
+    x.fillText('CITYMUS.', size*.5, size*.785);
+
+    const blob = await new Promise(resolve => c.toBlob(resolve, 'image/jpeg', .97));
+    if (!blob) return c.toDataURL('image/jpeg', .97);
+    lockscreenBlobURL = URL.createObjectURL(blob);
+    return lockscreenBlobURL;
   }
 
   return { cover, coverURL, lockscreenURL, card, themeCard, ground, record, fonts };
