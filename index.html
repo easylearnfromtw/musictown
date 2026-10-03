@@ -2,21 +2,21 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="musicetown-build" content="R11.6 · 2026-10-03 · Li Sao">
+<meta name="musicetown-build" content="R14.6 · 2026-10-03 · CITYMUS Brand">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>musicetown · Music for where you are</title>
-<meta name="description" content="以城市、文學與心情策展的音樂。人在當地時，收下只屬於那座城市的限定票根。">
+<title>CITYMUS</title>
+<meta name="description" content="顛頗、晃蕩、恍惚時，用CITYMUS緩解相思">
 <meta name="theme-color" content="#F6F8FC">
 <meta name="color-scheme" content="light">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="musicetown">
-<meta name="application-name" content="musicetown">
+<meta name="apple-mobile-web-app-title" content="CITYMUS">
+<meta name="application-name" content="CITYMUS">
 <meta name="format-detection" content="telephone=no">
 <meta property="og:type" content="website">
-<meta property="og:title" content="musicetown · Music for where you are">
-<meta property="og:description" content="以城市與心情策展的音樂，與只在當地開放的城市票根。">
+<meta property="og:title" content="CITYMUS">
+<meta property="og:description" content="顛頗、晃蕩、恍惚時，用CITYMUS緩解相思">
 <meta property="og:image" content="https://easylearnfromtw.github.io/musictown/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="site.webmanifest">
@@ -902,14 +902,68 @@
   @media(max-width:430px){.monthly-pass{padding:24px 20px 20px}.monthly-pass__hero{grid-template-columns:minmax(0,1fr) 88px}.monthly-pass__disc{width:88px}.monthly-pass__stats>div+div{padding-left:16px}.monthly-pass__desc{font-size:21px}.monthly-card{grid-template-columns:minmax(0,1fr) 24px}.monthly-card>span:nth-child(2){display:none}}
 }
 
+
+
+/* CITYMUS R14.6 · brand system + public vinyl artwork */
+:root{--citymus-word:"Arial Black","Archivo Black","Archivo","Helvetica Neue",Arial,sans-serif}
+.tb-word{font-family:var(--citymus-word)!important;font-weight:900!important;letter-spacing:-.035em!important}
+.hero__title,.welcome__title{font-family:var(--citymus-word)!important;font-weight:900!important;letter-spacing:-.058em!important;line-height:.88!important}
+.hero__title span,.welcome__title span{display:block}
+.hero__lede{max-width:30em}
+.tile--original{min-height:210px!important;background:#fff!important}
+.tile--original .tile__art{
+  width:94px!important;height:116px!important;right:14px!important;bottom:14px!important;top:auto!important;border-radius:18px!important;
+  background:#fff!important;opacity:1!important;overflow:hidden!important;transform:none!important;
+  box-shadow:0 10px 26px rgba(41,52,86,.10),inset 0 0 0 1px rgba(47,54,84,.06)!important
+}
+.tile--original .tile__art::before{
+  content:"";position:absolute;left:9px;top:8px;width:76px;height:76px;border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,#f8fafc 0 13%,transparent 13.5%),
+    repeating-radial-gradient(circle at 50% 50%,rgba(78,96,112,0) 0 1.6px,rgba(78,96,112,.075) 1.6px 2.3px),
+    radial-gradient(circle at 34% 28%,rgba(255,255,255,.98),rgba(238,244,248,.96) 58%,rgba(220,231,239,.88));
+  box-shadow:0 10px 20px rgba(69,89,104,.10),inset 0 0 0 1px rgba(255,255,255,.88)
+}
+.tile--original .tile__art::after{
+  content:"CITYMUS.";position:absolute;left:0;right:0;bottom:10px;text-align:center;
+  font:900 12px/1 var(--citymus-word);letter-spacing:-.055em;color:#111
+}
+.tile--original .tile__art span{display:none!important}
+.tile--original .tile__art i{display:block!important;z-index:2;border:1.4px solid #566574!important;background:transparent!important;opacity:.92!important;transform:none!important}
+.tile--original .tile__art i:nth-child(1){left:39px!important;top:37px!important;width:16px!important;height:16px!important;border-radius:50%!important}
+.tile--original .tile__art i:nth-child(2){left:43px!important;top:37px!important;width:8px!important;height:16px!important;border-radius:50%!important}
+.tile--original .tile__art i:nth-child(3){left:39px!important;top:42px!important;width:16px!important;height:7px!important;border-radius:50%!important}
+.dest__art--original{
+  border-radius:30px!important;background:#fff!important;
+  box-shadow:0 24px 64px rgba(41,52,86,.12),inset 0 0 0 1px rgba(47,54,84,.06)!important
+}
+.dest__art--original::before{
+  content:"";position:absolute;left:13%;right:13%;top:10%;aspect-ratio:1;border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,#f8fafc 0 13%,transparent 13.5%),
+    repeating-radial-gradient(circle at 50% 50%,rgba(78,96,112,0) 0 2px,rgba(78,96,112,.07) 2px 3px),
+    radial-gradient(circle at 34% 28%,#fff,#eef4f8 58%,#dce7ee);
+  box-shadow:0 16px 34px rgba(69,89,104,.10),inset 0 0 0 1px rgba(255,255,255,.9)
+}
+.dest__art--original::after{
+  content:"CITYMUS.";position:absolute;left:0;right:0;bottom:11%;text-align:center;
+  font:900 clamp(16px,3vw,26px)/1 var(--citymus-word);letter-spacing:-.06em;color:#0c0c0d
+}
+.dest__art--original span{display:none!important}
+.dest__art--original i{display:block!important;z-index:2;border:2px solid #566574!important;background:transparent!important;opacity:.92!important}
+.dest__art--original i:nth-child(2){left:46%!important;top:38%!important;width:9%!important;height:9%!important;border-radius:50%!important}
+.dest__art--original i:nth-child(3){left:48.3%!important;top:38%!important;width:4.4%!important;height:9%!important;border-radius:50%!important}
+.dest__art--original i:nth-child(4){left:46%!important;top:40.8%!important;width:9%!important;height:3.8%!important;border-radius:50%!important;transform:none!important}
+@media(max-width:680px){.hero__title{font-size:clamp(54px,16vw,82px)!important}.tile--original{min-height:190px!important}}
+
 </style>
 </head>
 <body>
 <a class="skip-link" href="#main">跳到主要內容</a>
 <header class="topbar" id="topbar">
   <div class="topbar__bar glass">
-    <button class="icon-btn" type="button" id="tbLeft" aria-label="musicetown 首頁"></button>
-    <div class="tb-title"><span class="tb-word">musicetown</span><span class="tb-page" id="tbPage" aria-hidden="true"></span></div>
+    <button class="icon-btn" type="button" id="tbLeft" aria-label="CITYMUS 首頁"></button>
+    <div class="tb-title"><span class="tb-word">CITYMUS</span><span class="tb-page" id="tbPage" aria-hidden="true"></span></div>
     <button class="icon-btn" type="button" id="tbRight" aria-label="City Pass 票根"></button>
   </div>
 </header>
@@ -2657,8 +2711,29 @@ const Artwork = (() => {
       if (cn) { const cw = S * .2, ch = cw * cn.height / cn.width; x.drawImage(cn, (S - cw) / 2, S * .89, cw, ch); }
       return c;
     }
-    x.fillStyle = g.bg; x.fillRect(0, 0, S, S);
     const kind = th?.kind || 'style';
+    /* CITYMUS public sleeve · scalable canvas version of the supplied reference.
+       Taipei Limited stays on its dedicated wordmark/台北 composition above. */
+    if (kind !== 'literature') {
+      x.fillStyle = '#FCFCFD'; x.fillRect(0, 0, S, S);
+      const cx = S * .5, cy = S * .43, R = S * .30;
+      record(x, cx, cy, R, null, t, { labelColor: '#F7F9FB', labelInk: '#53606D' });
+      x.save(); x.translate(cx, cy);
+      x.fillStyle = '#53606D'; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.font = `700 ${Math.max(9,S * .018)}px ${ARCHIVO}`;
+      const ring = 'CITYMUS · CITY SOUND ARCHIVE · ';
+      [...ring].forEach((ch, i, a) => { x.save(); x.rotate(i / a.length * Math.PI * 2); x.fillText(ch, 0, -R * .29); x.restore(); });
+      x.strokeStyle = '#53606D'; x.lineWidth = Math.max(1.3, S * .0032);
+      x.beginPath(); x.arc(0, 0, R * .12, 0, Math.PI * 2); x.stroke();
+      x.beginPath(); x.ellipse(0, 0, R * .052, R * .12, 0, 0, Math.PI * 2); x.stroke();
+      x.beginPath(); x.ellipse(0, 0, R * .12, R * .052, 0, 0, Math.PI * 2); x.stroke();
+      x.restore();
+      x.fillStyle = '#0B0B0C'; x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+      x.font = `900 ${S * .082}px "Arial Black",${ARCHIVO}`;
+      x.fillText('CITYMUS.', S * .5, S * .80);
+      return c;
+    }
+    x.fillStyle = g.bg; x.fillRect(0, 0, S, S);
     if (kind === 'city') {
       // a ticket stub: the code, a perforation, the song number
       x.fillStyle = g.fg; x.font = `700 ${S * .36}px ${ARCHIVO}`; x.textAlign = 'left';
@@ -2685,7 +2760,7 @@ const Artwork = (() => {
       x.font = `italic 400 ${S * .2}px ${GARA}`; x.fillText(String(g.n).padStart(2, '0'), S * .07, S * .38);
     }
     x.textAlign = 'left'; x.textBaseline = 'alphabetic'; x.fillStyle = g.fg; x.globalAlpha = .7; x.font = `700 ${S * .032}px ${ARCHIVO}`;
-    if (kind !== 'literature') x.fillText('MUSICETOWN', S * .08, S * .965 - (kind === 'city' ? S * .12 : 0));
+    if (kind !== 'literature') x.fillText('CITYMUS', S * .08, S * .965 - (kind === 'city' ? S * .12 : 0));
     x.globalAlpha = 1;
     return c;
   }
@@ -2713,12 +2788,12 @@ const Artwork = (() => {
       if (w) { const ww = W - 200, wh = ww * w.height / w.width; x.drawImage(w, 100, 120, ww, wh); }
       record(x, W / 2, 560, 330, null, { ...t, title: t.title }, { labelColor: '#F6F8FC' });
       x.save(); x.translate(W / 2, 560); x.fillStyle = '#29465D'; x.font = `700 22px ${ARCHIVO}`; x.textAlign = 'center';
-      const ring = 'MUSICETOWN · CITY SOUND ARCHIVE · '; [...ring].forEach((ch, i, a) => { x.save(); x.rotate(i / a.length * Math.PI * 2); x.fillText(ch, 0, -90); x.restore(); }); x.restore();
+      const ring = 'CITYMUS · CITY SOUND ARCHIVE · '; [...ring].forEach((ch, i, a) => { x.save(); x.rotate(i / a.length * Math.PI * 2); x.fillText(ch, 0, -90); x.restore(); }); x.restore();
       if (cn) { const cw = 200, ch = cw * cn.height / cn.width; x.drawImage(cn, (W - cw) / 2, 925, cw, ch); }
     } else {
       x.save(); rr(60, 60, W - 120, 640, 48); x.clip(); x.fillStyle = g.bg; x.fillRect(60, 60, W - 120, 640); x.restore();
       x.fillStyle = g.fg; x.font = `700 230px ${ARCHIVO}`; x.textAlign = 'left'; x.fillText(th?.kind === 'literature' ? th.code : (th?.code || 'MT'), 110, 330);
-      x.globalAlpha = .75; x.font = `700 26px ${ARCHIVO}`; x.fillText(th?.kind === 'literature' ? `${th.cn} · ${th.authorCn}` : (th ? `${th.name.toUpperCase()} · ${th.cn}` : 'MUSICETOWN'), 116, 400); x.globalAlpha = 1;
+      x.globalAlpha = .75; x.font = `700 26px ${ARCHIVO}`; x.fillText(th?.kind === 'literature' ? `${th.cn} · ${th.authorCn}` : (th ? `${th.name.toUpperCase()} · ${th.cn}` : 'CITYMUS'), 116, 400); x.globalAlpha = 1;
       record(x, W - 300, 560, 230, null, t, { labelColor: g.bg });
     }
     x.textAlign = 'center'; x.fillStyle = '#8583A0'; x.font = `700 24px ${ARCHIVO}`;
@@ -3839,7 +3914,7 @@ const Shell = (() => {
   function setLeft(mode) {
     if (leftMode === mode) return; leftMode = mode;
     tbLeft.innerHTML = mode === 'back' ? icon('back') : globeMark();
-    tbLeft.setAttribute('aria-label', mode === 'back' ? '返回' : 'musicetown 首頁');
+    tbLeft.setAttribute('aria-label', mode === 'back' ? '返回' : 'CITYMUS 首頁');
   }
   function setRight(mode) {
     if (rightMode === mode) return; rightMode = mode; tbRight.dataset.mode = mode;
@@ -4250,8 +4325,8 @@ Router.register('home', (el) => {
       <div class="home-grid">
         <section class="hero">
           <p class="hero__meta" id="homeMeta"></p>
-          <h1 class="hero__title"><span>Music for</span><span>where you are.</span></h1>
-          <p class="hero__lede">城市、風格、心情、文學與原創歌單，各自都有一抽屜的聲音。人在當地的時候，還能收下一張城市限定的票根。</p>
+          <h1 class="hero__title"><span>CITYMUS</span></h1>
+          <p class="hero__lede">顛頗、晃蕩、恍惚時，用CITYMUS緩解相思</p>
           <div id="homeStub"></div>
         </section>
         <section class="box" aria-label="目的地收納盒">
@@ -4565,7 +4640,7 @@ Router.register('library', (el) => {
     byId('monthlyReports').addEventListener('click', e => { const b=e.target.closest('[data-monthly]'); if(b) MonthlyPass.open(MonthlyTracker.get(b.dataset.monthly)); });
     const drawWallet = () => {
       const list = Wallet.all();
-      byId('libWallet').innerHTML = list.length ? `<div class="wallet">${list.map(walletCardHTML).join('')}</div>` : `<div class="empty"><b>還沒有票根</b><p>人在城市裡，打開那座城市就能領取 City Pass；到了地標，也能用定位打卡收下景點票根。</p><button class="btn btn--small" type="button" data-to-cities>看所有城市</button></div>`;
+      byId('libWallet').innerHTML = list.length ? `<div class="wallet">${list.map(walletCardHTML).join('')}</div>` : `<div class="empty"><b>還沒有票根</b><p>人在城市裡，打開那座城市就能領取 City Pass；到了地標，也能用定位打卡收下地標票根。</p><button class="btn btn--small" type="button" data-to-cities>看所有城市</button></div>`;
       const b = byId('libWallet').querySelector('[data-to-cities]'); if (b) b.onclick = () => Router.go('cities');
     };
     byId('libWallet').addEventListener('click', e => { const b = e.target.closest('[data-tk]'); if (b) Pass.openTicket(Wallet.all().find(x => x.id === b.dataset.tk)); });
@@ -4725,7 +4800,7 @@ const PlayerUI = (() => {
         <div class="limited" id="plLimited" aria-hidden="true"></div>
         <div class="vinyl" id="plVinyl" role="slider" tabindex="0" aria-label="唱片：順時針拖曳快轉，逆時針倒轉" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
           <div class="vinyl__rotor" id="plRotor">
-            <div class="vinyl__label"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="plRing" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"/></defs><text><textPath href="#plRing" textLength="226" lengthAdjust="spacing">MUSICETOWN · CITY SOUND ARCHIVE ·</textPath></text></svg><span class="vinyl__code" id="plCode"></span></div>
+            <div class="vinyl__label"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="plRing" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"/></defs><text><textPath href="#plRing" textLength="226" lengthAdjust="spacing">CITYMUS · CITY SOUND ARCHIVE ·</textPath></text></svg><span class="vinyl__code" id="plCode"></span></div>
           </div>
           <div class="vinyl__sheen"></div><div class="vinyl__hole"></div>
         </div>
@@ -5143,7 +5218,7 @@ const PassSheet = (() => {
     const run = chip.repeat(4);
     return `<div class="pass__marquee" aria-hidden="true"><div class="pass__track">${run}${run}</div></div>`;
   }
-  const head = (kind, right = '') => `<header class="pass__head"><span class="pass__globe">${globeMark()}</span><div class="pass__brand"><b>MUSICTOWN</b><span>${esc(kind)}</span></div>${right}<button class="pass__x" type="button" data-x aria-label="關閉">${icon('close')}</button></header>`;
+  const head = (kind, right = '') => `<header class="pass__head"><span class="pass__globe">${globeMark()}</span><div class="pass__brand"><b>CITYMUS</b><span>${esc(kind)}</span></div>${right}<button class="pass__x" type="button" data-x aria-label="關閉">${icon('close')}</button></header>`;
   const rows = list => `<ol class="pass__rows">${list.map((t, i) => `<li data-i="${i}"><em>${pad2(i + 1)}</em><span><b>${esc(t.title)}</b><small>${esc(t.artist || '')}</small></span><i>${icon('play')}</i></li>`).join('')}</ol>`;
   return { open, close, marquee, head, rows, get isOpen() { return !!api; } };
 })();
@@ -5232,7 +5307,7 @@ const Pass = (() => {
     const spot = tk.kind === 'spot';
     const desc = spot ? `${tk.spot}限定。${th.line}` : (th.summary || th.line);
     return `<article class="pass" aria-label="${esc(spot ? tk.spot : th.cityCn)} 票根">
-      ${PassSheet.marquee(url, spot ? 'MUSICTOWN · SPOT LINK' : 'MUSICTOWN · CITY LINK')}
+      ${PassSheet.marquee(url, spot ? 'CITYMUS · SPOT LINK' : 'CITYMUS · CITY LINK')}
       <div class="pass__inner">
         ${PassSheet.head(spot ? 'SPOT EDITION MUSIC PASS' : 'CITY LIMITED MUSIC PASS')}
         <div class="pass__code">${esc(tk.code)}</div>
@@ -5240,7 +5315,7 @@ const Pass = (() => {
         <h2 class="pass__title">${esc((spot ? (tk.area || tk.city || th.name) : th.name).toUpperCase())}</h2>
         <p class="pass__desc">${esc(desc)}</p>
         <div class="pass__fields"><i class="pass__notch"></i>
-          <div><small>PROGRAM</small><b>MUSICTOWN</b></div>
+          <div><small>PROGRAM</small><b>CITYMUS</b></div>
           <div><small>${spot ? 'SPOT' : 'LOCATION'}</small><b>${esc(spot ? tk.spot : tk.where)}</b></div>
           <div><small>STATUS</small><b>${tk.how === 'GPS' ? 'GPS CHECK-IN' : 'IP CITY MATCH'}</b></div>
           <div><small>TICKET</small><b>${esc(tk.no)}</b></div>
@@ -5288,7 +5363,7 @@ const Pass = (() => {
     x.fillStyle = '#fff'; rr(104, 104, 212, 212, 18); x.fill();
     QR.draw(x, shareBase({ theme: th.slug }), 114, 114, 192, { fg: ink });
     x.textBaseline = 'alphabetic'; x.textAlign = 'left';
-    x.fillStyle = ink; x.font = `700 31px ${ARC}`; x.fillText('MUSICTOWN', 360, 145);
+    x.fillStyle = ink; x.font = `700 31px ${ARC}`; x.fillText('CITYMUS', 360, 145);
     x.fillStyle = soft; x.font = `700 15px ${ARC}`; x.fillText(spot ? 'SPOT EDITION MUSIC PASS' : 'CITY LIMITED MUSIC PASS', 360, 180);
     x.fillStyle = acc; x.font = `700 64px ${ARC}`; x.textAlign = 'right'; x.fillText(tk.code, 930, 262); x.textAlign = 'left';
     x.setLineDash([14, 12]); x.strokeStyle = 'rgba(41,70,93,.2)'; x.lineWidth = 2; x.beginPath(); x.moveTo(104, 350); x.lineTo(930, 350); x.stroke(); x.setLineDash([]);
@@ -5298,7 +5373,7 @@ const Pass = (() => {
     const desc = spot ? `${tk.spot}限定。${th.line}` : (th.summary || th.line); const lines = []; let cur = '';
     for (const ch of desc) { if (x.measureText(cur + ch).width > 820) { lines.push(cur); cur = ch; } else cur += ch; } if (cur) lines.push(cur);
     lines.slice(0, 3).forEach((l, i) => x.fillText(l, 105, 535 + i * 38));
-    const fields = [['PROGRAM', 'MUSICTOWN'], [spot ? 'SPOT' : 'LOCATION', spot ? tk.spot : tk.where], ['STATUS', tk.how === 'GPS' ? 'GPS CHECK-IN' : 'APPROX. IP MATCH'], ['TICKET', tk.no]];
+    const fields = [['PROGRAM', 'CITYMUS'], [spot ? 'SPOT' : 'LOCATION', spot ? tk.spot : tk.where], ['STATUS', tk.how === 'GPS' ? 'GPS CHECK-IN' : 'APPROX. IP MATCH'], ['TICKET', tk.no]];
     fields.forEach(([k, v], i) => { const fx = 105 + i * 206; x.fillStyle = soft; x.font = `700 13px ${ARC}`; x.fillText(k, fx, 705); x.fillStyle = ink; x.font = `700 18px ${ARC}`; let vv = String(v); while (x.measureText(vv).width > 190 && vv.length > 3) vv = vv.slice(0, -2); if (vv !== String(v)) vv += '…'; x.fillText(vv, fx, 738); });
     x.fillStyle = acc; x.font = `700 14px ${ARC}`; x.fillText('LOCAL SOUND INDEX', 105, 818);
     x.fillStyle = ink; x.font = `700 34px ${CJK}`; x.fillText(spot ? '為這裡挑的五首' : '熱門音樂 · HOT 5', 105, 868);
@@ -5347,8 +5422,8 @@ const Pass = (() => {
     if (th) return openCity(th);
     const list = Wallet.all();
     if (list.length) return openTicket(list[0]);
-    Sheet.open({ title: 'City Pass', sub: '城市與景點的限定票根',
-      html: `<p class="sheet-note">人在 musicetown 的十八座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
+    Sheet.open({ title: 'City Pass', sub: '城市與地標的限定票根',
+      html: `<p class="sheet-note">人在 CITYMUS 的十八座城市之一時，打開那座城市就能收下限定票根；站在地標附近，還能用定位打卡收下 Spot Edition。${Geo.resolved ? '' : '正在確認你所在的城市⋯'}</p><div class="sheet-actions sheet-actions--2"><button class="btn btn--primary" type="button" data-c>${icon('board')}看所有城市</button><button class="btn" type="button" data-s>${icon('location')}定位打卡</button></div>`,
       mount(b, s) { $('[data-c]', b).onclick = () => { s.close(); Router.go('cities'); }; $('[data-s]', b).onclick = () => { s.close(); checkInSpot(); }; } });
   });
   bus.on('geo', t => { document.documentElement.classList.toggle('has-pass', !!t && !Wallet.has(`city-${THEME_BY_T.get(t)?.slug}`)); });
@@ -5363,14 +5438,14 @@ const Pass = (() => {
    ========================================================================== */
 const MonthlyPass = (() => {
   const html = s => '<article class="monthly-pass" aria-label="' + esc(s.monthLabel) + ' 聆聽月報">' +
-    '<header class="monthly-pass__head"><b>MUSICTOWN.</b><span>CITY SOUND ARCHIVE</span></header>' +
+    '<header class="monthly-pass__head"><b>CITYMUS.</b><span>CITY SOUND ARCHIVE</span></header>' +
     '<div class="monthly-pass__hero"><div><small>MONTHLY</small><h2>LISTENING<br>REPORT</h2><p>' + esc(s.issueDate) + '</p></div><i class="monthly-pass__disc">' + globeMark() + '</i></div>' +
     '<div class="monthly-pass__rule"></div>' +
     '<div class="monthly-pass__stats"><div><small>TOTAL LISTENING</small><b>' + s.hours.toFixed(1) + '<em> hrs</em></b></div><div><small>TRACKS PLAYED</small><b>' + s.tracks + '</b></div></div>' +
     '<div class="monthly-pass__taste"><small>TASTE FINGERPRINT</small><div>' + s.tastes.map(x => '<span>' + esc(x) + '</span>').join('') + '</div></div>' +
     '<p class="monthly-pass__desc">' + esc(s.desc) + '</p>' +
     '<div class="monthly-pass__route"><span><small>MONTH</small><b>' + esc(s.monthLabel) + '</b></span><span><small>COLLECTIBLE CODE</small><b>' + esc(s.code) + '</b></span></div>' +
-    '<footer><span>ISSUED EVERY MONTH ON THE 10TH</span><b>MUSICTOWN.</b></footer></article>';
+    '<footer><span>ISSUED EVERY MONTH ON THE 10TH</span><b>CITYMUS.</b></footer></article>';
 
   async function png(s) {
     await Artwork.fonts();
@@ -5380,7 +5455,7 @@ const MonthlyPass = (() => {
     const rr=(X,Y,w,h,r)=>{x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath();};
     x.save(); x.shadowColor='rgba(41,70,93,.14)'; x.shadowBlur=44; x.shadowOffsetY=18; rr(70,60,940,1230,44); x.fillStyle='#FBFCFE'; x.fill(); x.restore();
     x.strokeStyle='rgba(47,54,84,.12)'; x.lineWidth=2; rr(70,60,940,1230,44); x.stroke();
-    x.fillStyle='#111722'; x.font='700 31px '+ARC; x.fillText('MUSICTOWN.',110,125);
+    x.fillStyle='#111722'; x.font='700 31px '+ARC; x.fillText('CITYMUS.',110,125);
     x.fillStyle='#8E93AA'; x.font='700 15px '+ARC; x.textAlign='right'; x.fillText('CITY SOUND ARCHIVE',970,123); x.textAlign='left';
     x.strokeStyle='rgba(47,54,84,.20)'; x.beginPath(); x.moveTo(110,158); x.lineTo(970,158); x.stroke();
     x.fillStyle='#111722'; x.font='700 104px '+ARC; x.fillText('MONTHLY',110,310);
@@ -5400,7 +5475,7 @@ const MonthlyPass = (() => {
     x.setLineDash([10,10]);x.strokeStyle='rgba(47,54,84,.20)';x.beginPath();x.moveTo(110,1145);x.lineTo(970,1145);x.stroke();x.setLineDash([]);
     x.fillStyle='#8E93AA';x.font='700 14px '+ARC;x.fillText('MONTH',110,1190);x.fillText('COLLECTIBLE CODE',530,1190);
     x.fillStyle='#111722';x.font='600 26px '+CJK;x.fillText(s.monthLabel,110,1230);x.font='700 23px '+ARC;x.fillText(s.code,530,1230);
-    x.fillStyle='#111722';x.font='700 25px '+ARC;x.fillText('MUSICTOWN.',110,1270);
+    x.fillStyle='#111722';x.font='700 25px '+ARC;x.fillText('CITYMUS.',110,1270);
     return await new Promise(r=>c.toBlob(r,'image/png'));
   }
   function open(s) {
@@ -5518,7 +5593,7 @@ const Share = (() => {
     const th = themeOf(list[0]);
     PassSheet.open({
       accent: th, label: title,
-      html: `<article class="pass pass--received">${PassSheet.marquee(url, `MUSICTOWN · ${kind}`)}<div class="pass__inner">
+      html: `<article class="pass pass--received">${PassSheet.marquee(url, `CITYMUS · ${kind}`)}<div class="pass__inner">
         ${PassSheet.head(`${kind} · RECEIVED`)}
         <p class="pass__eyebrow">SOMEONE SHARED THIS WITH YOU</p>
         <h2 class="pass__big pass__big--left">${esc(title)}</h2>
@@ -5574,8 +5649,8 @@ const Welcome = (() => {
     <section class="welcome__step is-active" data-step="1">
       <div class="welcome__globe">${globeMark()}</div>
       <p class="welcome__word">musicetown</p>
-      <h1 class="welcome__title"><span>Music for</span><span>where you are.</span></h1>
-      <p class="welcome__lede">每座城市、每部作品、每種心情，都有一抽屜的聲音。人在當地的時候，還能收下一張只屬於那裡的票根。</p>
+      <h1 class="welcome__title"><span>CITYMUS</span></h1>
+      <p class="welcome__lede">顛頗、晃蕩、恍惚時，用CITYMUS緩解相思</p>
       <div class="welcome__cta"><button class="btn btn--primary" type="button" data-next>選一個目的地</button><button class="btn btn--glass" type="button" data-skip>直接進入</button></div>
     </section>
     <section class="welcome__step" data-step="2">
