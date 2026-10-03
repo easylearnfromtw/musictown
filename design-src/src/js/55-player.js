@@ -193,7 +193,7 @@ const Player = (() => {
   }
 
   /* ---------- progress, prefetch, watchdog ---------- */
-  let lastMsPos = 0, warmKey = '', warmAbort = null;
+  let lastMsPos = 0, lastSystemPos = 0, warmKey = '', warmAbort = null;
   const preconnected = new Set();
   function ensureAutoplayTail() {
     if (peekNext() || Settings.get('autoplay') === false || !current) return peekNext();
@@ -228,7 +228,9 @@ const Player = (() => {
   }
   function onProgress() {
     const a = el(); const d = a.duration;
-    if (performance.now() - lastMsPos > 4000) { lastMsPos = performance.now(); ms.position(); saveSession(); }
+    const now = performance.now();
+    if (now - lastSystemPos > 1200) { lastSystemPos = now; ms.position(); }
+    if (now - lastMsPos > 4000) { lastMsPos = now; saveSession(); }
     if (!Number.isFinite(d) || d <= 0) return;
     const rem = d - a.currentTime;
     if (rem < 55 && !warmKey) warmNext();
@@ -404,16 +406,25 @@ const Player = (() => {
   /* ---------- Media Session (lock screen, Control Center, AirPods) ---------- */
   const ms = (() => {
     const has = 'mediaSession' in navigator;
+    const systemText = (v, max = 72) => {
+      const s = String(v || '').replace(/\s+/g, ' ').trim();
+      return s.length > max ? s.slice(0, max - 1) + '…' : s;
+    };
     function meta(t) {
       if (!has || !t) return;
       const th = themeOf(t), systemName = th?.systemName || '';
-      const themeLabel = systemName || th?.cn || th?.name || 'Library';
-      // Keep system Now Playing concise for iPhone / Apple Watch small surfaces.
-      const base = { title: String(t.title || 'CITYMUS'), artist: String(t.artist || t.composerCn || 'CITYMUS'), album: `${themeLabel} · CITYMUS` };
-      try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: [{ src: abs('icon-512.png'), sizes: '512x512', type: 'image/png' }, { src: abs('apple-touch-icon.png'), sizes: '180x180', type: 'image/png' }] }); } catch (_) {}
+      const themeLabel = systemName || th?.cn || th?.name || context.title || 'Library';
+      const base = {
+        title: systemText(t.title || 'CITYMUS', 64),
+        artist: systemText(t.artist || t.composerCn || 'CITYMUS', 56),
+        album: systemText(`${themeLabel} · CITYMUS`, 58)
+      };
+      const fallback = [{ src: abs('icon-512.png'), sizes: '512x512', type: 'image/png' }, { src: abs('apple-touch-icon.png'), sizes: '180x180', type: 'image/png' }];
+      try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: fallback }); } catch (_) {}
       Artwork.cover(t, 512).then(src => {
         if (!src || current !== t) return;
-        try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: [{ src, sizes: '512x512', type: 'image/jpeg' }, { src: abs('icon-512.png'), sizes: '512x512', type: 'image/png' }] }); } catch (_) {}
+        const type = /^data:image\/png|\.png(?:\?|$)/i.test(src) ? 'image/png' : 'image/jpeg';
+        try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: [{ src, sizes: '512x512', type }, ...fallback] }); } catch (_) {}
         bus.emit('artwork', { t, src });
       });
     }
