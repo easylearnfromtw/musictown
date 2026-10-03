@@ -30,7 +30,7 @@ def load_catalog():
     raise SystemExit("no catalog found (pass a catalog .json or an index.html)")
 
 catalog, catalog_from = load_catalog()
-BUILD = "R14.1 · 2026-10-03 · iOS Companion + Widgets"
+BUILD = "R14.2 · 2026-10-03 · Native Return + Visible Deploy"
 
 repo_root = ROOT.parent
 orig_builder = repo_root / "build_original_playlists.py"
