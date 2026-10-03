@@ -1176,3 +1176,106 @@ body { position: relative; }
 @media (max-width: 520px) {
   .ebook-grid { grid-template-columns: 1fr; }
 }
+
+
+/* CITYMUS R13.7 · original playlists: rebalance mobile visual center */
+@layer components {
+  .sec--originals .tiles {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .sec--originals .tile--original {
+    min-height: 188px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 104px;
+    grid-template-rows: auto minmax(58px, 1fr) auto auto;
+    column-gap: 18px;
+    row-gap: 0;
+    align-items: center;
+    padding: 20px 18px 20px 22px;
+    background:
+      linear-gradient(145deg, color-mix(in srgb,var(--accent) 8%,#fff), #fff 58%);
+  }
+  .sec--originals .tile--original .tile__top {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    align-self: start;
+  }
+  .sec--originals .tile--original > b {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+    max-width: 100%;
+    padding: 18px 0 8px;
+    font-size: clamp(24px, 7vw, 32px);
+    line-height: 1.06;
+  }
+  .sec--originals .tile--original > span:not(.tile__top) {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: start;
+  }
+  .sec--originals .tile--original > p {
+    grid-column: 1;
+    grid-row: 4;
+    max-width: 100%;
+    margin-top: 8px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .sec--originals .tile--original .tile__art {
+    position: relative;
+    grid-column: 2;
+    grid-row: 2 / 5;
+    align-self: center;
+    justify-self: center;
+    inset: auto;
+    width: 96px;
+    height: 96px;
+    margin: 0;
+    transform: none;
+    opacity: .95;
+    box-shadow:
+      0 16px 30px color-mix(in srgb,var(--accent) 18%,transparent),
+      inset 0 0 0 1px rgba(47,54,84,.08);
+  }
+  .sec--originals .tile--original .tile__art::before {
+    content: "";
+    position: absolute;
+    inset: 15%;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb,var(--accent-ink) 18%,transparent);
+  }
+  .sec--originals .tile--original .tile__art::after {
+    content: "";
+    position: absolute;
+    inset: 42%;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 0 0 1px color-mix(in srgb,var(--accent-ink) 15%,transparent);
+  }
+  .sec--originals .tile--original .tile__art span {
+    z-index: 2;
+    font-size: 8px;
+    letter-spacing: .08em;
+    opacity: .58;
+  }
+  .literature-share .songcard__img {
+    width: min(100%, 340px);
+    border-radius: 20px;
+    background: #F4F1EA;
+  }
+}
+@media (min-width: 760px) {
+  .sec--originals .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sec--originals .tile--original { min-height: 204px; grid-template-columns: minmax(0, 1fr) 118px; padding: 22px 20px 22px 24px; }
+  .sec--originals .tile--original .tile__art { width: 108px; height: 108px; }
+}
+@media (max-width: 390px) {
+  .sec--originals .tile--original { grid-template-columns: minmax(0, 1fr) 88px; column-gap: 12px; min-height: 180px; padding-left: 18px; }
+  .sec--originals .tile--original .tile__art { width: 82px; height: 82px; }
+  .sec--originals .tile--original > b { font-size: clamp(23px, 7.2vw, 29px); }
+}
