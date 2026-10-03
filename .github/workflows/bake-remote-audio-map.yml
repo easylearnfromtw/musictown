@@ -99,6 +99,8 @@ jobs:
               src=t["source"]
               if "nullrights.com/track/" in src:
                   tid=t.get("embed") or src.rstrip("/").split("/")[-1]
+                  # Nullrights' inline route is a real audio response and is safe
+                  # for native <audio> fallback playback.
                   return f"https://nullrights.com/audio/{tid}"
 
               direct=from_page(src,t["title"])
