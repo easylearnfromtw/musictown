@@ -81,7 +81,10 @@ const postcardHTML = th => {
 const originalCoverHTML = (th, extra = '') => `<span class="citymus-cover ${extra}" aria-hidden="true"><span class="citymus-cover__word">${esc(String(th.cn || th.code || 'CITYMUS').toUpperCase())}</span><span class="citymus-cover__vinyl"></span><span class="citymus-cover__globe">${globeMark()}</span><span class="citymus-cover__cn">${esc(th.name || th.cn || 'CITYMUS')}</span><span class="citymus-cover__brand">CITYMUS · ORIGINAL</span></span>`;
 const tileHTML = th => {
   const visual = th.kind === 'original' ? originalCoverHTML(th, 'citymus-cover--tile') : ['style','mood'].includes(th.kind) ? `<span class="tile__art tile__art--${esc(th.kind)}" aria-hidden="true"><i></i><i></i><i></i><span>${esc(th.code)}</span></span>` : '';
-  return `<button class="tile tile--${esc(th.kind)}${th.kind === 'original' ? ' tile--original' : ''}" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><i class="tile__glow" aria-hidden="true"></i>${visual}<span class="tile__top"><small>${esc(th.code)}</small><em>${esc(KIND_LABEL[th.kind] || 'PLAYLIST')}</em></span><b>${esc(th.name)}</b><span>${esc(th.cn)} · ${th.tracks.length} 首</span><p>${esc(th.line || '')}</p></button>`;
+  if (th.kind === 'original') {
+    return `<button class="tile tile--original" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><i class="tile__glow" aria-hidden="true"></i>${visual}<span class="tile__top"><small>${esc(th.code)}</small><em>原創歌單</em></span><span class="tile__original-meta">${esc(th.cn)} · ${th.tracks.length} 首</span><p>${esc(th.line || '')}</p></button>`;
+  }
+  return `<button class="tile tile--${esc(th.kind)}" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><i class="tile__glow" aria-hidden="true"></i>${visual}<span class="tile__top"><small>${esc(th.code)}</small><em>${esc(KIND_LABEL[th.kind] || 'PLAYLIST')}</em></span><b>${esc(th.name)}</b><span>${esc(th.cn)} · ${th.tracks.length} 首</span><p>${esc(th.line || '')}</p></button>`;
 };
 const bookHTML = th => `<button class="book" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><span class="book__spine"><b>${esc(th.authorCn)}</b></span><span class="book__txt"><b>${esc(th.cn)}</b><em>${esc(th.name)}</em><span>${esc(th.era)}</span></span></button>`;
 function citiesOrdered() {

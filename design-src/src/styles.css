@@ -1842,3 +1842,31 @@ main{
 .tiles--original-rail .tile--original:hover{
   transform:none!important;
 }
+
+
+/* CITYMUS R15.4 · original card content cleanup */
+/* The cover already carries the Chinese playlist title and ORIGINAL brand.
+   Keep the lower information block compact and remove duplicate typography. */
+.tiles--original-rail .tile--original::after{
+  content:none!important;
+  display:none!important;
+}
+.tiles--original-rail .tile--original{
+  padding-bottom:18px;
+}
+.tiles--original-rail .tile--original .tile__top{
+  margin-top:10px;
+}
+.tiles--original-rail .tile--original .tile__original-meta{
+  display:block;
+  margin-top:14px;
+  font:600 15px/1.35 var(--ui);
+  color:var(--ink-2);
+}
+.tiles--original-rail .tile--original > p{
+  margin-top:10px;
+  max-width:100%;
+  font:500 13px/1.6 var(--ui);
+  color:var(--ink-3);
+  -webkit-line-clamp:2;
+}
