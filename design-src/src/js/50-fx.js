@@ -72,9 +72,14 @@ const FX = (() => {
     g.master = n(); g.master.connect(ctx.destination);
     // music chain (fed by the FX element when attached)
     g.input = n();
+    // user EQ lives before the vintage coloration so both can be combined
+    g.eqBass = ctx.createBiquadFilter(); g.eqBass.type = 'lowshelf'; g.eqBass.frequency.value = 120;
+    g.eqVocal = ctx.createBiquadFilter(); g.eqVocal.type = 'peaking'; g.eqVocal.frequency.value = 2200; g.eqVocal.Q.value = .9;
+    g.eqTreble = ctx.createBiquadFilter(); g.eqTreble.type = 'highshelf'; g.eqTreble.frequency.value = 4800;
     g.stereo = n(); g.monoSum = n(); g.monoSum.channelCount = 1; g.monoSum.channelCountMode = 'explicit'; g.monoSum.channelInterpretation = 'speakers';
     g.monoGain = n(); g.monoGain.gain.value = 0;
-    g.input.connect(g.stereo); g.input.connect(g.monoSum); g.monoSum.connect(g.monoGain);
+    g.input.connect(g.eqBass); g.eqBass.connect(g.eqVocal); g.eqVocal.connect(g.eqTreble);
+    g.eqTreble.connect(g.stereo); g.eqTreble.connect(g.monoSum); g.monoSum.connect(g.monoGain);
     g.hp = ctx.createBiquadFilter(); g.hp.type = 'highpass'; g.hp.Q.value = .6;
     g.lp = ctx.createBiquadFilter(); g.lp.type = 'lowpass'; g.lp.Q.value = .55;
     g.lp2 = ctx.createBiquadFilter(); g.lp2.type = 'lowpass'; g.lp2.Q.value = .5;
@@ -106,6 +111,7 @@ const FX = (() => {
     g.clickBus = n(); g.clickBP = ctx.createBiquadFilter(); g.clickBP.type = 'bandpass'; g.clickBP.frequency.value = 2400; g.clickBP.Q.value = .65;
     g.clickBus.connect(g.clickBP); g.clickBP.connect(g.surface);
     g.clicks = clickBuffers();
+    applyEQ(true);
     apply(level, true);
   }
 
@@ -147,6 +153,30 @@ const FX = (() => {
       }
     }
   }
+
+  const EQ_KEYS = ['eqBass','eqVocal','eqTreble'];
+  const eqActive = () => EQ_KEYS.some(k => Math.abs(Number(Settings.get(k) || 0)) > .01);
+  function applyEQ(instant = false) {
+    if (!g || !ctx) return;
+    const t = ctx.currentTime, k = instant ? .001 : .08;
+    const to = (param, v) => {
+      const x = clamp(Number(v) || 0, -6, 6);
+      try { param.cancelScheduledValues(t); param.setTargetAtTime(x, t, k); } catch (_) { param.value = x; }
+    };
+    to(g.eqBass.gain, Settings.get('eqBass'));
+    to(g.eqVocal.gain, Settings.get('eqVocal'));
+    to(g.eqTreble.gain, Settings.get('eqTreble'));
+  }
+  bus.on('settings', ({ k }) => {
+    if (!EQ_KEYS.includes(k)) return;
+    if (eqActive()) ensure();
+    applyEQ();
+    bus.emit('eq', {
+      bass: Number(Settings.get('eqBass') || 0),
+      vocal: Number(Settings.get('eqVocal') || 0),
+      treble: Number(Settings.get('eqTreble') || 0)
+    });
+  });
 
   function apply(lv, instant = false) {
     level = clamp(lv | 0, 0, 3);
@@ -327,6 +357,7 @@ const FX = (() => {
     ensure, attach, canProcess, probeCors, setSurface, needleDrop, Scratch, fade,
     get ctx() { return ctx; },
     get level() { return level; },
+    get eqActive() { return eqActive(); },
     setLevel(lv) { level = clamp(lv | 0, 0, 3); Settings.set('vintage', level); if (level > 0) ensure(); apply(level); bus.emit('vintage', level); },
     get running() { return !!ctx && ctx.state === 'running'; }
   };
