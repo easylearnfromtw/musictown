@@ -1,0 +1,34 @@
+name: Audio direct URL probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/fma-probe.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe FMA and Nullrights direct audio
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import requests
+          urls=[
+            "https://files.freemusicarchive.org/storage-freemusicarchive-org/tracks/rGqEQvUMMhoolTPmoXSFFDLCpkISnDMOnoOFlhlV.mp3",
+            "https://nullrights.com/audio/euprupk1y6",
+          ]
+          for u in urls:
+              r=requests.get(u,headers={"User-Agent":"Mozilla/5.0 musicetown-probe/1.0"},timeout=60,stream=True)
+              first=next(r.iter_content(64),b"")
+              print(u,r.status_code,r.url,r.headers.get("content-type"),r.headers.get("content-length"),repr(first[:32]))
+              assert r.status_code==200
+              ct=(r.headers.get("content-type") or "").lower()
+              assert "audio" in ct or first.startswith((b"ID3",b"OggS",b"RIFF",b"fLaC"))
+              r.close()
+          PY
