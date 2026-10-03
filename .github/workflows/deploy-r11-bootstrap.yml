@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: musicetown-r11-bootstrap
@@ -40,3 +41,11 @@ jobs:
           git add -A
           git commit -m "Upgrade MUSICTOWN to R11.1 performance"
           git push
+
+      - name: Trigger production deployment
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh workflow run musicetown-auto.yml --ref main
