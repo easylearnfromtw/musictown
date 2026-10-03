@@ -4,7 +4,7 @@ import WebKit
 import WidgetKit
 
 @MainActor
-final class CITYMUSWebModel: NSObject, ObservableObject, WKScriptMessageHandler, WKNavigationDelegate {
+final class CITYMUSWebModel: NSObject, ObservableObject, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate {
     static let handlerName = "citymus"
 
     weak var webView: WKWebView?
@@ -14,6 +14,14 @@ final class CITYMUSWebModel: NSObject, ObservableObject, WKScriptMessageHandler,
     private var reloadWork: DispatchWorkItem?
 
     func attach(_ webView: WKWebView) { self.webView = webView }
+
+    func resumeSystemNowPlaying() {
+        let s = CITYMUSShared.playback
+        guard s.isPlaying,
+              !s.shareID.isEmpty,
+              Date().timeIntervalSince(s.updatedAt) < 12 * 60 * 60 else { return }
+        send(["action":"player"])
+    }
 
     func loadHomeIfNeeded() {
         guard !didLoad, let webView else { return }
@@ -56,6 +64,43 @@ final class CITYMUSWebModel: NSObject, ObservableObject, WKScriptMessageHandler,
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         webView.evaluateJavaScript("window.CITYMUSNative?.publishAll?.();")
+        resumeSystemNowPlaying()
+    }
+
+    func webView(_ webView: WKWebView,
+                 decidePolicyFor navigationAction: WKNavigationAction,
+                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard let url = navigationAction.request.url else {
+            decisionHandler(.allow)
+            return
+        }
+
+        if url.scheme?.lowercased() == "citymus" {
+            handleDeepLink(url)
+            decisionHandler(.cancel)
+            return
+        }
+
+        // Keep http(s) links inside the CITYMUS companion instead of handing
+        // target=_blank navigation to Safari or another application.
+        if ["http", "https"].contains(url.scheme?.lowercased() ?? ""),
+           navigationAction.targetFrame == nil {
+            webView.load(navigationAction.request)
+            decisionHandler(.cancel)
+            return
+        }
+
+        decisionHandler(.allow)
+    }
+
+    func webView(_ webView: WKWebView,
+                 createWebViewWith configuration: WKWebViewConfiguration,
+                 for navigationAction: WKNavigationAction,
+                 windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil {
+            webView.load(navigationAction.request)
+        }
+        return nil
     }
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -146,6 +191,8 @@ struct CITYMUSWebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         config.allowsInlineMediaPlayback = true
+        config.allowsAirPlayForMediaPlayback = true
+        config.mediaTypesRequiringUserActionForPlayback = []
         config.websiteDataStore = .default()
         let uc = WKUserContentController()
         uc.add(model, name: CITYMUSWebModel.handlerName)
@@ -153,6 +200,7 @@ struct CITYMUSWebView: UIViewRepresentable {
 
         let web = WKWebView(frame: .zero, configuration: config)
         web.navigationDelegate = model
+        web.uiDelegate = model
         web.scrollView.contentInsetAdjustmentBehavior = .never
         web.allowsBackForwardNavigationGestures = true
         web.isOpaque = false
