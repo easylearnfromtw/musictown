@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, html, json, re, shutil, subprocess, tempfile
+import argparse, html, json, re, shutil, subprocess, tempfile, time
 from pathlib import Path
 from urllib.parse import urljoin
 import requests
@@ -11,13 +11,21 @@ MANIFEST=json.loads((ROOT/"verified_audio_manifest.json").read_text(encoding="ut
 CACHE=ROOT/"_master_audio"
 CACHE.mkdir(parents=True,exist_ok=True)
 S=requests.Session()
-S.headers.update({"User-Agent":"musicetown-audio-installer/8.7.3"})
+S.headers.update({"User-Agent":"citymus-audio-installer/8.8.0"})
 TIMEOUT=45
 
-def get(url):
-    r=S.get(url,timeout=TIMEOUT)
-    r.raise_for_status()
-    return r
+def get(url, tries=4):
+    last=None
+    for n in range(tries):
+        try:
+            r=S.get(url,timeout=TIMEOUT)
+            r.raise_for_status()
+            return r
+        except (requests.Timeout, requests.ConnectionError, requests.HTTPError) as e:
+            last=e
+            if n+1<tries:
+                time.sleep(1.5*(n+1))
+    raise last
 
 def verify_cc0(page_text, source):
     low=page_text.lower()
@@ -105,10 +113,20 @@ def convert(url,dst,bitrate):
         raise RuntimeError("ffmpeg is required (Mac: brew install ffmpeg)")
     with tempfile.TemporaryDirectory() as td:
         raw=Path(td)/"input"
-        r=S.get(url,timeout=120,stream=True);r.raise_for_status()
-        with raw.open("wb") as f:
-            for chunk in r.iter_content(256*1024):
-                if chunk:f.write(chunk)
+        last=None
+        for n in range(4):
+            try:
+                r=S.get(url,timeout=120,stream=True);r.raise_for_status()
+                with raw.open("wb") as f:
+                    for chunk in r.iter_content(256*1024):
+                        if chunk:f.write(chunk)
+                last=None
+                break
+            except (requests.Timeout, requests.ConnectionError, requests.HTTPError) as e:
+                last=e
+                if raw.exists(): raw.unlink()
+                if n<3: time.sleep(2*(n+1))
+        if last: raise last
         if raw.stat().st_size<20000:raise RuntimeError("download too small")
         subprocess.run([
           "ffmpeg","-hide_banner","-loglevel","error","-y","-i",str(raw),
