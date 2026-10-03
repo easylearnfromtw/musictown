@@ -17,6 +17,25 @@
 
 真正「不開 App 也能在 Widget 背景播放/暫停/上下首」留在 Phase 2，屆時改由 AVPlayer + Background Audio + AudioPlaybackIntent 接管系統播放層，網站本身仍保留。
 
+## 最快安裝到自己的 iPhone
+
+這條路不需要先上 App Store；Xcode 會直接把 CITYMUS Companion 安裝到你的實機。
+
+1. 在 Mac 下載 / clone 此 repo。
+2. 雙擊 `ios/scripts/setup_xcode.command`（第一次若 macOS 阻擋，可在終端機執行 `bash ios/scripts/setup_xcode.command`）。
+3. Xcode 打開後，CITYMUS 與 CITYMUSWidgets 兩個 target 都選同一個 Apple Developer Team。
+4. 兩個 target 都確認 App Group：`group.com.easylearnfromtw.citymus`。
+5. 用線連上 iPhone，將 Run Destination 切成你的 iPhone，按 ▶︎ Run。
+6. iPhone 第一次若要求信任 Developer Mode / 開發者，依系統提示開啟。
+7. 安裝後從「CITYMUS App」開啟並播放一首歌，再鎖定螢幕測試 Now Playing 返回。
+
+只要 Native Companion 真正安裝到 iPhone，`citymus://` deep link、Widget、原生 audio session 才存在；單純 GitHub Pages / 加入主畫面的 PWA 不會取得這些 native 能力。
+
+GitHub Actions 的 **CITYMUS iOS Companion CI** 也會在每次 `ios/**` 變更後自動：
+- 產生 Xcode project
+- 編譯 iOS Simulator
+- 上傳 `CITYMUS-iOS-Companion.zip` artifact（保留 14 天）
+
 ## 產生 Xcode 專案
 
 1. macOS 安裝 Xcode 與 XcodeGen。
