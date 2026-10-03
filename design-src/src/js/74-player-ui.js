@@ -352,18 +352,30 @@ const PlayerUI = (() => {
      reopen the same full-player surface instead of leaving the listener on a
      stale underlying page. Web apps cannot control the OS artwork tap itself,
      but they can make the return path deterministic once the page is resumed. */
-  const RETURN_KEY = 'mt.nowPlayingReturn.v1';
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      if (Player.current && Player.playing) sess.set(RETURN_KEY, { at: Date.now(), track: Player.current.shareId || '' });
-      return;
-    }
+  const RETURN_KEY = 'mt.nowPlayingReturn.v2';
+  let returnTimer = 0;
+  const markLockReturn = () => {
+    if (Player.current && Player.playing) sess.set(RETURN_KEY, { at: Date.now(), track: Player.current.shareId || '' });
+  };
+  const resumeLockReturn = () => {
+    if (!IS_IOS || document.hidden || !Player.current) return;
     const r = sess.get(RETURN_KEY, null);
-    if (IS_IOS && Player.current && r && Date.now() - Number(r.at || 0) < 12 * 60 * 60 * 1000) {
-      sess.set(RETURN_KEY, null);
-      setTimeout(() => { if (!open && Player.current) show(); }, 120);
-    }
+    if (!r || Date.now() - Number(r.at || 0) >= 12 * 60 * 60 * 1000) return;
+    // Do not require the same route or page state: the OS may resume an existing
+    // standalone client rather than creating a fresh navigation.
+    sess.set(RETURN_KEY, null);
+    clearTimeout(returnTimer);
+    returnTimer = setTimeout(() => {
+      if (!open && Player.current && !Sheet.isOpen && !PassSheet.isOpen) show();
+    }, 100);
+  };
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) markLockReturn();
+    else resumeLockReturn();
   }, { passive: true });
+  window.addEventListener('pagehide', markLockReturn, { passive: true });
+  window.addEventListener('pageshow', resumeLockReturn, { passive: true });
+  window.addEventListener('focus', resumeLockReturn, { passive: true });
 
   return { show, hide, get isOpen() { return open; }, consumeHistoryClose() { const c = closingViaUI; closingViaUI = false; return c; } };
 })();
