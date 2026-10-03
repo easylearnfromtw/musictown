@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Literature themes · 10 works × 25 public-domain / open-licence recordings.
+"""Literature themes · 14 works × 25 public-domain / open-licence recordings.
 
 Every recording below was checked on the Internet Archive (file listing + item
 licence) on 2026-10-03. Composers all died more than 50 years ago (the newest is
@@ -305,5 +305,15 @@ for w in WORKS:
 
 dups = {k: v for k, v in used.items() if len(v) > 1}
 assert not dups, dups
-(ROOT / "src" / "literature.json").write_text(json.dumps(out, ensure_ascii=False, indent=0), encoding="utf-8")
+EXTRA_LITERATURE_KEYS = {"PEACH BLOSSOM SPRING","XIANG YU ANNALS","MEMORIAL ON THE NORTHERN EXPEDITION","STRANGE TALES FROM A CHINESE STUDIO"}
+existing_path = ROOT / "src" / "literature.json"
+if existing_path.exists():
+    try:
+        previous = json.loads(existing_path.read_text(encoding="utf-8"))
+        extras = [w for w in previous if w.get("t") in EXTRA_LITERATURE_KEYS]
+        if extras:
+            out.extend(extras)
+    except Exception:
+        pass
+existing_path.write_text(json.dumps(out, ensure_ascii=False, indent=0), encoding="utf-8")
 print(f"literature: {len(out)} works, {sum(len(w['tracks']) for w in out)} tracks, {len(used)} distinct recordings")

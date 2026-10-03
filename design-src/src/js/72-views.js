@@ -131,7 +131,7 @@ Router.register('home', (el) => {
         <div class="sec__head"><h2 class="sec__title">你的票夾</h2><button class="link-btn" type="button" id="toWallet" aria-label="全部票根">${icon('chevron')}</button></div>
         <div class="wallet" id="homeWallet"></div>
       </section>
-      <footer class="foot"><b>musicetown</b><span>${THEMES.length} 個主題 · ${TOTAL_TRACKS} 首 · 音樂皆來自標示 CC0、CC 授權或公有領域的來源</span><span>${MT_BUILD}</span></footer>
+      <footer class="foot"><b>musicetown</b><span>以盡全力符合音樂版權之規定，若有違法，請洽：signwell.com.tw@gmail.com</span></footer>
     </div>`;
     const box = byId('homeBox');
     let group = GROUPS.find(g => g.key === Settings.get('homeGroup')) || GROUPS[0];
@@ -182,7 +182,7 @@ function homeDynamic(el) {
   byId('editSub').textContent = { morning: '早晨的選曲，輕快一點', day: '白天的選曲', evening: '傍晚的選曲', night: '夜晚的選曲，慢一點', late: '深夜的選曲，安靜一點' }[pod];
   const stub = byId('homeStub');
   if (th) {
-    const owned = Wallet.has(`city-${th.slug}`), lim = th?.t === 'TAIPEI DREAM' ? Limited.active() : null;
+    const owned = Wallet.has(`city-${th.slug}`), lim = Limited.active(th?.t);
     stub.innerHTML = `<button class="stub" type="button" style="${accentStyle(th)}"><span class="stub__code">${esc(th.code)}</span><span class="stub__txt"><b>${owned ? `你的${esc(th.cityCn)}票根` : `${esc(th.cityCn)}限定票根可領取`}</b><span>${lim ? `${esc(lim.label)}封面已開啟` : owned ? '在票夾裡，隨時打開' : `${esc(th.name)} · 只在當地發行`}</span></span>${icon('ticket')}</button>`;
     stub.firstElementChild.onclick = () => Pass.openCity(th);
   } else stub.innerHTML = '';
@@ -213,7 +213,7 @@ Router.register('cities', (el) => {
     el._built = true;
     el.innerHTML = `<div class="wrap">
       <h1 class="page-title">Cities</h1>
-      <p class="page-lede">十七座城市，各自的當地時間。人在城裡，就能收下那座城市的限定票根。</p>
+      <p class="page-lede">十五座城市，各自的當地時間。人在城裡，就能收下那座城市的限定票根。</p>
       <div class="mt-24" id="citySeg"></div>
       <div id="cityHere"></div>
       <div class="passgrid mt-16" id="passgrid"></div>
@@ -343,7 +343,7 @@ Router.register('library', (el) => {
         <div id="a2hsSlot"></div>
         <div class="settings mt-16" id="settings"></div>
       </section>
-      <footer class="foot"><b>musicetown</b><span>播放清單、票夾、下載與本機音樂只存在這台裝置上。</span><span>${MT_BUILD}</span></footer>
+      <footer class="foot"><b>musicetown</b><span>播放清單、票夾、下載與本機音樂只存在這台裝置上。</span></footer>
     </div>`;
     const gridEl = byId('libGrid'), rowsEl = byId('libRows');
     let filter = 'all', view = null; // view: null = active library, '__offline' = downloads

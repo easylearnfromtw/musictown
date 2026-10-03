@@ -33,7 +33,8 @@ folders=[
  "taipei-style","old-tokyo","splendor-shanghai","vancouver","london","new-york",
  "emo","running","poem","traditional-beijing",
  "tropical-hawaii","bustling-hong-kong","slightly-tipsy-rome","psychedelic-la",
- "solemn-kyoto","miraculous-luoyang","champs-elysees","menacing-dubai"
+ "solemn-kyoto","miraculous-luoyang","champs-elysees","menacing-dubai",
+ "rouge-tibet","fantasy-tainan"
 ]
 for folder in folders:
     src=ROOT/folder
@@ -41,4 +42,4 @@ for folder in folders:
     shutil.copytree(src,SITE/folder)
 
 size=sum(p.stat().st_size for p in SITE.rglob("*") if p.is_file())
-print(f"Prepared 23-theme site + 文學: {size/1024/1024:.1f} MB")
+print(f"Prepared 25-theme site + 文學: {size/1024/1024:.1f} MB")

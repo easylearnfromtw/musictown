@@ -4,7 +4,7 @@
 const VERSION = '__BUILD__';
 const CACHE = 'mt-shell-' + VERSION;
 const SHELL = ['./', 'index.html', 'remote-audio-map.js', 'literature-catalog.js', 'literature-audio-map.js', 'site.webmanifest',
-  'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'favicon.svg', 'assets/limited/taipei-word.png', 'assets/limited/taipei-cn.png'];
+  'apple-touch-icon.png', 'assets/icons/apple-touch-icon-152.png', 'assets/icons/apple-touch-icon-167.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'favicon.svg', 'assets/limited/taipei-word.png', 'assets/limited/taipei-cn.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(SHELL.map(u => c.add(new Request(u, { cache: 'reload' })).catch(() => null)))).then(() => self.skipWaiting()));

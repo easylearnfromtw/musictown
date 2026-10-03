@@ -24,9 +24,10 @@ const Limited = (() => {
   const preview = sess.get('mt.limitedPreview', null);
   const imgs = {};
   const load = src => imgs[src] || (imgs[src] = new Promise(res => { const i = new Image(); i.decoding = 'async'; i.onload = () => res(i); i.onerror = () => res(null); i.src = src; }));
-  function active() {
+  function active(themeKey = null) {
+    if (themeKey !== 'TAIPEI DREAM') return null;
     if (preview === 'taipei' || preview === 'tpe') return ED['TAIPEI DREAM'];
-    try { return ED[Geo.theme] || null; } catch (_) { return null; }
+    try { return Geo.theme === 'TAIPEI DREAM' ? ED['TAIPEI DREAM'] : null; } catch (_) { return null; }
   }
   return { active, load, ED };
 })();
@@ -73,7 +74,7 @@ const Artwork = (() => {
   async function paint(t, S = 512) {
     await fonts();
     const th = themeOf(t), c = document.createElement('canvas'); c.width = c.height = S; const x = c.getContext('2d');
-    const g = ground(t, th), lim = th?.t === 'TAIPEI DREAM' ? Limited.active() : null;
+    const g = ground(t, th), lim = Limited.active(th?.t);
     x.textBaseline = 'alphabetic';
     if (lim) {
       // Taipei Limited: porcelain ground, wordmark behind the record
@@ -120,7 +121,7 @@ const Artwork = (() => {
   const cache = new Map();
   function cover(t, S = 512) {
     if (!t) return Promise.resolve(null);
-    const k = `${trackKey(t)}|${S}|${themeOf(t)?.t === 'TAIPEI DREAM' && Limited.active() ? 'L' : ''}`;
+    const k = `${trackKey(t)}|${S}|${Limited.active(themeOf(t)?.t) ? 'L' : ''}`;
     if (cache.has(k)) return cache.get(k);
     const p = paint(t, S).then(c => c.toDataURL('image/jpeg', .9)).catch(() => null);
     cache.set(k, p); if (cache.size > 60) cache.delete(cache.keys().next().value);
@@ -131,7 +132,7 @@ const Artwork = (() => {
   async function card(t) {
     await fonts();
     const th = themeOf(t), W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
-    const lim = th?.t === 'TAIPEI DREAM' ? Limited.active() : null, g = ground(t, th);
+    const lim = Limited.active(th?.t), g = ground(t, th);
     x.fillStyle = '#F6F8FC'; x.fillRect(0, 0, W, H);
     const rr = (X, Y, w, h, r) => { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); };
     x.save(); x.shadowColor = 'rgba(41,70,93,.14)'; x.shadowBlur = 60; x.shadowOffsetY = 24; rr(60, 60, W - 120, H - 120, 48); x.fillStyle = '#FFFFFF'; x.fill(); x.restore();

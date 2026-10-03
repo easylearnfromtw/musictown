@@ -31,10 +31,10 @@ report={"drawers":len(data),"expected":total,"ready":ready,"missing":missing,"ba
 (ROOT/"MUSIC_INSTALL_REPORT.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
 print(f"MUSIC READY: {ready}/{total} · DRAWERS {len(data)}")
 
-if len(data)!=23:
-    print(f"ERROR: expected 23 themes, got {len(data)}")
+if len(data)!=25:
+    print(f"ERROR: expected 25 themes, got {len(data)}")
     sys.exit(1)
-if total!=1150:
-    print(f"ERROR: expected 1150 tracks, got {total}")
+if total!=1250:
+    print(f"ERROR: expected 1250 tracks, got {total}")
     sys.exit(1)
 sys.exit(1 if missing or bad else 0)

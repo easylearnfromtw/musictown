@@ -658,5 +658,101 @@
     ],
     "vocal_mode": "preferred",
     "allow_instrumental": true
+  },
+  "ROUGE TIBET": {
+    "slug": "rouge-tibet",
+    "label": "Rouge Tibet · Himalayan / Ritual / Folk / Spacious",
+    "queries": [
+      "tibetan folk",
+      "himalayan ambient",
+      "world folk ritual",
+      "meditative folk",
+      "ritual percussion",
+      "mountain folk",
+      "spiritual world music",
+      "ambient folk"
+    ],
+    "genres": [
+      "Folk",
+      "World",
+      "Ambient",
+      "Classical"
+    ],
+    "keywords": [
+      "tibet",
+      "tibetan",
+      "himalaya",
+      "himalayan",
+      "ritual",
+      "chant",
+      "drone",
+      "mountain",
+      "folk",
+      "ambient",
+      "ceremonial",
+      "meditative",
+      "spiritual",
+      "world",
+      "acoustic"
+    ],
+    "reject": [
+      "corporate",
+      "advertisement",
+      "jingle",
+      "game battle",
+      "boss battle",
+      "trailer",
+      "chiptune"
+    ],
+    "vocal_mode": "preferred",
+    "allow_instrumental": true
+  },
+  "FANTASY TAINAN": {
+    "slug": "fantasy-tainan",
+    "label": "Fantasy Tainan · Warm Folk / Old Town / Romance",
+    "queries": [
+      "warm acoustic folk",
+      "nostalgic folk",
+      "romantic acoustic",
+      "traditional folk",
+      "sunset folk",
+      "gentle folk vocal",
+      "world folk acoustic",
+      "old town folk"
+    ],
+    "genres": [
+      "Folk",
+      "World",
+      "Pop",
+      "Classical"
+    ],
+    "keywords": [
+      "folk",
+      "acoustic",
+      "warm",
+      "nostalgic",
+      "traditional",
+      "romantic",
+      "sunset",
+      "heritage",
+      "old town",
+      "gentle",
+      "taiwan",
+      "asian",
+      "coastal",
+      "summer"
+    ],
+    "reject": [
+      "corporate",
+      "advertisement",
+      "jingle",
+      "game battle",
+      "boss battle",
+      "trailer",
+      "industrial",
+      "dark techno"
+    ],
+    "vocal_mode": "preferred",
+    "allow_instrumental": true
   }
 }

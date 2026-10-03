@@ -1,4 +1,4 @@
-name: musicetown AUTO · Build 1150 + Deploy
+name: musicetown AUTO · Build 1250 + Deploy
 
 on:
   push:
@@ -75,7 +75,7 @@ jobs:
       - name: Generate City Pass QR assets
         run: python generate_city_pass_qr.py
 
-      - name: Verify all 1150 MP3 files
+      - name: Verify all 1250 MP3 files
         run: python verify_music_install.py
 
       - name: Prepare Pages artifact

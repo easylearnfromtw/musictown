@@ -9,6 +9,8 @@ on:
     paths:
       - ".github/workflows/bake-literature-audio.yml"
       - ".github/scripts/bake_literature_audio.py"
+      - "literature-catalog.js"
+      - "design-src/src/literature.json"
   schedule:
     - cron: "17 3 1 * *"
   workflow_dispatch:

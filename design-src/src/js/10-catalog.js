@@ -1,21 +1,18 @@
 /* ==========================================================================
-   Catalog · 23 core destinations + extension catalogs. Names are stable keys.
+   Catalog · 25 destinations. Names in MUSIC_DATA are the stable keys.
    ========================================================================== */
 const REMOTE_MAP = window.MUSICETOWN_REMOTE_AUDIO || {};
 /* 文學 · fourteen literary works, 25 public-domain / open-licence recordings each.
    Kept outside MUSIC_DATA so the CI's 23-theme / 1150-track checks stay untouched. */
 const LIT = Array.isArray(window.MUSICETOWN_LITERATURE) ? window.MUSICETOWN_LITERATURE : [];
 const LIT_MAP = window.MUSICETOWN_LITERATURE_MAP || {};
-const EXTRA_CITY = Array.isArray(window.MUSICETOWN_EXTRA_CITIES) ? window.MUSICETOWN_EXTRA_CITIES : [];
-const DATA = (Array.isArray(window.MUSIC_DATA) ? window.MUSIC_DATA : [])
-  .concat(EXTRA_CITY)
-  .concat(LIT.map(w => ({ t: w.t, sub: w.summary, key: `${w.authorCn} · ${w.era}`, tracks: w.tracks, literature: true })));
+const DATA = (Array.isArray(window.MUSIC_DATA) ? window.MUSIC_DATA : []).concat(LIT.map(w => ({ t: w.t, sub: w.summary, key: `${w.authorCn} · ${w.era}`, tracks: w.tracks, literature: true })));
 
 /* kind: city | style | mood. code = IATA-style identity used across the UI. */
 const META = {
   'TAIPEI DREAM':        { slug: 'taipei-style', code: 'TPE', name: 'Taipei Dream', cn: '台北夢', kind: 'city', region: 'asia', city: 'Taipei', cityCn: '台北', tz: 'Asia/Taipei', country: 'TW', accent: '#5f8f96', ink: '#2c4a4f', aliases: ['taipei', 'taipei city', 'new taipei', 'new taipei city', 'sanchong', 'banqiao', 'zhonghe', 'yonghe', 'xinzhuang', 'xindian'], line: '雨後的巷口、捷運末班車與臥室錄音的人聲。', summary: '雨夜、巷口、捷運與城市獨立人聲。TAIPEI DREAM 把台北都會的潮濕霓虹、日常節奏與輕微孤獨感收進一個抽屜。' },
-  'FANTASY TAINAN':      { slug: 'fantasy-tainan', code: 'TNN', name: 'Fantasy Tainan', cn: '府城之戀', kind: 'city', region: 'asia', city: 'Tainan', cityCn: '台南', tz: 'Asia/Taipei', country: 'TW', accent: '#B47B68', ink: '#5E4036', aliases: ['tainan', 'tainan city', 'anping', 'west central district'], line: '安平夕照、老屋木窗與南方暖風，讓府城慢慢走進黃昏。', summary: '老城、安平、廟埕與暖色黃昏。FANTASY TAINAN 用明亮而懷舊的旋律，把台南的慢步調與戀愛感收進一個抽屜。' },
-  'ROUGE TIBET':         { slug: 'rouge-tibet', code: 'LXA', name: 'Rouge Tibet', cn: '胭脂西域', kind: 'city', region: 'asia', city: 'Lhasa', cityCn: '拉薩', tz: 'Asia/Shanghai', country: 'CN', accent: '#A44855', ink: '#582932', aliases: ['lhasa', 'lhasa city', 'tibet', 'xizang'], line: '高原薄雪、紅牆與經幡，在稀薄空氣裡留下遠處鐘聲。', summary: '高原、紅牆、雪線與儀式感。ROUGE TIBET 偏莊嚴、空曠、神祕，以慢板與深色和聲形成帶有距離感的聲景。' },
+  'FANTASY TAINAN':      { slug: 'fantasy-tainan', code: 'TNN', name: 'Fantasy Tainan', cn: '府城之戀', kind: 'city', region: 'asia', city: 'Tainan', cityCn: '台南', tz: 'Asia/Taipei', country: 'TW', accent: '#b98269', ink: '#5b4034', aliases: ['tainan', 'tainan city', 'anping', 'west central district'], line: '夕陽落在赤崁樓與安平巷弄，木吉他與老城的暖風慢慢靠近。', summary: '古城、廟埕、老屋、海風與南方日光。FANTASY TAINAN 偏溫暖、懷舊、帶一點戀愛感的 folk / acoustic / world 聲景。' },
+  'ROUGE TIBET':         { slug: 'rouge-tibet', code: 'LXA', name: 'Rouge Tibet', cn: '胭脂西域', kind: 'city', region: 'asia', city: 'Lhasa', cityCn: '拉薩', tz: 'Asia/Shanghai', country: 'CN', accent: '#a65f55', ink: '#5a332e', aliases: ['lhasa', 'lasa', 'tibet', 'xizang', 'lhasa city'], line: '高原紅、風馬旗與寺院鐘聲，在稀薄空氣裡留下很長的尾韻。', summary: '高原、山風、寺院、鼓點與大片留白。ROUGE TIBET 以 world / folk / ritual / ambient 的開放授權錄音描繪藏地高原的深紅與遼闊。' },
   'OLD TOKYO':           { slug: 'old-tokyo', code: 'TYO', name: 'Old Tokyo', cn: '老東京', kind: 'city', region: 'asia', city: 'Tokyo', cityCn: '東京', tz: 'Asia/Tokyo', country: 'JP', accent: '#b07f86', ink: '#5a3c41', aliases: ['tokyo', 'shinjuku', 'shibuya', 'minato', 'chiyoda', 'taito', 'setagaya', 'suginami'], line: '首都高的霓虹、昭和餘暉與合成器流行。', summary: '昭和殘影、老東京夜色與都會旋律。OLD TOKYO 偏復古、細膩、略帶電影感，像深夜電車窗外倒退的街景。' },
   'SPLENDOR SHANGHAI':   { slug: 'splendor-shanghai', code: 'SHA', name: 'Splendor Shanghai', cn: '海上繁華', kind: 'city', region: 'asia', city: 'Shanghai', cityCn: '上海', tz: 'Asia/Shanghai', country: 'CN', accent: '#9a8270', ink: '#53443a', aliases: ['shanghai', 'shanghai city'], line: '舞廳爵士、靈魂樂與外灘的金色夜宴。', summary: '爵士舞廳、Art Deco 與老上海華麗聲響。SPLENDOR SHANGHAI 偏優雅、暖色、帶一點舊時代夜宴的節奏。' },
   'TRADITIONAL BEIJING': { slug: 'traditional-beijing', code: 'BJS', name: 'Traditional Beijing', cn: '京味北京', kind: 'city', region: 'asia', city: 'Beijing', cityCn: '北京', tz: 'Asia/Shanghai', country: 'CN', accent: '#9b3a4b', ink: '#54232c', aliases: ['beijing', 'beijing city'], line: '京劇唱腔、鑼鼓與胡同裡的老戲台。', summary: '京劇唱腔、鑼鼓、嗩吶與傳統戲曲舞台感。TRADITIONAL BEIJING 把京味戲劇張力與古典器樂聲響集中在一起。' },
@@ -25,6 +22,8 @@ const META = {
   'VAPOR LONDON':        { slug: 'london', code: 'LON', name: 'Vapor London', cn: '霧都倫敦', kind: 'city', region: 'europe', city: 'London', cityCn: '倫敦', tz: 'Europe/London', country: 'GB', accent: '#7f6a7a', ink: '#4d3e48', aliases: ['london', 'city of london', 'westminster'], line: 'Soho 霧雨、後龐克與蒸氣般的合成器。', summary: '霧雨、Soho、post-punk、art-pop 與 vapor synth。VAPOR LONDON 把倫敦夜色拉成更冷、更霧、更流動的聲音。' },
   'SLIGHTLY TIPSY ROME': { slug: 'slightly-tipsy-rome', code: 'ROM', name: 'Slightly Tipsy Rome', cn: '微醺羅馬', kind: 'city', region: 'europe', city: 'Rome', cityCn: '羅馬', tz: 'Europe/Rome', country: 'IT', accent: '#98705f', ink: '#574139', aliases: ['rome', 'roma'], line: '葡萄酒色的夜、石柱與教堂迴音。', summary: '葡萄酒色夜幕、古城石材、教堂迴音與神聖合唱。SLIGHTLY TIPSY ROME 在微醺與莊嚴之間保持張力。' },
   'CHAMPS-ÉLYSÉES':      { slug: 'champs-elysees', code: 'PAR', name: 'Champs-Élysées', cn: '香榭大道', kind: 'city', region: 'europe', city: 'Paris', cityCn: '巴黎', tz: 'Europe/Paris', country: 'FR', accent: '#9a8399', ink: '#574b56', aliases: ['paris', 'paris city'], line: '精品櫥窗的光、lounge 與巴黎步伐。', summary: '精品櫥窗、香榭大道與夜間時裝店。CHAMPS-ÉLYSÉES 以 lounge、house、nu-disco 與法式優雅為主。' },
+  'FANTASY TAINAN': ['folk', 'acoustic', 'warm', 'nostalgic', 'traditional', 'slow folk', 'coastal indie', 'pacific rain', 'soft room', 'chanson'],
+  'ROUGE TIBET': ['ambient', 'ritual', 'folk', 'meditative', 'world', 'slow', 'old room', 'traditional', 'acapella', 'spiritual', 'ceremonial'],
   'MENACING DUBAI':      { slug: 'menacing-dubai', code: 'DXB', name: 'Menacing Dubai', cn: '凜冽杜拜', kind: 'city', region: 'mideast', city: 'Dubai', cityCn: '杜拜', tz: 'Asia/Dubai', country: 'AE', accent: '#8a7553', ink: '#4e432f', aliases: ['dubai', 'dubayy'], line: '玻璃高塔、沙漠夜色與奢華的壓迫感。', summary: '玻璃高塔、沙漠夜色與壓迫式奢華。MENACING DUBAI 用暗黑電子、張力與中東質地製造膽戰心驚感。' },
   'VANCOUVER':           { slug: 'vancouver', code: 'YVR', name: 'Vancouver', cn: '溫哥華', kind: 'city', region: 'americas', city: 'Vancouver', cityCn: '溫哥華', tz: 'America/Vancouver', country: 'CA', accent: '#6d969c', ink: '#34545a', aliases: ['vancouver', 'burnaby', 'richmond', 'north vancouver', 'west vancouver'], line: '太平洋的雨、海堤與森林邊界的人聲。', summary: 'Pacific rain、冷空氣與鬆弛的人聲。VANCOUVER 把西岸的陰雨、木質感與 indie / folk 的空間感放在一起。' },
   'NEW YORK':            { slug: 'new-york', code: 'NYC', name: 'New York', cn: '紐約', kind: 'city', region: 'americas', city: 'New York', cityCn: '紐約', tz: 'America/New_York', country: 'US', accent: '#5d7394', ink: '#35465d', aliases: ['new york', 'new york city', 'manhattan', 'brooklyn', 'queens', 'bronx'], line: 'Downtown 靈魂樂、地鐵節奏與午夜流行。', summary: 'Downtown soul、地鐵速度、爵士與夜間能量。NEW YORK 是密度、節奏與城市碰撞感最強的一個抽屜。' },
@@ -45,7 +44,7 @@ LIT.forEach(w => { META[w.t] = { slug: w.slug, code: w.code, name: w.name, cn: w
 
 /* Groups for the glass box and filters */
 const GROUPS = [
-  { key: 'asia', label: '亞洲', en: 'Asia', names: ['TAIPEI DREAM', 'FANTASY TAINAN', 'ROUGE TIBET', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'TRADITIONAL BEIJING', 'BUSTLING HONG KONG', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG'] },
+  { key: 'asia', label: '亞洲', en: 'Asia', names: ['TAIPEI DREAM', 'FANTASY TAINAN', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'TRADITIONAL BEIJING', 'BUSTLING HONG KONG', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG', 'ROUGE TIBET'] },
   { key: 'europe', label: '歐洲', en: 'Europe', names: ['VAPOR LONDON', 'SLIGHTLY TIPSY ROME', 'CHAMPS-ÉLYSÉES', 'MENACING DUBAI'] },
   { key: 'americas', label: '美洲', en: 'Americas', names: ['VANCOUVER', 'NEW YORK', 'TROPICAL HAWAII', 'PSYCHEDELIC LA'] },
   { key: 'style', label: '風格', en: 'Styles', names: ['JAZZ', 'CROONER', 'ROCK', 'LO-FI'] },
@@ -58,8 +57,8 @@ const REGION_LABEL = { asia: '亞洲', europe: '歐洲', mideast: '中東', amer
 /* Landmarks for spot-edition tickets (GPS check-in, coordinates never stored) */
 const LANDMARKS = [
   { id: 'taipei-101', name: 'Taipei 101', cn: '台北 101', theme: 'TAIPEI DREAM', lat: 25.0340, lng: 121.5645, r: 650 },
-  { id: 'anping-fort', name: 'Anping Old Fort', cn: '安平古堡', theme: 'FANTASY TAINAN', lat: 23.0016, lng: 120.1607, r: 900 },
-  { id: 'potala-palace', name: 'Potala Palace', cn: '布達拉宮', theme: 'ROUGE TIBET', lat: 29.6578, lng: 91.1172, r: 1200 },
+  { id: 'chihkan-tower', name: 'Chihkan Tower', cn: '赤崁樓', theme: 'FANTASY TAINAN', lat: 22.9975, lng: 120.2025, r: 900 },
+  { id: 'potala-palace', name: 'Potala Palace', cn: '布達拉宮', theme: 'ROUGE TIBET', lat: 29.6578, lng: 91.1175, r: 1600 },
   { id: 'tokyo-tower', name: 'Tokyo Tower', cn: '東京鐵塔', theme: 'OLD TOKYO', lat: 35.6586, lng: 139.7454, r: 550 },
   { id: 'shibuya-crossing', name: 'Shibuya Crossing', cn: '澀谷十字路口', theme: 'OLD TOKYO', lat: 35.6595, lng: 139.7005, r: 450 },
   { id: 'the-bund', name: 'The Bund', cn: '外灘', theme: 'SPLENDOR SHANGHAI', lat: 31.2400, lng: 121.4900, r: 1000 },

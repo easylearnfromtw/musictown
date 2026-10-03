@@ -2,7 +2,7 @@
    Geo · approximate city by IP (ipwho.is, IP itself never stored),
    precise check-ins by GPS only when the listener taps "check in".
    ========================================================================== */
-const CITY_CENTER = { TPE: [25.0330, 121.5654], TNN: [22.9999, 120.2270], LXA: [29.6520, 91.1721], TYO: [35.6762, 139.6503], SHA: [31.2304, 121.4737], BJS: [39.9042, 116.4074], HKG: [22.3193, 114.1694], KYO: [35.0116, 135.7681], LYA: [34.6197, 112.4540], LON: [51.5072, -0.1276], ROM: [41.9028, 12.4964], PAR: [48.8566, 2.3522], DXB: [25.2048, 55.2708], YVR: [49.2827, -123.1207], NYC: [40.7128, -74.0060], HNL: [21.3099, -157.8581], LAX: [34.0522, -118.2437] };
+const CITY_CENTER = { TPE: [25.0330, 121.5654], TNN: [22.9997, 120.2270], LXA: [29.6520, 91.1721], TYO: [35.6762, 139.6503], SHA: [31.2304, 121.4737], BJS: [39.9042, 116.4074], HKG: [22.3193, 114.1694], KYO: [35.0116, 135.7681], LYA: [34.6197, 112.4540], LON: [51.5072, -0.1276], ROM: [41.9028, 12.4964], PAR: [48.8566, 2.3522], DXB: [25.2048, 55.2708], YVR: [49.2827, -123.1207], NYC: [40.7128, -74.0060], HNL: [21.3099, -157.8581], LAX: [34.0522, -118.2437] };
 const distKm = (a, b) => { const R = 6371, r = x => x * Math.PI / 180, dLa = r(b[0] - a[0]), dLo = r(b[1] - a[1]); const h = Math.sin(dLa / 2) ** 2 + Math.cos(r(a[0])) * Math.cos(r(b[0])) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); };
 
 const Geo = (() => {
@@ -299,7 +299,9 @@ function shareBase({ theme = null, hash = '' } = {}) {
 }
 const LIB_REF_THEMES = ['JAZZ', 'CROONER', 'ROCK', 'SPORT', 'LO-FI', 'TAIPEI DREAM', 'OLD TOKYO', 'SPLENDOR SHANGHAI', 'VANCOUVER', 'VAPOR LONDON', 'NEW YORK', 'EMO', 'RUNNING', 'POEM', 'TRADITIONAL BEIJING', 'TROPICAL HAWAII', 'BUSTLING HONG KONG', 'SLIGHTLY TIPSY ROME', 'PSYCHEDELIC LA', 'SOLEMN KYOTO', 'MIRACULOUS LUOYANG', 'CHAMPS-ÉLYSÉES', 'MENACING DUBAI',
   /* appended in R11 — order is part of the L2 format */
-  'DREAM OF THE RED CHAMBER', 'THE GOLDEN CANGUE', 'LOVE IN A FALLEN CITY', 'TAIPEI PEOPLE', 'CALL TO ARMS', 'JOURNEY UNDER THE MIDNIGHT SUN', 'IN SEARCH OF THE SUPERNATURAL', 'ROBINSON CRUSOE', 'PRIDE AND PREJUDICE', 'A TALE OF TWO CITIES'];
+  'DREAM OF THE RED CHAMBER', 'THE GOLDEN CANGUE', 'LOVE IN A FALLEN CITY', 'TAIPEI PEOPLE', 'CALL TO ARMS', 'JOURNEY UNDER THE MIDNIGHT SUN', 'IN SEARCH OF THE SUPERNATURAL', 'ROBINSON CRUSOE', 'PRIDE AND PREJUDICE', 'A TALE OF TWO CITIES',
+  /* appended in R11.3 — keep old L2 indexes stable */
+  'ROUGE TIBET', 'FANTASY TAINAN', 'PEACH BLOSSOM SPRING', 'XIANG YU ANNALS', 'MEMORIAL ON THE NORTHERN EXPEDITION', 'STRANGE TALES FROM A CHINESE STUDIO'];
 const Share = (() => {
   const trackList = (tracks, title) => [`musicetown · ${title}`, '', ...tracks.map((t, i) => `${pad2(i + 1)}. ${t.title} — ${t.artist}`)].join('\n');
   const mixUrl = (tracks, title) => shareBase({ hash: 'mix=' + b64urlEncode({ v: 1, title: String(title || 'musicetown playlist').slice(0, 80), ids: [...new Set(tracks.map(t => t.shareId).filter(Boolean))] }) });
