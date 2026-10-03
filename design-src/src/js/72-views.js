@@ -478,6 +478,7 @@ Router.register('theme', (el, p) => {
   const th = themeBySlug(p.slug) || THEMES[0];
   const lit = th.kind === 'literature';
   const original = th.kind === 'original';
+  const readable = lit && Reader.has(th.slug);
   setAccent(el, th);
   const kindTag = th.kind === 'city' ? `<span class="tag">${icon('ticket')}City Limited</span>` : `<span class="tag">${KIND_LABEL[th.kind] || ''}</span>`;
   el.innerHTML = `<div class="wrap dest${lit ? ' dest--lit' : ''}${original ? ' dest--original' : ''}">
@@ -515,7 +516,8 @@ Router.register('theme', (el, p) => {
         : st === 'owned' ? `<button class="action is-ready" type="button" data-a="pass" aria-label="打開我的票根">${icon('ticket')}</button>`
           : `<button class="action is-locked" type="button" data-a="pass" aria-label="到${esc(th.cityCn)}解鎖票根">${icon('lock')}</button>`;
     const allOff = th.tracks.length && th.tracks.every(t => Offline.has(t));
-    byId('actionbar').innerHTML = `<button class="action action--primary" type="button" data-a="play" aria-label="播放">${icon('play')}</button><button class="action" type="button" data-a="shuffle" aria-label="隨機播放">${icon('shuffle')}</button>${slot3}<button class="action${allOff ? ' is-ready' : ''}" type="button" data-a="dl" aria-label="${allOff ? '已全部存在這台裝置' : '全部存到這台裝置'}">${icon(allOff ? 'downloaded' : 'download')}</button><button class="action" type="button" data-a="share" aria-label="分享">${icon('share')}</button>`;
+    byId('actionbar').classList.toggle('has-reader', readable);
+    byId('actionbar').innerHTML = `<button class="action action--primary" type="button" data-a="play" aria-label="播放">${icon('play')}</button><button class="action" type="button" data-a="shuffle" aria-label="隨機播放">${icon('shuffle')}</button>${slot3}${readable ? `<button class="action action--reader" type="button" data-a="read" aria-label="閱讀原文">${icon('book')}</button>` : ''}<button class="action${allOff ? ' is-ready' : ''}" type="button" data-a="dl" aria-label="${allOff ? '已全部存在這台裝置' : '全部存到這台裝置'}">${icon(allOff ? 'downloaded' : 'download')}</button><button class="action" type="button" data-a="share" aria-label="分享">${icon('share')}</button>`;
   };
   drawActions();
   byId('actionbar').onclick = e => {
@@ -526,6 +528,7 @@ Router.register('theme', (el, p) => {
     if (a === 'radio') { const seed = Reco.drawFive(th)[0]; Player.playList([seed, ...Reco.radio(seed, 14)], 0, { kind: 'radio', title: `${themeTitle(th)} 電台`, theme: th.t }); }
     if (a === 'pass') Pass.openCity(th);
     if (a === 'dl') { if (th.tracks.every(t => Offline.has(t))) toast('已全部存在這台裝置'); else Offline.downloadMany(th.tracks, themeTitle(th)); }
+    if (a === 'read' && readable) Router.go('reader', { slug: th.slug });
     if (a === 'share') Share.theme(th);
   };
   el._unsubs?.forEach(f => f());

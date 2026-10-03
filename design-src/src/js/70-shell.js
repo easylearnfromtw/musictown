@@ -60,6 +60,7 @@ const Router = (() => {
   function urlFor(v, p) {
     const u = new URL(location.href); u.search = ''; u.hash = '';
     if (v === 'theme' && p.slug) u.searchParams.set('theme', p.slug);
+    else if (v === 'reader' && p.slug) u.searchParams.set('read', p.slug);
     else if (v !== 'home') u.searchParams.set('tab', v);
     return u.pathname + u.search;
   }
@@ -96,8 +97,9 @@ const Router = (() => {
     start() {
       const q = new URLSearchParams(location.search);
       const th = themeBySlug(q.get('theme')) || THEME_BY_SLUG.get(norm(q.get('theme')).replace(/\s+/g, '-'));
-      let v = 'home', p = {};
-      if (th) { v = 'theme'; p = { slug: th.slug }; }
+      const read = q.get('read'); let v = 'home', p = {};
+      if (read && Reader.has(read)) { v = 'reader'; p = { slug: read }; }
+      else if (th) { v = 'theme'; p = { slug: th.slug }; }
       else if (TABS.includes(q.get('tab'))) v = q.get('tab');
       show(v, p, { enter: false });
       try { history.replaceState({ v, p, y: 0 }, '', urlFor(v, p) + location.hash); } catch (_) {}
@@ -193,7 +195,9 @@ const Shell = (() => {
 
   function onView(v, p) {
     setCompact(false); tb.classList.remove('show-page');
+    document.documentElement.classList.toggle('is-reader', v === 'reader');
     if (v === 'theme') { setLeft('back'); setRight('share'); const th = themeBySlug(p.slug); tbPage.textContent = th ? th.name : ''; selectTab(Router.lastTab); }
+    else if (v === 'reader') { setLeft('back'); setRight('share'); const b = Reader.get(p.slug); tbPage.textContent = b ? b.title : 'Reader'; selectTab(Router.lastTab); }
     else { setLeft('home'); setRight('pass'); tbPage.textContent = ''; selectTab(v); }
     const th = v === 'theme' ? themeBySlug(p.slug) : null;
     setAccent(document.documentElement, th || (Player.current ? themeOf(Player.current) : null));
