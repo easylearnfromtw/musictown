@@ -36,6 +36,7 @@ const Player = (() => {
   let prefetched = '';
   let shuffleBackup = null;
   let airplay = false;
+  let handoffSeq = 0;
   let localAvail = sess.get('mt.localAudio', null); // null unknown · true · false
 
   /* ---------- where can this track be played from? ---------- */
@@ -143,6 +144,7 @@ const Player = (() => {
   /* ---------- load + play ---------- */
   function load(t, { autoplay = true, startAt = 0 } = {}) {
     if (!t) return;
+    handoffSeq++; // invalidate any async vintage/original pipeline switch from the previous state
     current = t; cands = sourcesFor(t); ci = 0; endHandledFor = null; prefetched = ''; lastTime = -1; stuckTicks = 0;
     const url = cands[0];
     if (!url) { onError(); return; }
@@ -197,7 +199,7 @@ const Player = (() => {
     }
   }
   setInterval(() => {
-    const a = el(); if (!current || a._unlocking) return;
+    const a = el(); if (!current || a._unlocking || a._switching) return;
     if (a.ended && endHandledFor !== current) { onEnded(); return; }
     if (!a.paused && wantPlay) {
       const ct = a.currentTime;
@@ -302,21 +304,45 @@ const Player = (() => {
     FX.setSurface(!a.paused && lv > 0);
   });
   function handoff(name) {
-    const from = el(), url = from.currentSrc || from.src, t = from.currentTime, playing = !from.paused;
-    const to = els[name];
+    const from = el(), url = from.currentSrc || from.src, at = from.currentTime || 0, playing = !from.paused, track = current;
+    const to = els[name]; if (!url || !track || to === from) return;
     if (name === 'fx' && !FX.attach(to)) return;
-    to._track = current; to.muted = true; to.src = url;
-    const go = () => {
-      try { to.currentTime = t + (playing ? .12 : 0); } catch (_) {}
-      if (!playing) { finish(); return; }
-      const p = to.play();
-      to.addEventListener('playing', finish, { once: true });
-      if (p && p.catch) p.catch(() => { to.muted = false; });
+    const seq = ++handoffSeq;
+    from._switching = true; to._switching = true;
+    to._track = track; to.muted = true; to.src = url;
+
+    const stale = () => seq !== handoffSeq || current !== track;
+    const cleanupTarget = () => {
+      if (to._track !== track) return;
+      try { to.pause(); to.removeAttribute('src'); to.load(); } catch (_) {}
+      to._track = null; to._switching = false; to.muted = false;
+    };
+    const fail = () => {
+      if (stale()) { cleanupTarget(); return; }
+      to._switching = false; to.muted = false; from._switching = false;
+      if (playing && from.paused) playEl(from);
+      emitState();
     };
     const finish = () => {
-      to.muted = false; from._switching = true; try { from.pause(); from.removeAttribute('src'); from.load(); } catch (_) {} from._track = null; from._switching = false;
-      activeName = name; Fader.seeked(); emitState(); FX.setSurface(isPlaying() && FX.level > 0);
+      if (stale()) { cleanupTarget(); from._switching = false; return; }
+      activeName = name;
+      to.muted = false; to._switching = false;
+      try { from.pause(); from.removeAttribute('src'); from.load(); } catch (_) {}
+      from._track = null; from._switching = false;
+      lastTime = to.currentTime || at; stuckTicks = 0;
+      Fader.seeked(); emitState(); FX.setSurface(isPlaying() && FX.level > 0);
     };
+    const go = () => {
+      if (stale()) { cleanupTarget(); from._switching = false; return; }
+      const d = Number.isFinite(to.duration) ? to.duration : from.duration;
+      const safeAt = Number.isFinite(d) && d > .4 ? Math.min(at, d - .35) : at;
+      try { to.currentTime = Math.max(0, safeAt); } catch (_) {}
+      if (!playing) { finish(); return; }
+      to.addEventListener('playing', finish, { once: true });
+      const p = to.play();
+      if (p && p.catch) p.catch(fail);
+    };
+    to.addEventListener('error', fail, { once: true });
     if (to.readyState >= 1) go(); else to.addEventListener('loadedmetadata', go, { once: true });
   }
   /* if iOS suspends Web Audio in the background, continue on the direct element */
@@ -333,9 +359,9 @@ const Player = (() => {
     const has = 'mediaSession' in navigator;
     function meta(t) {
       if (!has || !t) return;
-      const th = themeOf(t);
-      const album = th ? (th.kind === 'literature' ? `${th.cn} · ${th.authorCn}` : `${th.name} · ${th.cn}`) : 'musicetown · Library';
-      const base = { title: String(t.title || 'musicetown'), artist: [t.artist, t.note].filter(Boolean).join(' · '), album };
+      const th = themeOf(t), systemName = th?.systemName || '';
+      const album = th ? (th.kind === 'literature' ? `${th.cn} · ${th.authorCn}` : `${systemName || th.name} · ${th.cn}`) : 'musicetown · Library';
+      const base = { title: String(t.title || 'musicetown'), artist: [systemName, t.artist, t.note].filter(Boolean).join(' · '), album };
       try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: [{ src: abs('apple-touch-icon.png'), sizes: '180x180', type: 'image/png' }] }); } catch (_) {}
       Artwork.cover(t, 512).then(src => {
         if (!src || current !== t) return;
