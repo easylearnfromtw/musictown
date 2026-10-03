@@ -82,8 +82,7 @@ const tileHTML = th => {
   const visual = ['original','style','mood'].includes(th.kind) ? `<span class="tile__art tile__art--${esc(th.kind)}" aria-hidden="true"><i></i><i></i><i></i><span>${esc(th.code)}</span></span>` : '';
   return `<button class="tile tile--${esc(th.kind)}${th.kind === 'original' ? ' tile--original' : ''}" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><i class="tile__glow" aria-hidden="true"></i>${visual}<span class="tile__top"><small>${esc(th.code)}</small><em>${esc(KIND_LABEL[th.kind] || 'PLAYLIST')}</em></span><b>${esc(th.name)}</b><span>${esc(th.cn)} · ${th.tracks.length} 首</span><p>${esc(th.line || '')}</p></button>`;
 };
-const bookHTML = th => `<button class="book" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><span class="book__spine"><b>${esc(th.authorCn)}</b></span><span class="book__txt"><b>${esc(th.cn)}</b><em>${esc(th.name)}</em><span>${esc(th.era)}</span>${Reader.has(th.slug) ? '<small class="book__reader">可閱讀原文</small>' : ''}</span></button>`;
-const ebookHTML = b => { const th = THEME_BY_T.get(b.theme) || themeBySlug(b.slug); return `<button class="ebook-card" type="button" data-read="${esc(b.slug)}" style="${accentStyle(th)}"><span class="ebook-card__code">${esc(th?.code || 'READ')}</span><span class="ebook-card__body"><small>CITYMUS READER</small><b>${esc(b.title)}</b><em>${esc(b.author)}</em><span>${esc(b.lang === 'zh-Hant' ? '中文原文' : 'Original English')} · ${Number(b.chars || 0).toLocaleString()} 字元</span></span>${icon('book')}</button>`; };
+const bookHTML = th => `<button class="book" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><span class="book__spine"><b>${esc(th.authorCn)}</b></span><span class="book__txt"><b>${esc(th.cn)}</b><em>${esc(th.name)}</em><span>${esc(th.era)}</span></span></button>`;
 function citiesOrdered() {
   const recent = Stats.recentThemes();
   return CITY_THEMES.slice().sort((a, b) => {
@@ -126,10 +125,6 @@ Router.register('home', (el) => {
       <section class="sec">
         <div class="sec__head"><h2 class="sec__title">文學<small>依作品的時代與心緒選曲 · 可閱讀作品會標示「可閱讀原文」</small></h2></div>
         <div class="books" id="homeBooks"></div>
-      </section>
-      <section class="sec sec--reader" id="homeReaderSec" hidden>
-        <div class="sec__head"><h2 class="sec__title">電子書<small>CITYMUS Reader · 公版原文，聽音樂時也可以繼續閱讀</small></h2></div>
-        <div class="ebook-grid" id="homeReaderBooks"></div>
       </section>
       <section class="sec sec--originals">
         <div class="sec__head"><h2 class="sec__title">原創歌單<small>每張 25 首 · 從母庫重新策展</small></h2></div>
