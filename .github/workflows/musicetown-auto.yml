@@ -1,4 +1,4 @@
-name: CITYMUS AUTO · Build 1300 + Deploy
+name: CITYMUS AUTO · Build 2500 + Deploy
 
 on:
   push:
@@ -72,14 +72,27 @@ jobs:
       - name: Curate EMO / RUNNING / POEM / TRADITIONAL BEIJING
         run: python build_theme_packs.py --per-theme 50 --bitrate "64k"
 
+      - name: Generate open CJK music supplement
+        run: python build_cjk_open_music.py --max-per-language 24 --max-total 60
+
       - name: Generate City Pass QR assets
         run: python generate_city_pass_qr.py
 
-      - name: Verify all 1300 MP3 files
+      - name: Verify 1300 local fast-path MP3 files
         run: python verify_music_install.py
 
       - name: Prepare Pages artifact
         run: python prepare_audio_site.py
+
+      - name: Verify 2500-track runtime library
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open("CITYMUS_LIBRARY_REPORT.json",encoding="utf-8"))
+          assert r["count"]==2500, r
+          print("CITYMUS runtime library:",r)
+          PY
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

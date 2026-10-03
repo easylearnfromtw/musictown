@@ -25,10 +25,13 @@ for name in [
     "index.html","404.html",".nojekyll","MUSIC_INSTALL_REPORT.json","theme_curation_manifest.json","city-pass-preview.html",
     "site.webmanifest","apple-touch-icon.png","icon-192.png","icon-512.png","icon-maskable-512.png",
     "favicon.svg","favicon-32.png","remote-audio-map.js",
-    "sw.js","extra-city-catalog.js","literature-catalog.js","literature-audio-map.js",
+    "sw.js","extra-city-catalog.js","literature-catalog.js","literature-audio-map.js","citymus-library.js","CITYMUS_LIBRARY_REPORT.json",
 ]:
     p=ROOT/name
     if p.exists():shutil.copy2(p,SITE/name)
+
+cjk_report=ROOT/"data"/"cjk_open_music_report.json"
+if cjk_report.exists():shutil.copy2(cjk_report,SITE/"cjk_open_music_report.json")
 
 # icons, iOS startup images, social preview and City Pass QR artwork
 assets=ROOT/"assets"
@@ -49,4 +52,4 @@ for folder in folders:
     shutil.copytree(src,SITE/folder)
 
 size=sum(p.stat().st_size for p in SITE.rglob("*") if p.is_file())
-print(f"Prepared 26-theme site + 文學: {size/1024/1024:.1f} MB")
+print(f"Prepared CITYMUS hybrid 2500-track site + themes + 文學: {size/1024/1024:.1f} MB")

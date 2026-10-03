@@ -1016,7 +1016,11 @@ const THEME_BY_T = new Map(THEMES.map(t => [t.t, t]));
 const THEME_BY_SLUG = new Map(THEMES.map(t => [t.slug, t]));
 const TRACK_BY_SHARE = new Map();
 THEMES.forEach(th => th.tracks.forEach(t => { if (t.shareId && !TRACK_BY_SHARE.has(t.shareId)) TRACK_BY_SHARE.set(t.shareId, t); }));
-const ALL_TRACKS = THEMES.flatMap(th => th.tracks);
+const THEMED_TRACKS = THEMES.flatMap(th => th.tracks);
+const LIBRARY_TRACKS = (Array.isArray(window.CITYMUS_LIBRARY) ? window.CITYMUS_LIBRARY : []).map((t, i) => ({ ...t, __library: true, __li: i }));
+const _themedRecKeys = new Set(THEMED_TRACKS.map(t => t.masterId || `${norm(t.artist)}|${norm(t.title)}`));
+const LIBRARY_ONLY_TRACKS = LIBRARY_TRACKS.filter(t => !_themedRecKeys.has(t.masterId || `${norm(t.artist)}|${norm(t.title)}`));
+const ALL_TRACKS = [...THEMED_TRACKS, ...LIBRARY_ONLY_TRACKS];
 const CITY_THEMES = THEMES.filter(t => t.kind === 'city');
 const LIT_THEMES = THEMES.filter(t => t.kind === 'literature');
 const ORIGINAL_THEMES = THEMES.filter(t => t.kind === 'original');
@@ -1027,7 +1031,8 @@ const recKey = t => t?.localPersonal ? `local:${t.id}` : (t?.masterId || `${norm
 const trackKey = t => t?.localPersonal ? `local:${t.id}` : (t?.shareId ? `id:${t.shareId}` : `${String(t?.artist || '').trim()}||${String(t?.title || '').trim()}||${String(t?.source || '').trim()}`);
 const vibeTags = t => String(t?.vibe || '').split('·').map(s => s.trim()).filter(Boolean);
 const shortVibe = t => { const v = vibeTags(t); return v.find(x => !/vocal/i.test(x) && x.length < 22) || v[0] || ''; };
-const TOTAL_TRACKS = DATA.reduce((n, d) => n + (d.tracks?.length || 0), 0);
+const TOTAL_TRACKS = ALL_TRACKS.length;
+const CITYMUS_LIBRARY_COUNT = LIBRARY_TRACKS.length;
 
 function localTimeIn(tz) {
   try { return new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date()); } catch (_) { return ''; }

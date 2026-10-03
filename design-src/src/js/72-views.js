@@ -277,7 +277,7 @@ Router.register('search', (el) => {
   if (!el._built) {
     el._built = true;
     el.innerHTML = `<div class="wrap">
-      <h1 class="page-title">Search</h1>
+      <h1 class="page-title">Search</h1><p class="page-lede">CITYMUS Library · ${CITYMUS_LIBRARY_COUNT.toLocaleString()} 首合法曲庫${window.CITYMUS_LIBRARY_REPORT?.cjkIncluded ? ` · 含 ${window.CITYMUS_LIBRARY_REPORT.cjkIncluded} 首中／日／韓開放授權錄音` : ``}</p>
       <label class="searchbox glass"><span class="sr-only">搜尋</span>${icon('search')}<input id="q" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="城市、作品、作者、歌名"><button class="icon-btn icon-btn--sm" type="button" id="qClear" aria-label="清除" hidden>${icon('close')}</button></label>
       <div class="filters" id="qFilters"></div>
       <div class="mt-24" id="qOut"></div>
