@@ -81,9 +81,26 @@ const Offline = (() => {
   }
   const bytes = () => [...meta.values()].reduce((n, m) => n + (m.size || 0), 0);
 
-  /* the app shell (index, scripts, icons, fonts) — never the audio */
+  /* the app shell (index, scripts, icons, fonts) — never the audio.
+     Force a network check on every deployed build and reload once when a new
+     worker takes control; this prevents an iPhone Home Screen app from looking
+     "unchanged" after GitHub Pages has already deployed a newer build. */
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost') && !/[?&]nosw\b/.test(location.search)) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    window.addEventListener('load', async () => {
+      const hadController = !!navigator.serviceWorker.controller;
+      try {
+        const reg = await navigator.serviceWorker.register('sw.js?build=' + encodeURIComponent(MT_BUILD), { updateViaCache: 'none' });
+        try { await reg.update(); } catch (_) {}
+        if (hadController) {
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            const key = 'mt.swReload.' + MT_BUILD;
+            if (sessionStorage.getItem(key)) return;
+            sessionStorage.setItem(key, '1');
+            location.reload();
+          }, { once: true });
+        }
+      } catch (_) {}
+    }, { once: true });
   }
 
   return { has, url, progress, download, downloadMany, remove, clear, estimate, persist, tracks, bytes, get count() { return meta.size; }, get ready() { return ready; }, supported };
