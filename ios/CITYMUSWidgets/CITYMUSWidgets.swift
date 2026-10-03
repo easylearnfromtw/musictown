@@ -99,8 +99,8 @@ private struct Palette {
     static func make(_ t:WidgetTheme,_ sys:ColorScheme)->Palette {
         let dark = t == .dark || (t == .automatic && sys == .dark)
         return dark
-        ? .init(bg:Color(red:.075,green:.082,blue:.105),fg:.white,sub:.white.opacity(.62),tile:.white.opacity(.09))
-        : .init(bg:Color(red:.965,green:.957,blue:.925),fg:Color(red:.15,green:.17,blue:.24),sub:Color(red:.36,green:.37,blue:.42),tile:.white.opacity(.72))
+        ? .init(bg:Color(red:0.075,green:0.082,blue:0.105),fg:.white,sub:.white.opacity(0.62),tile:.white.opacity(0.09))
+        : .init(bg:Color(red:0.965,green:0.957,blue:00.925),fg:Color(red:0.15,green:0.17,blue:0.24),sub:Color(red:0.36,green:0.37,blue:0.42),tile:.white.opacity(0.72))
     }
 }
 private struct Art:View {
@@ -111,8 +111,8 @@ private struct Art:View {
                 Image(uiImage:u).resizable().scaledToFill()
             } else {
                 ZStack {
-                    LinearGradient(colors:[Color(red:.56,green:.58,blue:.70),Color(red:.89,green:.86,blue:.78)],startPoint:.topLeading,endPoint:.bottomTrailing)
-                    Text("C").font(.system(size:34,weight:.black,design:.rounded)).foregroundStyle(.white.opacity(.92))
+                    LinearGradient(colors:[Color(red:0.56,green:0.58,blue:0.70),Color(red:0.89,green:0.86,blue:0.78)],startPoint:.topLeading,endPoint:.bottomTrailing)
+                    Text("C").font(.system(size:34,weight:.black,design:.rounded)).foregroundStyle(.white.opacity(0.92))
                 }
             }
         }.clipShape(RoundedRectangle(cornerRadius:radius,style:.continuous))
