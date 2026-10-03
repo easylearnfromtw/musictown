@@ -997,8 +997,7 @@
       "license": "CC0 1.0 Universal",
       "licenseChecked": "2026-10-01",
       "licenseEvidence": "Free Music Archive album page states tracks are licensed CC0 1.0 Universal"
-    },
-    {
+    },    {
       "theme": "CROONER",
       "folder": "crooner",
       "slot": 22,
@@ -1997,8 +1996,7 @@
       "folder": "rock",
       "slot": 43,
       "shareId": "rock-043",
-      "target": "rock/043.mp3",
-      "masterId": "f87bdf7e6a2db959",
+      "target": "rock/043.mp3",      "masterId": "f87bdf7e6a2db959",
       "title": "Monster",
       "artist": "HoliznaCC0",
       "source": "https://freemusicarchive.org/music/holiznacc0/music-from-the-vault",
@@ -2997,8 +2995,7 @@
       "artist": "HoliznaCC0",
       "source": "https://freemusicarchive.org/music/holiznacc0/mouth-music",
       "license": "CC0 1.0 Universal",
-      "licenseChecked": "2026-10-01",
-      "licenseEvidence": "Free Music Archive album page states tracks are licensed CC0 1.0 Universal"
+      "licenseChecked": "2026-10-01",      "licenseEvidence": "Free Music Archive album page states tracks are licensed CC0 1.0 Universal"
     },
     {
       "theme": "LO-FI",
@@ -3997,8 +3994,7 @@
     },
     {
       "masterId": "e11966938394743b",
-      "title": "Lie To Me",
-      "artist": "SUPERARE",
+      "title": "Lie To Me",      "artist": "SUPERARE",
       "source": "https://freemusicarchive.org/music/superare/fatal-1",
       "license": "CC0 1.0 Universal",
       "licenseChecked": "2026-10-01",
@@ -4997,8 +4993,7 @@
       "targets": [
         "lo-fi/045.mp3"
       ]
-    },
-    {
+    },    {
       "masterId": "27deb059257cd4d2",
       "title": "ah vous dirais-je maman...",
       "artist": "oji",

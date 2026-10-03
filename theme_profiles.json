@@ -1,299 +1,17 @@
 {
-  "JAZZ": {
-    "slug": "jazz",
-    "vibe": "Jazz · Midnight · Swing",
-    "queries": [
-      "jazz vocal",
-      "swing vocal",
-      "soul jazz vocal",
-      "blues jazz vocal",
-      "lounge jazz vocal",
-      "bebop vocal"
-    ],
-    "genres": [
-      "Jazz",
-      "Blues",
-      "Funk / Soul"
-    ],
-    "keywords": [
-      "jazz",
-      "swing",
-      "soul",
-      "blues",
-      "lounge",
-      "bebop",
-      "piano",
-      "brass",
-      "sax",
-      "vocal"
-    ],
-    "required_any": [
-      "jazz",
-      "swing",
-      "soul",
-      "blues",
-      "lounge",
-      "bebop"
-    ],
-    "prefer_bpm": [
-      55,
-      150
-    ],
-    "prefer_energy": [
-      20,
-      85
-    ],
-    "reject": [
-      "hard techno",
-      "metal",
-      "corporate"
-    ],
-    "vocal_mode": "preferred",
-    "allow_instrumental": true,
-    "min_strong_matches": 1,
-    "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -132
-  },
-  "CROONER": {
-    "slug": "crooner",
-    "vibe": "Crooner · Velvet · Lounge",
-    "queries": [
-      "crooner vocal",
-      "lounge vocal",
-      "ballad vocal",
-      "classic pop vocal",
-      "soul ballad vocal",
-      "jazz singer"
-    ],
-    "genres": [
-      "Jazz",
-      "Pop",
-      "Funk / Soul",
-      "Blues"
-    ],
-    "keywords": [
-      "crooner",
-      "lounge",
-      "ballad",
-      "classic",
-      "soul",
-      "jazz",
-      "vocal",
-      "romantic",
-      "slow",
-      "singer"
-    ],
-    "required_any": [
-      "crooner",
-      "lounge",
-      "ballad",
-      "classic",
-      "soul",
-      "jazz",
-      "vocal"
-    ],
-    "prefer_bpm": [
-      50,
-      120
-    ],
-    "prefer_energy": [
-      15,
-      65
-    ],
-    "reject": [
-      "hard techno",
-      "metal",
-      "industrial"
-    ],
-    "vocal_mode": "required",
-    "min_strong_matches": 1,
-    "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
-  },
-  "ROCK": {
-    "slug": "rock",
-    "vibe": "Rock · Guitar · Raw",
-    "queries": [
-      "rock vocal",
-      "garage rock vocal",
-      "indie rock vocal",
-      "blues rock vocal",
-      "punk rock vocal",
-      "alternative rock vocal"
-    ],
-    "genres": [
-      "Rock",
-      "Punk",
-      "Blues"
-    ],
-    "keywords": [
-      "rock",
-      "garage",
-      "indie",
-      "blues",
-      "punk",
-      "alternative",
-      "guitar",
-      "raw",
-      "band",
-      "drums"
-    ],
-    "required_any": [
-      "rock",
-      "garage",
-      "indie",
-      "blues",
-      "punk",
-      "alternative",
-      "guitar"
-    ],
-    "prefer_bpm": [
-      75,
-      180
-    ],
-    "prefer_energy": [
-      45,
-      100
-    ],
-    "reject": [
-      "meditation",
-      "corporate",
-      "sleep"
-    ],
-    "vocal_mode": "preferred",
-    "min_strong_matches": 1,
-    "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -132,
-    "allow_instrumental": true
-  },
-  "SPORT": {
-    "slug": "sport",
-    "vibe": "Sport · Motion · Energy",
-    "queries": [
-      "energetic electronic vocal",
-      "workout vocal",
-      "dance rock vocal",
-      "drum bass vocal",
-      "upbeat pop vocal",
-      "high energy vocal"
-    ],
-    "genres": [
-      "Electronic",
-      "Pop",
-      "Rock",
-      "Hip Hop"
-    ],
-    "keywords": [
-      "energetic",
-      "workout",
-      "dance",
-      "drum",
-      "bass",
-      "upbeat",
-      "fast",
-      "electronic",
-      "rock",
-      "hype"
-    ],
-    "required_any": [
-      "energetic",
-      "workout",
-      "dance",
-      "drum",
-      "bass",
-      "upbeat",
-      "fast",
-      "electronic",
-      "rock"
-    ],
-    "prefer_bpm": [
-      125,
-      190
-    ],
-    "prefer_energy": [
-      70,
-      100
-    ],
-    "reject": [
-      "sleep",
-      "meditation",
-      "slow folk"
-    ],
-    "vocal_mode": "preferred",
-    "min_strong_matches": 1,
-    "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -132,
-    "allow_instrumental": true
-  },
-  "LO-FI": {
-    "slug": "lo-fi",
-    "vibe": "Lo-fi · Bedroom · Quiet",
-    "queries": [
-      "lofi vocal",
-      "lo-fi vocal",
-      "bedroom pop vocal",
-      "chillhop vocal",
-      "mellow indie vocal",
-      "ambient vocal"
-    ],
-    "genres": [
-      "Chill-out",
-      "Pop",
-      "Folk",
-      "Ambient",
-      "Experimental Pop"
-    ],
-    "keywords": [
-      "lofi",
-      "lo-fi",
-      "bedroom",
-      "chill",
-      "mellow",
-      "ambient",
-      "indie",
-      "soft",
-      "quiet",
-      "tape"
-    ],
-    "required_any": [
-      "lofi",
-      "lo-fi",
-      "bedroom",
-      "chill",
-      "mellow",
-      "ambient",
-      "indie",
-      "soft"
-    ],
-    "prefer_bpm": [
-      50,
-      115
-    ],
-    "prefer_energy": [
-      10,
-      55
-    ],
-    "reject": [
-      "hard techno",
-      "metal",
-      "hype"
-    ],
-    "vocal_mode": "preferred",
-    "allow_instrumental": true,
-    "min_strong_matches": 1,
-    "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -132
-  },
   "EMO": {
     "slug": "emo",
-    "vibe": "Emo · Alternative · Melancholic",
+    "label": "Emo Night · Alternative / Post-Punk / Catharsis",
     "queries": [
       "emo vocal",
       "alternative rock vocal",
       "post punk vocal",
       "pop punk vocal",
-      "melancholic indie vocal",
-      "sad rock vocal"
+      "indie rock sad vocal",
+      "melancholic rock vocal",
+      "grunge vocal",
+      "emotional indie vocal",
+      "heartbreak vocal"
     ],
     "genres": [
       "Rock",
@@ -302,220 +20,240 @@
     ],
     "keywords": [
       "emo",
+      "emotional",
       "alternative",
-      "post punk",
       "post-punk",
+      "post punk",
       "pop punk",
       "punk",
+      "indie rock",
+      "grunge",
       "melancholic",
       "sad",
-      "rock",
-      "indie",
+      "heartbreak",
+      "angry",
       "dark",
+      "confessional",
       "guitar"
-    ],
-    "required_any": [
-      "emo",
-      "alternative",
-      "post punk",
-      "post-punk",
-      "punk",
-      "melancholic",
-      "rock",
-      "indie"
     ],
     "prefer_bpm": [
       90,
       180
     ],
     "prefer_energy": [
-      45,
-      100
+      42,
+      92
     ],
     "reject": [
+      "game",
+      "battle",
+      "boss",
+      "trailer",
       "corporate",
-      "meditation",
-      "children",
-      "game music"
+      "advertisement",
+      "jingle",
+      "loop"
     ],
-    "vocal_mode": "preferred",
-    "min_strong_matches": 1,
-    "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112,
-    "allow_instrumental": true
+    "vibe": "Midnight Catharsis · Emo / Alternative"
   },
   "RUNNING": {
     "slug": "running",
-    "vibe": "Running · Pace · Energy",
+    "label": "Running Pace · Energy / Momentum / Vocal Drive",
     "queries": [
-      "energetic pop vocal",
-      "running electronic vocal",
-      "dance vocal",
-      "rock workout vocal",
-      "drum bass vocal",
+      "energetic vocal",
+      "running music vocal",
+      "dance pop vocal",
+      "electronic pop vocal",
+      "drum and bass vocal",
+      "punk vocal energetic",
+      "rock vocal energetic",
+      "synthwave vocal energetic",
+      "house vocal",
       "upbeat vocal"
     ],
     "genres": [
       "Electronic",
       "Pop",
       "Rock",
-      "Hip Hop"
+      "Funk / Soul"
     ],
     "keywords": [
       "energetic",
+      "upbeat",
       "dance",
       "electronic",
+      "drum and bass",
+      "dnb",
+      "house",
+      "synthwave",
+      "punk",
       "rock",
-      "drum",
-      "bass",
-      "upbeat",
+      "powerful",
+      "intense",
+      "driving",
       "fast",
-      "hype",
-      "motion",
+      "euphoric",
       "workout",
-      "pop"
-    ],
-    "required_any": [
-      "energetic",
-      "dance",
-      "electronic",
-      "rock",
-      "drum",
-      "bass",
-      "upbeat",
-      "fast",
-      "hype",
-      "pop"
+      "fitness",
+      "run",
+      "running",
+      "motivational"
     ],
     "prefer_bpm": [
       125,
       180
     ],
     "prefer_energy": [
-      65,
+      55,
       100
     ],
     "reject": [
+      "slow",
       "sleep",
-      "meditation",
-      "ambient drone",
-      "slow folk",
-      "podcast"
+      "lullaby",
+      "meditative",
+      "ambient",
+      "game",
+      "battle",
+      "boss",
+      "trailer",
+      "loop"
     ],
-    "vocal_mode": "preferred",
-    "min_strong_matches": 1,
-    "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112,
-    "allow_instrumental": true
+    "vibe": "Forward Motion · Running / High Energy"
   },
   "POEM": {
     "slug": "poem",
-    "vibe": "Poem · Story · Acoustic",
+    "label": "Poem Room · Folk / Story / Intimate Vocal",
     "queries": [
       "singer songwriter vocal",
       "folk vocal",
       "acoustic vocal",
       "spoken word music",
+      "storytelling vocal",
+      "poetic vocal",
+      "intimate vocal",
       "art pop vocal",
-      "storytelling vocal"
+      "meditative folk vocal",
+      "chanson vocal"
     ],
     "genres": [
       "Folk",
       "Pop",
       "Experimental Pop",
-      "Rock"
+      "Ambient"
     ],
     "keywords": [
       "folk",
-      "singer songwriter",
       "singer-songwriter",
+      "singer songwriter",
       "acoustic",
-      "spoken word",
-      "story",
-      "lyrics",
-      "art pop",
+      "spoken",
       "poetry",
-      "indie",
-      "ballad",
-      "vocal"
-    ],
-    "required_any": [
-      "folk",
-      "singer songwriter",
-      "singer-songwriter",
-      "acoustic",
-      "spoken word",
+      "poetic",
       "story",
-      "art pop",
-      "indie",
-      "ballad"
+      "storytelling",
+      "lyrical",
+      "intimate",
+      "meditative",
+      "sentimental",
+      "chanson",
+      "ballad",
+      "soft",
+      "melancholic",
+      "love"
     ],
     "prefer_bpm": [
       55,
       125
     ],
     "prefer_energy": [
-      15,
+      18,
       70
     ],
     "reject": [
-      "hard techno",
-      "club",
-      "game music",
-      "corporate"
+      "game",
+      "battle",
+      "boss",
+      "trailer",
+      "corporate",
+      "advertisement",
+      "jingle",
+      "loop",
+      "dubstep"
     ],
-    "vocal_mode": "required",
-    "min_strong_matches": 1,
-    "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -112
+    "vibe": "Words & Quiet Rooms · Poem / Story"
   },
   "TRADITIONAL BEIJING": {
     "slug": "traditional-beijing",
-    "vibe": "Beijing · Jingju-inspired · Traditional",
+    "label": "Traditional Beijing · Jingju / Chinese Opera / Theatre",
     "queries": [
-      "chinese opera music",
+      "peking opera",
       "beijing opera",
-      "jingju music",
+      "jingju",
+      "chinese opera",
+      "traditional chinese opera",
+      "chinese theatrical vocal",
       "chinese traditional vocal",
-      "erhu music",
-      "pipa music",
-      "guzheng music",
-      "dizi flute"
+      "erhu vocal",
+      "suona vocal",
+      "pipa vocal",
+      "chinese percussion opera",
+      "gong opera",
+      "pentatonic vocal",
+      "traditional chinese music",
+      "oriental opera"
     ],
     "genres": [
       "Folk",
       "Classical",
-      "Experimental",
-      "Ambient"
+      "Avant-Garde",
+      "Experimental Pop",
+      "World"
     ],
     "keywords": [
-      "chinese",
-      "opera",
-      "beijing",
+      "peking opera",
+      "beijing opera",
       "jingju",
+      "chinese opera",
+      "opera",
+      "theatrical",
+      "theatre",
+      "traditional chinese",
+      "chinese traditional",
+      "chinese folk",
+      "chinese",
+      "pentatonic",
       "erhu",
       "pipa",
-      "guzheng",
+      "suona",
       "dizi",
-      "traditional",
-      "folk",
+      "guqin",
+      "gong",
+      "gongs",
+      "cymbal",
+      "percussion",
+      "dramatic vocal",
+      "folk vocal",
       "ceremonial",
-      "flute",
-      "percussion"
+      "ritual",
+      "court",
+      "ancient"
     ],
     "required_any": [
-      "chinese",
-      "opera",
-      "beijing",
+      "peking opera",
+      "beijing opera",
       "jingju",
+      "chinese opera",
+      "traditional chinese",
+      "chinese traditional",
       "erhu",
       "pipa",
-      "guzheng",
+      "suona",
       "dizi",
-      "traditional",
-      "folk",
-      "ceremonial",
-      "flute"
+      "guqin",
+      "gong",
+      "pentatonic",
+      "chinese folk"
     ],
     "prefer_bpm": [
       55,
@@ -523,18 +261,22 @@
     ],
     "prefer_energy": [
       20,
-      90
+      88
     ],
     "reject": [
       "corporate",
-      "trap",
-      "club",
-      "podcast"
+      "advertisement",
+      "jingle",
+      "game battle",
+      "boss battle",
+      "synthwave",
+      "cyberpunk",
+      "8-bit",
+      "chiptune"
     ],
+    "vibe": "Jingju Theatre · Traditional Beijing",
     "vocal_mode": "preferred",
     "allow_instrumental": true,
-    "min_strong_matches": 1,
-    "fallback_min_keyword_matches": 1,
-    "fallback_min_score": -132
+    "min_strong_matches": 1
   }
 }

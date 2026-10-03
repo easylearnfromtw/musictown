@@ -2,11 +2,9 @@
 from __future__ import annotations
 import argparse, json, re, shutil, subprocess, tempfile, time, hashlib, math
 from collections import Counter
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import quote_plus, urljoin
 import requests
-import threading
 from bs4 import BeautifulSoup
 
 ROOT=Path(__file__).resolve().parent
@@ -17,48 +15,27 @@ CACHE.mkdir(parents=True,exist_ok=True)
 S=requests.Session()
 S.headers.update({"User-Agent":"musicetown-theme-curator/8.7.4"})
 NULLRIGHTS="https://nullrights.com"
-TIMEOUT=20
-
-RATE_LOCK=threading.Lock()
-LAST_REQUEST_AT=0.0
-RATE_BLOCK_UNTIL=0.0
-MIN_REQUEST_INTERVAL=0.18
-TRACK_HTML_CACHE={}
+TIMEOUT=45
 
 def get(url,tries=3):
-    global LAST_REQUEST_AT,RATE_BLOCK_UNTIL
     last=None
     for n in range(tries):
-        # Pace all workers together so parallel parsing does not hammer Nullrights.
-        with RATE_LOCK:
-            now=time.monotonic()
-            wait=max(0.0,RATE_BLOCK_UNTIL-now,MIN_REQUEST_INTERVAL-(now-LAST_REQUEST_AT))
-            if wait>0:time.sleep(wait)
-            LAST_REQUEST_AT=time.monotonic()
         try:
             r=S.get(url,timeout=TIMEOUT)
-            if r.status_code==429:
-                raw=r.headers.get("Retry-After","")
-                try:cooldown=float(raw)
-                except Exception:cooldown=min(18.0,3.5*(n+1))
-                cooldown=max(2.5,min(30.0,cooldown))
-                with RATE_LOCK:
-                    RATE_BLOCK_UNTIL=max(RATE_BLOCK_UNTIL,time.monotonic()+cooldown)
-                last=requests.HTTPError(f"429 Too Many Requests: cooling down {cooldown:.1f}s",response=r)
-                continue
             r.raise_for_status()
             return r
         except Exception as e:
             last=e
-            if n+1<tries:time.sleep(min(8.0,1.4*(n+1)))
+            if n+1<tries: time.sleep(1.1*(n+1))
     raise last
+
 def norm(s):
     return re.sub(r"\s+"," ",str(s or "")).strip()
 
 def key(title,artist):
     return f"{norm(artist).casefold()}||{norm(title).casefold()}"
 
-def discover(query,max_pages=1):
+def discover(query,max_pages=14):
     found=[]
     for p in range(1,max_pages+1):
         url=f"{NULLRIGHTS}/search?q={quote_plus(query)}&page={p}"
@@ -69,7 +46,7 @@ def discover(query,max_pages=1):
         found.extend(urljoin(NULLRIGHTS,x) for x in links)
     return list(dict.fromkeys(found))
 
-def discover_genre(genre,max_pages=1):
+def discover_genre(genre,max_pages=10):
     found=[]
     for p in range(1,max_pages+1):
         url=f"{NULLRIGHTS}/genre/{quote_plus(genre)}?page={p}"
@@ -81,10 +58,7 @@ def discover_genre(genre,max_pages=1):
     return list(dict.fromkeys(found))
 
 def parse_track(url,profile):
-    h=TRACK_HTML_CACHE.get(url)
-    if h is None:
-        h=get(url).text
-        TRACK_HTML_CACHE[url]=h
+    h=get(url).text
     soup=BeautifulSoup(h,"html.parser")
     txt=norm(soup.get_text(" ",strip=True))
     low=txt.casefold()
@@ -146,11 +120,7 @@ def parse_track(url,profile):
     for a in soup.find_all("a",href=True):
         label=norm(a.get_text(" ",strip=True)).casefold()
         href=urljoin(url,a["href"])
-        # Nullrights increasingly serves verified downloads through HTTPS
-        # redirect endpoints without a filename extension. The page itself has
-        # already passed the CC0 hard gate above, so a visible Download action
-        # is a valid transport candidate even when the URL is extensionless.
-        if "download" in label and href.startswith(("https://","http://")):
+        if "download" in label and "/download/" in href:
             download=href;break
     if not download:
         for a in soup.find_all("a",href=True):
@@ -260,10 +230,8 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--per-theme",type=int,default=50)
     ap.add_argument("--bitrate",default="64k")
-    ap.add_argument("--max-candidates",type=int,default=28)
+    ap.add_argument("--max-candidates",type=int,default=900)
     ap.add_argument("--max-per-artist",type=int,default=4)
-    ap.add_argument("--workers",type=int,default=4)
-    ap.add_argument("--streaming",action="store_true",help="Keep verified remote audio URLs instead of packaging MP3 files into GitHub Pages.")
     args=ap.parse_args()
 
     index=ROOT/"index.html"
@@ -271,60 +239,19 @@ def main():
 
     _,_,data=read_catalog(index)
     by_name={d["t"]:d for d in data}
-    catalog_fallback=[]
-    for d in data:
-        for src in d.get("tracks",[]):
-            if not src.get("licenseVerified") or not src.get("audioSrc"):continue
-            clone=dict(src)
-            clone["download"]=clone.get("download") or clone.get("audioSrc")
-            clone["_catalogDrawer"]=d.get("t")
-            catalog_fallback.append(clone)
 
-    # Protect the 11 established drawers. Newly curated city packs are a soft
-    # exclusion: avoid them first, but allow controlled reuse as a fallback.
-    legacy_themes={"JAZZ","CROONER","ROCK","SPORT","LO-FI"}
-    hard_used=set()
-    hard_sources=set()
-    soft_used=set()
-    soft_sources=set()
+    # Exclude EVERYTHING already used by the existing 11 drawers.
+    used=set()
+    used_sources=set()
     for d in data:
         if d["t"] in PROFILES:continue
         for t in d.get("tracks",[]):
-            k=key(t.get("title"),t.get("artist"))
-            src=t.get("source")
-            if d["t"] in legacy_themes:
-                hard_used.add(k)
-                if src:hard_sources.add(src)
-            else:
-                soft_used.add(k)
-                if src:soft_sources.add(src)
-    used=set(hard_used)|set(soft_used)
-    used_sources=set(hard_sources)|set(soft_sources)
-
-    fallback_drawers={
-      "EMO":{"ROCK","LO-FI","VAPOR LONDON"},
-      "RUNNING":{"SPORT","ROCK","NEW YORK"},
-      "POEM":{"CROONER","LO-FI","JAZZ","TAIPEI DREAM","VANCOUVER"},
-      "TRADITIONAL BEIJING":{"SPLENDOR SHANGHAI","OLD TOKYO","JAZZ","CROONER"}
-    }
+            used.add(key(t.get("title"),t.get("artist")))
+            if t.get("source"):used_sources.add(t["source"])
 
     report={"generatedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"themes":{}}
 
     for theme,p in PROFILES.items():
-        existing=list((by_name.get(theme) or {}).get("tracks") or [])
-        existing_ready=len(existing)>=args.per_theme and all(
-            bool(t.get("audioSrc")) and (
-                re.match(r"^https?://",str(t.get("audioSrc"))) is not None
-                or (ROOT/str(t.get("audioSrc"))).exists()
-            )
-            for t in existing[:args.per_theme]
-        )
-        if existing_ready:
-            print(f"\n=== {theme}: preserve existing {len(existing)} playable tracks ===")
-            report["themes"][theme]=existing[:args.per_theme]
-            by_name[theme]["installPending"]=False
-            continue
-
         print(f"\n=== {theme}: live curation ===")
         urls=[]
         for q in p["queries"]:urls.extend(discover(q))
@@ -333,34 +260,23 @@ def main():
 
         candidates=[]
         seen=set()
-        candidate_urls=[url for url in urls[:args.max_candidates] if url not in hard_sources]
-
-        def load_candidate(url):
+        for url in urls[:args.max_candidates]:
+            if url in used_sources:continue
             try:
-                return url,parse_track(url,p),None
-            except Exception as e:
-                return url,None,e
-
-        with ThreadPoolExecutor(max_workers=max(1,args.workers)) as ex:
-            futures=[ex.submit(load_candidate,url) for url in candidate_urls]
-            for fut in as_completed(futures):
-                url,t,err=fut.result()
-                if err is not None:
-                    print(" skip:",url,str(err)[:100]);continue
+                t=parse_track(url,p)
                 if not t:continue
                 k=key(t["title"],t["artist"])
-                if k in hard_used or k in seen:continue
+                if k in used or k in seen:continue
                 seen.add(k)
                 score(t,p)
                 candidates.append(t)
+            except Exception as e:
+                print(" skip:",url,str(e)[:100])
 
         candidates.sort(key=lambda t:(-t["_score"],hashlib.sha1((theme+t["source"]).encode()).hexdigest()))
 
         selected=[]
-        selected_keys=set()
         artist_counts=Counter()
-
-        # Pass 1: strong theme match + unique across all generated packs.
         for t in candidates:
             k=key(t["title"],t["artist"])
             if k in used:continue
@@ -368,124 +284,29 @@ def main():
             if artist_counts[artist]>=args.max_per_artist:continue
             if p.get("required_any") and not t.get("_strongHits"):continue
             if t["_score"]<0:continue
-            t["_curationTier"]="exact"
-            selected.append(t);selected_keys.add(k)
+            selected.append(t)
             artist_counts[artist]+=1
             used.add(k);used_sources.add(t["source"])
             if len(selected)>=args.per_theme:break
 
-        # Pass 2: keep the 11 legacy drawers protected, but permit
-        # theme-adjacent reuse from newly curated packs when the CC0 catalog is sparse.
         if len(selected)<args.per_theme:
-            fallback_min_matches=int(p.get("fallback_min_keyword_matches",1))
-            fallback_min_score=float(p.get("fallback_min_score",-112))
-            for t in candidates:
-                k=key(t["title"],t["artist"])
-                if k in selected_keys or k in hard_used:continue
-                artist=norm(t["artist"]).casefold()
-                if artist_counts[artist]>=args.max_per_artist:continue
-                strong=t.get("_strongHits",[])
-                matches=t.get("_matches",[])
-                if not strong and len(matches)<fallback_min_matches:continue
-                if t["_score"]<fallback_min_score:continue
-                t["_curationTier"]="adjacent-reuse" if k in used else "adjacent"
-                selected.append(t);selected_keys.add(k)
-                artist_counts[artist]+=1
-                used.add(k);used_sources.add(t["source"])
-                if len(selected)>=args.per_theme:break
-
-        # Pass 3: artist-depth fallback. Diversity is a preference, not a legal/theme gate.
-        # Keep only strong theme matches with non-negative score, but permit >4 songs
-        # from the same artist when the CC0 catalog is concentrated among a few creators.
-        if len(selected)<args.per_theme:
-            for t in candidates:
-                k=key(t["title"],t["artist"])
-                if k in selected_keys or k in hard_used:continue
-                if p.get("required_any") and not t.get("_strongHits"):continue
-                if t["_score"]<0:continue
-                t["_curationTier"]="exact-artist-depth"
-                selected.append(t);selected_keys.add(k)
-                used.add(k);used_sources.add(t["source"])
-                if len(selected)>=args.per_theme:break
-
-        # Pass 4: metadata on some otherwise valid Nullrights tracks is sparse.
-        # Every candidate here still originated from THIS theme's own search
-        # queries / genre pages and already passed the CC0, duration, AI and
-        # direct-audio gates. Use those discovery semantics as the last theme-fit gate.
-        if len(selected)<args.per_theme:
-            relaxed_artist_cap=max(args.max_per_artist*2,8)
-            for t in candidates:
-                k=key(t["title"],t["artist"])
-                if k in selected_keys or k in hard_used:continue
-                artist=norm(t["artist"]).casefold()
-                if artist_counts[artist]>=relaxed_artist_cap:continue
-                t["_curationTier"]="query-genre-fit"
-                selected.append(t);selected_keys.add(k)
-                artist_counts[artist]+=1
-                used.add(k);used_sources.add(t["source"])
-                if len(selected)>=args.per_theme:break
-
-        # Pass 5: if the legal CC0 catalog is concentrated among very few
-        # artists, keep per-theme uniqueness but remove artist diversity as
-        # the final blocker. No out-of-theme discovery pool is introduced.
-        if len(selected)<args.per_theme:
-            for t in candidates:
-                k=key(t["title"],t["artist"])
-                if k in selected_keys or k in hard_used:continue
-                t["_curationTier"]="query-genre-final"
-                selected.append(t);selected_keys.add(k)
-                used.add(k);used_sources.add(t["source"])
-                if len(selected)>=args.per_theme:break
-
-        if len(selected)<args.per_theme:
-            fallback=[]
-            allowed=fallback_drawers.get(theme,set())
-            for src in catalog_fallback:
-                if allowed and src.get("_catalogDrawer") not in allowed:continue
-                t=dict(src)
-                k=key(t.get("title"),t.get("artist"))
-                if k in selected_keys:continue
-                # Older audited base tracks can lack rich genre metadata.
-                # Use the source drawer as a conservative fallback label instead
-                # of crashing or importing unrelated utility/game tracks.
-                t["genre"]=t.get("genre") or t.get("_catalogDrawer") or "CC0 MUSIC"
-                title_blob=(str(t.get("title",""))+" "+str(t.get("vibe",""))).casefold()
-                if any(x in title_blob for x in ["game music","level 1","jump and shoot","pew pew","action track"]):
-                    continue
-                try:score(t,p)
-                except Exception:continue
-                # Give semantically selected source drawers a strong prior.
-                t["_score"]=round(float(t.get("_score",0))+35,2)
-                fallback.append(t)
-            fallback.sort(key=lambda t:(-t.get("_score",0),hashlib.sha1((theme+str(t.get("shareId",""))).encode()).hexdigest()))
-            for t in fallback:
-                k=key(t.get("title"),t.get("artist"))
-                if k in selected_keys:continue
-                t["_curationTier"]="verified-related-drawer-fallback"
-                selected.append(t);selected_keys.add(k)
-                if len(selected)>=args.per_theme:break
-
-        if len(selected)<args.per_theme:
-            raise RuntimeError(f"{theme}: only {len(selected)} verified CC0 tracks available after catalog fallback")
+            raise RuntimeError(f"{theme}: only {len(selected)} suitable fresh tracks after legal/theme/quality gates")
 
         folder=p["slug"]
         target=ROOT/folder
-        if not args.streaming:
-            target.mkdir(parents=True,exist_ok=True)
+        target.mkdir(parents=True,exist_ok=True)
         out_tracks=[]
 
         for i,t in enumerate(selected,1):
             print(f" [{i:02d}/{args.per_theme}] {t['artist']} — {t['title']} · score {t['_score']}")
+            cached=convert(t,args.bitrate)
             rel=f"{folder}/{i:03d}.mp3"
-            if not args.streaming:
-                cached=convert(t,args.bitrate)
-                shutil.copy2(cached,ROOT/rel)
+            shutil.copy2(cached,ROOT/rel)
 
             matches=t.pop("_matches",[])
             strong_hits=t.pop("_strongHits",[])
             t.pop("_rejectHits",None)
             score_value=t.pop("_score",0)
-            tier=t.pop("_curationTier","exact")
 
             t.update({
               "trackNo":i,
@@ -494,33 +315,23 @@ def main():
               "curatedTheme":theme,
               "curationScore":score_value,
               "curationMatches":matches,"strongThemeMatches":strong_hits,
-              "curationTier":tier,
-              "vibe":f"{p['vibe']} · {t.get('genre') or t.get('_catalogDrawer') or 'CC0 Music'}"
+              "vibe":f"{p['vibe']} · {t['genre']}",
+              "audioSrc":rel,
+              "localMp3":True
             })
-            if args.streaming:
-              t["audioSrc"]=t["download"]
-              t["streamingAudio"]=True
-              t["localMp3"]=False
-            else:
-              t["audioSrc"]=rel
-              t["localMp3"]=True
             out_tracks.append(t)
 
-        if theme not in by_name:
-            raise RuntimeError(f"{theme}: profile does not match a MUSIC_DATA drawer")
         by_name[theme]["tracks"]=out_tracks
         by_name[theme]["installPending"]=False
         report["themes"][theme]=out_tracks
-        if not args.streaming:
-            (target/"manifest.json").write_text(json.dumps(out_tracks,ensure_ascii=False,indent=2),encoding="utf-8")
+        (target/"manifest.json").write_text(json.dumps(out_tracks,ensure_ascii=False,indent=2),encoding="utf-8")
 
     final=[by_name[d["t"]] for d in data]
     write_catalog(index,final)
     if (ROOT/"404.html").exists():write_catalog(ROOT/"404.html",final)
 
     (ROOT/"theme_curation_manifest.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
-    mode="verified remote streams" if args.streaming else "packaged MP3"
-    print(f"\nTheme curation complete: {len(PROFILES)} × {args.per_theme} tracks · {mode}.")
+    print("\nTheme curation complete: 4 × 50 fresh CC0 / public-domain-compatible theme tracks.")
 
 if __name__=="__main__":
     main()

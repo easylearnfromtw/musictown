@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import argparse, json, re, shutil, subprocess, tempfile, time, hashlib
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import quote_plus, urljoin
 import requests
-import threading
 from bs4 import BeautifulSoup
 
 ROOT=Path(__file__).resolve().parent
@@ -16,49 +14,28 @@ CACHE.mkdir(parents=True,exist_ok=True)
 S=requests.Session()
 S.headers.update({"User-Agent":"musicetown-fresh-city-installer/8.9.0"})
 NULLRIGHTS="https://nullrights.com"
-TIMEOUT=20
+TIMEOUT=45
 CITY_NAMES=list(PROFILES.keys())
 
-RATE_LOCK=threading.Lock()
-LAST_REQUEST_AT=0.0
-RATE_BLOCK_UNTIL=0.0
-MIN_REQUEST_INTERVAL=0.18
-TRACK_HTML_CACHE={}
-
-def get(url,tries=3):
-    global LAST_REQUEST_AT,RATE_BLOCK_UNTIL
+def get(url, tries=3):
     last=None
     for n in range(tries):
-        # Pace all workers together so parallel parsing does not hammer Nullrights.
-        with RATE_LOCK:
-            now=time.monotonic()
-            wait=max(0.0,RATE_BLOCK_UNTIL-now,MIN_REQUEST_INTERVAL-(now-LAST_REQUEST_AT))
-            if wait>0:time.sleep(wait)
-            LAST_REQUEST_AT=time.monotonic()
         try:
             r=S.get(url,timeout=TIMEOUT)
-            if r.status_code==429:
-                raw=r.headers.get("Retry-After","")
-                try:cooldown=float(raw)
-                except Exception:cooldown=min(18.0,3.5*(n+1))
-                cooldown=max(2.5,min(30.0,cooldown))
-                with RATE_LOCK:
-                    RATE_BLOCK_UNTIL=max(RATE_BLOCK_UNTIL,time.monotonic()+cooldown)
-                last=requests.HTTPError(f"429 Too Many Requests: cooling down {cooldown:.1f}s",response=r)
-                continue
             r.raise_for_status()
             return r
         except Exception as e:
             last=e
-            if n+1<tries:time.sleep(min(8.0,1.4*(n+1)))
+            if n+1<tries: time.sleep(1.2*(n+1))
     raise last
+
 def norm(s):
     return re.sub(r"\s+"," ",str(s or "")).strip()
 
 def track_key(title,artist):
     return f"{norm(artist).casefold()}||{norm(title).casefold()}"
 
-def discover(query,max_pages=1):
+def discover(query,max_pages=12):
     found=[]
     for p in range(1,max_pages+1):
         url=f"{NULLRIGHTS}/search?q={quote_plus(query)}&page={p}"
@@ -69,7 +46,7 @@ def discover(query,max_pages=1):
         found.extend(urljoin(NULLRIGHTS,x) for x in links)
     return list(dict.fromkeys(found))
 
-def discover_genre(genre,max_pages=1):
+def discover_genre(genre,max_pages=8):
     found=[]
     for p in range(1,max_pages+1):
         url=f"{NULLRIGHTS}/genre/{quote_plus(genre)}?page={p}"
@@ -81,10 +58,7 @@ def discover_genre(genre,max_pages=1):
     return list(dict.fromkeys(found))
 
 def parse_track(url, profile):
-    h=TRACK_HTML_CACHE.get(url)
-    if h is None:
-        h=get(url).text
-        TRACK_HTML_CACHE[url]=h
+    h=get(url).text
     soup=BeautifulSoup(h,"html.parser")
     txt=norm(soup.get_text(" ",strip=True))
     low=txt.casefold()
@@ -129,8 +103,7 @@ def parse_track(url, profile):
     for a in soup.find_all("a",href=True):
         label=norm(a.get_text(" ",strip=True)).casefold()
         href=urljoin(url,a["href"])
-        # Accept verified extensionless Download redirect endpoints.
-        if "download" in label and href.startswith(("https://","http://")):
+        if "download" in label and "/download/" in href:
             download=href
             break
     if not download:
@@ -139,8 +112,6 @@ def parse_track(url, profile):
             if re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",u,re.I):
                 download=u
                 break
-
-    if not download:return None
 
     embed_id=url.rstrip("/").split("/")[-1]
     return {
@@ -223,9 +194,7 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--per-city",type=int,default=50)
     ap.add_argument("--bitrate",default="64k")
-    ap.add_argument("--max-candidates",type=int,default=28)
-    ap.add_argument("--streaming",action="store_true",help="Keep verified remote audio URLs instead of packaging MP3 files into GitHub Pages.")
-    ap.add_argument("--workers",type=int,default=4)
+    ap.add_argument("--max-candidates",type=int,default=700)
     args=ap.parse_args()
 
     index=ROOT/"index.html"
@@ -234,61 +203,18 @@ def main():
 
     _,_,data=read_catalog(index)
     by_name={d["t"]:d for d in data}
-    catalog_fallback=[]
-    for d in data:
-        for src in d.get("tracks",[]):
-            if not src.get("licenseVerified") or not src.get("audioSrc"):continue
-            clone=dict(src)
-            clone["download"]=clone.get("download") or clone.get("audioSrc")
-            clone["_catalogDrawer"]=d.get("t")
-            catalog_fallback.append(clone)
 
-    # Protect the 11 already-working drawers from replacement/reuse.
-    legacy_themes={"JAZZ","CROONER","ROCK","SPORT","LO-FI"}
-    hard_used=set()
+    # Exclude all songs already used by the general 5 categories.
+    used=set()
     for d in data:
-        if d["t"] in legacy_themes:
-            for t in d.get("tracks",[]):
-                hard_used.add(track_key(t.get("title"),t.get("artist")))
-    used=set(hard_used)
-
-    fallback_drawers={
-      "TROPICAL HAWAII":{"VANCOUVER","LO-FI","SPORT"},
-      "BUSTLING HONG KONG":{"OLD TOKYO","NEW YORK","SPORT"},
-      "SLIGHTLY TIPSY ROME":{"CROONER","JAZZ","SPLENDOR SHANGHAI"},
-      "PSYCHEDELIC LA":{"ROCK","LO-FI","VANCOUVER"},
-      "SOLEMN KYOTO":{"LO-FI","VANCOUVER","JAZZ"},
-      "MIRACULOUS LUOYANG":{"SPLENDOR SHANGHAI","JAZZ","CROONER"},
-      "CHAMPS-ÉLYSÉES":{"CROONER","JAZZ","VAPOR LONDON"},
-      "MENACING DUBAI":{"SPORT","OLD TOKYO","ROCK"},
-      "BARCELONA":{"CROONER","ROCK","SPLENDOR SHANGHAI"},
-      "RUSTY DETROIT":{"ROCK","JAZZ","NEW YORK"},
-      "SYDNEY STREET":{"ROCK","VANCOUVER","NEW YORK"},
-      "TIANJING":{"SPLENDOR SHANGHAI","OLD TOKYO","JAZZ"},
-      "ROTTERDAM":{"VAPOR LONDON","OLD TOKYO","SPORT"},
-      "LAS VEGAS":{"CROONER","NEW YORK","JAZZ"},
-      "FREEZE HOKKAIDO":{"VANCOUVER","LO-FI","OLD TOKYO"},
-      "MEXICO":{"ROCK","CROONER","JAZZ"}
-    }
+        if d["t"] in {"JAZZ","CROONER","ROCK","SPORT","LO-FI"}:
+            for t in d["tracks"]:
+                used.add(track_key(t.get("title"),t.get("artist")))
 
     report={"generatedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"cities":{}}
 
     for city in CITY_NAMES:
         profile=PROFILES[city]
-        existing=list((by_name.get(city) or {}).get("tracks") or [])
-        existing_ready=len(existing)>=args.per_city and all(
-            bool(t.get("audioSrc")) and (
-                re.match(r"^https?://",str(t.get("audioSrc"))) is not None
-                or (ROOT/str(t.get("audioSrc"))).exists()
-            )
-            for t in existing[:args.per_city]
-        )
-        if existing_ready:
-            print(f"\n=== {city}: preserve existing {len(existing)} playable tracks ===")
-            report["cities"][city]=existing[:args.per_city]
-            by_name[city]["installPending"]=False
-            continue
-
         print(f"\n=== {city}: discovering fresh CC0 theme-fit tracks ===")
 
         urls=[]
@@ -297,136 +223,62 @@ def main():
         urls=list(dict.fromkeys(urls))
 
         candidates=[]
-        candidate_urls=list(urls[:args.max_candidates])
-
-        def load_candidate(url):
+        for url in urls[:args.max_candidates]:
             try:
-                return url,parse_track(url,profile),None
-            except Exception as e:
-                return url,None,e
-
-        with ThreadPoolExecutor(max_workers=max(1,args.workers)) as ex:
-            futures=[ex.submit(load_candidate,url) for url in candidate_urls]
-            for fut in as_completed(futures):
-                url,t,err=fut.result()
-                if err is not None:
-                    print(" skip:",url,str(err)[:100]);continue
+                t=parse_track(url,profile)
                 if not t:continue
                 k=track_key(t["title"],t["artist"])
-                if k in hard_used:continue
+                if k in used:continue
                 t["_score"]=score(t,profile)
                 candidates.append(t)
+            except Exception as e:
+                print(" skip:",url,str(e)[:100])
 
         candidates.sort(
             key=lambda t:(-t["_score"],hashlib.sha1((city+t["source"]).encode()).hexdigest())
         )
 
         selected=[]
-        selected_keys=set()
-
-        # Pass 1: exact theme matches, unique across newly generated packs.
         for t in candidates:
             k=track_key(t["title"],t["artist"])
             if k in used:continue
             if profile.get("required_any") and not t.get("_strongHits"):continue
             if t.get("_score",0)<0:continue
-            t["_curationTier"]="exact"
-            selected.append(t);selected_keys.add(k);used.add(k)
+            selected.append(t);used.add(k)
             if len(selected)>=args.per_city:break
 
-        # Pass 2: legal/theme-adjacent fallback. It may reuse tracks across NEW
-        # packs, but never reuses anything from the 11 established drawers.
         if len(selected)<args.per_city:
-            fallback_min_matches=int(profile.get("fallback_min_keyword_matches",1))
-            fallback_min_score=float(profile.get("fallback_min_score",-112))
-            for t in candidates:
-                k=track_key(t["title"],t["artist"])
-                if k in selected_keys or k in hard_used:continue
-                matches=t.get("_matches",[])
-                strong=t.get("_strongHits",[])
-                if not strong and len(matches)<fallback_min_matches:continue
-                if t.get("_score",0)<fallback_min_score:continue
-                t["_curationTier"]="adjacent-reuse" if k in used else "adjacent"
-                selected.append(t);selected_keys.add(k);used.add(k)
-                if len(selected)>=args.per_city:break
-
-        # Pass 3: Nullrights metadata can be sparse even when the result
-        # came directly from this city's own theme queries / genre pages.
-        # All candidates have already passed CC0, direct-audio and duration gates.
-        if len(selected)<args.per_city:
-            for t in candidates:
-                k=track_key(t["title"],t["artist"])
-                if k in selected_keys or k in hard_used:continue
-                t["_curationTier"]="query-genre-fit"
-                selected.append(t);selected_keys.add(k);used.add(k)
-                if len(selected)>=args.per_city:break
-
-        if len(selected)<args.per_city:
-            fallback=[]
-            allowed=fallback_drawers.get(city,set())
-            for src in catalog_fallback:
-                if allowed and src.get("_catalogDrawer") not in allowed:continue
-                t=dict(src)
-                k=track_key(t.get("title"),t.get("artist"))
-                if k in selected_keys:continue
-                t["genre"]=t.get("genre") or t.get("_catalogDrawer") or "CC0 Music"
-                try:t["_score"]=score(t,profile)
-                except Exception:continue
-                t["_score"]=round(float(t.get("_score",0))+30,2)
-                fallback.append(t)
-            fallback.sort(key=lambda t:(-t.get("_score",0),hashlib.sha1((city+str(t.get("shareId",""))).encode()).hexdigest()))
-            for t in fallback:
-                k=track_key(t.get("title"),t.get("artist"))
-                if k in selected_keys:continue
-                t["_curationTier"]="verified-related-drawer-fallback"
-                selected.append(t);selected_keys.add(k);used.add(k)
-                if len(selected)>=args.per_city:break
-
-        if len(selected)<args.per_city:
-            raise RuntimeError(f"{city}: only {len(selected)} verified CC0 tracks available after catalog fallback")
+            raise RuntimeError(f"{city}: only {len(selected)} fresh unique theme-fit CC0 tracks found")
 
         folder=profile["slug"]
         target_dir=ROOT/folder
-        if not args.streaming:
-            target_dir.mkdir(parents=True,exist_ok=True)
+        target_dir.mkdir(parents=True,exist_ok=True)
 
         out_tracks=[]
         for i,t in enumerate(selected,1):
             score_value=t.pop("_score",0)
             matches=t.pop("_matches",[])
             strong_hits=t.pop("_strongHits",[])
-            tier=t.pop("_curationTier","exact")
             t["curationScore"]=score_value
             t["curationMatches"]=matches
             t["strongThemeMatches"]=strong_hits
-            t["curationTier"]=tier
             t["trackNo"]=i
             t["shareId"]=f"{folder}-{i:03d}"
             t["freshCity"]=True
             t["curatedTheme"]=city
-            t["vibe"]=f"{profile['label']} · {t.get('genre') or t.get('_catalogDrawer') or 'CC0 Music'}"
+            t["vibe"]=f"{profile['label']} · {t['genre']}"
+            t["audioSrc"]=f"{folder}/{i:03d}.mp3"
 
-            print(f"  [{i:02d}/{args.per_city}] {t['artist']} — {t['title']} · {tier}")
-            if args.streaming:
-                t["audioSrc"]=t["download"]
-                t["streamingAudio"]=True
-                t["localMp3"]=False
-            else:
-                t["audioSrc"]=f"{folder}/{i:03d}.mp3"
-                cache=convert_to_cache(t,args.bitrate)
-                shutil.copy2(cache,ROOT/t["audioSrc"])
-                t["localMp3"]=True
+            print(f"  [{i:02d}/{args.per_city}] {t['artist']} — {t['title']}")
+            cache=convert_to_cache(t,args.bitrate)
+            shutil.copy2(cache,ROOT/t["audioSrc"])
             out_tracks.append(t)
 
-        if city not in by_name:
-            raise RuntimeError(f"{city}: profile does not match a MUSIC_DATA drawer")
         by_name[city]["tracks"]=out_tracks
-        by_name[city]["installPending"]=False
         report["cities"][city]=out_tracks
-        if not args.streaming:
-            (target_dir/"manifest.json").write_text(
-                json.dumps(out_tracks,ensure_ascii=False,indent=2),encoding="utf-8"
-            )
+        (target_dir/"manifest.json").write_text(
+            json.dumps(out_tracks,ensure_ascii=False,indent=2),encoding="utf-8"
+        )
 
     final=[by_name[d["t"]] for d in data]
     write_catalog(index,final)
@@ -435,8 +287,7 @@ def main():
     (ROOT/"fresh_city_manifest.json").write_text(
         json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8"
     )
-    mode="verified remote streams" if args.streaming else "packaged MP3"
-    print(f"\nFresh city installation complete: {len(CITY_NAMES)} × {args.per_city} tracks · {mode}.")
+    print(f"\nFresh city installation complete: {len(CITY_NAMES)} × {args.per_city} tracks.")
 
 if __name__=="__main__":
     main()

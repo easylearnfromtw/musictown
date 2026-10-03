@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, html, json, re, shutil, subprocess, tempfile, time
+import argparse, html, json, re, shutil, subprocess, tempfile
 from pathlib import Path
 from urllib.parse import urljoin
 import requests
@@ -14,24 +14,10 @@ S=requests.Session()
 S.headers.update({"User-Agent":"musicetown-audio-installer/8.7.3"})
 TIMEOUT=45
 
-def get(url,tries=5):
-    last=None
-    for n in range(tries):
-        try:
-            r=S.get(url,timeout=TIMEOUT)
-            if r.status_code==429:
-                raw=r.headers.get("Retry-After","")
-                try:wait=float(raw)
-                except Exception:wait=min(16,2.5*(n+1))
-                time.sleep(max(2,min(30,wait)))
-                last=requests.HTTPError("429 Too Many Requests",response=r)
-                continue
-            r.raise_for_status()
-            return r
-        except Exception as e:
-            last=e
-            if n+1<tries:time.sleep(min(8,1.5*(n+1)))
-    raise last
+def get(url):
+    r=S.get(url,timeout=TIMEOUT)
+    r.raise_for_status()
+    return r
 
 def verify_cc0(page_text, source):
     low=page_text.lower()
@@ -59,40 +45,58 @@ def direct_audio_from_page(url,title):
     if not verify_cc0(h,url):
         raise RuntimeError("source no longer shows CC0 1.0 Universal")
     soup=BeautifulSoup(h,"html.parser")
+    norm=lambda x:re.sub(r"\s+"," ",x or "").strip().casefold()
+    target=norm(title)
 
-    # 1) Prefer actual media URLs first.
-    for node in soup.find_all(["audio","source"],src=True):
-        u=urljoin(url,node.get("src"))
+    # Nullrights exposes extensionless audio/download routes.
+    if "nullrights.com/track/" in url:
+        tid=url.rstrip("/").split("/")[-1]
+        # /audio/<id> is the inline player stream and avoids Content-Disposition.
+        return f"https://nullrights.com/audio/{tid}"
+
+    # FMA album and track pages expose authoritative per-track JSON in
+    # data-track-info. Match the requested title before using fileUrl.
+    for node in soup.find_all(attrs={"data-track-info":True}):
+        raw=html.unescape(node.get("data-track-info") or "")
+        try:
+            info=json.loads(raw)
+        except Exception:
+            continue
+        if norm(info.get("title"))!=target:
+            continue
+        for key in ("fileUrl","playbackUrl","downloadUrl"):
+            u=info.get(key)
+            if u:
+                return str(u).replace("\\/","/")
+
+    # Some FMA pages expose track metadata as raw JSON-like script content.
+    title_pat=re.escape(title)
+    pair_patterns=[
+      rf'"title"\s*:\s*"{title_pat}".{{0,2200}}?"fileUrl"\s*:\s*"([^"]+)"',
+      rf'"title"\s*:\s*"{title_pat}".{{0,2200}}?"playbackUrl"\s*:\s*"([^"]+)"',
+    ]
+    for pat in pair_patterns:
+        m=re.search(pat,h,re.I|re.S)
+        if m:
+            return html.unescape(m.group(1)).replace("\\/","/")
+
+    # Direct media/src links as a conservative final fallback.
+    for node in soup.find_all(["audio","source"]):
+        src=node.get("src")
+        if not src:continue
+        u=urljoin(url,src)
         if re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",u,re.I):return u
     for a in soup.find_all("a",href=True):
         u=urljoin(url,a["href"])
         if re.search(r"\.(mp3|ogg|oga|flac|wav)(?:\?|$)",u,re.I):return u
-
-    # 2) FMA commonly embeds the direct file URL in page JSON/source.
-    pats=[
-      r'fileUrl["\']?\s*:\s*["\']([^"\']+)',
-      r'(https://files\.freemusicarchive\.org/[^"\']+?\.(?:mp3|ogg|oga|flac|wav)(?:\?[^"\']*)?)'
-    ]
-    for pat in pats:
-        m=re.search(pat,h,re.I)
-        if m:return html.unescape(m.group(1)).replace("\\/","/")
-
-    # 3) Extensionless download endpoints are accepted only when they are
-    # clearly track-download endpoints. Never accept charts/search pages.
-    for a in soup.find_all("a",href=True):
-        label=a.get_text(" ",strip=True).lower()
-        href=urljoin(url,a["href"])
-        low=href.lower()
-        if "download" not in label:continue
-        if "nullrights.com/download/" in low:return href
-        if "freemusicarchive.org" in low and "/track/" in low and "download" in low:return href
-
     return None
 
 def resolve_master_audio(master):
     src=master["source"]
     if "nullrights.com/track/" in src:
         return direct_audio_from_page(src,master["title"])
+    direct=direct_audio_from_page(src,master["title"])
+    if direct:return direct
     track_page=find_fma_track_page(src,master["title"])
     return direct_audio_from_page(track_page,master["title"])
 
