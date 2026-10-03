@@ -237,13 +237,27 @@ const Mini = (() => {
   byId('miniOpen').addEventListener('click', () => { haptic(); PlayerUI.show({ from: 'mini' }); });
   play.addEventListener('click', e => { e.stopPropagation(); haptic(); Player.toggle(); });
   nextB.addEventListener('click', e => { e.stopPropagation(); Player.next(); });
-  // swipe the capsule sideways to skip
+  // Mini-player gestures must never fight iPhone system navigation.
+  // Horizontal touch swipes used to skip tracks, but iOS app/page switching can
+  // deliver the same pointer sequence to the page and accidentally change song.
+  // Keep horizontal skip only for a precise mouse/trackpad pointer; touch gets
+  // the explicit Next button and a vertical swipe-up to open Now Playing.
   let sx = null;
-  box.addEventListener('pointerdown', e => { sx = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+  box.addEventListener('pointerdown', e => {
+    sx = { x: e.clientX, y: e.clientY, t: performance.now(), pointerType: e.pointerType || 'touch' };
+  });
+  box.addEventListener('pointercancel', () => { sx = null; });
   box.addEventListener('pointerup', e => {
-    if (!sx) return; const dx = e.clientX - sx.x, dy = e.clientY - sx.y, dt = performance.now() - sx.t; sx = null;
-    if (Math.abs(dx) > 60 && Math.abs(dy) < 30 && dt < 500) { e.preventDefault(); dx < 0 ? Player.next() : Player.prev(); box.addEventListener('click', ev => ev.stopPropagation(), { capture: true, once: true }); }
-    if (dy < -40 && Math.abs(dx) < 40 && dt < 500) PlayerUI.show({ from: 'mini' });
+    if (!sx) return;
+    const g = sx; sx = null;
+    const dx = e.clientX - g.x, dy = e.clientY - g.y, dt = performance.now() - g.t;
+    if (g.pointerType === 'mouse' && Math.abs(dx) > 80 && Math.abs(dy) < 24 && dt < 420) {
+      e.preventDefault();
+      dx < 0 ? Player.next() : Player.prev();
+      box.addEventListener('click', ev => ev.stopPropagation(), { capture: true, once: true });
+      return;
+    }
+    if (Math.abs(dx) < 28 && dy < -52 && dt < 500) PlayerUI.show({ from: 'mini' });
   });
   bus.on('track', render); bus.on('state', state); bus.on('time', loop);
   return { render, get discEl() { return disc; }, get el() { return box; } };
