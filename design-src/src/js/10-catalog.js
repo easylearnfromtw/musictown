@@ -885,7 +885,14 @@ const EXTRA_THEME_SPECS = [
   }
 ];
 function extraThemeData(spec) {
-  const picked = originalPick(spec, spec.count || 50, new Set(), spec.words || []);
+  const count = Number(spec.count || 50), preset = ORIGINAL_PRESET_BY_T.get(spec.t);
+  if (preset && Array.isArray(preset.tracks) && preset.tracks.length === count) {
+    return { t: spec.t, sub: spec.summary, key: (spec.kind === 'spot' ? '景點歌單' : '城市主題') + ' · ' + count + ' 首 · 2500 首合法母庫策展',
+      tracks: preset.tracks.map((t, i) => ({ ...t, trackNo: i + 1, curatedTheme: spec.t,
+        shareId: t.shareId || (spec.slug + '-' + String(i + 1).padStart(3, '0')),
+        vibe: t.vibe || (spec.cn + ' · ' + (t.genre || 'Mother Library')) })) };
+  }
+  const picked = originalPick(spec, count, new Set(), spec.words || []);
   return { t: spec.t, sub: spec.summary, key: (spec.kind === 'spot' ? '景點歌單' : '城市主題') + ' · 母庫策展',
     tracks: picked.map((x, i) => ({ ...x.t, trackNo: i + 1, curatedTheme: spec.t, curatedFrom: x.t.shareId || x.t.audioSrc || x.from,
       sourceTheme: x.from, shareId: spec.slug + '-' + String(i + 1).padStart(3, '0'), vibe: spec.cn + ' · ' + (x.t.vibe || x.from || '') })) };

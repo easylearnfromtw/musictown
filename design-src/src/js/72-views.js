@@ -78,7 +78,7 @@ const postcardHTML = th => {
     <span class="postcard__txt"><b>${esc(th.name)}</b><span>${esc(th.cityCn)} · ${th.tracks.length} 首</span></span>
   </button>`;
 };
-const tileHTML = th => `<button class="tile" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><small>${esc(th.code)}</small><b>${esc(th.name)}</b><span>${esc(th.cn)} · ${th.tracks.length} 首</span></button>`;
+const tileHTML = th => `<button class="tile${th.kind === 'original' ? ' tile--original' : ''}" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><small>${esc(th.code)}</small><b>${esc(th.name)}</b><span>${esc(th.cn)} · ${th.tracks.length} 首</span></button>`;
 const bookHTML = th => `<button class="book" type="button" data-slug="${th.slug}" style="${accentStyle(th)}"><span class="book__spine"><b>${esc(th.authorCn)}</b></span><span class="book__txt"><b>${esc(th.cn)}</b><em>${esc(th.name)}</em><span>${esc(th.era)}</span></span></button>`;
 function citiesOrdered() {
   const recent = Stats.recentThemes();
@@ -250,7 +250,7 @@ Router.register('cities', (el) => {
         return `<div class="spot" style="${accentStyle(th)}"><button class="spot__main" type="button" data-lm="${lm.id}"><span class="spot__code">${esc(lm.code || th.code)}</span><span><b>${esc(lm.cn)}</b><span>${esc(lm.name)} · ${owned ? '已收藏' : '尚未打卡'}</span></span>${icon(owned ? 'ticket' : 'chevron')}</button><a class="icon-btn" href="${esc(Pass.mapsUrl(lm))}" target="_blank" rel="noopener" aria-label="在 Apple 地圖打開 ${esc(lm.cn)}">${icon('map')}</a></div>`;
       }).join('');
     };
-    Seg(byId('citySeg'), { label: '地區', value: 'all', items: [{ key: 'all', label: '全部' }, { key: 'asia', label: '亞洲' }, { key: 'europe', label: '歐洲' }, { key: 'americas', label: '美洲' }, { key: 'africa', label: '非洲' }], onChange: k => { region = k; draw(); } });
+    Seg(byId('citySeg'), { label: '地區', value: 'all', items: [{ key: 'all', label: '全部' }, { key: 'asia', label: '亞洲' }, { key: 'europe', label: '歐洲' }, { key: 'oceania', label: '大洋洲' }, { key: 'americas', label: '美洲' }, { key: 'africa', label: '非洲' }], onChange: k => { region = k; draw(); } });
     bindSlugClicks(byId('passgrid')); bindSlugClicks(byId('cityHere'));
     byId('spots').addEventListener('click', e => { const b = e.target.closest('[data-lm]'); if (!b) return; const lm = LANDMARKS.find(x => x.id === b.dataset.lm); const id = `spot-${lm.id}`; if (Wallet.has(id)) Pass.openTicket(Wallet.all().find(x => x.id === id)); else Pass.explainSpot(lm); });
     byId('spotCheck').onclick = () => Pass.checkInSpot();
@@ -477,9 +477,10 @@ function libraryMenu(lib) {
 Router.register('theme', (el, p) => {
   const th = themeBySlug(p.slug) || THEMES[0];
   const lit = th.kind === 'literature';
+  const original = th.kind === 'original';
   setAccent(el, th);
   const kindTag = th.kind === 'city' ? `<span class="tag">${icon('ticket')}City Limited</span>` : `<span class="tag">${KIND_LABEL[th.kind] || ''}</span>`;
-  el.innerHTML = `<div class="wrap dest${lit ? ' dest--lit' : ''}">
+  el.innerHTML = `<div class="wrap dest${lit ? ' dest--lit' : ''}${original ? ' dest--original' : ''}">
     <header class="dest__hero">
       <span class="dest__code" aria-hidden="true">${esc(lit ? th.cn : th.code)}</span>
       <div class="dest__meta">${kindTag}${th.kind === 'city' ? `<span class="tag tnum" data-tz-label="${esc(th.tz)}">${esc(th.cityCn)} ${esc(localTimeIn(th.tz))}</span>` : ''}${lit ? `<span class="tag">${esc(th.era)}</span>` : ''}<span class="tag">${th.tracks.length} 首</span></div>

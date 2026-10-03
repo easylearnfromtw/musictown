@@ -42,7 +42,10 @@ def specs():
     s=CAT.read_text(encoding="utf-8")
     m=re.search(r"const ORIGINAL_PLAYLISTS = (\[[\s\S]*?\]);\nconst ORIGINAL_POOL",s)
     if not m: raise SystemExit("ORIGINAL_PLAYLISTS block not found")
-    return json.loads(m.group(1))
+    out=json.loads(m.group(1))
+    x=re.search(r"const EXTRA_THEME_SPECS = (\[[\s\S]*?\]);\nfunction extraThemeData",s)
+    if x: out.extend(json.loads(x.group(1)))
+    return out
 
 def text_fields(t):
     title=norm(t.get("title")); artist=norm(t.get("artist")); genre=norm(t.get("genre")); tags=norm(t.get("tags"))
@@ -137,19 +140,21 @@ def main():
             selected.extend(choose(pool,theme,spec.get("rush",[]),24,all_used,artist_counts,"尋找",max_artist=2))
             selected.extend(choose(pool,theme,spec.get("resolve",[]),1,all_used,artist_counts,"找到",max_artist=2))
         else:
-            selected.extend(choose(pool,theme,spec.get("words",[]),25,all_used,artist_counts,"main",max_artist=2))
-        if len(selected)!=25: raise RuntimeError(f"{theme}: expected 25, got {len(selected)}")
+            selected.extend(choose(pool,theme,spec.get("words",[]),int(spec.get("count",25)),all_used,artist_counts,"main",max_artist=2))
+        expected=sum(int(p.get("n",0)) for p in phases) if phases else int(spec.get("count",25))
+        if len(selected)!=expected: raise RuntimeError(f"{theme}: expected {expected}, got {len(selected)}")
         tracks=[public_track(t,spec,i,sc,hits,phase) for i,(t,sc,hits,phase) in enumerate(selected,1)]
         playlists.append({"t":theme,"tracks":tracks})
         report["playlists"][theme]=[{"n":i,"title":t["title"],"artist":t["artist"],"score":t["curationScore"],"phase":t["curationPhase"],"matches":t["curationMatches"]} for i,t in enumerate(tracks,1)]
         print(f"\n{spec['name']} · {theme}")
         for t in tracks: print(f"  {t['trackNo']:02d}. {t['artist']} — {t['title']} [{t['curationPhase']}] score={t['curationScore']}")
     masters=[t["masterId"] for p in playlists for t in p["tracks"]]
-    expected=len(playlists)*25
-    if len(masters)!=expected or len(set(masters))!=expected: raise RuntimeError(f"original playlists are not {expected} globally unique masters")
+    spec_list=specs()
+    expected=sum(sum(int(ph.get("n",0)) for ph in s.get("phases",[])) if s.get("phases") else int(s.get("count",25)) for s in spec_list)
+    if len(masters)!=expected or len(set(masters))!=expected: raise RuntimeError(f"CITYMUS curated set is not {expected} globally unique masters")
     OUT.write_text(json.dumps(playlists,ensure_ascii=False,separators=(",",":")),encoding="utf-8")
     REPORT.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
-    print(f"\noriginal playlists: {len(playlists)} themes / {len(masters)} globally unique legal-library tracks")
+    print(f"\nCITYMUS mother-library curation: {len(playlists)} themes / {len(masters)} globally unique legal-library tracks")
 
 if __name__=="__main__":
     main()
