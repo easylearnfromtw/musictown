@@ -41,17 +41,27 @@ def get(url,timeout=30):
     r=requests.get(url,headers=UA,timeout=timeout)
     r.raise_for_status(); return r
 
-def discover():
+def discover_page(term,page):
+    try:
+        h=get(f"{NULLRIGHTS}/search?q={quote_plus(term)}&page={page}",20).text
+    except Exception:
+        return []
+    return [urljoin(NULLRIGHTS,x) for x in re.findall(r'href=["\\\'](/track/[A-Za-z0-9_-]+)["\\\']',h)]
+
+def discover(target):
     q=["music","ambient","folk","acoustic","rock","pop","electronic","jazz","blues","soul","funk","world","classical","dance","house","techno","reggae","punk","metal","experimental","piano","guitar","vocal","cinematic","lofi","chill","dark","happy","sad","romantic","dream","night","city","nature","meditative","traditional","orchestral","drums","synth","indie"]
-    urls=[]
-    for term in q:
-        for page in range(1,26):
-            try: h=get(f"{NULLRIGHTS}/search?q={quote_plus(term)}&page={page}",20).text
-            except Exception: break
-            found=re.findall(r'href=["\'](/track/[A-Za-z0-9_-]+)["\']',h)
-            if not found and page>2: break
-            urls.extend(urljoin(NULLRIGHTS,x) for x in found)
-    return list(dict.fromkeys(urls))
+    urls={}
+    # Two waves keep load bounded while avoiding 1000 serial HTTP requests.
+    waves=[range(1,13),range(13,26)]
+    for pages in waves:
+        jobs=[(term,p) for term in q for p in pages]
+        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as ex:
+            futs=[ex.submit(discover_page,term,p) for term,p in jobs]
+            for fut in concurrent.futures.as_completed(futs):
+                for u in fut.result(): urls.setdefault(u,None)
+        print(f"discovery: {len(urls)} unique candidate URLs",flush=True)
+        if len(urls)>=max(target*2,4200): break
+    return list(urls)
 
 def parse(url):
     try:
@@ -83,11 +93,19 @@ def parse(url):
 
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--target",type=int,default=2500); args=ap.parse_args()
-    lib=seed(); candidates=discover(); before=len(lib)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=16) as ex:
-        for t in ex.map(parse,candidates,chunksize=1):
+    lib=seed(); candidates=discover(args.target); before=len(lib)
+    ex=concurrent.futures.ThreadPoolExecutor(max_workers=16)
+    futs=[ex.submit(parse,u) for u in candidates]
+    try:
+        for n,fut in enumerate(concurrent.futures.as_completed(futs),1):
+            t=fut.result()
             if t: keep(lib,t)
-            if len(lib)>=args.target: break
+            if n%100==0: print(f"verified: {len(lib)}/{args.target} from {n}/{len(candidates)} candidates",flush=True)
+            if len(lib)>=args.target:
+                for f in futs: f.cancel()
+                break
+    finally:
+        ex.shutdown(wait=False,cancel_futures=True)
     tracks=sorted(lib.values(),key=lambda x:(x.get("artist","").casefold(),x.get("title","").casefold(),x.get("source","")))[:args.target]
     OUT.parent.mkdir(parents=True,exist_ok=True)
     payload={"version":"R11.4","generatedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"target":args.target,
