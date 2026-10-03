@@ -9,7 +9,14 @@ literature-audio-map.js (the 文學 drawers live outside MUSIC_DATA).
 """
 from pathlib import Path
 import shutil
+import subprocess
+import sys
 ROOT=Path(__file__).resolve().parent
+
+# The curation steps above this job rewrite MUSIC_DATA in root/index.html.
+# Rebuild the UI from design-src now, while build.py preserves that curated
+# catalog. This keeps Pages, source modules, literature, and the SW version in sync.
+subprocess.run([sys.executable, str(ROOT/"design-src"/"build.py"), str(ROOT)], check=True)
 SITE=ROOT/"_site"
 if SITE.exists():shutil.rmtree(SITE)
 SITE.mkdir()
