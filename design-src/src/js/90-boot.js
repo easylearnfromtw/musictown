@@ -3,12 +3,23 @@
    ========================================================================== */
 (function boot() {
   const q = new URLSearchParams(location.search);
-  const deep = q.has('theme') || q.has('read') || location.hash.length > 1 || q.has('previewCityPass') || q.has('previewLibraryPass') || q.has('previewAudioLink') || q.has('previewMonthly') || q.has('limited');
+  const deep = q.get('source') === 'ios' || q.has('theme') || q.has('read') || location.hash.length > 1 || q.has('previewCityPass') || q.has('previewLibraryPass') || q.has('previewAudioLink') || q.has('previewMonthly') || q.has('limited');
   Router.start();
   Player.restore();
   Mini.render();
   if (!Settings.get('onboarded') && !deep) Welcome.open(); else Geo.ensure();
   Share.readHash();
+
+  // Make successful GitHub Pages deployments visible on-device. This is also
+  // useful for debugging stubborn iPhone PWA caches: the version shown here is
+  // the version of the HTML/JS that is actually running, not merely GitHub HEAD.
+  try {
+    const prevBuild = store.get('mt.lastRunningBuild', '');
+    if (prevBuild !== MT_BUILD) {
+      store.set('mt.lastRunningBuild', MT_BUILD);
+      if (prevBuild) setTimeout(() => toast(`CITYMUS 已更新 · ${MT_BUILD}`, { ms: 5200 }), 1100);
+    }
+  } catch (_) {}
   setTimeout(() => Pass.autoHiddenSpot?.(), 1800);
   const monthlyDue = MonthlyTracker.issueDue();
   if (q.get('previewMonthly') === '1') setTimeout(() => MonthlyPass.open(MonthlyTracker.preview()), 650);
