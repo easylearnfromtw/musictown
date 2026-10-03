@@ -46,15 +46,20 @@ const Player = (() => {
     if (!t) return [];
     if (t.localPersonal) return [t.audioSrc];
     const off = Offline.url(t);
-    if (t.stream) return [...new Set([off, LIT_MAP[t.shareId], t.stream].filter(Boolean))];
-    const local = t.audioSrc ? abs(t.audioSrc) : null, remote = (t.masterId && REMOTE_MAP[t.masterId]) || null, dl = t.download || null, nr = nullrightsAudio(t);
     const q = Settings.get('quality');
+    if (t.stream) {
+      const order = (q === 'hq' || q === 'lossless') ? [t.stream, LIT_MAP[t.shareId], off] : [off, LIT_MAP[t.shareId], t.stream];
+      return [...new Set(order.filter(Boolean))];
+    }
+    const local = t.audioSrc ? abs(t.audioSrc) : null, remote = (t.masterId && REMOTE_MAP[t.masterId]) || null, dl = t.download || null, nr = nullrightsAudio(t);
     let order;
-    if (q === 'hq') order = [remote, dl, nr, local];
+    if (q === 'lossless') order = [dl, remote, nr, local];
+    else if (q === 'hq') order = [remote, dl, nr, local];
     else if (localAvail === false) order = [remote, dl, nr, local];
     else if (localAvail === true || q === 'saver' || (FX.level > 0)) order = [local, remote, dl, nr];
     else order = remote ? [remote, local, dl, nr] : [local, dl, nr];
-    return [...new Set([off, ...order].filter(Boolean))];
+    const all = (q === 'hq' || q === 'lossless') ? [...order, off] : [off, ...order];
+    return [...new Set(all.filter(Boolean))];
   }
   /* is the site shipping its own MP3s? (branch deploys don't) */
   (async function probeLocal() {
@@ -103,7 +108,7 @@ const Player = (() => {
   /* ---------- choose element: FX twin only when vintage is on and the source can be processed ---------- */
   /* iOS ignores element.volume, so fades there need the Web Audio path */
   const fadesOn = () => Settings.get('fades') !== false;
-  const graphWanted = () => FX.level > 0 || FX.eqActive || (IS_IOS && fadesOn());
+  const graphWanted = () => FX.level > 0 || FX.eqActive || FX.qualityActive || (IS_IOS && fadesOn());
   function elementFor(url) { return (graphWanted() && FX.canProcess(url) && (!document.hidden || FX.running || !FX.ctx)) ? 'fx' : 'direct'; }
   function activate(name) {
     if (name === activeName) return;
@@ -305,7 +310,7 @@ const Player = (() => {
     FX.setSurface(!a.paused && lv > 0);
   });
   bus.on('settings', ({ k }) => {
-    if (!['eqBass','eqVocal','eqTreble'].includes(k) || !current) return;
+    if (!['eqBass','eqVocal','eqTreble','quality'].includes(k) || !current) return;
     const a = el(), url = a.currentSrc || a.src; if (!url) return;
     const want = elementFor(url);
     if (graphWanted() && !FX.canProcess(url)) FX.probeCors(url).then(ok => {
@@ -371,8 +376,8 @@ const Player = (() => {
     function meta(t) {
       if (!has || !t) return;
       const th = themeOf(t), systemName = th?.systemName || '';
-      const album = th ? (th.kind === 'literature' ? `${th.cn} · ${th.authorCn}` : `${systemName || th.name} · ${th.cn}`) : 'musicetown · Library';
-      const base = { title: String(t.title || 'musicetown'), artist: [systemName, t.artist, t.note].filter(Boolean).join(' · '), album };
+      const album = th ? (th.kind === 'literature' ? `${th.cn} · ${th.authorCn}` : `${systemName || th.name} · ${th.cn}`) : 'CITYMUS · Library';
+      const base = { title: String(t.title || 'CITYMUS'), artist: [systemName, t.artist, t.note].filter(Boolean).join(' · '), album };
       try { navigator.mediaSession.metadata = new MediaMetadata({ ...base, artwork: [{ src: abs('apple-touch-icon.png'), sizes: '180x180', type: 'image/png' }] }); } catch (_) {}
       Artwork.cover(t, 512).then(src => {
         if (!src || current !== t) return;

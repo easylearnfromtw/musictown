@@ -20,7 +20,7 @@ const DEFAULT_LIB = 'library-main';
 const Settings = (() => {
   const legacyVintage = Number(store.raw(K.vintageLegacy)) || 0;
   const s = Object.assign({
-    quality: 'auto',            // auto | hq | saver
+    quality: 'auto',            // auto | hq | lossless | saver
     vintage: legacyVintage > 0 ? (legacyVintage < 34 ? 1 : legacyVintage < 67 ? 2 : 3) : 0,
     autoplay: true,
     shuffle: false,
@@ -151,6 +151,7 @@ const MonthlyTracker = (() => {
   const ARCHIVE = 'musicetown.monthly.archive.v1';
   let ledger = store.get(LEDGER, {}) || {};
   let archive = store.get(ARCHIVE, []) || [];
+  archive = archive.map(x => ({ ...x, code: String(x?.code || '').replace(/^MTW-/, 'CM-') }));
   let saveT = 0, lastKey = '', lastCur = 0;
   const keyOf = d => String(d.getFullYear()) + '-' + pad2(d.getMonth() + 1);
   const monthLabel = key => { const p = key.split('-'); return p[0] + ' 年 ' + Number(p[1]) + ' 月'; };
@@ -215,7 +216,7 @@ const MonthlyTracker = (() => {
     if (tastes.length < 3 && ranked.some(([t]) => THEME_BY_T.get(t)?.kind === 'literature')) tastes.push('文學敘事');
     if (tastes.length < 3) tastes.push('夜間聆聽');
     while (tastes.length < 3) tastes.push(['細膩','懷舊','流動'][tastes.length % 3]);
-    const first = topThemes[0]?.name || 'musicetown';
+    const first = topThemes[0]?.name || 'CITYMUS';
     const second = topThemes[1]?.name;
     const desc = sec < 60
       ? '這個月還沒有累積足夠的聆聽資料。'
@@ -227,7 +228,7 @@ const MonthlyTracker = (() => {
       seconds: sec, hours: Math.round(sec / 360) / 10,
       tracks: Object.values(trackSeconds).filter(v => v >= 10).length,
       topThemes, tastes: tastes.slice(0,4), desc,
-      code: 'MTW-' + p[0] + p[1] + '-010'
+      code: 'CM-' + p[0] + p[1] + '-010'
     };
   }
   function previousKey(d = new Date()) { return keyOf(new Date(d.getFullYear(), d.getMonth() - 1, 1)); }
@@ -253,6 +254,7 @@ const MonthlyTracker = (() => {
 /* ---------- ticket wallet ---------- */
 const Wallet = (() => {
   let list = store.get(K.tickets, []);
+  list = list.map(x => ({ ...x, no: String(x?.no || '').replace(/^MT-/, 'CM-') }));
   return {
     all: () => list.slice(),
     has: id => list.some(x => x.id === id),

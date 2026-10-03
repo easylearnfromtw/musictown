@@ -135,7 +135,7 @@ Router.register('home', (el) => {
         <div class="sec__head"><h2 class="sec__title">你的票夾</h2><button class="link-btn" type="button" id="toWallet" aria-label="全部票根">${icon('chevron')}</button></div>
         <div class="wallet" id="homeWallet"></div>
       </section>
-      <footer class="foot"><b>musicetown</b><span>以盡全力符合音樂版權之規定，若有違法，請洽：signwell.com.tw@gmail.com</span></footer>
+      <footer class="foot"><b>CITYMUS</b><span>以盡全力符合音樂版權之規定，若有違法，請洽：signwell.com.tw@gmail.com</span></footer>
     </div>`;
     const box = byId('homeBox');
     let group = GROUPS.find(g => g.key === Settings.get('homeGroup')) || GROUPS[0];
@@ -359,7 +359,7 @@ Router.register('library', (el) => {
         <div id="a2hsSlot"></div>
         <div class="settings mt-16" id="settings"></div>
       </section>
-      <footer class="foot"><b>musicetown</b><span>播放清單、票夾、下載與本機音樂只存在這台裝置上。</span></footer>
+      <footer class="foot"><b>CITYMUS</b><span>播放清單、票夾、下載與本機音樂只存在這台裝置上。</span></footer>
     </div>`;
     const gridEl = byId('libGrid'), rowsEl = byId('libRows');
     let filter = 'all', view = null; // view: null = active library, '__offline' = downloads
@@ -410,7 +410,7 @@ Router.register('library', (el) => {
     };
     const drawMonthly = () => {
       const list = MonthlyTracker.all();
-      byId('monthlyReports').innerHTML = list.length ? '<div class="monthly-grid">' + list.map(MonthlyPass.card).join('') + '</div>' : '<div class="empty"><b>還沒有月報</b><p>musicetown 會從現在開始在這台裝置累積實際聆聽時間，每月 10 日產生上個月的月報。</p></div>';
+      byId('monthlyReports').innerHTML = list.length ? '<div class="monthly-grid">' + list.map(MonthlyPass.card).join('') + '</div>' : '<div class="empty"><b>還沒有月報</b><p>CITYMUS 會從現在開始在這台裝置累積實際聆聽時間，每月 10 日產生上個月的月報。</p></div>';
     };
     byId('monthlyReports').addEventListener('click', e => { const b=e.target.closest('[data-monthly]'); if(b) MonthlyPass.open(MonthlyTracker.get(b.dataset.monthly)); });
     const drawWallet = () => {
@@ -422,7 +422,7 @@ Router.register('library', (el) => {
     const drawSettings = async () => {
       const est = await Offline.estimate();
       byId('settings').innerHTML = `
-        <div class="setting setting--stack"><div><b>音質</b><span>${{ auto: '自動選擇最穩定的音源', hq: '優先串流原始高音質檔案', saver: '使用網站壓縮檔，省流量' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
+        <div class="setting setting--stack"><div><b>音質</b><span>${{ auto: '自動選擇最穩定的音源', hq: '原始高音質音源優先＋透明化 DSP', lossless: '無損（演算法）：去濁、抑刺耳、重建空氣感；非原生 lossless 檔', saver: '使用網站壓縮檔，省流量' }[Settings.get('quality')]}</span></div><div id="qualSeg"></div></div>
         <div class="setting setting--stack"><div><b>低音</b><span>120 Hz · 調整厚度與下盤</span></div><div id="eqBassSeg"></div></div>
         <div class="setting setting--stack"><div><b>人聲</b><span>2.2 kHz · 讓 vocal 往前或退後</span></div><div id="eqVocalSeg"></div></div>
         <div class="setting setting--stack"><div><b>高音</b><span>4.8 kHz · 調整亮度與空氣感</span></div><div id="eqTrebleSeg"></div></div>
@@ -432,7 +432,7 @@ Router.register('library', (el) => {
         <div class="setting"><div><b>儲存空間</b><span>${Offline.count ? `已下載 ${Offline.count} 首 · ${fmtBytes(Offline.bytes())}` : '還沒有下載的歌'}${est?.quota ? ` · 這台裝置還可用約 ${fmtBytes(Math.max(0, est.quota - (est.usage || 0)))}` : ''}</span></div>${icon('cloud')}</div>
         <button class="setting" type="button" id="setDislikes"><div><b>不適合我</b><span>${Dislikes.size ? `${Dislikes.size} 首會在自動播放時略過 · 點一下清除` : '在歌曲選單標記後，自動播放會略過'}</span></div>${icon('ban')}</button>
         <button class="setting" type="button" id="setWelcome"><div><b>重新看一次歡迎頁</b><span>重新選擇想先去的地方</span></div>${icon('chevron')}</button>`;
-      Seg(byId('qualSeg'), { label: '音質', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast('下一首開始套用'); } });
+      Seg(byId('qualSeg'), { label: '音質', value: Settings.get('quality'), items: [{ key: 'auto', label: '自動' }, { key: 'hq', label: '高音質' }, { key: 'lossless', label: '無損' }, { key: 'saver', label: '省流量' }], onChange: k => { Settings.set('quality', k); drawSettings(); toast(k === 'lossless' ? '無損演算法已套用；下一首優先原始音源' : k === 'hq' ? '高音質處理已套用；下一首優先原始音源' : k === 'saver' ? '已切換省流量' : '已切換自動音質'); } });
       const eqItems = [{ key:'-6', label:'-6' }, { key:'-3', label:'-3' }, { key:'0', label:'0' }, { key:'3', label:'+3' }, { key:'6', label:'+6' }];
       Seg(byId('eqBassSeg'), { label:'低音 dB', value:String(Settings.get('eqBass') || 0), items:eqItems, onChange:k => Settings.set('eqBass', Number(k)) });
       Seg(byId('eqVocalSeg'), { label:'人聲 dB', value:String(Settings.get('eqVocal') || 0), items:eqItems, onChange:k => Settings.set('eqVocal', Number(k)) });
@@ -488,7 +488,7 @@ Router.register('theme', (el, p) => {
       <p class="dest__line">${lit ? `「${esc(th.line)}」` : esc(th.line)}</p>
       ${th.data.sub ? `<button class="link-btn dest__more" type="button" id="destMore" aria-expanded="false">${lit ? '關於選曲' : '關於這個抽屜'} ${icon('down')}</button><p class="dest__desc" id="destDesc" hidden>${esc(th.data.sub)}</p>` : ''}
       <div class="actionbar" id="actionbar"></div>
-      ${th.data.archiveEdit ? `<p class="note">${icon('sparkle')}<span>這個目的地的 50 首專屬選曲還在策展中，現在先從 musicetown 的曲庫挑出最接近的聲音暫代。完成安裝後會自動換上正式選曲。</span></p>` : ''}
+      ${th.data.archiveEdit ? `<p class="note">${icon('sparkle')}<span>這個目的地的 50 首專屬選曲還在策展中，現在先從 CITYMUS 的曲庫挑出最接近的聲音暫代。完成安裝後會自動換上正式選曲。</span></p>` : ''}
     </header>
     <section class="sec">
       <div class="sec__head"><h2 class="sec__title">抽屜<small>每次抽出五首，點卡片直接播放</small></h2></div>
