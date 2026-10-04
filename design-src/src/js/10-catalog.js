@@ -1025,6 +1025,7 @@ const TRACK_BY_SHARE = new Map();
 THEMES.forEach(th => th.tracks.forEach(t => { if (t.shareId && !TRACK_BY_SHARE.has(t.shareId)) TRACK_BY_SHARE.set(t.shareId, t); }));
 const THEMED_TRACKS = THEMES.flatMap(th => th.tracks);
 const LIBRARY_TRACKS = (Array.isArray(window.CITYMUS_LIBRARY) ? window.CITYMUS_LIBRARY : []).map((t, i) => ({ ...t, __library: true, __li: i }));
+LIBRARY_TRACKS.forEach(t => { if (t.shareId && !TRACK_BY_SHARE.has(t.shareId)) TRACK_BY_SHARE.set(t.shareId, t); });
 const _themedRecKeys = new Set(THEMED_TRACKS.map(t => t.masterId || `${norm(t.artist)}|${norm(t.title)}`));
 const LIBRARY_ONLY_TRACKS = LIBRARY_TRACKS.filter(t => !_themedRecKeys.has(t.masterId || `${norm(t.artist)}|${norm(t.title)}`));
 const ALL_TRACKS = [...THEMED_TRACKS, ...LIBRARY_ONLY_TRACKS];

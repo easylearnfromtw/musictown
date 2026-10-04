@@ -60,4 +60,4 @@ for folder in folders:
     local_fast_paths+=1
 
 size=sum(p.stat().st_size for p in SITE.rglob("*") if p.is_file())
-print(f"Prepared CITYMUS 2500-track production site: {size/1024/1024:.1f} MB · optional local fast-path folders {local_fast_paths}/{len(folders)}")
+print(f"Prepared CITYMUS 4500-track production site: {size/1024/1024:.1f} MB · optional local fast-path folders {local_fast_paths}/{len(folders)}")

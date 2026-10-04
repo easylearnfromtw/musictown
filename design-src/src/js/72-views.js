@@ -280,7 +280,7 @@ Router.register('cities', (el) => {
 const SearchIndex = (() => {
   const themes = THEMES.map(th => ({ th, blob: norm([th.t, th.name, th.cn, th.code, th.city, th.cityCn, th.line, th.summary, th.data.key, th.data.sub, th.author, th.authorCn, th.era, KIND_LABEL[th.kind], REGION_LABEL[th.region], th.kind === 'literature' ? 'literature 文學 小說 作者' : ''].join(' ')) }));
   const seen = new Set(); const tracks = [];
-  ALL_TRACKS.forEach(t => { const k = recKey(t); if (seen.has(k)) return; seen.add(k); const th = themeOf(t); tracks.push({ t, blob: norm([t.title, t.artist, t.composerCn, t.performer, t.note, t.vibe, t.genre, th?.name, th?.cn, th?.authorCn, th?.author].join(' ')) }); });
+  ALL_TRACKS.forEach(t => { const k = recKey(t); if (seen.has(k)) return; seen.add(k); const th = themeOf(t); tracks.push({ t, blob: norm([t.title, t.artist, t.composerCn, t.performer, t.note, t.vibe, t.genre, t.language, t.culture, t.license, t.language === 'ja' ? '日文 日本 日語 Japanese' : '', t.language === 'zh' ? '中文 華語 Mandarin Chinese' : '', th?.name, th?.cn, th?.authorCn, th?.author].join(' ')) }); });
   const people = new Map(); // artist / composer / author → tracks
   const add = (name, t) => { const a = String(name || '').trim(); if (!a) return; if (!people.has(a)) people.set(a, []); people.get(a).push(t); };
   tracks.forEach(({ t }) => { add(t.artist, t); if (t.composerCn) add(t.composerCn, t); });
@@ -291,7 +291,7 @@ Router.register('search', (el) => {
   if (!el._built) {
     el._built = true;
     el.innerHTML = `<div class="wrap">
-      <h1 class="page-title">Search</h1><p class="page-lede">CITYMUS Library · ${CITYMUS_LIBRARY_COUNT.toLocaleString()} 首曲目${window.CITYMUS_LIBRARY_REPORT?.cjkIncluded ? ` · 含 ${window.CITYMUS_LIBRARY_REPORT.cjkIncluded} 首中／日／韓曲目` : ``}</p>
+      <h1 class="page-title">Search</h1><p class="page-lede">CITYMUS Library · ${CITYMUS_LIBRARY_COUNT.toLocaleString()} 首曲目${window.CITYMUS_LIBRARY_REPORT?.japaneseAdded ? ` · 日文／日本音樂 ${window.CITYMUS_LIBRARY_REPORT.japaneseAdded.toLocaleString()} 首 · 中文／華語音樂 ${window.CITYMUS_LIBRARY_REPORT.chineseAdded.toLocaleString()} 首` : ``}</p>
       <label class="searchbox glass"><span class="sr-only">搜尋</span>${icon('search')}<input id="q" type="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="城市、作品、作者、歌名"><button class="icon-btn icon-btn--sm" type="button" id="qClear" aria-label="清除" hidden>${icon('close')}</button></label>
       <div class="filters" id="qFilters"></div>
       <div class="mt-24" id="qOut"></div>

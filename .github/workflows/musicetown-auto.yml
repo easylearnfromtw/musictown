@@ -40,8 +40,8 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Generate open CJK music supplement
-        run: python build_cjk_open_music.py --max-per-language 24 --max-total 60
+      - name: Generate 1000 Japanese + 1000 Chinese open-license tracks
+        run: python build_cjk_open_music.py --per-language 1000 --max-total 2000
 
       - name: Build public-domain CITYMUS Reader
         run: python build_ebooks.py
@@ -49,18 +49,20 @@ jobs:
       - name: Generate City Pass QR assets
         run: python generate_city_pass_qr.py
 
-      - name: Prepare 2500-track Pages artifact
+      - name: Prepare 4500-track Pages artifact
         run: python prepare_audio_site.py
 
-      - name: Verify 2500-track runtime library
+      - name: Verify 4500-track runtime library
         shell: bash
         run: |
           python - <<'PY'
           import json, pathlib
           r=json.load(open("CITYMUS_LIBRARY_REPORT.json",encoding="utf-8"))
-          assert r["count"]==2500, r
+          assert r["count"]==4500, r
+          assert r["japaneseAdded"]==1000 and r["chineseAdded"]==1000, r
+          assert r["languages"].get("ja",0)>=1000 and r["languages"].get("zh",0)>=1000, r
           p=pathlib.Path("_site/citymus-library.js")
-          assert p.exists() and p.stat().st_size>100000
+          assert p.exists() and p.stat().st_size>500000
           print("CITYMUS runtime library:",r)
           print("citymus-library.js bytes:",p.stat().st_size)
           PY

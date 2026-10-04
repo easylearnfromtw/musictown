@@ -30,7 +30,7 @@ def load_catalog():
     raise SystemExit("no catalog found (pass a catalog .json or an index.html)")
 
 catalog, catalog_from = load_catalog()
-BUILD = "R16.3 · 2026-10-04 · Persistent Player Core P0"
+BUILD = "R16.4 · 2026-10-04 · 1000 JA + 1000 ZH Open Music"
 
 repo_root = ROOT.parent
 orig_builder = repo_root / "build_original_playlists.py"
@@ -60,20 +60,34 @@ def _runtime_track(t, i):
     return out
 
 runtime_library=[]; lib_seen=set()
-# Reserve visible space for explicitly licensed Chinese/Japanese/Korean recordings.
-for raw in list(cjk_payload.get("tracks",[]))+list(legal_payload.get("tracks",[])):
+# R16.4: keep the existing 2500-track legal mother library and ADD
+# exactly 1000 Japanese + 1000 Chinese explicitly licensed recordings.
+cjk_rows=list(cjk_payload.get("tracks",[]))
+ja=[x for x in cjk_rows if x.get("language")=="ja"][:1000]
+zh=[x for x in cjk_rows if x.get("language")=="zh"][:1000]
+if len(ja)!=1000 or len(zh)!=1000:
+    raise SystemExit(f"CITYMUS CJK requirement not met: ja={len(ja)} zh={len(zh)}")
+for raw in ja+zh:
     k=_lib_key(raw).casefold()
     if not k or k in lib_seen: continue
-    lib_seen.add(k)
-    runtime_library.append(_runtime_track(raw,len(runtime_library)+1))
-    if len(runtime_library)>=2500: break
-if len(runtime_library)!=2500:
-    raise SystemExit(f"CITYMUS runtime library expected 2500 tracks, got {len(runtime_library)}")
+    lib_seen.add(k); runtime_library.append(_runtime_track(raw,len(runtime_library)+1))
+cjk_unique=len(runtime_library)
+if cjk_unique!=2000:
+    raise SystemExit(f"CITYMUS expected 2000 unique CJK tracks, got {cjk_unique}")
+for raw in list(legal_payload.get("tracks",[])):
+    k=_lib_key(raw).casefold()
+    if not k or k in lib_seen: continue
+    lib_seen.add(k); runtime_library.append(_runtime_track(raw,len(runtime_library)+1))
+    if len(runtime_library)>=4500: break
+if len(runtime_library)!=4500:
+    raise SystemExit(f"CITYMUS runtime library expected 4500 tracks, got {len(runtime_library)}")
 lang_counts={}
 for t in runtime_library:
     x=t.get("language")
     if x:lang_counts[x]=lang_counts.get(x,0)+1
-library_report={"target":2500,"count":len(runtime_library),"cjkIncluded":sum(lang_counts.values()),"languages":lang_counts,"baseLegalCount":len(legal_payload.get("tracks",[]))}
+library_report={"target":4500,"count":len(runtime_library),"cjkIncluded":cjk_unique,"languages":lang_counts,
+                "japaneseAdded":1000,"chineseAdded":1000,"baseLegalCount":len(legal_payload.get("tracks",[])),
+                "licensePolicy":"Public Domain / CC0 / CC BY / CC BY-SA only; source + attribution preserved"}
 (repo_root/"CITYMUS_LIBRARY_REPORT.json").write_text(json.dumps(library_report,ensure_ascii=False,indent=2),encoding="utf-8")
 (repo_root/"citymus-library.js").write_text("window.CITYMUS_LIBRARY="+json.dumps(runtime_library,ensure_ascii=False,separators=(",",":"))+";\nwindow.CITYMUS_LIBRARY_REPORT="+json.dumps(library_report,ensure_ascii=False,separators=(",",":"))+";\n",encoding="utf-8")
 
