@@ -173,11 +173,10 @@ const PlayerUI = (() => {
   track.addEventListener('pointerup', endSeek); track.addEventListener('pointercancel', endSeek);
   track.addEventListener('keydown', e => { if (e.key === 'ArrowRight') Player.seek(Player.time.cur + 5); if (e.key === 'ArrowLeft') Player.seek(Player.time.cur - 5); });
 
-  /* ---------- record gestures: horizontal flick = track, circular drag = scratch ---------- */
+  /* ---------- record gesture: rotary scratch only ---------- */
   let scrubbing = null, scrubIdleTimer = 0, recordGestureBlockedUntil = 0;
   const angleOf = e => { const r = vinyl.getBoundingClientRect(); return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI; };
   const wrap = d => { while (d > 180) d -= 360; while (d < -180) d += 360; return d; };
-  const SWIPE_X = 52, SWIPE_Y = 26, SWIPE_MS = 420, SWIPE_V = .32;
 
   function beginScratch(s, e) {
     if (!s || s.mode !== 'pending') return;
@@ -203,7 +202,7 @@ const PlayerUI = (() => {
     e.preventDefault();
     scrubbing = {
       id: e.pointerId, mode: 'pending',
-      x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY,
+      x: e.clientX, y: e.clientY,
       started: performance.now(), path: 0, a0: angleOf(e)
     };
     try { vinyl.setPointerCapture(e.pointerId); } catch (_) {}
@@ -216,24 +215,12 @@ const PlayerUI = (() => {
     s.path += Math.hypot(stepx, stepy); s.x = e.clientX; s.y = e.clientY;
 
     if (s.mode === 'pending') {
-      const dx = e.clientX - s.x0, dy = e.clientY - s.y0;
-      const ax = Math.abs(dx), ay = Math.abs(dy), dt = Math.max(1, now - s.started);
-      const vx = ax / dt;
-      // A deliberate fast, nearly-horizontal flick owns the gesture completely.
-      // It never starts Scratch, never pauses audio, and never changes seek time.
-      if (ax >= SWIPE_X && ay <= SWIPE_Y && ax >= ay * 2.2 && dt <= SWIPE_MS && vx >= SWIPE_V) {
-        s.mode = 'swipe';
-        s.dir = dx > 0 ? 'prev' : 'next';
-        return;
-      }
-      // Circular/rotary movement is allowed only after the swipe decision zone.
-      // This keeps a left/right flick from leaking into clockwise/counter-clockwise scrub.
       const ad = Math.abs(wrap(angleOf(e) - s.a0));
-      if (s.path >= 22 && (ad >= 9 || dt > SWIPE_MS)) beginScratch(s, e);
+      // Only a genuine rotary movement starts scratch. Horizontal flicking
+      // no longer has any previous/next-track meaning.
+      if (s.path >= 16 && ad >= 7) beginScratch(s, e);
       return;
     }
-
-    if (s.mode === 'swipe') return;
     if (s.mode !== 'scratch') return;
 
     const ang = angleOf(e), d = wrap(ang - s.ang); s.ang = ang;
@@ -266,15 +253,6 @@ const PlayerUI = (() => {
     const s = scrubbing; if (!s) return; scrubbing = null;
     if (scrubIdleTimer) { clearTimeout(scrubIdleTimer); scrubIdleTimer = 0; }
 
-    if (s.mode === 'swipe') {
-      root.classList.remove('is-scrubbing');
-      FX.Scratch.end();
-      if (s.dir === 'prev') Player.prev();
-      else Player.next();
-      haptic();
-      return;
-    }
-
     if (s.mode === 'scratch') {
       root.classList.remove('is-scrubbing'); FX.Scratch.end();
       Player.seek(s.target); Player.resumeAfterScrub(s.was);
@@ -282,7 +260,7 @@ const PlayerUI = (() => {
       return;
     }
 
-    // A tap / tiny move does not scrub or change tracks.
+    // A tap, horizontal flick, or tiny move does nothing.
     root.classList.remove('is-scrubbing');
   };
   vinyl.addEventListener('pointerup', endRecordGesture);
