@@ -506,7 +506,7 @@ Router.register('theme', (el, p) => {
   const original = th.kind === 'original';
   const readable = lit && Reader.has(th.slug);
   const editorial = ['original','style','mood'].includes(th.kind);
-  const detailTitle = original && th.systemName ? th.systemName : (lit ? th.cn : th.name);
+  const detailTitle = original && th.t === 'LONGING' && th.systemName ? th.systemName : (lit ? th.cn : th.name);
   setAccent(el, th);
   const kindTag = th.kind === 'city' ? `<span class="tag">${icon('ticket')}City Limited</span>` : `<span class="tag">${KIND_LABEL[th.kind] || ''}</span>`;
   el.innerHTML = `<div class="wrap dest dest--${esc(th.kind)}${lit ? ' dest--lit' : ''}${original ? ' dest--original' : ''}">

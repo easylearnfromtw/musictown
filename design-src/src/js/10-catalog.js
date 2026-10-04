@@ -1083,6 +1083,22 @@ EXTRA_THEME_SPECS.forEach(spec => {
 });
 DATA.push(...EXTRA_THEME_SPECS.map(extraThemeData));
 
+/* R16.6 relevance pass: use the same verified mother-library presets for
+   existing themes as well. Taipei is intentionally left untouched. */
+for (const d of DATA) {
+  if (!d || d.t === 'TAIPEI DREAM') continue;
+  const preset = ORIGINAL_PRESET_BY_T.get(d.t);
+  if (!preset || !Array.isArray(preset.tracks) || !preset.tracks.length) continue;
+  const meta = META[d.t];
+  if (!meta || meta.kind === 'literature' || meta.kind === 'original') continue;
+  d.tracks = preset.tracks.map((t, i) => ({
+    ...t, trackNo: i + 1, curatedTheme: d.t, formalCuration: true,
+    shareId: t.shareId || (meta.slug + '-' + String(i + 1).padStart(3, '0'))
+  }));
+  d.installPending = false;
+  d.archiveEdit = false;
+  d.formalCuration = true;
+}
 
 
 /* Groups for the glass box and filters */
