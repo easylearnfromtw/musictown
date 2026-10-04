@@ -51,7 +51,7 @@ def _lib_key(t):
 def _runtime_track(t, i):
     key=_lib_key(t)
     mid=str(t.get("masterId") or ("lib:"+hashlib.sha1(key.encode("utf-8")).hexdigest()[:20]))
-    out={k:t.get(k) for k in ("title","artist","source","download","license","licenseEvidence","licenseChecked","genre","tags","duration","hasVocals","origin","language","culture","attribution") if t.get(k) not in (None,"")}
+    out={k:t.get(k) for k in ("title","artist","source","download","license","licenseUrl","licenseEvidence","licenseChecked","genre","tags","duration","hasVocals","origin","language","culture","attribution","languageEvidence") if t.get(k) not in (None,"")}
     out["masterId"]=mid
     out["shareId"]="library-"+str(i).zfill(4)
     out["libraryId"]=str(t.get("libraryId") or key)
