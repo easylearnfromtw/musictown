@@ -4,7 +4,7 @@
   "short_name": "CITYMUS",
   "description": "顛簸、晃蕩、恍惚時，用CITYMUS緩解相思",
   "lang": "zh-Hant",
-  "start_url": "./?source=pwa",
+  "start_url": "./?source=pwa&citymus=1",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

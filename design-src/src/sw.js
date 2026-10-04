@@ -14,8 +14,46 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   const req = e.request;
-  if (req.method !== 'GET' || req.headers.has('range')) return;
+  if (req.method !== 'GET') return;
   const url = new URL(req.url);
+
+  // Same-origin CITYMUS audio identity bridge. It never caches audio and it
+  // forwards byte-range requests so Safari can seek normally. Providers that
+  // disallow CORS return 502 here; Player then falls through to the original
+  // remote URL, preserving playback reliability.
+  if (url.origin === location.origin && /\/__citymus_audio\/?$/.test(url.pathname)) {
+    const raw = url.searchParams.get('u') || '';
+    let target;
+    try {
+      target = new URL(raw);
+      if (!/^https?:$/.test(target.protocol) || target.origin === location.origin) throw new Error('bad target');
+    } catch (_) {
+      e.respondWith(new Response('', { status: 400, headers: { 'Cache-Control': 'no-store' } }));
+      return;
+    }
+    const h = new Headers();
+    const range = req.headers.get('range');
+    if (range) h.set('Range', range);
+    e.respondWith(fetch(target.href, {
+      method: 'GET',
+      headers: h,
+      mode: 'cors',
+      credentials: 'omit',
+      redirect: 'follow',
+      cache: 'no-store'
+    }).then(up => {
+      const headers = new Headers();
+      for (const k of ['content-type','content-length','content-range','accept-ranges','etag','last-modified']) {
+        const v = up.headers.get(k); if (v) headers.set(k, v);
+      }
+      headers.set('Cache-Control', 'no-store');
+      headers.set('X-CITYMUS-Audio', '1');
+      return new Response(up.body, { status: up.status, statusText: up.statusText, headers });
+    }).catch(() => new Response('', { status: 502, headers: { 'Cache-Control': 'no-store' } })));
+    return;
+  }
+
+  if (req.headers.has('range')) return;
   if (/\.(mp3|m4a|ogg|oga|flac|wav|aac|opus)$/i.test(url.pathname)) return;
   if (url.origin === location.origin && url.pathname.includes('/__citymus_art/')) {
     // Generated artwork may live in the generic track-art cache or in a

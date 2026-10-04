@@ -59,6 +59,32 @@ const Player = (() => {
       return audioProxy + '?u=' + encodeURIComponent(u.href);
     } catch (_) { return null; }
   };
+  // Keep the media element itself on the CITYMUS origin whenever the source
+  // allows CORS. The service worker forwards Range requests to the verified
+  // remote file; if a provider blocks CORS this candidate simply fails and the
+  // untouched original URL remains as a fallback.
+  const identityURL = raw => {
+    if (!raw) return null;
+    try {
+      const u = new URL(raw, document.baseURI);
+      if (!/^https?:$/.test(u.protocol) || u.origin === location.origin) return null;
+      const b = new URL('__citymus_audio/', document.baseURI);
+      b.searchParams.set('u', u.href);
+      b.searchParams.set('v', 'r159');
+      return b.href;
+    } catch (_) { return null; }
+  };
+  const identityFirst = list => {
+    const out = [];
+    for (const raw of list.filter(Boolean)) {
+      const local = identityURL(raw);
+      if (local) out.push(local);
+      const verified = proxyURL(raw);
+      if (verified && graphWanted()) out.push(verified);
+      out.push(raw);
+    }
+    return [...new Set(out.filter(Boolean))];
+  };
   async function probeAudioProxy() {
     const configured = proxyEndpoint(window.CITYMUS_AUDIO_PROXY || '');
     const sameOrigin = proxyEndpoint(location.origin);
@@ -88,7 +114,7 @@ const Player = (() => {
     if (t.stream) {
       const hi = t.lossless || t.flac || t.wav || t.hq || t.download || null;
       const order = q === 'lossless' ? [hi, t.stream, LIT_MAP[t.shareId], off] : q === 'hq' ? [t.stream, hi, LIT_MAP[t.shareId], off] : [off, LIT_MAP[t.shareId], t.stream];
-      return [...new Set(order.filter(Boolean))];
+      return identityFirst(order);
     }
     const local = t.audioSrc ? abs(t.audioSrc) : null, remote = (t.masterId && REMOTE_MAP[t.masterId]) || null, dl = t.download || null, nr = nullrightsAudio(t);
     const hi = t.lossless || t.flac || t.wav || t.hq || null;
@@ -102,12 +128,7 @@ const Player = (() => {
     // When the verified proxy exists, place its CORS-safe Range stream before
     // each remote original. A failed proxy candidate simply falls through to
     // the untouched source, so GitHub Pages playback never depends on it.
-    const expanded = [];
-    for (const u of order.filter(Boolean)) {
-      const p = proxyURL(u);
-      if (p && graphWanted()) expanded.push(p);
-      expanded.push(u);
-    }
+    const expanded = identityFirst(order);
     const all = (q === 'hq' || q === 'lossless') ? [...expanded, off] : [off, ...expanded];
     return [...new Set(all.filter(Boolean))];
   }
