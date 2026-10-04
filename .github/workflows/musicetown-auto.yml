@@ -1,4 +1,4 @@
-name: CITYMUS AUTO · Build 2500 + Deploy
+name: CITYMUS AUTO · Build 4500 + Deploy
 
 on:
   push:
@@ -17,7 +17,7 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 180
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
