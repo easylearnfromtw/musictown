@@ -506,6 +506,7 @@ Router.register('theme', (el, p) => {
   const original = th.kind === 'original';
   const readable = lit && Reader.has(th.slug);
   const editorial = ['original','style','mood'].includes(th.kind);
+  const detailTitle = original && th.systemName ? th.systemName : (lit ? th.cn : th.name);
   setAccent(el, th);
   const kindTag = th.kind === 'city' ? `<span class="tag">${icon('ticket')}City Limited</span>` : `<span class="tag">${KIND_LABEL[th.kind] || ''}</span>`;
   el.innerHTML = `<div class="wrap dest dest--${esc(th.kind)}${lit ? ' dest--lit' : ''}${original ? ' dest--original' : ''}">
@@ -513,7 +514,7 @@ Router.register('theme', (el, p) => {
       <span class="dest__code" aria-hidden="true">${esc(lit ? th.cn : th.code)}</span>
       ${original ? originalCoverHTML(th, 'citymus-cover--hero') : editorial ? `<div class="dest__art dest__art--${esc(th.kind)}" aria-hidden="true"><span>${esc(th.code)}</span><i></i><i></i><i></i></div>` : ''}
       <div class="dest__meta">${kindTag}${th.kind === 'city' ? `<span class="tag tnum" data-tz-label="${esc(th.tz)}">${esc(th.cityCn)} ${esc(localTimeIn(th.tz))}</span>` : ''}${lit ? `<span class="tag">${esc(th.era)}</span>` : ''}<span class="tag">${th.tracks.length} 首</span></div>
-      <h1 class="dest__title" id="destTitle">${esc(lit ? th.cn : th.name)}</h1>
+      <h1 class="dest__title" id="destTitle">${esc(detailTitle)}</h1>
       <p class="dest__cn">${esc(lit ? `${th.name} · ${th.authorCn} ${th.author}` : th.cn)}</p>
       <p class="dest__line">${lit ? `「${esc(th.line)}」` : esc(th.line)}</p>
       ${th.data.sub ? `<button class="link-btn dest__more" type="button" id="destMore" aria-expanded="false">${lit ? '關於選曲' : '關於這個抽屜'} ${icon('down')}</button><p class="dest__desc" id="destDesc" hidden>${esc(th.data.sub)}</p>` : ''}

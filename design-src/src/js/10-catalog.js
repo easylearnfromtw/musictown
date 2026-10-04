@@ -101,7 +101,6 @@ const ORIGINAL_PLAYLISTS = [
     "code": "KIS",
     "name": "吻",
     "cn": "Kiss",
-    "systemName": "刎",
     "accent": "#9D5967",
     "ink": "#502C35",
     "line": "愛貼得太近時，吻與窒息只剩一線之隔。",
@@ -426,6 +425,106 @@ const ORIGINAL_PLAYLISTS = [
       "brick",
       "old room"
     ]
+  },
+  {
+    "t": "LONGING",
+    "slug": "longing",
+    "code": "MIS",
+    "name": "相思",
+    "cn": "Longing",
+    "systemName": "想死",
+    "accent": "#8F6670",
+    "ink": "#4D343B",
+    "line": "想念久了，思念會沿著夜色往更深的地方沉。",
+    "summary": "不是單純悲傷，而是反覆想起同一個人。以抒情人聲、soul、folk、R&B、慢板與帶距離感的夜色聲響，讓思念逐漸失去重心。",
+    "words": [
+      "longing",
+      "love",
+      "missing",
+      "yearning",
+      "romantic",
+      "ballad",
+      "soul",
+      "r&b",
+      "vocal",
+      "singer-songwriter",
+      "melancholy",
+      "sad",
+      "slow",
+      "folk",
+      "night",
+      "emotional"
+    ],
+    "count": 25,
+    "vocalBonus": 10,
+    "noMatchPenalty": 14
+  },
+  {
+    "t": "LAZY WEEKEND",
+    "slug": "lazy-weekend",
+    "code": "WKD",
+    "name": "慵懶週末",
+    "cn": "Lazy Weekend",
+    "accent": "#B49C77",
+    "ink": "#5B4B35",
+    "line": "沒有鬧鐘、沒有趕路，讓午後一路拖到傍晚。",
+    "summary": "適合週末賴床、沖咖啡、發呆和慢慢整理房間。以 mellow R&B、soul、爵士、acoustic、lounge 與鬆弛人聲為主，節奏存在但不催促。",
+    "words": [
+      "mellow",
+      "lazy",
+      "weekend",
+      "soul",
+      "r&b",
+      "vocal",
+      "lounge",
+      "jazz",
+      "acoustic",
+      "warm",
+      "chill",
+      "groove",
+      "soft",
+      "coffee",
+      "slow",
+      "indie"
+    ],
+    "count": 25,
+    "vocalBonus": 9,
+    "noMatchPenalty": 12
+  },
+  {
+    "t": "OLD TAIPEI",
+    "slug": "old-taipei",
+    "code": "OTP",
+    "name": "老台北",
+    "cn": "Old Taipei",
+    "accent": "#8E7865",
+    "ink": "#4B4035",
+    "line": "雨棚、舊招牌、舞廳與收音機，把城市留在另一個年代。",
+    "summary": "不是現在的台北，而是帶著黑膠、舞廳、老歌、民謠與街屋記憶的台北。優先使用華語／台灣來源的人聲與老派聲響，保留城市的年代感與一點雨夜。",
+    "words": [
+      "taiwan",
+      "taipei",
+      "chinese",
+      "mandarin",
+      "taiwanese",
+      "vintage",
+      "oldies",
+      "old room",
+      "ballroom vocal",
+      "crooner",
+      "folk",
+      "traditional",
+      "jazz",
+      "swing",
+      "nostalgic",
+      "vocal",
+      "song",
+      "city"
+    ],
+    "count": 25,
+    "vocalBonus": 11,
+    "noMatchPenalty": 16,
+    "languagePrefer": "zh"
   }
 ];
 const ORIGINAL_POOL = (() => {
@@ -491,6 +590,85 @@ DATA.push(...ORIGINAL_PLAYLISTS.map(originalData));
 
 /* Extra CITYMUS destinations · runtime-curated from the verified mother pool. */
 const EXTRA_THEME_SPECS = [
+  {
+    "t": "R&B",
+    "slug": "r-and-b",
+    "code": "RNB",
+    "name": "R&B",
+    "cn": "節奏藍調",
+    "kind": "style",
+    "accent": "#8A677C",
+    "ink": "#493544",
+    "line": "柔軟人聲貼著 groove，低頻和情緒一起往前。",
+    "summary": "以 soul、R&B、neo-soul、slow groove 與人聲為核心。避免只因為有電子鼓就被歸進來，選曲優先看 vocal、soul、groove 與情緒質地。",
+    "words": [
+      "r&b",
+      "rnb",
+      "rhythm and blues",
+      "neo soul",
+      "neo-soul",
+      "soul",
+      "vocal",
+      "groove",
+      "slow jam",
+      "ballad",
+      "funk",
+      "urban",
+      "smooth"
+    ],
+    "count": 50,
+    "vocalBonus": 12,
+    "noMatchPenalty": 18,
+    "reject": [
+      "metal",
+      "punk",
+      "hard rock",
+      "techno",
+      "industrial",
+      "children",
+      "corporate"
+    ]
+  },
+  {
+    "t": "RAP",
+    "slug": "rap",
+    "code": "RAP",
+    "name": "Rap",
+    "cn": "饒舌",
+    "kind": "style",
+    "accent": "#6F7480",
+    "ink": "#363A42",
+    "line": "文字先落下，節拍再把每一句往前推。",
+    "summary": "以 hip-hop、rap、boom bap、urban beat 與節奏化人聲為核心。重點是 flow、咬字、鼓點與低頻，不用流行電子樂假裝成饒舌。",
+    "words": [
+      "rap",
+      "hip hop",
+      "hip-hop",
+      "boom bap",
+      "rapper",
+      "mc",
+      "rhymes",
+      "urban",
+      "beat",
+      "beats",
+      "flow",
+      "spoken vocal",
+      "trap",
+      "breakbeat"
+    ],
+    "count": 50,
+    "vocalBonus": 13,
+    "noMatchPenalty": 20,
+    "reject": [
+      "ambient",
+      "meditation",
+      "classical",
+      "corporate",
+      "children",
+      "lullaby",
+      "solo piano"
+    ]
+  },
   {
     "t": "ELECTRIC SEOUL",
     "slug": "electric-seoul",
@@ -886,14 +1064,15 @@ const EXTRA_THEME_SPECS = [
 ];
 function extraThemeData(spec) {
   const count = Number(spec.count || 50), preset = ORIGINAL_PRESET_BY_T.get(spec.t);
+  const kindLabel = spec.kind === 'spot' ? '地標歌單' : spec.kind === 'style' ? '風格歌單' : spec.kind === 'mood' ? '心情歌單' : '城市主題';
   if (preset && Array.isArray(preset.tracks) && preset.tracks.length === count) {
-    return { t: spec.t, sub: spec.summary, key: (spec.kind === 'spot' ? '地標歌單' : '城市主題') + ' · ' + count + ' 首 · 2500 首合法母庫策展',
+    return { t: spec.t, sub: spec.summary, key: kindLabel + ' · ' + count + ' 首 · 合法母庫策展',
       tracks: preset.tracks.map((t, i) => ({ ...t, trackNo: i + 1, curatedTheme: spec.t,
         shareId: t.shareId || (spec.slug + '-' + String(i + 1).padStart(3, '0')),
         vibe: t.vibe || (spec.cn + ' · ' + (t.genre || 'Mother Library')) })) };
   }
   const picked = originalPick(spec, count, new Set(), spec.words || []);
-  return { t: spec.t, sub: spec.summary, key: (spec.kind === 'spot' ? '地標歌單' : '城市主題') + ' · 母庫策展',
+  return { t: spec.t, sub: spec.summary, key: kindLabel + ' · 母庫策展',
     tracks: picked.map((x, i) => ({ ...x.t, trackNo: i + 1, curatedTheme: spec.t, curatedFrom: x.t.shareId || x.t.audioSrc || x.from,
       sourceTheme: x.from, shareId: spec.slug + '-' + String(i + 1).padStart(3, '0'), vibe: spec.cn + ' · ' + (x.t.vibe || x.from || '') })) };
 }
@@ -912,7 +1091,7 @@ const GROUPS = [
   { key: 'europe', label: '歐洲', en: 'Europe', names: ['VAPOR LONDON', 'SLIGHTLY TIPSY ROME', 'CHAMPS-ÉLYSÉES', 'MENACING DUBAI', 'CONCRETE BERLIN', 'TIDAL ROTTERDAM'] },
   { key: 'oceania', label: '大洋洲', en: 'Oceania', names: ['HARBOUR SYDNEY', 'QUIET CANBERRA'] },
   { key: 'americas', label: '美洲', en: 'Americas', names: ['VANCOUVER', 'NEW YORK', 'TROPICAL HAWAII', 'PSYCHEDELIC LA'] },
-  { key: 'style', label: '風格', en: 'Styles', names: ['JAZZ', 'CROONER', 'ROCK', 'LO-FI'] },
+  { key: 'style', label: '風格', en: 'Styles', names: ['JAZZ', 'CROONER', 'ROCK', 'LO-FI', 'R&B', 'RAP'] },
   { key: 'mood', label: '心情', en: 'Moods', names: ['EMO', 'SPORT', 'RUNNING', 'POEM'] },
   { key: 'original', label: '原創', en: 'Original', names: ORIGINAL_PLAYLISTS.map(w => w.t) },
   { key: 'literature', label: '文學', en: 'Literature', names: LIT.map(w => w.t) }
@@ -972,7 +1151,7 @@ const HYDRATE_WORDS = {
   'BUSTLING HONG KONG': ['night city', 'city night', 'neon', 'synth pop', 'downtown pulse', 'night drive', 'city pop', 'urban indie', 'fast pop'],
   'SLIGHTLY TIPSY ROME': ['acapella', 'vintage lounge', 'ballroom vocal', 'velvet vocal', 'chanson', 'old room', 'jazz room', 'slow night'],
   'PSYCHEDELIC LA': ['art pop', 'synthwave', 'lo-fi', 'lo-fi rock', 'soho after dark', 'night drive', 'synth', 'americana'],
-  'SOLEMN KYOTO': ['slow night', 'soft room', 'late study', 'acapella', 'slow folk', 'lo-fi', 'old room', 'pacific rain'],
+  'SOLEMN KYOTO': ['japanese traditional', 'gagaku', 'shakuhachi', 'koto', 'chant', 'choral', 'sacred', 'ceremonial', 'ritual', 'meditative', 'classical', 'drone', 'temple', 'spiritual', 'traditional'],
   'MIRACULOUS LUOYANG': ['old room', 'vintage', 'ballroom vocal', 'vintage jazz', 'ragtime', 'acapella', 'velvet vocal', 'lounge'],
   'CHAMPS-ÉLYSÉES': ['lounge', 'vintage lounge', 'chanson', 'velvet vocal', 'art pop', 'soul-r&b', 'jazz-funk', 'soho after dark'],
   'MENACING DUBAI': ['dark', 'night', 'electronic', 'industrial', 'synth', 'pulse', 'tense', 'urban', 'city', 'drive', 'rock', 'dream', 'ambient', 'downtown', 'neon']
