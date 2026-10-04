@@ -173,28 +173,69 @@ const PlayerUI = (() => {
   track.addEventListener('pointerup', endSeek); track.addEventListener('pointercancel', endSeek);
   track.addEventListener('keydown', e => { if (e.key === 'ArrowRight') Player.seek(Player.time.cur + 5); if (e.key === 'ArrowLeft') Player.seek(Player.time.cur - 5); });
 
-  /* ---------- scratch: drag the record ---------- */
+  /* ---------- record gestures: horizontal flick = track, circular drag = scratch ---------- */
   let scrubbing = null, scrubIdleTimer = 0;
   const angleOf = e => { const r = vinyl.getBoundingClientRect(); return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI; };
   const wrap = d => { while (d > 180) d -= 360; while (d < -180) d += 360; return d; };
+  const SWIPE_X = 52, SWIPE_Y = 26, SWIPE_MS = 420, SWIPE_V = .32;
+
+  function beginScratch(s, e) {
+    if (!s || s.mode !== 'pending') return;
+    const a = Player.el, dur = Player.time.dur;
+    s.mode = 'scratch';
+    s.ang = angleOf(e); s.turns = 0; s.base = a.currentTime || 0; s.target = s.base;
+    s.speed = 0; s.t = performance.now(); s.lastTick = Math.floor(s.base / 15);
+    FX.ensure();
+    try { if (FX.ctx && FX.ctx.state !== 'running') FX.ctx.resume().catch(() => {}); } catch (_) {}
+    s.was = Player.pauseForScrub();
+    cancelAnimationFrame(ramp); spin.pause(); syncSpin(true);
+    root.classList.add('is-scrubbing');
+    FX.Scratch.begin(a.currentSrc || a.src, s.base, dur);
+    armScrubIdle();
+    byId('plReadout').textContent = fmtTime(s.base);
+    haptic();
+  }
+
   vinyl.addEventListener('pointerdown', e => {
     showVinylMode();
     if (!Player.current || (e.pointerType === 'mouse' && e.button)) return;
     e.preventDefault();
-    const a = Player.el; const dur = Player.time.dur;
-    FX.ensure(); // inside the gesture: wakes Web Audio on iOS so the scratch is heard
-    try { if (FX.ctx && FX.ctx.state !== 'running') FX.ctx.resume().catch(() => {}); } catch (_) {}
-    scrubbing = { id: e.pointerId, ang: angleOf(e), turns: 0, base: a.currentTime || 0, t: performance.now(), speed: 0, was: Player.pauseForScrub(), target: a.currentTime || 0, lastTick: Math.floor((a.currentTime || 0) / 15) };
+    scrubbing = {
+      id: e.pointerId, mode: 'pending',
+      x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY,
+      started: performance.now(), path: 0, a0: angleOf(e)
+    };
     try { vinyl.setPointerCapture(e.pointerId); } catch (_) {}
-    cancelAnimationFrame(ramp); spin.pause(); syncSpin(true);
-    root.classList.add('is-scrubbing');
-    FX.Scratch.begin(a.currentSrc || a.src, scrubbing.base, dur);
-    armScrubIdle();
-    byId('plReadout').textContent = fmtTime(scrubbing.base); haptic();
   });
+
   vinyl.addEventListener('pointermove', e => {
     const s = scrubbing; if (!s) return;
-    const now = performance.now(), ang = angleOf(e), d = wrap(ang - s.ang); s.ang = ang;
+    const now = performance.now();
+    const stepx = e.clientX - s.x, stepy = e.clientY - s.y;
+    s.path += Math.hypot(stepx, stepy); s.x = e.clientX; s.y = e.clientY;
+
+    if (s.mode === 'pending') {
+      const dx = e.clientX - s.x0, dy = e.clientY - s.y0;
+      const ax = Math.abs(dx), ay = Math.abs(dy), dt = Math.max(1, now - s.started);
+      const vx = ax / dt;
+      // A deliberate fast, nearly-horizontal flick owns the gesture completely.
+      // It never starts Scratch, never pauses audio, and never changes seek time.
+      if (ax >= SWIPE_X && ay <= SWIPE_Y && ax >= ay * 2.2 && dt <= SWIPE_MS && vx >= SWIPE_V) {
+        s.mode = 'swipe';
+        s.dir = dx > 0 ? 'prev' : 'next';
+        return;
+      }
+      // Circular/rotary movement is allowed only after the swipe decision zone.
+      // This keeps a left/right flick from leaking into clockwise/counter-clockwise scrub.
+      const ad = Math.abs(wrap(angleOf(e) - s.a0));
+      if (s.path >= 22 && (ad >= 9 || dt > SWIPE_MS)) beginScratch(s, e);
+      return;
+    }
+
+    if (s.mode === 'swipe') return;
+    if (s.mode !== 'scratch') return;
+
+    const ang = angleOf(e), d = wrap(ang - s.ang); s.ang = ang;
     const dt = Math.max(.008, (now - s.t) / 1000); s.t = now;
     s.turns += d / 360; s.speed = s.speed * .55 + (d / 360 / dt) * .45;
     const dur = Player.time.dur || Infinity;
@@ -206,26 +247,45 @@ const PlayerUI = (() => {
     FX.Scratch.move(s.turns, s.speed);
     const tk = Math.floor(s.target / 15); if (tk !== s.lastTick) { s.lastTick = tk; haptic(); }
   });
+
   /* holding still: the stylus goes quiet; no idle timer runs outside a scrub session */
   function armScrubIdle() {
     if (scrubIdleTimer) clearTimeout(scrubIdleTimer);
-    if (!scrubbing) { scrubIdleTimer = 0; return; }
+    if (!scrubbing || scrubbing.mode !== 'scratch') { scrubIdleTimer = 0; return; }
     scrubIdleTimer = setTimeout(() => {
       scrubIdleTimer = 0;
       const s = scrubbing;
-      if (!s) return;
+      if (!s || s.mode !== 'scratch') return;
       if (performance.now() - s.t > 90) { s.speed *= .5; FX.Scratch.move(s.turns, s.speed); }
       armScrubIdle();
     }, 80);
   }
-  const endScrub = () => {
+
+  const endRecordGesture = () => {
     const s = scrubbing; if (!s) return; scrubbing = null;
     if (scrubIdleTimer) { clearTimeout(scrubIdleTimer); scrubIdleTimer = 0; }
-    root.classList.remove('is-scrubbing'); FX.Scratch.end();
-    Player.seek(s.target); Player.resumeAfterScrub(s.was);
-    syncSpin(true); if (s.was) rampTo(1, 400);
+
+    if (s.mode === 'swipe') {
+      root.classList.remove('is-scrubbing');
+      FX.Scratch.end();
+      if (s.dir === 'prev') Player.prev();
+      else Player.next();
+      haptic();
+      return;
+    }
+
+    if (s.mode === 'scratch') {
+      root.classList.remove('is-scrubbing'); FX.Scratch.end();
+      Player.seek(s.target); Player.resumeAfterScrub(s.was);
+      syncSpin(true); if (s.was) rampTo(1, 400);
+      return;
+    }
+
+    // A tap / tiny move does not scrub or change tracks.
+    root.classList.remove('is-scrubbing');
   };
-  vinyl.addEventListener('pointerup', endScrub); vinyl.addEventListener('pointercancel', endScrub);
+  vinyl.addEventListener('pointerup', endRecordGesture);
+  vinyl.addEventListener('pointercancel', endRecordGesture);
   vinyl.addEventListener('keydown', e => { if (e.key === 'ArrowRight') Player.seek(Player.time.cur + 10); if (e.key === 'ArrowLeft') Player.seek(Player.time.cur - 10); if (e.key === ' ') { e.preventDefault(); Player.toggle(); } });
 
   /* ---------- vintage (quiet, below the transport; persists for the next songs) ---------- */
