@@ -89,6 +89,14 @@ def rejects(blob):
     x=clean(blob).casefold()
     return any(w in x for w in REJECT_WORDS)
 
+def infer_vocals(blob):
+    x=clean(blob).casefold()
+    yes=("song","songs","vocal","singing","singer","choir","choral","chant","opera","歌","唱","歌曲","民歌","民謡","童謡","童谣","聲樂","声乐","吟唱")
+    no=("instrumental","solo piano","soundscape","field recording")
+    if any(w in x for w in no): return False
+    if any(w in x for w in yes): return True
+    return None
+
 def language_blob_ok(blob, lang):
     x=clean(blob).casefold()
     if lang=="ja":
@@ -165,7 +173,7 @@ def commons_info(titles,lang):
               "licenseEvidence":"Wikimedia Commons file metadata explicitly reports "+(lic_name or lic),
               "licenseChecked":time.strftime("%Y-%m-%d"),"duration":round(dur) if dur else None,
               "genre":"Open music","tags":clean(desc)[:420],"origin":"wikimedia-commons",
-              "language":lang,"culture":"日本音樂" if lang=="ja" else "華語／華人音樂",
+              "hasVocals":infer_vocals(desc),"language":lang,"culture":"日本音樂" if lang=="ja" else "華語／華人音樂",
               "attribution":f"{artist} · {lic} · Wikimedia Commons",
               "languageEvidence":"Commons category/search metadata identifies Japanese/Japan music" if lang=="ja" else "Commons category/search metadata identifies Chinese/Taiwan music",
             })
@@ -246,7 +254,7 @@ def archive_item(doc,lang):
           "licenseEvidence":"Internet Archive item metadata explicitly provides "+(lic_url or rights),
           "licenseChecked":time.strftime("%Y-%m-%d"),"duration":round(dur) if dur else None,
           "genre":"Open music","tags":clean(subject)[:420],"origin":"internet-archive",
-          "language":lang,"culture":"日本音樂" if lang=="ja" else "華語／華人音樂",
+          "hasVocals":infer_vocals(" ".join([subject,track_title,creator])),"language":lang,"culture":"日本音樂" if lang=="ja" else "華語／華人音樂",
           "attribution":f"{clean(f.get('artist') or creator)} · {lic} · Internet Archive",
           "languageEvidence":"Internet Archive item language/subject metadata: "+clean(langs or subject)[:180],
         })
