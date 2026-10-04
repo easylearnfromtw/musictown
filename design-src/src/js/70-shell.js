@@ -10,7 +10,7 @@ const setAccent = (el, th) => {
 const accentStyle = th => th ? `--accent:${th.accent};--accent-ink:${th.ink};--wash:color-mix(in srgb, ${th.accent} 14%, white)` : '';
 
 /* ---------- segmented control with sliding glass thumb (draggable) ---------- */
-function Seg(host, { items, value, onChange, label = '' }) {
+function Seg(host, { items, value, onChange, label = '', draggable = true }) {
   host.classList.add('seg'); host.setAttribute('role', 'tablist'); if (label) host.setAttribute('aria-label', label);
   host.innerHTML = `<i class="seg__thumb" aria-hidden="true"></i>` + items.map(it => `<button class="seg__btn" type="button" role="tab" data-k="${esc(it.key)}" aria-selected="${it.key === value}">${it.html || esc(it.label)}</button>`).join('');
   const thumb = host.firstElementChild; const btns = $$('.seg__btn', host);
@@ -26,26 +26,29 @@ function Seg(host, { items, value, onChange, label = '' }) {
     if (fire) { haptic(); onChange && onChange(k); }
   };
   host.addEventListener('click', e => { const b = e.target.closest('.seg__btn'); if (!b || b.dataset.k === String(cur)) return; set(b.dataset.k); });
-  // drag the thumb like a liquid lens
+  // drag the thumb like a liquid lens (optional; some controls are tap-only)
   let drag = null;
-  host.addEventListener('pointerdown', e => { if (e.pointerType === 'mouse' && e.button) return; drag = { x: e.clientX, moved: false, id: e.pointerId }; });
-  host.addEventListener('pointermove', e => {
-    if (!drag) return; const dx = e.clientX - drag.x;
-    if (!drag.moved && Math.abs(dx) < 8) return;
-    if (!drag.moved) { drag.moved = true; host.classList.add('is-dragging'); try { host.setPointerCapture(drag.id); } catch (_) {} }
-    const r = host.getBoundingClientRect(); const w = thumb.offsetWidth;
-    const x = clamp(e.clientX - r.left - w / 2, 4, r.width - w - 4);
-    thumb.style.transform = `translateX(${x}px) scale(1.06)`;
-  });
-  const end = e => {
-    if (!drag) return; const was = drag.moved; drag = null; host.classList.remove('is-dragging');
-    if (!was) return;
-    const r = host.getBoundingClientRect(); const x = e.clientX - r.left;
-    const b = btns.reduce((best, b) => Math.abs(b.offsetLeft + b.offsetWidth / 2 - x) < Math.abs(best.offsetLeft + best.offsetWidth / 2 - x) ? b : best, btns[0]);
-    if (b.dataset.k !== String(cur)) set(b.dataset.k); else place(cur);
-    host.addEventListener('click', ev => ev.stopPropagation(), { capture: true, once: true });
-  };
-  host.addEventListener('pointerup', end); host.addEventListener('pointercancel', () => { drag = null; host.classList.remove('is-dragging'); place(cur); });
+  if (draggable) {
+    host.addEventListener('pointerdown', e => { if (e.pointerType === 'mouse' && e.button) return; drag = { x: e.clientX, moved: false, id: e.pointerId }; });
+    host.addEventListener('pointermove', e => {
+      if (!drag) return; const dx = e.clientX - drag.x;
+      if (!drag.moved && Math.abs(dx) < 8) return;
+      if (!drag.moved) { drag.moved = true; host.classList.add('is-dragging'); try { host.setPointerCapture(drag.id); } catch (_) {} }
+      const r = host.getBoundingClientRect(); const w = thumb.offsetWidth;
+      const x = clamp(e.clientX - r.left - w / 2, 4, r.width - w - 4);
+      thumb.style.transform = `translateX(${x}px) scale(1.06)`;
+    });
+    const end = e => {
+      if (!drag) return; const was = drag.moved; drag = null; host.classList.remove('is-dragging');
+      if (!was) return;
+      const r = host.getBoundingClientRect(); const x = e.clientX - r.left;
+      const b = btns.reduce((best, b) => Math.abs(b.offsetLeft + b.offsetWidth / 2 - x) < Math.abs(best.offsetLeft + best.offsetWidth / 2 - x) ? b : best, btns[0]);
+      if (b.dataset.k !== String(cur)) set(b.dataset.k); else place(cur);
+      host.addEventListener('click', ev => ev.stopPropagation(), { capture: true, once: true });
+    };
+    host.addEventListener('pointerup', end);
+    host.addEventListener('pointercancel', () => { drag = null; host.classList.remove('is-dragging'); place(cur); });
+  }
   new ResizeObserver(() => place(cur, true)).observe(host);
   requestAnimationFrame(() => place(cur, true));
   return { set, get value() { return cur; } };

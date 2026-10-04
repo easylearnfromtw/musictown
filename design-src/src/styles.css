@@ -2036,3 +2036,20 @@ main{
   font:500 13px/1.6 var(--ui)!important;
   color:var(--ink-3)!important;
 }
+
+
+/* CITYMUS R16.1 · isolate vintage controls from record gestures */
+.player .vintage{
+  position:relative;
+  z-index:9;
+  isolation:isolate;
+}
+.player .vintage .seg,
+.player .vintage .seg__btn{
+  touch-action:manipulation;
+  -webkit-user-select:none;
+  user-select:none;
+}
+.player .vintage .seg{
+  pointer-events:auto;
+}

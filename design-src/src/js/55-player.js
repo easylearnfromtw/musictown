@@ -40,6 +40,7 @@ const Player = (() => {
   let routePickerPending = false;
   let routePickerTimer = 0;
   let handoffSeq = 0;
+  let effectGuardUntil = 0, effectGuardTrack = null, effectGuardIndex = -1;
   let localAvail = sess.get('mt.localAudio', null); // null unknown · true · false
   let audioProxy = '', proxyReady = false;
   const proxyEndpoint = base => {
@@ -268,6 +269,16 @@ const Player = (() => {
       if (wantPlay) playEl(b);
       return;
     }
+    // Never change songs because an EQ/vintage pipeline switch failed.
+    // Keep the listener on the same track and let them retry or change mode.
+    if (performance.now() < effectGuardUntil && current === effectGuardTrack && index === effectGuardIndex) {
+      failStreak = Math.min(failStreak + 1, 5);
+      bus.emit('track-failed', current);
+      toast('老舊音效暫時無法套用這個音源，已保留原曲');
+      wantPlay = false;
+      emitState();
+      return;
+    }
     failStreak++;
     bus.emit('track-failed', current);
     if (failStreak >= 6) { toast('目前無法連線到音源，請稍後再試'); wantPlay = false; emitState(); return; }
@@ -427,6 +438,9 @@ const Player = (() => {
   /* ---------- vintage switch: move playback between direct and FX element ---------- */
   bus.on('vintage', lv => {
     if (!current) return;
+    effectGuardUntil = performance.now() + 1800;
+    effectGuardTrack = current;
+    effectGuardIndex = index;
     const a = el(); const url = a.currentSrc || a.src; if (!url) return;
     const want = elementFor(url);
     if (graphWanted() && !FX.canProcess(url)) FX.probeCors(url).then(ok => { if (ok && graphWanted() && el().src === url && activeName !== 'fx') handoff('fx'); });

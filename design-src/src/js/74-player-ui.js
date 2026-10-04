@@ -174,7 +174,7 @@ const PlayerUI = (() => {
   track.addEventListener('keydown', e => { if (e.key === 'ArrowRight') Player.seek(Player.time.cur + 5); if (e.key === 'ArrowLeft') Player.seek(Player.time.cur - 5); });
 
   /* ---------- record gestures: horizontal flick = track, circular drag = scratch ---------- */
-  let scrubbing = null, scrubIdleTimer = 0;
+  let scrubbing = null, scrubIdleTimer = 0, recordGestureBlockedUntil = 0;
   const angleOf = e => { const r = vinyl.getBoundingClientRect(); return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI; };
   const wrap = d => { while (d > 180) d -= 360; while (d < -180) d += 360; return d; };
   const SWIPE_X = 52, SWIPE_Y = 26, SWIPE_MS = 420, SWIPE_V = .32;
@@ -198,6 +198,7 @@ const PlayerUI = (() => {
 
   vinyl.addEventListener('pointerdown', e => {
     showVinylMode();
+    if (performance.now() < recordGestureBlockedUntil) return;
     if (!Player.current || (e.pointerType === 'mouse' && e.button)) return;
     e.preventDefault();
     scrubbing = {
@@ -289,10 +290,24 @@ const PlayerUI = (() => {
   vinyl.addEventListener('keydown', e => { if (e.key === 'ArrowRight') Player.seek(Player.time.cur + 10); if (e.key === 'ArrowLeft') Player.seek(Player.time.cur - 10); if (e.key === ' ') { e.preventDefault(); Player.toggle(); } });
 
   /* ---------- vintage (quiet, below the transport; persists for the next songs) ---------- */
-  const vseg = Seg(byId('plVSeg'), {
-    label: '老舊音樂程度', value: String(FX.level),
+  const vintageHost = byId('plVSeg');
+  const vseg = Seg(vintageHost, {
+    label: '老舊音樂程度', value: String(FX.level), draggable: false,
     items: [{ key: '0', html: '原音' }, { key: '1', html: '1970s' }, { key: '2', html: '1950s' }, { key: '3', html: '1930s' }],
-    onChange: k => { FX.setLevel(Number(k)); if (Number(k) > 0) FX.needleDrop(); drawVintageState(); }
+    onChange: k => {
+      recordGestureBlockedUntil = performance.now() + 900;
+      FX.setLevel(Number(k));
+      if (Number(k) > 0) FX.needleDrop();
+      drawVintageState();
+    }
+  });
+  // Vintage buttons are controls, never record gestures. Safari occasionally
+  // preserves a prior pointer sequence across fast taps; isolate this zone.
+  ['pointerdown','pointermove','pointerup','pointercancel','touchstart','touchmove','touchend'].forEach(type => {
+    vintageHost.addEventListener(type, e => {
+      recordGestureBlockedUntil = performance.now() + 900;
+      e.stopPropagation();
+    }, { passive: true });
   });
   function drawVintageState() {
     const lv = FX.level; root.classList.toggle('is-vintage', lv > 0);
