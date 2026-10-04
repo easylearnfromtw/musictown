@@ -4,27 +4,25 @@
 (function boot() {
   const q = new URLSearchParams(location.search);
   const deep = q.get('source') === 'ios' || q.has('theme') || q.has('read') || location.hash.length > 1 || q.has('previewCityPass') || q.has('previewLibraryPass') || q.has('previewAudioLink') || q.has('previewMonthly') || q.has('limited');
-  Router.start();
+  // P0: restore the persistent player core before any disposable view renders.
+  // Router transitions must sit on top of this core, never recreate it.
   Player.restore();
+  Router.start();
   Mini.render();
   if (!Settings.get('onboarded') && !deep) Welcome.open(); else Geo.ensure();
   Share.readHash();
   /* CITYMUS_LOCKSCREEN_PREWARM_R157 */
   setTimeout(() => Artwork.lockscreenURL?.(1536).catch(() => {}), 120);
 
-  /* CITYMUS_SW_REFRESH_R157
-     Force Safari / Home Screen installs to fetch the newest worker script.
-     A one-time reload after controller change prevents an old cached document
-     from continuing to publish stale Media Session artwork. */
+  /* P0 service-worker rule: an update is never allowed to reload a live
+     player. The new worker activates in the background; the document updates on
+     the next natural launch instead of interrupting music mid-track. */
   if ('serviceWorker' in navigator) {
-    const reloadKey = 'citymus-sw-r157-reloaded';
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      try {
-        if (!sessionStorage.getItem(reloadKey)) {
-          sessionStorage.setItem(reloadKey, '1');
-          location.reload();
-        }
-      } catch (_) {}
+      if (Player.current) {
+        try { sessionStorage.setItem('citymus-update-pending', '1'); } catch (_) {}
+        return;
+      }
     });
     navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
       .then(reg => reg.update().catch(() => {}))

@@ -160,12 +160,39 @@ const Player = (() => {
   /* ---------- element events (only the active element speaks) ---------- */
   function wire(a) {
     const mine = () => a === el() && !a._unlocking && !a._switching;
-    a.addEventListener('playing', () => { a._unlocked = true; if (!mine()) return; failStreak = 0; FX.setSurface(FX.level > 0); Fader.apply(); emitState(); ms.state(); });
-    a.addEventListener('pause', () => { if (!mine()) return; FX.setSurface(false); emitState(); ms.state(); });
+    a.addEventListener('playing', () => {
+      a._unlocked = true; if (!mine()) return;
+      failStreak = 0; FX.setSurface(FX.level > 0); Fader.apply(); emitState(); ms.state(); saveSession('playing');
+    });
+    a.addEventListener('pause', () => {
+      if (!mine()) return;
+      FX.setSurface(false); emitState(); ms.state(); saveSession('pause');
+    });
     a.addEventListener('timeupdate', () => { if (!mine()) return; bus.emit('time'); onProgress(); Fader.apply(); });
-    a.addEventListener('loadedmetadata', () => { if (!mine()) return; if (a._seekTo != null) { try { a.currentTime = a._seekTo; } catch (_) {} a._seekTo = null; } bus.emit('time'); ms.position(); if (Number.isFinite(a.duration) && a.duration <= 90) setTimeout(warmNext, 250); });
+    a.addEventListener('loadedmetadata', () => {
+      if (!mine()) return;
+      if (a._seekTo != null) {
+        const target = Math.max(0, Number(a._seekTo) || 0);
+        a._restoringPosition = true;
+        try { a.currentTime = Number.isFinite(a.duration) && a.duration > .2 ? Math.min(target, a.duration - .1) : target; } catch (_) {}
+        a._seekTo = null;
+      }
+      const resume = !!a._restorePlay; a._restorePlay = false;
+      bus.emit('time'); ms.position();
+      if (resume && a.paused && !a.ended) {
+        wantPlay = true;
+        playEl(a);
+      }
+      if (Number.isFinite(a.duration) && a.duration <= 90) setTimeout(warmNext, 250);
+    });
     a.addEventListener('durationchange', () => { if (mine()) { bus.emit('time'); ms.position(); } });
-    a.addEventListener('seeked', () => { if (mine()) { bus.emit('time'); ms.position(); Fader.seeked(); } });
+    a.addEventListener('seeked', () => {
+      if (!mine()) return;
+      bus.emit('time'); ms.position();
+      if (a._restoringPosition) a._restoringPosition = false;
+      else Fader.seeked();
+      saveSession('seek');
+    });
     a.addEventListener('ended', () => { if (mine()) onEnded(); });
     a.addEventListener('error', () => { if (mine() && a.getAttribute('src')) onError(); });
     a.addEventListener('waiting', () => { if (mine()) bus.emit('buffering', true); });
@@ -324,7 +351,7 @@ const Player = (() => {
     const a = el(); const d = a.duration;
     const now = performance.now();
     if (now - lastSystemPos > 1200) { lastSystemPos = now; ms.position(); }
-    if (now - lastMsPos > 4000) { lastMsPos = now; saveSession(); }
+    if (now - lastMsPos > 1400) { lastMsPos = now; saveSession('time'); }
     if (!Number.isFinite(d) || d <= 0) return;
     const rem = d - a.currentTime;
     if (rem < 55 && !warmKey) warmNext();
@@ -418,20 +445,20 @@ const Player = (() => {
   function seek(sec) { const a = el(); try { if (Number.isFinite(sec)) a.currentTime = clamp(sec, 0, Number.isFinite(a.duration) ? a.duration - .05 : sec); } catch (_) {} bus.emit('time'); }
   function playNext(t) {
     if (!current) { playTrack(t); return; }
-    queue.splice(index + 1, 0, entry(t, { user: true })); warmKey = ''; bus.emit('queue'); warmNext(); toast('下一首播放');
+    queue.splice(index + 1, 0, entry(t, { user: true })); warmKey = ''; bus.emit('queue'); checkpoint('queue'); warmNext(); toast('下一首播放');
   }
   function addToQueue(t) {
     if (!current) { playTrack(t); return; }
     let p = index + 1; while (p < queue.length && queue[p].user) p++;
-    queue.splice(p, 0, entry(t, { user: true })); warmKey = ''; bus.emit('queue'); warmNext(); toast('已加入播放佇列');
+    queue.splice(p, 0, entry(t, { user: true })); warmKey = ''; bus.emit('queue'); checkpoint('queue'); warmNext(); toast('已加入播放佇列');
   }
-  function removeAt(i) { if (i <= index || i >= queue.length) return; queue.splice(i, 1); warmKey = ''; bus.emit('queue'); warmNext(); }
+  function removeAt(i) { if (i <= index || i >= queue.length) return; queue.splice(i, 1); warmKey = ''; bus.emit('queue'); checkpoint('queue'); warmNext(); }
   function setShuffle(on) {
     Settings.set('shuffle', !!on);
     const rest = queue.slice(index + 1);
     if (on) { shuffleBackup = queue.map(e => e.t); const mixed = Reco.smartShuffle(rest.map(e => e.t)); queue = queue.slice(0, index + 1).concat(mixed.map(t => entry(t))); }
     else if (shuffleBackup) { const i0 = shuffleBackup.indexOf(current); const tail = i0 >= 0 ? shuffleBackup.slice(i0 + 1) : rest.map(e => e.t); queue = queue.slice(0, index + 1).concat(tail.map(t => entry(t))); shuffleBackup = null; }
-    warmKey = ''; bus.emit('queue'); warmNext(); emitState();
+    warmKey = ''; bus.emit('queue'); checkpoint('shuffle'); warmNext(); emitState();
   }
   function cycleRepeat() { const r = Settings.get('repeat'); const n = r === 'off' ? 'all' : r === 'all' ? 'one' : 'off'; Settings.set('repeat', n); emitState(); return n; }
 
@@ -611,31 +638,126 @@ const Player = (() => {
     return { meta, state, position, refresh };
   })();
 
-  /* ---------- session restore ---------- */
-  function saveSession() {
+  /* ---------- P0 persistent player session ----------
+     Views are disposable; this state is not. Never reload/recreate audio because
+     Router changed page. The snapshot is only for iOS process eviction/cold resume. */
+  const SESSION_QUEUE_MAX = 1200;
+  let lastSessionWrite = 0;
+  function sessionQueue() {
+    if (!queue.length) return { from: 0, index: 0, rows: [] };
+    let from = 0;
+    if (queue.length > SESSION_QUEUE_MAX) from = clamp(index - 220, 0, queue.length - SESSION_QUEUE_MAX);
+    const rows = queue.slice(from, from + SESSION_QUEUE_MAX).map(e => ({
+      id: e.t?.shareId || '',
+      user: !!e.user,
+      radio: !!e.radio
+    })).filter(x => x.id);
+    return { from, index: Math.max(0, index - from), rows };
+  }
+  function saveSession(reason = 'checkpoint') {
     if (!current || current.localPersonal) return;
-    store.set(K.session, { id: current.shareId, at: Math.floor(el().currentTime || 0), ctx: { kind: context.kind, title: context.title, theme: context.theme }, q: queue.slice(Math.max(0, index - 5), index + 40).map(e => e.t.shareId).filter(Boolean) });
+    const a = el(), qs = sessionQueue(), now = Date.now();
+    const at = Math.max(0, Number(a.currentTime) || 0);
+    store.set(K.session, {
+      v: 3,
+      id: current.shareId,
+      at: Math.round(at * 1000) / 1000,
+      savedAt: now,
+      playing: isPlaying(),
+      wantPlay: !!wantPlay,
+      source: cands[ci] || a.currentSrc || a.src || '',
+      ci,
+      active: activeName,
+      index: qs.index,
+      queueFrom: qs.from,
+      q: qs.rows,
+      ctx: { kind: context.kind, title: context.title, theme: context.theme },
+      shuffleBackup: Array.isArray(shuffleBackup) ? shuffleBackup.slice(0, SESSION_QUEUE_MAX).map(t => t?.shareId).filter(Boolean) : null,
+      reason
+    });
+    lastSessionWrite = now;
+  }
+  function checkpoint(reason) {
+    const now = Date.now();
+    if (reason === 'time' && now - lastSessionWrite < 1100) return;
+    saveSession(reason);
   }
   const syncSystemSession = () => {
-    saveSession();
+    checkpoint('background');
     if (current) ms.refresh();
   };
+  function recoverForeground() {
+    if (!current) return;
+    const s = store.get(K.session, null);
+    const a = el();
+    if (s?.id === current.shareId) {
+      const age = Date.now() - Number(s.savedAt || 0);
+      const savedAt = Math.max(0, Number(s.at) || 0);
+      // If WebKit kept the document alive, trust the live media clock. Only
+      // repair position when Safari actually lost/reset the media element.
+      if ((!a.getAttribute('src') && cands.length) || (!a.currentSrc && !a.src && cands.length)) {
+        const chosen = (s.source && cands.includes(s.source)) ? s.source : (cands[clamp(Number(s.ci) || 0, 0, Math.max(0, cands.length - 1))] || cands[0]);
+        a._track = current; a.preload = 'auto'; a._seekTo = savedAt; a._restorePlay = !!s.playing; a.src = chosen || '';
+      } else if (age < 10 * 60 * 1000 && savedAt > 2 && (Number(a.currentTime) || 0) < .35 && a.readyState >= 1) {
+        a._restoringPosition = true;
+        try { a.currentTime = Number.isFinite(a.duration) && a.duration > .2 ? Math.min(savedAt, a.duration - .1) : savedAt; } catch (_) {}
+      }
+      // If iOS paused an already-authorized element while backgrounding, try
+      // to continue. A fresh cold launch may still require one user tap.
+      if (s.playing && a.paused && !a.ended && age < 30 * 60 * 1000 && a._unlocked) {
+        wantPlay = true;
+        playEl(a);
+      }
+    }
+    ms.refresh();
+  }
   window.addEventListener('pagehide', syncSystemSession, { passive: true });
-  window.addEventListener('pageshow', () => { if (current) setTimeout(() => ms.refresh(), 80); }, { passive: true });
-  window.addEventListener('focus', () => { if (!document.hidden && current) setTimeout(() => ms.refresh(), 80); }, { passive: true });
+  window.addEventListener('pageshow', () => { if (current) setTimeout(recoverForeground, 60); }, { passive: true });
+  window.addEventListener('focus', () => { if (!document.hidden && current) setTimeout(recoverForeground, 60); }, { passive: true });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) syncSystemSession();
-    else if (current) setTimeout(() => ms.refresh(), 100);
+    else if (current) setTimeout(recoverForeground, 80);
   }, { passive: true });
+  // Every SPA route change is a checkpoint only. It must never touch audio src,
+  // currentTime, gain, active element, or queue.
+  bus.on('view', () => checkpoint('route'));
+  bus.on('queue', () => checkpoint('queue'));
+
   function restore() {
+    if (current) return true; // idempotent: never rebuild a live player core
     const s = store.get(K.session, null); if (!s || !s.id) return false;
     const t = TRACK_BY_SHARE.get(s.id); if (!t) return false;
-    const list = (s.q || []).map(id => TRACK_BY_SHARE.get(id)).filter(Boolean);
-    queue = (list.length ? list : [t]).map(x => entry(x)); index = Math.max(0, queue.findIndex(e => e.t === t));
-    context = s.ctx || { kind: 'list' };
-    current = t; cands = sourcesFor(t); ci = 0;
-    const a = el(); a._track = t; a.preload = 'metadata'; a._seekTo = s.at || null; a.src = cands[0] || '';
-    wantPlay = false; ms.meta(t); bus.emit('track', t); emitState(); bus.emit('queue');
+
+    let rows = Array.isArray(s.q) ? s.q : [];
+    // v1/v2 compatibility: queue used to be a bare array of shareIds.
+    if (rows.length && typeof rows[0] === 'string') rows = rows.map(id => ({ id }));
+    const rebuilt = rows.map(row => {
+      const track = TRACK_BY_SHARE.get(row?.id);
+      return track ? entry(track, { user: !!row.user, radio: !!row.radio }) : null;
+    }).filter(Boolean);
+    queue = rebuilt.length ? rebuilt : [entry(t)];
+    index = clamp(Number.isFinite(Number(s.index)) ? Number(s.index) : queue.findIndex(e => e.t === t), 0, Math.max(0, queue.length - 1));
+    if (queue[index]?.t !== t) {
+      const hit = queue.findIndex(e => e.t === t);
+      if (hit >= 0) index = hit;
+      else { queue.splice(Math.min(index, queue.length), 0, entry(t)); index = Math.min(index, queue.length - 1); }
+    }
+    context = s.ctx || { kind: 'list', title: '', theme: null };
+    shuffleBackup = Array.isArray(s.shuffleBackup) ? s.shuffleBackup.map(id => TRACK_BY_SHARE.get(id)).filter(Boolean) : null;
+    current = t; cands = sourcesFor(t); ci = clamp(Number(s.ci) || 0, 0, Math.max(0, cands.length - 1));
+
+    // Cold restore uses the native element first. This is the most reliable
+    // iPhone/PWA resume path and avoids an audible WebAudio handoff during boot.
+    if (activeName !== 'direct') activate('direct');
+    const a = el();
+    const chosen = (s.source && cands.includes(s.source)) ? s.source : (cands[ci] || cands[0] || '');
+    a._track = t;
+    a.preload = 'auto';
+    a._seekTo = Math.max(0, Number(s.at) || 0);
+    a._restorePlay = !!s.playing;
+    a.src = chosen;
+    wantPlay = !!(s.wantPlay || s.playing);
+    ms.meta(t); bus.emit('track', t); emitState(); bus.emit('queue');
     return true;
   }
 
