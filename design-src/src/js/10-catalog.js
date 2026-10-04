@@ -569,7 +569,7 @@ function originalSequence(spec) {
 function originalData(spec) {
   const preset = ORIGINAL_PRESET_BY_T.get(spec.t);
   if (preset && Array.isArray(preset.tracks) && preset.tracks.length === 25) {
-    return { t: spec.t, sub: spec.summary, key: '原創歌單 · 25 首 · 2500 首合法母庫策展', original: true,
+    return { t: spec.t, sub: spec.summary, key: '原創歌單 · 25 首 · 合法母庫策展', original: true,
       tracks: preset.tracks.map((t, i) => ({ ...t, trackNo: i + 1, curatedTheme: spec.t, originalPlaylist: true,
         shareId: t.shareId || (spec.slug + '-' + String(i + 1).padStart(3, '0')),
         vibe: t.vibe || (spec.name + ' · ' + (t.genre || 'Mother Library')) })) };
