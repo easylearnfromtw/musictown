@@ -1,0 +1,68 @@
+name: Build CJK 2000 open-license library
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "build_cjk_open_music.py"
+      - ".github/workflows/build-cjk-open-music.yml"
+  schedule:
+    - cron: "17 3 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: citymus-cjk-open-library
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependency
+        run: python -m pip install requests
+      - name: Build 1000 Japanese + 1000 Chinese tracks
+        run: python build_cjk_open_music.py --per-language 1000 --max-total 2000
+      - name: Verify exact counts and legal metadata
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open("data/cjk_open_music.generated.json",encoding="utf-8"))
+          rows=p["tracks"]
+          by={"ja":0,"zh":0}
+          allowed=("Public Domain","Public Domain Mark","CC0","CC BY","CC BY-SA")
+          assert len(rows)==2000
+          for t in rows:
+              assert t["language"] in by
+              by[t["language"]]+=1
+              assert any(str(t.get("license","")).startswith(x) for x in allowed), t.get("license")
+              assert t.get("source") and t.get("download")
+              assert t.get("licenseEvidence") and t.get("attribution")
+          assert by=={"ja":1000,"zh":1000},by
+          print("verified",by)
+          PY
+      - name: Commit generated catalog
+        shell: bash
+        run: |
+          set -e
+          git config user.name "citymus-open-library"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/cjk_open_music.generated.json data/cjk_open_music_report.json
+          if git diff --cached --quiet; then
+            echo "CJK library unchanged."
+            exit 0
+          fi
+          git commit -m "Refresh 1000 Japanese + 1000 Chinese open-license tracks"
+          git fetch origin main
+          git rebase origin/main
+          git push
