@@ -27,7 +27,7 @@ REPORT=ROOT/"data"/"cjk_open_music_report.json"
 COMMONS="https://commons.wikimedia.org/w/api.php"
 ARCHIVE_SEARCH="https://archive.org/advancedsearch.php"
 ARCHIVE_META="https://archive.org/metadata/"
-UA={"User-Agent":"CITYMUS-open-music/16.4 (+https://github.com/easylearnfromtw/musictown)"}
+UA={"User-Agent":"CITYMUS-open-music/16.4-fast (+https://github.com/easylearnfromtw/musictown)"}
 AUDIO_EXT=(".ogg",".oga",".wav",".flac",".mp3",".opus",".m4a",".aac")
 REJECT_WORDS=("speech","spoken","pronunciation","interview","podcast","audiobook","lecture","news",
               "time signal","alarm","sirens","sound effect","field recording","wikitongues","voice sample")
@@ -51,13 +51,16 @@ COMMONS_SEARCH={
 }
 IA_QUERIES={
  "ja":[
-   'mediatype:audio AND (language:jpn OR language:Japanese OR language:ja) AND (subject:music OR subject:song)',
-   'mediatype:audio AND (title:Japanese OR subject:Japanese) AND (subject:music OR subject:song)',
+   'mediatype:audio AND (language:jpn OR language:Japanese OR language:ja)',
+   'mediatype:audio AND collection:opensource_audio AND (subject:Japanese OR title:Japanese)',
+   'mediatype:audio AND collection:community_audio AND (subject:Japanese OR title:Japanese)',
+   'mediatype:audio AND collection:georgeblood AND (language:jpn OR subject:Japanese OR title:Japanese)',
  ],
  "zh":[
-   'mediatype:audio AND (language:chi OR language:zho OR language:Chinese OR language:zh) AND (subject:music OR subject:song)',
-   'mediatype:audio AND (language:Mandarin OR language:Cantonese) AND (subject:music OR subject:song)',
-   'mediatype:audio AND (title:Chinese OR subject:Chinese OR subject:Taiwanese) AND (subject:music OR subject:song)',
+   'mediatype:audio AND (language:chi OR language:zho OR language:Chinese OR language:zh OR language:Mandarin OR language:Cantonese)',
+   'mediatype:audio AND collection:opensource_audio AND (subject:Chinese OR subject:Taiwanese OR title:Chinese)',
+   'mediatype:audio AND collection:community_audio AND (subject:Chinese OR subject:Taiwanese OR title:Chinese)',
+   'mediatype:audio AND collection:georgeblood AND (language:chi OR language:zho OR subject:Chinese OR title:Chinese)',
  ],
 }
 
@@ -92,7 +95,7 @@ def language_blob_ok(blob, lang):
         return bool(re.search(r"[ぁ-ゖァ-ヺ一-龯]",blob)) or any(w in x for w in ("japan","japanese","日本","nihon","nippon"))
     return bool(re.search(r"[\u3400-\u9fff]",blob)) or any(w in x for w in ("china","chinese","taiwan","taiwanese","mandarin","cantonese","中國","中国","台灣","台湾","華語","华语"))
 
-def commons_category_files(cat, depth=3, seen=None, cap=15000):
+def commons_category_files(cat, depth=2, seen=None, cap=4500):
     seen=seen or set()
     if cat in seen:return []
     seen.add(cat); out=[]; cont=None
@@ -111,7 +114,7 @@ def commons_category_files(cat, depth=3, seen=None, cap=15000):
         if not cont:break
     return list(dict.fromkeys(out))
 
-def commons_search(term, cap=2500):
+def commons_search(term, cap=900):
     out=[]; off=None
     while len(out)<cap:
         p={"action":"query","list":"search","srsearch":term+" filetype:audio","srnamespace":"6","srlimit":"500"}
@@ -171,7 +174,7 @@ def commons_info(titles,lang):
 def archive_search(query, max_items=5000):
     out=[]; page=1
     while len(out)<max_items and page<=40:
-        params={"q":query,"fl[]":["identifier","title","creator","licenseurl","language","subject"],"rows":"200","page":str(page),"output":"json"}
+        params={"q":query,"fl[]":["identifier","title","creator","licenseurl","rights","language","subject"],"rows":"200","page":str(page),"output":"json"}
         try:j=safe_get(ARCHIVE_SEARCH,params=params,timeout=45).json()
         except Exception:break
         docs=j.get("response",{}).get("docs",[])
@@ -191,7 +194,8 @@ def archive_item(doc,lang):
     except Exception:return []
     md=j.get("metadata") or {}
     lic_url=clean(md.get("licenseurl") or doc.get("licenseurl"))
-    lic,_=license_from_text("",lic_url)
+    rights=clean(md.get("rights") or doc.get("rights"))
+    lic,_=license_from_text(rights,lic_url)
     if not lic:return []
     langs=" ".join(norm_list(md.get("language") or doc.get("language")))
     subject=" ".join(norm_list(md.get("subject") or doc.get("subject")))
@@ -239,7 +243,7 @@ def archive_item(doc,lang):
           "title":track_title[:220],"artist":clean(f.get("artist") or creator)[:220],
           "source":f"https://archive.org/details/{quote(ident,safe='')}",
           "download":dl,"license":lic,"licenseUrl":lic_url,
-          "licenseEvidence":"Internet Archive item metadata explicitly provides "+lic_url,
+          "licenseEvidence":"Internet Archive item metadata explicitly provides "+(lic_url or rights),
           "licenseChecked":time.strftime("%Y-%m-%d"),"duration":round(dur) if dur else None,
           "genre":"Open music","tags":clean(subject)[:420],"origin":"internet-archive",
           "language":lang,"culture":"日本音樂" if lang=="ja" else "華語／華人音樂",
@@ -263,34 +267,39 @@ def score(t,lang):
     return s
 
 def collect(lang,target):
-    seen={}; commons_titles=[]
-    for cat in COMMONS_CATS[lang]:
-        commons_titles.extend(commons_category_files(cat,3))
-    for term in COMMONS_SEARCH[lang]:
-        commons_titles.extend(commons_search(term))
-    commons_titles=list(dict.fromkeys(commons_titles))
-    print(lang,"Commons candidates",len(commons_titles),flush=True)
-    for t in commons_info(commons_titles,lang):
-        seen.setdefault(track_key(t),t)
-    print(lang,"Commons accepted",len(seen),flush=True)
+    seen={}
+    # Internet Archive first: one licensed album/item can contribute many tracks,
+    # so this reaches 1000 far faster than crawling a deep Commons category tree.
+    docs=[]
+    for q in IA_QUERIES[lang]:
+        docs.extend(archive_search(q,2200))
+    uniq={clean(d.get("identifier")):d for d in docs if clean(d.get("identifier"))}
+    items=list(uniq.values())
+    print(lang,"Internet Archive candidate items",len(items),flush=True)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=22) as ex:
+        for i in range(0,len(items),120):
+            futs=[ex.submit(archive_item,d,lang) for d in items[i:i+120]]
+            for fut in concurrent.futures.as_completed(futs):
+                try:rows=fut.result()
+                except Exception:rows=[]
+                for t in rows:seen.setdefault(track_key(t),t)
+            print(lang,"IA accepted",len(seen),"/",target,flush=True)
+            if len(seen)>=target+160:break
 
-    if len(seen)<target:
-        docs=[]
-        for q in IA_QUERIES[lang]:
-            docs.extend(archive_search(q,5000))
-        uniq={clean(d.get("identifier")):d for d in docs if clean(d.get("identifier"))}
-        print(lang,"Internet Archive items",len(uniq),flush=True)
-        # Parse in bounded waves so CI stops quickly after reaching target.
-        items=list(uniq.values())
-        with concurrent.futures.ThreadPoolExecutor(max_workers=14) as ex:
-            for i in range(0,len(items),180):
-                futs=[ex.submit(archive_item,d,lang) for d in items[i:i+180]]
-                for fut in concurrent.futures.as_completed(futs):
-                    try:rows=fut.result()
-                    except Exception:rows=[]
-                    for t in rows:seen.setdefault(track_key(t),t)
-                print(lang,"accepted",len(seen),"/",target,flush=True)
-                if len(seen)>=target+120:break
+    # Commons is the high-confidence supplement/fallback and also improves
+    # cultural coverage. Keep its crawl bounded so the deployment stays fast.
+    if len(seen)<target+80:
+        commons_titles=[]
+        for cat in COMMONS_CATS[lang]:
+            commons_titles.extend(commons_category_files(cat,2,cap=4500))
+            if len(set(commons_titles))>=6500:break
+        for term in COMMONS_SEARCH[lang]:
+            commons_titles.extend(commons_search(term,900))
+        commons_titles=list(dict.fromkeys(commons_titles))[:9000]
+        print(lang,"Commons candidates",len(commons_titles),flush=True)
+        for t in commons_info(commons_titles,lang):
+            seen.setdefault(track_key(t),t)
+        print(lang,"total accepted",len(seen),"/",target,flush=True)
 
     rows=sorted(seen.values(),key=lambda t:(-score(t,lang),clean(t.get("artist")).casefold(),clean(t.get("title")).casefold()))
     return rows[:target]
