@@ -777,7 +777,7 @@
   .welcome__step { min-height: 100dvh; display: none; flex-direction: column; padding: calc(var(--safe-t) + 70px) calc(24px + var(--safe-r)) calc(var(--safe-b) + 28px) calc(24px + var(--safe-l)); max-width: 640px; margin: 0 auto; }
   .welcome__step.is-active { display: flex; animation: view-in .6s var(--ease-out) backwards; }
   .welcome__globe { width: 64px; height: 64px; color: var(--indigo); }
-  .welcome__globe .globe-mark { width: 64px; height: 64px; stroke-width: 1.2; }
+  .welcome__globe .globe-mark { width: 64px; height: 64px; stroke-width: 1.75; }
   .welcome__globe circle:first-child { stroke-dasharray: 104; stroke-dashoffset: 104; animation: draw 1.4s .2s var(--ease-out) forwards; }
   @keyframes draw { to { stroke-dashoffset: 0; } }
   .welcome__word { margin-top: 18px; font: 700 15px/1 var(--display); letter-spacing: .16em; color: var(--indigo); }
