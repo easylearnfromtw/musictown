@@ -567,9 +567,19 @@ Router.register('theme', (el, p) => {
   const cards = () => five.map((t, i) => ({ num: pad2(i + 1), label: lit ? (t.note || th.cn) : th.cn, title: lit ? (t.composerCn ? `${t.composerCn}` : t.artist) : t.title, sub: lit ? t.title : t.artist }));
   if (!Drawer.mount(byId('themeBox'), { cards: cards(), mode: 'theme' })) byId('themeBox').innerHTML = `<div class="rows" style="padding:8px 16px;background:var(--paper)" id="fiveRows"></div>`;
   Drawer.onHover = () => {};
-  Drawer.onTap = i => { const t = five[i]; if (t) Player.playList(five, i, { kind: 'drawer', title: `${themeTitle(th)} · 抽屜`, theme: th.t }); };
+  const playDrawerPick = (t, i) => {
+    if (!t || i < 0) return;
+    Player.playList(five, i, { kind: 'drawer', title: `${themeTitle(th)} · 抽屜`, theme: th.t });
+    PlayerUI.show();
+  };
+  Drawer.onTap = i => playDrawerPick(five[i], i);
   byId('reroll').onclick = () => { haptic(); five = Reco.drawFive(th, five); Drawer.setCards(cards()); };
-  byId('drawRandom').onclick = () => { haptic(); const t = five[Math.floor(Math.random() * five.length)]; Player.playList(five, five.indexOf(t), { kind: 'drawer', title: `${themeTitle(th)} · 抽屜`, theme: th.t }); };
+  byId('drawRandom').onclick = () => {
+    haptic();
+    if (!five.length) return;
+    const i = Math.floor(Math.random() * five.length);
+    playDrawerPick(five[i], i);
+  };
   // tracks with search + sort
   let sort = 'curated', q = '';
   const sortedTracks = () => { let l = th.tracks.slice(); if (sort === 'az') l.sort((a, b) => String(a.title).localeCompare(String(b.title))); if (q) l = l.filter(t => norm(`${t.title} ${t.artist} ${t.vibe} ${t.note || ''} ${t.composerCn || ''}`).includes(q)); return l; };
