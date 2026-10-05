@@ -4013,7 +4013,7 @@ const Router = (() => {
     if (TABS.includes(v)) lastTab = v;
     const el = byId('view-' + v);
     const render = () => {
-      $('.view').forEach(s => { s.hidden = s.dataset.view !== v; });
+      $$('.view').forEach(s => { s.hidden = s.dataset.view !== v; });
       renderers[v](el, p, prev);
       Shell.onView(v, p);
       bus.emit('view', { v, p });
