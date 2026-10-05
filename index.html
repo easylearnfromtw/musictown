@@ -151,6 +151,11 @@
   }
   .glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1; padding: 1px; background: linear-gradient(140deg, rgba(255,255,255,.95), rgba(255,255,255,.15) 38%, rgba(255,255,255,0) 60%, rgba(255,255,255,.55)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .glass { background: rgba(250,251,253,.96); } }
+  html.perf-balanced .glass { -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%); }
+  html.perf-lite .glass { -webkit-backdrop-filter: blur(8px) saturate(140%); backdrop-filter: blur(8px) saturate(140%); box-shadow: inset 0 1px 0 rgba(255,255,255,.88), 0 6px 18px rgba(41,52,86,.08); }
+  html.perf-balanced .cardmodal__scrim { -webkit-backdrop-filter: blur(10px) saturate(140%); backdrop-filter: blur(10px) saturate(140%); }
+  html.perf-lite .cardmodal__scrim { -webkit-backdrop-filter: blur(6px) saturate(125%); backdrop-filter: blur(6px) saturate(125%); }
+  html.perf-lite .player__sheet { will-change: auto; }
 
   /* ---------- buttons ---------- */
   .btn {
@@ -320,9 +325,36 @@
    ========================================================================== */
 @layer views {
   .view { padding-top: var(--top-space); padding-bottom: var(--dock-space); min-height: 100dvh; }
+  .view:not([hidden]) { view-transition-name: citymus-page; }
   #view-theme { padding-top: 0; }
-  .view.is-entering { animation: view-in .42s var(--ease-out) backwards; }
-  @keyframes view-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  ::view-transition-group(citymus-page) { animation-duration: .34s; animation-timing-function: var(--ease-out); }
+  ::view-transition-old(citymus-page), ::view-transition-new(citymus-page) { mix-blend-mode: normal; }
+  html[data-nav-dir="next"]::view-transition-old(citymus-page) { animation: vt-old-next .28s var(--ease-out) both; }
+  html[data-nav-dir="next"]::view-transition-new(citymus-page) { animation: vt-new-next .34s var(--ease-out) both; }
+  html[data-nav-dir="prev"]::view-transition-old(citymus-page) { animation: vt-old-prev .28s var(--ease-out) both; }
+  html[data-nav-dir="prev"]::view-transition-new(citymus-page) { animation: vt-new-prev .34s var(--ease-out) both; }
+  html[data-nav-dir="forward"]::view-transition-old(citymus-page) { animation: vt-old-forward .26s var(--ease-out) both; }
+  html[data-nav-dir="forward"]::view-transition-new(citymus-page) { animation: vt-new-forward .36s var(--ease-out) both; }
+  html[data-nav-dir="back"]::view-transition-old(citymus-page) { animation: vt-old-back .25s var(--ease-out) both; }
+  html[data-nav-dir="back"]::view-transition-new(citymus-page) { animation: vt-new-back .34s var(--ease-out) both; }
+  @keyframes vt-old-next { to { opacity: .35; transform: translateX(-18px) scale(.995); } }
+  @keyframes vt-new-next { from { opacity: .25; transform: translateX(22px) scale(.995); } }
+  @keyframes vt-old-prev { to { opacity: .35; transform: translateX(18px) scale(.995); } }
+  @keyframes vt-new-prev { from { opacity: .25; transform: translateX(-22px) scale(.995); } }
+  @keyframes vt-old-forward { to { opacity: .24; transform: translateY(-6px) scale(.985); } }
+  @keyframes vt-new-forward { from { opacity: .2; transform: translateY(14px) scale(.992); } }
+  @keyframes vt-old-back { to { opacity: .28; transform: translateY(10px) scale(.992); } }
+  @keyframes vt-new-back { from { opacity: .2; transform: translateY(-7px) scale(.987); } }
+  .view.is-entering { animation: view-in-forward .34s var(--ease-out) backwards; }
+  .view.is-entering.is-enter-next { animation-name: view-in-next; }
+  .view.is-entering.is-enter-prev { animation-name: view-in-prev; }
+  .view.is-entering.is-enter-back { animation-name: view-in-back; }
+  .view.is-entering.is-enter-fade { animation-name: view-in-fade; }
+  @keyframes view-in-forward { from { opacity: 0; transform: translateY(12px) scale(.992); } to { opacity: 1; transform: none; } }
+  @keyframes view-in-next { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+  @keyframes view-in-prev { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
+  @keyframes view-in-back { from { opacity: 0; transform: translateY(-7px) scale(.99); } to { opacity: 1; transform: none; } }
+  @keyframes view-in-fade { from { opacity: 0; } to { opacity: 1; } }
   .page-title { font: 400 clamp(44px, 12vw, 68px)/1 var(--latin); letter-spacing: -.01em; color: var(--ink); }
   .page-lede { margin-top: 10px; color: var(--ink-2); font: 500 15px/1.75 var(--serif); max-width: 34em; }
 
@@ -1209,9 +1241,27 @@ const COARSE = matchMedia('(pointer: coarse)').matches;
 const IS_IOS = /iP(hone|ad|od)/.test(navigator.platform || '') || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
 const IS_SAFARI = /^((?!chrome|android|crios|fxios).)*safari/i.test(navigator.userAgent);
 const STANDALONE = !!(navigator.standalone || matchMedia('(display-mode: standalone)').matches);
+const CONNECTION = navigator.connection || navigator.mozConnection || navigator.webkitConnection || null;
+const SAVE_DATA = !!CONNECTION?.saveData;
+const MEM_GB = Number(navigator.deviceMemory || 0);
+const CPU_THREADS = Number(navigator.hardwareConcurrency || 0);
+const PERF_TIER = (() => {
+  if (REDUCE || SAVE_DATA) return 'lite';
+  if ((MEM_GB && MEM_GB <= 4) || (CPU_THREADS && CPU_THREADS <= 4)) return 'lite';
+  if (IS_IOS || COARSE || (MEM_GB && MEM_GB <= 8) || (CPU_THREADS && CPU_THREADS <= 6)) return 'balanced';
+  return 'high';
+})();
+const PERF_PROFILE = Object.freeze({
+  tier: PERF_TIER,
+  drawerDpr: PERF_TIER === 'high' ? 2 : PERF_TIER === 'balanced' ? 1.6 : 1.15,
+  drawerPixels: PERF_TIER === 'high' ? 2600000 : PERF_TIER === 'balanced' ? 1700000 : 900000,
+  progressFps: PERF_TIER === 'high' ? 60 : PERF_TIER === 'balanced' ? 30 : 20
+});
 document.documentElement.classList.toggle('is-ios', IS_IOS);
 document.documentElement.classList.toggle('is-standalone', STANDALONE);
 document.documentElement.classList.toggle('is-coarse', COARSE);
+document.documentElement.classList.add('perf-' + PERF_TIER);
+document.documentElement.dataset.perf = PERF_TIER;
 
 /* storage that never throws */
 const store = {
@@ -3694,8 +3744,10 @@ precision highp float;in vec2 vUv;uniform sampler2D uS;out vec4 o;void main(){o=
     if (!ready) return;
     const r = canvas.getBoundingClientRect();
     cssW = Math.max(1, r.width); cssH = Math.max(1, r.height);
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    if (cssW * cssH * dpr * dpr > 2.6e6) dpr = Math.sqrt(2.6e6 / (cssW * cssH));
+    const maxDpr = typeof PERF_PROFILE !== 'undefined' ? PERF_PROFILE.drawerDpr : 2;
+    const pixelBudget = typeof PERF_PROFILE !== 'undefined' ? PERF_PROFILE.drawerPixels : 2600000;
+    dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+    if (cssW * cssH * dpr * dpr > pixelBudget) dpr = Math.sqrt(pixelBudget / (cssW * cssH));
     W = Math.max(1, Math.round(cssW * dpr)); H = Math.max(1, Math.round(cssH * dpr));
     canvas.width = W; canvas.height = H; makeTargets(); layoutCamera();
   }
@@ -3955,7 +4007,7 @@ function Seg(host, { items, value, onChange, label = '' }) {
 /* ---------- router (real history: iOS swipe-back works) ---------- */
 const TABS = ['home', 'cities', 'search', 'library'];
 const Router = (() => {
-  let view = null, params = {}, lastTab = 'home';
+  let view = null, params = {}, lastTab = 'home', animatePop = false;
   const renderers = {};
   try { history.scrollRestoration = 'manual'; } catch (_) {}
   function urlFor(v, p) {
@@ -3964,16 +4016,49 @@ const Router = (() => {
     else if (v !== 'home') u.searchParams.set('tab', v);
     return u.pathname + u.search;
   }
-  function show(v, p = {}, { enter = true } = {}) {
+  function motionFor(prev, next, explicit = null) {
+    if (explicit) return explicit;
+    if (!prev || prev === next) return 'fade';
+    const a = TABS.indexOf(prev), b = TABS.indexOf(next);
+    if (a >= 0 && b >= 0) return b > a ? 'next' : 'prev';
+    if (next === 'theme' || next === 'reader') return 'forward';
+    if (prev === 'theme' || prev === 'reader') return 'back';
+    return 'fade';
+  }
+  function show(v, p = {}, { enter = true, direction = null } = {}) {
     if (!renderers[v]) v = 'home';
-    const prev = view; view = v; params = p;
+    const prev = view, dir = motionFor(prev, v, direction);
+    view = v; params = p;
     if (TABS.includes(v)) lastTab = v;
-    $$('.view').forEach(s => { s.hidden = s.dataset.view !== v; });
     const el = byId('view-' + v);
-    renderers[v](el, p, prev);
-    if (enter && !REDUCE) { el.classList.remove('is-entering'); void el.offsetWidth; el.classList.add('is-entering'); el.addEventListener('animationend', function done(ev) { if (ev.target === el) { el.classList.remove('is-entering'); el.removeEventListener('animationend', done); } }); }
-    Shell.onView(v, p);
-    bus.emit('view', { v, p });
+    const render = () => {
+      $('.view').forEach(s => { s.hidden = s.dataset.view !== v; });
+      renderers[v](el, p, prev);
+      Shell.onView(v, p);
+      bus.emit('view', { v, p });
+    };
+    const nativeTransition = enter && prev && prev !== v && dir !== 'none' && !REDUCE && typeof document.startViewTransition === 'function';
+    if (nativeTransition) {
+      document.documentElement.dataset.navDir = dir;
+      const tx = document.startViewTransition(render);
+      Promise.resolve(tx.finished).catch(() => {}).finally(() => {
+        if (document.documentElement.dataset.navDir === dir) delete document.documentElement.dataset.navDir;
+      });
+      return;
+    }
+    render();
+    if (enter && dir !== 'none' && !REDUCE) {
+      const cls = dir === 'next' ? 'is-enter-next' : dir === 'prev' ? 'is-enter-prev' : dir === 'back' ? 'is-enter-back' : dir === 'fade' ? 'is-enter-fade' : 'is-enter-forward';
+      el.classList.remove('is-entering','is-enter-next','is-enter-prev','is-enter-forward','is-enter-back','is-enter-fade');
+      void el.offsetWidth;
+      el.classList.add('is-entering', cls);
+      el.addEventListener('animationend', function done(ev) {
+        if (ev.target === el) {
+          el.classList.remove('is-entering','is-enter-next','is-enter-prev','is-enter-forward','is-enter-back','is-enter-fade');
+          el.removeEventListener('animationend', done);
+        }
+      });
+    }
   }
   function go(v, p = {}, { replace = false } = {}) {
     try { history.replaceState(Object.assign({}, history.state, { v: view, p: params, y: window.scrollY }), ''); } catch (_) {}
@@ -3987,13 +4072,14 @@ const Router = (() => {
     const s = e.state;
     if (PlayerUI.isOpen) { PlayerUI.hide(true); if (s && s.v === view && JSON.stringify(s.p || {}) === JSON.stringify(params || {})) return; }
     if (!s || !s.v) { show('home', {}); window.scrollTo(0, 0); return; }
-    show(s.v, s.p || {}, { enter: false });
+    show(s.v, s.p || {}, { enter: animatePop, direction: animatePop ? 'back' : 'none' });
+    animatePop = false;
     requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, s.y || 0)));
   });
   return {
     register(v, fn) { renderers[v] = fn; },
     go, show,
-    back() { if (history.length > 1 && history.state && history.state.v) history.back(); else go(lastTab); },
+    back() { if (history.length > 1 && history.state && history.state.v) { animatePop = true; history.back(); } else go(lastTab); },
     start() {
       const q = new URLSearchParams(location.search);
       const th = themeBySlug(q.get('theme')) || THEME_BY_SLUG.get(norm(q.get('theme')).replace(/\s+/g, '-'));
@@ -4122,11 +4208,15 @@ const Mini = (() => {
     if (spin) on ? spin.play() : spin.pause();
     loop();
   }
-  let rafOn = false;
+  let rafOn = false, miniLastPaint = 0;
+  const miniFrameMs = 1000 / (typeof PERF_PROFILE !== 'undefined' ? PERF_PROFILE.progressFps : 60);
   function loop() {
     if (rafOn) return; rafOn = true;
-    const f = () => {
-      const { cur, dur } = Player.time; prog.firstElementChild.style.transform = `scaleX(${dur ? clamp(cur / dur, 0, 1) : 0})`;
+    const f = now => {
+      if (now - miniLastPaint >= miniFrameMs) {
+        miniLastPaint = now;
+        const { cur, dur } = Player.time; prog.firstElementChild.style.transform = `scaleX(${dur ? clamp(cur / dur, 0, 1) : 0})`;
+      }
       if (Player.playing && !document.hidden) requestAnimationFrame(f); else rafOn = false;
     };
     requestAnimationFrame(f);
@@ -5032,11 +5122,17 @@ const PlayerUI = (() => {
     if (s !== lastSec || seeking) { lastSec = s; byId('plCur').textContent = fmtTime(cur); byId('plDur').textContent = dur ? '-' + fmtTime(Math.max(0, dur - cur)) : '0:00'; }
     byId('plSeekTrack').setAttribute('aria-valuenow', dur ? Math.round(cur / dur * 100) : 0);
   }
+  let lastProgressPaint = 0;
+  const progressFrameMs = 1000 / (typeof PERF_PROFILE !== 'undefined' ? PERF_PROFILE.progressFps : 60);
   function tick() {
     if (ticking) return; ticking = true;
-    const f = () => {
+    const f = now => {
       if (!open) { ticking = false; return; }
-      if (!seeking && !scrubbing) { const { cur, dur, buffered } = Player.time; paintTime(cur, dur); try { if (buffered && buffered.length && dur) byId('plBuf').style.transform = `scaleX(${clamp(buffered.end(buffered.length - 1) / dur, 0, 1)})`; } catch (_) {} }
+      const interactive = !!(seeking || scrubbing);
+      if (interactive || now - lastProgressPaint >= progressFrameMs) {
+        lastProgressPaint = now;
+        if (!seeking && !scrubbing) { const { cur, dur, buffered } = Player.time; paintTime(cur, dur); try { if (buffered && buffered.length && dur) byId('plBuf').style.transform = `scaleX(${clamp(buffered.end(buffered.length - 1) / dur, 0, 1)})`; } catch (_) {} }
+      }
       if (Player.playing || seeking || scrubbing) requestAnimationFrame(f); else ticking = false;
     };
     requestAnimationFrame(f);

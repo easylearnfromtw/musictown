@@ -57,7 +57,7 @@ function Seg(host, { items, value, onChange, label = '', draggable = true }) {
 /* ---------- router (real history: iOS swipe-back works) ---------- */
 const TABS = ['home', 'cities', 'search', 'library'];
 const Router = (() => {
-  let view = null, params = {}, lastTab = 'home';
+  let view = null, params = {}, lastTab = 'home', animatePop = false;
   const renderers = {};
   try { history.scrollRestoration = 'manual'; } catch (_) {}
   function urlFor(v, p) {
@@ -67,16 +67,49 @@ const Router = (() => {
     else if (v !== 'home') u.searchParams.set('tab', v);
     return u.pathname + u.search;
   }
-  function show(v, p = {}, { enter = true } = {}) {
+  function motionFor(prev, next, explicit = null) {
+    if (explicit) return explicit;
+    if (!prev || prev === next) return 'fade';
+    const a = TABS.indexOf(prev), b = TABS.indexOf(next);
+    if (a >= 0 && b >= 0) return b > a ? 'next' : 'prev';
+    if (next === 'theme' || next === 'reader') return 'forward';
+    if (prev === 'theme' || prev === 'reader') return 'back';
+    return 'fade';
+  }
+  function show(v, p = {}, { enter = true, direction = null } = {}) {
     if (!renderers[v]) v = 'home';
-    const prev = view; view = v; params = p;
+    const prev = view, dir = motionFor(prev, v, direction);
+    view = v; params = p;
     if (TABS.includes(v)) lastTab = v;
-    $$('.view').forEach(s => { s.hidden = s.dataset.view !== v; });
     const el = byId('view-' + v);
-    renderers[v](el, p, prev);
-    if (enter && !REDUCE) { el.classList.remove('is-entering'); void el.offsetWidth; el.classList.add('is-entering'); el.addEventListener('animationend', function done(ev) { if (ev.target === el) { el.classList.remove('is-entering'); el.removeEventListener('animationend', done); } }); }
-    Shell.onView(v, p);
-    bus.emit('view', { v, p });
+    const render = () => {
+      $('.view').forEach(s => { s.hidden = s.dataset.view !== v; });
+      renderers[v](el, p, prev);
+      Shell.onView(v, p);
+      bus.emit('view', { v, p });
+    };
+    const nativeTransition = enter && prev && prev !== v && dir !== 'none' && !REDUCE && typeof document.startViewTransition === 'function';
+    if (nativeTransition) {
+      document.documentElement.dataset.navDir = dir;
+      const tx = document.startViewTransition(render);
+      Promise.resolve(tx.finished).catch(() => {}).finally(() => {
+        if (document.documentElement.dataset.navDir === dir) delete document.documentElement.dataset.navDir;
+      });
+      return;
+    }
+    render();
+    if (enter && dir !== 'none' && !REDUCE) {
+      const cls = dir === 'next' ? 'is-enter-next' : dir === 'prev' ? 'is-enter-prev' : dir === 'back' ? 'is-enter-back' : dir === 'fade' ? 'is-enter-fade' : 'is-enter-forward';
+      el.classList.remove('is-entering','is-enter-next','is-enter-prev','is-enter-forward','is-enter-back','is-enter-fade');
+      void el.offsetWidth;
+      el.classList.add('is-entering', cls);
+      el.addEventListener('animationend', function done(ev) {
+        if (ev.target === el) {
+          el.classList.remove('is-entering','is-enter-next','is-enter-prev','is-enter-forward','is-enter-back','is-enter-fade');
+          el.removeEventListener('animationend', done);
+        }
+      });
+    }
   }
   function go(v, p = {}, { replace = false } = {}) {
     try { history.replaceState(Object.assign({}, history.state, { v: view, p: params, y: window.scrollY }), ''); } catch (_) {}
@@ -90,13 +123,14 @@ const Router = (() => {
     const s = e.state;
     if (PlayerUI.isOpen) { PlayerUI.hide(true); if (s && s.v === view && JSON.stringify(s.p || {}) === JSON.stringify(params || {})) return; }
     if (!s || !s.v) { show('home', {}); window.scrollTo(0, 0); return; }
-    show(s.v, s.p || {}, { enter: false });
+    show(s.v, s.p || {}, { enter: animatePop, direction: animatePop ? 'back' : 'none' });
+    animatePop = false;
     requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, s.y || 0)));
   });
   return {
     register(v, fn) { renderers[v] = fn; },
     go, show,
-    back() { if (history.length > 1 && history.state && history.state.v) history.back(); else go(lastTab); },
+    back() { if (history.length > 1 && history.state && history.state.v) { animatePop = true; history.back(); } else go(lastTab); },
     start() {
       const q = new URLSearchParams(location.search);
       const th = themeBySlug(q.get('theme')) || THEME_BY_SLUG.get(norm(q.get('theme')).replace(/\s+/g, '-'));
@@ -228,11 +262,15 @@ const Mini = (() => {
     if (spin) on ? spin.play() : spin.pause();
     loop();
   }
-  let rafOn = false;
+  let rafOn = false, miniLastPaint = 0;
+  const miniFrameMs = 1000 / (typeof PERF_PROFILE !== 'undefined' ? PERF_PROFILE.progressFps : 60);
   function loop() {
     if (rafOn) return; rafOn = true;
-    const f = () => {
-      const { cur, dur } = Player.time; prog.firstElementChild.style.transform = `scaleX(${dur ? clamp(cur / dur, 0, 1) : 0})`;
+    const f = now => {
+      if (now - miniLastPaint >= miniFrameMs) {
+        miniLastPaint = now;
+        const { cur, dur } = Player.time; prog.firstElementChild.style.transform = `scaleX(${dur ? clamp(cur / dur, 0, 1) : 0})`;
+      }
       if (Player.playing && !document.hidden) requestAnimationFrame(f); else rafOn = false;
     };
     requestAnimationFrame(f);

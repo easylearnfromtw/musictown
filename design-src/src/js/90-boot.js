@@ -11,8 +11,10 @@
   Mini.render();
   if (!Settings.get('onboarded') && !deep) Welcome.open(); else Geo.ensure();
   Share.readHash();
-  /* CITYMUS_LOCKSCREEN_PREWARM_R157 */
-  setTimeout(() => Artwork.lockscreenURL?.(1536).catch(() => {}), 120);
+  /* Lock-screen artwork is useful, but it must not compete with first paint / WebGL. */
+  const prewarmLockscreen = () => Artwork.lockscreenURL?.(1536).catch(() => {});
+  if ('requestIdleCallback' in window) requestIdleCallback(prewarmLockscreen, { timeout: 2400 });
+  else setTimeout(prewarmLockscreen, 900);
 
   /* P0 service-worker rule: an update is never allowed to reload a live
      player. The new worker activates in the background; the document updates on

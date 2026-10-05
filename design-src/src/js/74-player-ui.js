@@ -157,11 +157,17 @@ const PlayerUI = (() => {
     if (s !== lastSec || seeking) { lastSec = s; byId('plCur').textContent = fmtTime(cur); byId('plDur').textContent = dur ? '-' + fmtTime(Math.max(0, dur - cur)) : '0:00'; }
     byId('plSeekTrack').setAttribute('aria-valuenow', dur ? Math.round(cur / dur * 100) : 0);
   }
+  let lastProgressPaint = 0;
+  const progressFrameMs = 1000 / (typeof PERF_PROFILE !== 'undefined' ? PERF_PROFILE.progressFps : 60);
   function tick() {
     if (ticking) return; ticking = true;
-    const f = () => {
+    const f = now => {
       if (!open) { ticking = false; return; }
-      if (!seeking && !scrubbing) { const { cur, dur, buffered } = Player.time; paintTime(cur, dur); try { if (buffered && buffered.length && dur) byId('plBuf').style.transform = `scaleX(${clamp(buffered.end(buffered.length - 1) / dur, 0, 1)})`; } catch (_) {} }
+      const interactive = !!(seeking || scrubbing);
+      if (interactive || now - lastProgressPaint >= progressFrameMs) {
+        lastProgressPaint = now;
+        if (!seeking && !scrubbing) { const { cur, dur, buffered } = Player.time; paintTime(cur, dur); try { if (buffered && buffered.length && dur) byId('plBuf').style.transform = `scaleX(${clamp(buffered.end(buffered.length - 1) / dur, 0, 1)})`; } catch (_) {} }
+      }
       if (Player.playing || seeking || scrubbing) requestAnimationFrame(f); else ticking = false;
     };
     requestAnimationFrame(f);

@@ -21,9 +21,27 @@ const COARSE = matchMedia('(pointer: coarse)').matches;
 const IS_IOS = /iP(hone|ad|od)/.test(navigator.platform || '') || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
 const IS_SAFARI = /^((?!chrome|android|crios|fxios).)*safari/i.test(navigator.userAgent);
 const STANDALONE = !!(navigator.standalone || matchMedia('(display-mode: standalone)').matches);
+const CONNECTION = navigator.connection || navigator.mozConnection || navigator.webkitConnection || null;
+const SAVE_DATA = !!CONNECTION?.saveData;
+const MEM_GB = Number(navigator.deviceMemory || 0);
+const CPU_THREADS = Number(navigator.hardwareConcurrency || 0);
+const PERF_TIER = (() => {
+  if (REDUCE || SAVE_DATA) return 'lite';
+  if ((MEM_GB && MEM_GB <= 4) || (CPU_THREADS && CPU_THREADS <= 4)) return 'lite';
+  if (IS_IOS || COARSE || (MEM_GB && MEM_GB <= 8) || (CPU_THREADS && CPU_THREADS <= 6)) return 'balanced';
+  return 'high';
+})();
+const PERF_PROFILE = Object.freeze({
+  tier: PERF_TIER,
+  drawerDpr: PERF_TIER === 'high' ? 2 : PERF_TIER === 'balanced' ? 1.6 : 1.15,
+  drawerPixels: PERF_TIER === 'high' ? 2600000 : PERF_TIER === 'balanced' ? 1700000 : 900000,
+  progressFps: PERF_TIER === 'high' ? 60 : PERF_TIER === 'balanced' ? 30 : 20
+});
 document.documentElement.classList.toggle('is-ios', IS_IOS);
 document.documentElement.classList.toggle('is-standalone', STANDALONE);
 document.documentElement.classList.toggle('is-coarse', COARSE);
+document.documentElement.classList.add('perf-' + PERF_TIER);
+document.documentElement.dataset.perf = PERF_TIER;
 
 /* storage that never throws */
 const store = {

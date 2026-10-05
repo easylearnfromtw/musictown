@@ -245,8 +245,10 @@ precision highp float;in vec2 vUv;uniform sampler2D uS;out vec4 o;void main(){o=
     if (!ready) return;
     const r = canvas.getBoundingClientRect();
     cssW = Math.max(1, r.width); cssH = Math.max(1, r.height);
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    if (cssW * cssH * dpr * dpr > 2.6e6) dpr = Math.sqrt(2.6e6 / (cssW * cssH));
+    const maxDpr = typeof PERF_PROFILE !== 'undefined' ? PERF_PROFILE.drawerDpr : 2;
+    const pixelBudget = typeof PERF_PROFILE !== 'undefined' ? PERF_PROFILE.drawerPixels : 2600000;
+    dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+    if (cssW * cssH * dpr * dpr > pixelBudget) dpr = Math.sqrt(pixelBudget / (cssW * cssH));
     W = Math.max(1, Math.round(cssW * dpr)); H = Math.max(1, Math.round(cssH * dpr));
     canvas.width = W; canvas.height = H; makeTargets(); layoutCamera();
   }

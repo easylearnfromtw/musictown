@@ -40,17 +40,31 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Require committed 1000 Japanese + 1000 Chinese library
+      - name: Ensure 1000 Japanese + 1000 Chinese library
         shell: bash
         run: |
-          test -f data/cjk_open_music.generated.json
+          set -euo pipefail
+          if [[ ! -f data/cjk_open_music.generated.json ]]; then
+            echo "Committed CJK library missing; building a deployment fallback."
+            python build_cjk_open_music.py --per-language 1000 --max-total 2000
+          fi
           python - <<'PY'
           import json
           p=json.load(open("data/cjk_open_music.generated.json",encoding="utf-8"))
-          by=p.get("languages",{})
+          rows=p.get("tracks",[])
+          by={"ja":0,"zh":0}
+          allowed=("Public Domain","Public Domain Mark","CC0","CC BY","CC BY-SA")
           assert p.get("count")==2000, p.get("count")
-          assert by.get("ja")==1000 and by.get("zh")==1000, by
-          print("Committed CJK library:",by)
+          assert len(rows)==2000, len(rows)
+          for t in rows:
+              lang=t.get("language")
+              assert lang in by, lang
+              by[lang]+=1
+              assert any(str(t.get("license","")).startswith(x) for x in allowed), t.get("license")
+              assert t.get("source") and t.get("download")
+              assert t.get("licenseEvidence") and t.get("attribution")
+          assert by=={"ja":1000,"zh":1000}, by
+          print("CJK library ready:",by)
           PY
 
       - name: Build public-domain CITYMUS Reader
