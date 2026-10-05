@@ -325,35 +325,16 @@
    ========================================================================== */
 @layer views {
   .view { padding-top: var(--top-space); padding-bottom: var(--dock-space); min-height: 100dvh; }
-  .view:not([hidden]) { view-transition-name: citymus-page; }
   #view-theme { padding-top: 0; }
-  ::view-transition-group(citymus-page) { animation-duration: .34s; animation-timing-function: var(--ease-out); }
-  ::view-transition-old(citymus-page), ::view-transition-new(citymus-page) { mix-blend-mode: normal; }
-  html[data-nav-dir="next"]::view-transition-old(citymus-page) { animation: vt-old-next .28s var(--ease-out) both; }
-  html[data-nav-dir="next"]::view-transition-new(citymus-page) { animation: vt-new-next .34s var(--ease-out) both; }
-  html[data-nav-dir="prev"]::view-transition-old(citymus-page) { animation: vt-old-prev .28s var(--ease-out) both; }
-  html[data-nav-dir="prev"]::view-transition-new(citymus-page) { animation: vt-new-prev .34s var(--ease-out) both; }
-  html[data-nav-dir="forward"]::view-transition-old(citymus-page) { animation: vt-old-forward .26s var(--ease-out) both; }
-  html[data-nav-dir="forward"]::view-transition-new(citymus-page) { animation: vt-new-forward .36s var(--ease-out) both; }
-  html[data-nav-dir="back"]::view-transition-old(citymus-page) { animation: vt-old-back .25s var(--ease-out) both; }
-  html[data-nav-dir="back"]::view-transition-new(citymus-page) { animation: vt-new-back .34s var(--ease-out) both; }
-  @keyframes vt-old-next { to { opacity: .35; transform: translateX(-18px) scale(.995); } }
-  @keyframes vt-new-next { from { opacity: .25; transform: translateX(22px) scale(.995); } }
-  @keyframes vt-old-prev { to { opacity: .35; transform: translateX(18px) scale(.995); } }
-  @keyframes vt-new-prev { from { opacity: .25; transform: translateX(-22px) scale(.995); } }
-  @keyframes vt-old-forward { to { opacity: .24; transform: translateY(-6px) scale(.985); } }
-  @keyframes vt-new-forward { from { opacity: .2; transform: translateY(14px) scale(.992); } }
-  @keyframes vt-old-back { to { opacity: .28; transform: translateY(10px) scale(.992); } }
-  @keyframes vt-new-back { from { opacity: .2; transform: translateY(-7px) scale(.987); } }
-  .view.is-entering { animation: view-in-forward .34s var(--ease-out) backwards; }
+  .view.is-entering { animation: view-in-forward .26s var(--ease-out) backwards; will-change: opacity, transform; }
   .view.is-entering.is-enter-next { animation-name: view-in-next; }
   .view.is-entering.is-enter-prev { animation-name: view-in-prev; }
   .view.is-entering.is-enter-back { animation-name: view-in-back; }
   .view.is-entering.is-enter-fade { animation-name: view-in-fade; }
-  @keyframes view-in-forward { from { opacity: 0; transform: translateY(12px) scale(.992); } to { opacity: 1; transform: none; } }
-  @keyframes view-in-next { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
-  @keyframes view-in-prev { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
-  @keyframes view-in-back { from { opacity: 0; transform: translateY(-7px) scale(.99); } to { opacity: 1; transform: none; } }
+  @keyframes view-in-forward { from { opacity: 0; transform: translate3d(0,8px,0); } to { opacity: 1; transform: none; } }
+  @keyframes view-in-next { from { opacity: 0; transform: translate3d(12px,0,0); } to { opacity: 1; transform: none; } }
+  @keyframes view-in-prev { from { opacity: 0; transform: translate3d(-12px,0,0); } to { opacity: 1; transform: none; } }
+  @keyframes view-in-back { from { opacity: 0; transform: translate3d(0,-6px,0); } to { opacity: 1; transform: none; } }
   @keyframes view-in-fade { from { opacity: 0; } to { opacity: 1; } }
   .page-title { font: 400 clamp(44px, 12vw, 68px)/1 var(--latin); letter-spacing: -.01em; color: var(--ink); }
   .page-lede { margin-top: 10px; color: var(--ink-2); font: 500 15px/1.75 var(--serif); max-width: 34em; }
@@ -4037,15 +4018,8 @@ const Router = (() => {
       Shell.onView(v, p);
       bus.emit('view', { v, p });
     };
-    const nativeTransition = enter && prev && prev !== v && dir !== 'none' && !REDUCE && typeof document.startViewTransition === 'function';
-    if (nativeTransition) {
-      document.documentElement.dataset.navDir = dir;
-      const tx = document.startViewTransition(render);
-      Promise.resolve(tx.finished).catch(() => {}).finally(() => {
-        if (document.documentElement.dataset.navDir === dir) delete document.documentElement.dataset.navDir;
-      });
-      return;
-    }
+    /* Keep page geometry untouched: animate only the entering view itself.
+       Native View Transition snapshots can reposition complex fixed/sticky UI on iOS. */
     render();
     if (enter && dir !== 'none' && !REDUCE) {
       const cls = dir === 'next' ? 'is-enter-next' : dir === 'prev' ? 'is-enter-prev' : dir === 'back' ? 'is-enter-back' : dir === 'fade' ? 'is-enter-fade' : 'is-enter-forward';
