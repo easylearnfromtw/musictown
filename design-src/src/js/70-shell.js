@@ -88,15 +88,8 @@ const Router = (() => {
       Shell.onView(v, p);
       bus.emit('view', { v, p });
     };
-    const nativeTransition = enter && prev && prev !== v && dir !== 'none' && !REDUCE && typeof document.startViewTransition === 'function';
-    if (nativeTransition) {
-      document.documentElement.dataset.navDir = dir;
-      const tx = document.startViewTransition(render);
-      Promise.resolve(tx.finished).catch(() => {}).finally(() => {
-        if (document.documentElement.dataset.navDir === dir) delete document.documentElement.dataset.navDir;
-      });
-      return;
-    }
+    /* Keep page geometry untouched: animate only the entering view itself.
+       Native View Transition snapshots can reposition complex fixed/sticky UI on iOS. */
     render();
     if (enter && dir !== 'none' && !REDUCE) {
       const cls = dir === 'next' ? 'is-enter-next' : dir === 'prev' ? 'is-enter-prev' : dir === 'back' ? 'is-enter-back' : dir === 'fade' ? 'is-enter-fade' : 'is-enter-forward';
