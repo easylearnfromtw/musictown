@@ -1,7 +1,7 @@
 /* CITYMUS service worker · caches the app shell so the Home Screen app
    opens without a connection. Audio is never touched here: downloaded songs
    live in IndexedDB and stream/range requests go straight to the network. */
-const VERSION = 'R16.7-2026-10-05-BLANK-SCREEN-HOTFIX';
+const VERSION = 'R16.7-2026-10-07-VIRTUAL-AUDIO';
 const CACHE = 'mt-shell-' + VERSION;
 const SHELL = ['./', 'index.html', 'remote-audio-map.js', 'extra-city-catalog.js', 'literature-catalog.js', 'literature-audio-map.js', 'site.webmanifest',
   'apple-touch-icon.png', 'assets/icons/apple-touch-icon-152.png', 'assets/icons/apple-touch-icon-167.png',
