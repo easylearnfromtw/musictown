@@ -63,7 +63,7 @@ const LocalFiles = (() => {
             const { blob, ...meta } = r;
             s.put({
               ...meta,
-              title: /真的假的/.test(String(meta.title || meta.name || '')) ? '真的假的' : (meta.title || '虛擬音'),
+              title: '真的假的',
               artist: 'CITYMUS Virtual',
               type: 'audio/wav',
               size: 0,
