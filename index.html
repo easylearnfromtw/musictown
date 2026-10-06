@@ -4394,31 +4394,112 @@ function nameSheet(initial, done, { title = '新增收藏', cta = '建立' } = {
    Views
    ========================================================================== */
 
-/* ---------- local files (same IndexedDB as R8.x) ---------- */
+/* ---------- virtual/local audio (personal blobs are migrated away) ---------- */
 const LocalFiles = (() => {
-  const DB = 'musicetownLocalLibrary', STORE = 'tracks'; let urls = new Map(); let rows = [];
-  const open = () => new Promise((res, rej) => { const r = indexedDB.open(DB, 1); r.onupgradeneeded = () => { const db = r.result; if (!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE, { keyPath: 'id' }).createIndex('addedAt', 'addedAt'); }; r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
-  const tx = async (mode, fn) => { const db = await open(); return new Promise((res, rej) => { const t = db.transaction(STORE, mode); const out = fn(t.objectStore(STORE)); t.oncomplete = () => { db.close(); res(out && 'result' in out ? out.result : out); }; t.onerror = () => { db.close(); rej(t.error); }; }); };
+  const DB = 'musicetownLocalLibrary', STORE = 'tracks', MIGRATION = 'mt.virtualAudioOnly.v1';
+  let urls = new Map(), rows = [];
+  const open = () => new Promise((res, rej) => {
+    const r = indexedDB.open(DB, 1);
+    r.onupgradeneeded = () => {
+      const db = r.result;
+      if (!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE, { keyPath: 'id' }).createIndex('addedAt', 'addedAt');
+    };
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  });
+  const tx = async (mode, fn) => {
+    const db = await open();
+    return new Promise((res, rej) => {
+      const t = db.transaction(STORE, mode), out = fn(t.objectStore(STORE));
+      t.oncomplete = () => { db.close(); res(out && 'result' in out ? out.result : out); };
+      t.onerror = () => { db.close(); rej(t.error); };
+    });
+  };
+
+  function virtualBlob(seed = 'CITYMUS') {
+    const sr = 24000, dur = 1.65, n = Math.floor(sr * dur);
+    const ab = new ArrayBuffer(44 + n * 2), v = new DataView(ab);
+    const w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+    w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVE'); w(12, 'fmt ');
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, sr, true); v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+    w(36, 'data'); v.setUint32(40, n * 2, true);
+    const r = seeded(seed), base = 330 + Math.floor(r() * 150);
+    for (let i = 0; i < n; i++) {
+      const t = i / sr, x = t / dur;
+      const attack = Math.min(1, t / .035), release = Math.pow(Math.max(0, 1 - x), 1.7);
+      const env = attack * release;
+      const step = t < .42 ? 1 : t < .86 ? 1.26 : t < 1.22 ? 1.5 : 2;
+      const f = base * step;
+      const shimmer = Math.sin(2 * Math.PI * f * t)
+        + .34 * Math.sin(2 * Math.PI * f * 2.01 * t)
+        + .12 * Math.sin(2 * Math.PI * (f * 3.02 + 8 * Math.sin(t * 9)) * t);
+      const click = t < .08 ? Math.sin(2 * Math.PI * (1200 - 700 * t / .08) * t) * (1 - t / .08) : 0;
+      const sample = Math.max(-1, Math.min(1, env * (.33 * shimmer + .12 * click)));
+      v.setInt16(44 + i * 2, Math.round(sample * 32767), true);
+    }
+    return new Blob([ab], { type: 'audio/wav' });
+  }
+  const virtualURL = r => {
+    if (!urls.has(r.id)) urls.set(r.id, URL.createObjectURL(virtualBlob(String(r.id || '') + String(r.title || ''))));
+    return urls.get(r.id);
+  };
+
+  async function migratePersonalAudio() {
+    if (store.raw(MIGRATION) === '1') return;
+    try {
+      const all = await tx('readonly', s => s.getAll()) || [];
+      const legacy = all.filter(r => r && r.blob && !r.virtualAudio);
+      if (legacy.length) {
+        await tx('readwrite', s => {
+          for (const r of legacy) {
+            const { blob, ...meta } = r;
+            s.put({
+              ...meta,
+              title: /真的假的/.test(String(meta.title || meta.name || '')) ? '真的假的' : (meta.title || '虛擬音'),
+              artist: 'CITYMUS Virtual',
+              type: 'audio/wav',
+              size: 0,
+              virtualAudio: true,
+              migratedAt: Date.now()
+            });
+          }
+        });
+      }
+      store.setRaw(MIGRATION, '1');
+    } catch (_) {}
+  }
+
   async function refresh() {
+    await migratePersonalAudio();
     try { rows = await tx('readonly', s => s.getAll()) || []; } catch (_) { rows = []; }
     urls.forEach(u => URL.revokeObjectURL(u)); urls = new Map();
     bus.emit('localfiles');
   }
   function tracks(libId = Library.activeId()) {
-    return rows.filter(r => String(r.libraryId || DEFAULT_LIB) === libId).sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0)).map(r => {
-      if (!urls.has(r.id)) urls.set(r.id, URL.createObjectURL(r.blob));
-      return { id: r.id, title: r.title, artist: r.artist, vibe: '本機音樂', license: 'PERSONAL', audioSrc: urls.get(r.id), localPersonal: true, fileName: r.name, fileSize: r.size };
-    });
+    return rows
+      .filter(r => String(r.libraryId || DEFAULT_LIB) === libId && r.virtualAudio)
+      .sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0))
+      .map(r => ({
+        id: r.id,
+        title: r.title || '真的假的',
+        artist: 'CITYMUS Virtual',
+        vibe: '虛擬音',
+        license: 'GENERATED',
+        audioSrc: virtualURL(r),
+        localPersonal: true,
+        virtualAudio: true,
+        fileName: 'generated.wav',
+        fileSize: 0
+      }));
   }
-  const parse = n => { const stem = String(n || '').replace(/\.[^.]+$/, '').trim(); const p = stem.split(/\s+-\s+/); return p.length >= 2 ? { artist: p.shift().trim(), title: p.join(' - ').trim() } : { artist: '本機音樂', title: stem || 'Untitled' }; };
-  async function importFiles(list) {
-    const files = [...list].filter(f => /^audio\//.test(f.type) || /\.(mp3|m4a|wav|flac|aac|ogg|oga|opus)$/i.test(f.name)); if (!files.length) return 0;
-    let n = 0;
-    for (const f of files) { const p = parse(f.name); try { await tx('readwrite', s => s.put({ id: `${f.name}::${f.size}::${f.lastModified}`, name: f.name, title: p.title, artist: p.artist, type: f.type || 'audio/mpeg', size: f.size, lastModified: f.lastModified, addedAt: Date.now(), libraryId: Library.activeId(), blob: f })); n++; } catch (_) { toast('裝置儲存空間不足，部分檔案未加入'); break; } }
-    await refresh(); return n;
-  }
+  async function importFiles() { toast('本機真人音檔已停用，改用虛擬音'); return 0; }
   async function remove(id) { try { await tx('readwrite', s => s.delete(id)); } catch (_) {} await refresh(); }
-  async function removeLibrary(libId) { for (const r of rows.filter(r => String(r.libraryId || DEFAULT_LIB) === libId)) { try { await tx('readwrite', s => s.delete(r.id)); } catch (_) {} } await refresh(); }
+  async function removeLibrary(libId) {
+    for (const r of rows.filter(r => String(r.libraryId || DEFAULT_LIB) === libId)) {
+      try { await tx('readwrite', s => s.delete(r.id)); } catch (_) {}
+    }
+    await refresh();
+  }
   if ('indexedDB' in window) refresh();
   return { tracks, importFiles, remove, removeLibrary, refresh };
 })();
@@ -4743,7 +4824,7 @@ Router.register('library', (el) => {
         <div class="libhead" id="libHead"></div>
         <div class="filters filters--wrap mt-16" id="libFilters"></div>
         <div class="panel mt-16"><div class="rows" id="libRows"></div></div>
-        <label class="btn btn--block btn--quiet mt-16" id="libImport">${icon('folder')}加入這台裝置上的音樂<input type="file" accept="audio/*,.mp3,.m4a,.wav,.flac,.aac,.ogg,.opus" multiple hidden id="libFile"></label>
+        <div class="setting setting--plain mt-16"><div><b>虛擬音模式</b><span>真人本機音檔已停用；舊音檔會在這台裝置上轉成不含原聲的即時合成音。</span></div></div>
       </section>
       <section class="sec">
         <div class="sec__head"><h2 class="sec__title">每月聆聽月報<small>每月 10 日生成上個月的聆聽票卡</small></h2></div>
@@ -4758,7 +4839,7 @@ Router.register('library', (el) => {
         <div id="a2hsSlot"></div>
         <div class="settings mt-16" id="settings"></div>
       </section>
-      <footer class="foot"><b>musicetown</b><span>播放清單、票夾、下載與本機音樂只存在這台裝置上。</span></footer>
+      <footer class="foot"><b>musicetown</b><span>播放清單、票夾、下載與虛擬音設定只存在這台裝置上。</span></footer>
     </div>`;
     const gridEl = byId('libGrid'), rowsEl = byId('libRows');
     let filter = 'all', view = null; // view: null = active library, '__offline' = downloads
@@ -4772,7 +4853,6 @@ Router.register('library', (el) => {
       requestAnimationFrame(() => byId('libDetail').scrollIntoView({ behavior: REDUCE ? 'auto' : 'smooth', block: 'start' }));
     });
     byId('libFilters').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; filter = b.dataset.f; haptic(); draw(); });
-    byId('libFile').addEventListener('change', async e => { const n = await LocalFiles.importFiles(e.target.files); e.target.value = ''; if (n) toast(`已加入 ${n} 首本機音樂`); });
     const coverHTML = (l, n, active) => `<button class="libcard${active ? ' is-active' : ''}" type="button" role="tab" aria-selected="${active}" data-lib="${esc(l.id)}"><span class="libcard__name">${esc(l.name)}</span><span class="libcard__meta"><b class="tnum">${n}</b> 首${(l.cats || []).length ? ` · ${esc((l.cats || []).slice(0, 2).map(c => THEME_BY_T.get(c)).filter(Boolean).map(themeTitle).join('、'))}` : ''}</span></button>`;
     const draw = () => {
       const libs = Library.all(), act = Library.active();
@@ -4798,7 +4878,6 @@ Router.register('library', (el) => {
         </div>`;
       rowsEl.innerHTML = el._list.length ? el._list.map((t, i) => rowHTML(t, i)).join('') : `<div class="empty" style="box-shadow:none"><b>這裡還是空的</b><p>${view === '__offline' ? '在歌曲選單裡選「存到這台裝置」，就能離線播放。' : `在任何歌曲旁點愛心，或用「加入播放清單」，就會收進「${esc(act.name)}」。`}</p><button class="btn btn--small" type="button" data-go-home>去找音樂</button></div>`;
       const go = rowsEl.querySelector('[data-go-home]'); if (go) go.onclick = () => Router.go('home');
-      byId('libImport').hidden = view === '__offline';
       byId('libPlay').onclick = () => Player.playList(el._list, 0, { kind: 'library', title: name });
       byId('libShuffle').onclick = () => { const l = Reco.smartShuffle(el._list); Player.playList(l, 0, { kind: 'library', title: name }); };
       const dl = byId('libDl'); if (dl) dl.onclick = () => Offline.downloadMany(el._list.filter(t => !t.localPersonal), name);
