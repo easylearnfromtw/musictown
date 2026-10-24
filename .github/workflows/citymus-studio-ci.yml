@@ -4,7 +4,7 @@ on:
     paths:
       - 'api/config.js'
       - 'api/playlists.js'
-      - 'api/keys.js'
+      - 'api/integrations.js'
       - 'api/public-playlist.js'
       - 'api/embed.js'
       - 'lib/citymus-backend.js'
@@ -31,7 +31,7 @@ jobs:
           node --check lib/citymus-backend.js
           node --check api/config.js
           node --check api/playlists.js
-          node --check api/keys.js
+          node --check api/integrations.js
           node --check api/public-playlist.js
           node --check api/embed.js
           node --check studio/embed-player.js

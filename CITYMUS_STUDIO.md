@@ -1,72 +1,71 @@
-# CITYMUS Studio — Member API + Embed Player
-
-The existing CITYMUS landing site is unchanged. This adds an authenticated **member studio**, editable playlists, individually revocable **publishable/read-only** API keys, and an embeddable player.
+# CITYMUS Studio — Shared Public API Key, Member Authorization & Attribution
 
 Repository: https://github.com/easylearnfromtw/musictown
 
-## Architecture (no Railway)
+## Model
 
-- **Static frontend:** Existing CITYMUS website and `/studio/` admin UI.
-- **Server/API runtime:** Vercel Node.js serverless functions under `/api/`.
-- **Identity and database:** Supabase Auth (email magic link) + PostgreSQL.
-- **Media:** User-supplied authorized/public HTTPS audio URLs, played directly by the end user's browser. No file upload or transcoding is implemented. Existing `/api/audio` remains unchanged.
+- **One public API identifier for everyone:** `cm_public_v1`. This identifier is intentionally public and is never used to authorize admin operations or protect private data.
+- **Authorization only at registration:** a member signs in using Supabase email magic link, selects one of their playlists, enters allowed HTTPS website origins, and explicitly accepts CITYMUS attribution terms. The server creates a UUID **integration binding** attached to that member account, playlist and origin list.
+- **Website usage:** shared `api_key` + site-specific `integration` ID in iframe/JSON URLs.
+- **Revocation:** members revoke their own integration binding without changing the shared key or affecting other members.
+- **Brand attribution:** embed player ALWAYS renders a linked "Powered by CITYMUS" footer, even if the embedding website forgets its own credit. Integrators must additionally display a visible CITYMUS link near the player or prominently on the site and must not obscure player attribution.
 
-The GitHub Pages site remains usable as before, **but GitHub Pages cannot execute serverless APIs**. The Studio must be opened from a Vercel deployment with API functions enabled. The current GitHub Pages hostname will not make `/api/` routes live.
+### Required authorization statement (zh-TW)
 
-## Setup
+> 使用 CITYMUS 音樂播放器或 API 於第三方網站時，必須於播放器旁或明顯位置標示「Powered by CITYMUS」，並連結至 CITYMUS 官方網站。不得移除或遮蔽播放器內的 CITYMUS 品牌標識。音樂內容仍須遵守各音源原有的授權條件。
 
-1. Create a Supabase project. In SQL Editor, apply `database/citymus_schema.sql`.
-2. Add a Vercel project by importing `easylearnfromtw/musictown`. Deploy from repo root as a static/Other framework project (existing `vercel.json` config is retained).
-3. Set the following **Vercel server-side environment variables**:
-   - `SUPABASE_URL` — e.g. `https://<project>.supabase.co`
-   - `SUPABASE_ANON_KEY` — Supabase publishable/anon client API key (this is intentionally sent to the browser).
-   - `SUPABASE_SERVICE_ROLE_KEY` — service-role JWT secret, **server-only**.
-   - `CITYMUS_KEY_PEPPER` — at least 32 random characters, **server-only**; keep unchanged after launch or all issued keys will stop working.
-4. Supabase → Auth → URL Configuration: set Site URL to the production Vercel/custom-domain URL; add `https://<your-domain>/studio/` as an allowed redirect URL. Configure the email provider and delivery quotas.
-5. Deploy. Test `GET /api/config`, log in at `/studio/`, add a playlist with publicly playable licensed audio, generate a key, and use the iframe or JSON endpoint.
+### Security boundaries
 
-Do not commit secrets to this repository, client-side HTML, or GitHub Pages. Use Vercel protected environment variables.
+The shared public identifier is NOT a security credential. A binding UUID identifies which published playlist should be read, but it is **not confidential** either. Browser iframe use is constrained by `Content-Security-Policy: frame-ancestors`; cross-origin JSON fetches carrying the browser `Origin` header are limited by origin checks and CORS. **These controls do not stop server-side callers from supplying a known binding ID**. Publish only music/content meant to be public. Strict private app-to-app access would require a separate server-side OAuth/signed token flow.
+
+## Deployment (no Railway)
+
+The existing GitHub Pages static website remains unchanged; GitHub Pages **cannot** run these API functions. Use the same source repo on Vercel with Supabase authentication and database.
+
+1. Create a Supabase project and run `database/citymus_schema.sql` in its SQL editor. No connected Supabase project has been provisioned yet.
+2. Import `easylearnfromtw/musictown` into Vercel as a static/Other framework project with the repo root as working directory.
+3. Add server-side Vercel environment variables:
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY` (publishable browser key)
+   - `SUPABASE_SERVICE_ROLE_KEY` (server only, never commit)
+4. Configure Supabase Auth Site URL and allowlisted redirect `https://YOUR-DOMAIN/studio/`.
+5. Redeploy, open `/studio/`, log in by email, create playlist, register site integration and accept brand terms, then copy iframe.
+6. Configure rate limiting and abuse monitoring in production. The per-user 10-integration cap is not request-rate limiting.
+
+`CITYMUS_KEY_PEPPER` is no longer needed because personal API keys have been eliminated.
 
 ## Routes
 
-| Route | Auth | Action |
+| Method & path | Authorization | Description |
 | --- | --- | --- |
-| `GET /api/config` | Public | Returns Supabase URL and *publishable* key only |
-| `GET /api/playlists` | Supabase user Bearer JWT | List own playlists |
-| `POST /api/playlists` | Supabase user Bearer JWT | Create playlist |
-| `PATCH /api/playlists?id=<uuid>` | Supabase user Bearer JWT | Update own playlist |
-| `DELETE /api/playlists?id=<uuid>` | Supabase user Bearer JWT | Delete own playlist and cascade revoke keys |
-| `GET /api/keys` | Supabase user Bearer JWT | List own key metadata only |
-| `POST /api/keys` | Supabase user Bearer JWT | Create read-only key, returned **once** |
-| `DELETE /api/keys?id=<uuid>` | Supabase user Bearer JWT | Revoke own key |
-| `GET /api/public-playlist?key=cm_pub_...` | Publishable key | Read JSON playlist |
-| `GET /api/embed?key=cm_pub_...` | Publishable key | Embeddable player (CSP frame-ancestors for allowed origins) |
+| `GET /api/config` | Public | Returns Supabase public auth configuration, one shared `sharedApiKey`, and CITYMUS attribution metadata |
+| `GET/POST/PATCH/DELETE /api/playlists` | Signed-in member JWT | Manage own playlists |
+| `GET /api/integrations` | Signed-in member JWT | List own site bindings |
+| `POST /api/integrations` | Signed-in member JWT | Bind website + playlist; require `accept_attribution: true` |
+| `DELETE /api/integrations?id=<uuid>` | Signed-in member JWT | Revoke only own binding |
+| `GET /api/public-playlist?api_key=cm_public_v1&integration=<uuid>` | Public identifier + active binding | Public read-only JSON (includes required attribution info) |
+| `GET /api/embed?api_key=cm_public_v1&integration=<uuid>` | Public identifier + active binding | Read-only iframe player; CSP restricts embedding origins |
 
-The key is a **browser-visible publishable token**, not a confidential machine-to-machine API secret. It permits reading only the linked playlist. It cannot authenticate to the member admin endpoints.
+## Copyable embed snippet
 
-### Example: embed a CITYMUS player
+Replace the placeholder domain and integration UUID generated by the Studio UI:
 
 ```html
-<iframe src="https://YOUR-DOMAIN/api/embed?key=cm_pub_YOUR_KEY"
-  title="CITYMUS player" width="100%" height="320"
-  loading="lazy" allow="autoplay"
-  style="border:0;border-radius:18px"></iframe>
+<iframe
+  src="https://YOUR-DOMAIN/api/embed?api_key=cm_public_v1&integration=YOUR_BINDING_UUID"
+  title="CITYMUS Music Player"
+  width="100%"
+  height="340"
+  loading="lazy"
+  allow="autoplay"
+  style="border:0;border-radius:18px">
+</iframe>
+<a href="https://easylearnfromtw.github.io/musictown/"
+   target="_blank" rel="noopener noreferrer">
+  Powered by CITYMUS
+</a>
 ```
 
-### Example: programmatic read-only access
+JSON API also includes `attribution.required`, `attribution.label`, and `attribution.url`. Integrations using the JSON API must render the attribution in their own UI.
 
-```js
-const response = await fetch('https://YOUR-DOMAIN/api/public-playlist?key=cm_pub_YOUR_KEY');
-if (!response.ok) throw new Error('Playlist unavailable');
-const playlist = await response.json();
-```
-
-### Security
-
-- Never expose service-role credentials. The API checks each user's Supabase bearer token and scopes every admin DB request to their user ID.
-- Embed keys use cryptographically random 32-byte material and HMAC-SHA256 at rest; revoked keys immediately fail, with no-store response headers.
-- Raw tables explicitly revoke `anon` and `authenticated` Data API grants and have RLS enabled. The API server accesses them using the protected service role.
-- Allowed origins restrict **iframe embedding** through the browser-enforced CSP `frame-ancestors` directive. They do **not** make the read-only data private or stop direct JSON access with a copied publishable key.
-- Only direct public HTTPS audio files are accepted (maximum 40 tracks/playlist). The browser loads the audio from its origin; audio providers' cross-origin/CDN policies and licenses still apply.
-- Add Vercel Firewall/API rate limiting before opening public registration at scale. Built-in per-user resource quotas are not request-rate limiting.
-- Production readiness also depends on applying the SQL schema and setting credentials; the source code alone does not make live authentication or API calls work.
+Music files must be direct, publicly readable, licensed HTTPS links. The browser streams directly from each music provider; cross-origin, hotlinking and copyright restrictions apply.
