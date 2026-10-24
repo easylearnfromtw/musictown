@@ -1,6 +1,6 @@
 'use strict';
 const {
-  HttpError, respond, failure, method, parseBody, db, userFor,
+  HttpError, respond, failure, method, parseBody, dbFor, userFor,
   id, text, allowedDomains, SHARED_API_KEY, ATTRIBUTION
 } = require('../lib/citymus-backend');
 module.exports = async (req, res) => {
@@ -9,14 +9,14 @@ module.exports = async (req, res) => {
     const user = await userFor(req);
     const owner = 'user_id=eq.' + encodeURIComponent(user.id);
     if (req.method === 'GET') {
-      const integrations = await db('citymus_integrations?' + owner +
+      const integrations = await dbFor(req,'citymus_integrations?' + owner +
         '&revoked_at=is.null&select=id,name,playlist_id,allowed_domains,terms_accepted_at,created_at' +
         '&order=created_at.desc&limit=25');
       return respond(res, 200, { sharedApiKey: SHARED_API_KEY, integrations, attribution: ATTRIBUTION });
     }
     if (req.method === 'DELETE') {
       const integrationId = id(req.query?.id);
-      await db('citymus_integrations?id=eq.' + encodeURIComponent(integrationId) + '&' + owner,
+      await dbFor(req,'citymus_integrations?id=eq.' + encodeURIComponent(integrationId) + '&' + owner,
         { method: 'PATCH', body: { revoked_at: new Date().toISOString() } });
       return respond(res, 200, { ok: true });
     }
@@ -27,12 +27,12 @@ module.exports = async (req, res) => {
     if (allowed.length === 0)
       throw new HttpError(400, 'At least one authorized HTTPS website origin is required');
     const pid = id(body.playlist_id);
-    const playlist = await db('citymus_playlists?id=eq.' + encodeURIComponent(pid) + '&' +
+    const playlist = await dbFor(req,'citymus_playlists?id=eq.' + encodeURIComponent(pid) + '&' +
       owner + '&select=id&limit=1');
     if (!playlist.length) throw new HttpError(404, 'Playlist not found');
-    const existing = await db('citymus_integrations?' + owner + '&revoked_at=is.null&select=id&limit=11');
+    const existing = await dbFor(req,'citymus_integrations?' + owner + '&revoked_at=is.null&select=id&limit=11');
     if (existing.length >= 10) throw new HttpError(400, 'Maximum 10 active integrations per account');
-    const rows = await db('citymus_integrations', {
+    const rows = await dbFor(req,'citymus_integrations', {
       method: 'POST',
       prefer: 'return=representation',
       body: {
