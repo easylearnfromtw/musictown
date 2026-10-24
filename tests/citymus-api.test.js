@@ -14,7 +14,6 @@ const INTEGRATION = '21234567-89ab-4cde-8f01-23456789abcd';
 const ALLOWED = 'https://my-blog.example';
 process.env.SUPABASE_URL = 'https://project.supabase.co';
 process.env.SUPABASE_ANON_KEY = 'anon-key-for-tests';
-process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-role-for-tests';
 
 function response() {
   const headers = Object.create(null);
@@ -34,6 +33,8 @@ function stubFetch() {
     let data;
     if (url.includes('/auth/v1/user')) {
       data = {id:USER,email:'member@example.com'};
+    } else if (url.includes('/rest/v1/rpc/citymus_resolve_integration')) {
+      data = active ? { playlist: {name:'Night City',description:'Evening mixes',tracks:[{title:'First',artist:'CITYMUS licensed artist',url:'https://cdn.example.com/first.mp3'}]},allowed_domains:[ALLOWED]} : null;
     } else if (url.includes('/rest/v1/citymus_integrations')) {
       if (options.method === 'PATCH') { active = false; data=[]; }
       else if (options.method === 'POST') data = [{ id: INTEGRATION }];
@@ -105,6 +106,8 @@ test('website registration requires explicit attribution acceptance; revocation 
     const inserted=mock.calls.find(x=>x.method==='POST'&&x.url.includes('citymus_integrations'));
     assert.equal(JSON.parse(inserted.body).user_id,USER);
     assert.equal(JSON.parse(inserted.body).terms_version,'citymus-attribution-v1');
+    assert.equal(inserted.url.includes('citymus_integrations'),true);
+    assert.equal(mock.calls.filter(x=>x.url.includes('citymus_integrations')).length > 0,true);
     const revoked=response();
     await integrations(apiRequest('DELETE',{id:INTEGRATION},{headers:{authorization:'Bearer test-user-token'}}),revoked);
     assert.equal(revoked.statusCode,200);

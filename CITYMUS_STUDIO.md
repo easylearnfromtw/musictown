@@ -16,18 +16,18 @@ Repository: https://github.com/easylearnfromtw/musictown
 
 ### Security boundaries
 
-The shared public identifier is NOT a security credential. A binding UUID identifies which published playlist should be read, but it is **not confidential** either. Browser iframe use is constrained by `Content-Security-Policy: frame-ancestors`; cross-origin JSON fetches carrying the browser `Origin` header are limited by origin checks and CORS. **These controls do not stop server-side callers from supplying a known binding ID**. Publish only music/content meant to be public. Strict private app-to-app access would require a separate server-side OAuth/signed token flow.
+The shared public identifier is NOT a security credential. Authenticated owner operations use Supabase RLS; anonymous read-only access uses `citymus_resolve_integration` RPC. A binding UUID identifies which published playlist should be read, but it is **not confidential** either. Browser iframe use is constrained by `Content-Security-Policy: frame-ancestors`; cross-origin JSON fetches carrying the browser `Origin` header are limited by origin checks and CORS. **These controls do not stop server-side callers from supplying a known binding ID**. Publish only music/content meant to be public. Strict private app-to-app access would require a separate server-side OAuth/signed token flow.
 
 ## Deployment (no Railway)
 
-The existing GitHub Pages static website remains unchanged; GitHub Pages **cannot** run these API functions. Use the same source repo on Vercel with Supabase authentication and database.
+The original GitHub Pages site remains unchanged. Production is deployed on `https://citymus-production.vercel.app/` with API endpoints on Vercel and a Supabase Postgres database.
 
-1. Create a Supabase project and run `database/citymus_schema.sql` in its SQL editor. No connected Supabase project has been provisioned yet.
+1. On the dedicated Supabase project, apply `database/citymus_schema.sql`. Use the dedicated CITYMUS Supabase project in Singapore (`dlnejllwollwpuanhicf`).
 2. Import `easylearnfromtw/musictown` into Vercel as a static/Other framework project with the repo root as working directory.
 3. Add server-side Vercel environment variables:
    - `SUPABASE_URL`
    - `SUPABASE_ANON_KEY` (publishable browser key)
-   - `SUPABASE_SERVICE_ROLE_KEY` (server only, never commit)
+   - No `SUPABASE_SERVICE_ROLE_KEY` is required or used. Signed-in users are authorized by their JWT and Postgres RLS; public playback goes through the minimal read-only RPC.
 4. Configure Supabase Auth Site URL and allowlisted redirect `https://YOUR-DOMAIN/studio/`.
 5. Redeploy, open `/studio/`, log in by email, create playlist, register site integration and accept brand terms, then copy iframe.
 6. Configure rate limiting and abuse monitoring in production. The per-user 10-integration cap is not request-rate limiting.
