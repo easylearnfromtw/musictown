@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f7fa">
+<title>CITYMUS Studio｜音樂 API 後台</title>
+<style>
+:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC",sans-serif;color:#252c45;background:#f5f7fa}
+*{box-sizing:border-box}body{margin:0}button,input,textarea,select{font:inherit}
+button{cursor:pointer}a{color:inherit}h1,h2,h3,p{margin-top:0}
+header{padding:22px max(22px,calc((100% - 1120px)/2));border-bottom:1px solid #e7eaf2;background:#fff}
+header nav{display:flex;align-items:center;gap:17px}header strong{letter-spacing:.16em;font-size:19px}header .sub{font-size:11px;color:#8790ae;letter-spacing:.09em}
+header a{text-decoration:none;font-size:13px;color:#5f6680}
+header .grow{flex:1}main{max-width:1120px;margin:auto;padding:32px 22px 70px}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.2em;color:#686fce}
+.intro h1{font-size:clamp(29px,5vw,42px);letter-spacing:-.05em;margin:9px 0 10px}
+.intro p{color:#757f98;line-height:1.7;max-width:680px}
+.panel{background:#fff;border:1px solid #e4e8f1;border-radius:22px;padding:25px;box-shadow:0 14px 38px rgba(30,39,65,.035)}
+.panel h2{font-size:18px;margin-bottom:8px}.panel h3{font-size:14px}
+.muted{color:#7f879b;font-size:13px;line-height:1.7}
+label{display:block;font-size:12px;font-weight:750;color:#505a77;margin:17px 0 7px}
+input,textarea,select{width:100%;background:#fbfcff;border:1px solid #dfe5f1;padding:12px 14px;border-radius:12px;outline:none;color:#25304e}
+input:focus,textarea:focus,select:focus{border-color:#7583dd;box-shadow:0 0 0 3px #7583dd20}
+textarea{min-height:140px;resize:vertical;line-height:1.8;font-size:13px}
+button.primary{border:0;border-radius:12px;padding:12px 18px;background:#242e53;color:#fff;font-weight:750}
+button.secondary{border:1px solid #dee3ef;background:#fff;border-radius:11px;color:#465273;padding:10px 14px;font-weight:650}
+button.danger{border:1px solid #f1cdd2;background:#fff9f9;color:#a94656;border-radius:10px;padding:8px 11px}
+button:disabled{opacity:.5;cursor:not-allowed}.checkline{display:flex;gap:10px;align-items:flex-start;font-weight:500;line-height:1.6;color:#43506d}.checkline input{width:auto;margin:4px 0 0;flex:0 0 auto}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spacer{flex:1}.layout{display:grid;grid-template-columns:minmax(280px,.88fr) minmax(0,1.12fr);gap:20px}
+.stack{display:grid;gap:20px}.item{border:1px solid #e6eaf3;padding:13px 14px;border-radius:14px;margin-top:9px;display:flex;align-items:center;gap:10px}
+.item strong{font-size:14px;display:block;overflow-wrap:anywhere}.item small{display:block;color:#8b94a9;margin-top:4px}
+.item .grow{flex:1;min-width:0}.item button{flex-shrink:0}.mini{font-size:11px}
+#notice{margin:0 0 18px;display:none;padding:13px 16px;border-radius:12px;background:#e8edfc;color:#334481}
+#notice.error{background:#fff1f1;color:#a03f53}
+#issued{display:none;margin-top:16px;padding:16px;background:#f4f6fc;border:1px solid #dce3fa;border-radius:14px}
+code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+pre{white-space:pre-wrap;word-break:break-all;background:#161e35;color:#e6edff;padding:14px;border-radius:12px;font-size:12px;line-height:1.7}
+#preview{border:1px solid #e1e5ee;border-radius:14px;width:100%;height:280px;background:#171e2d;margin-top:13px}
+footer{max-width:1120px;margin:auto;padding:0 22px 50px;color:#9ba2b3;font-size:12px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}header{padding:18px 22px}.panel{padding:20px}}
+</style>
+</head>
+<body>
+<header><nav><strong>CITYMUS</strong><span class="sub">STUDIO / DEVELOPERS</span><span class="grow"></span><a href="../">返回音樂城市 ↗</a><button id="logout" class="secondary" hidden>登出</button></nav></header>
+<main>
+<div class="intro">
+<div class="eyebrow">YOUR MUSIC, EVERYWHERE</div>
+<h1>讓你的城市音樂<br>出現在任何網站。</h1>
+<p>建立播放清單、登入後授權綁定網站，所有人共用同一組公開 API Key。播放器固定標示 CITYMUS，無須自行申請金鑰。</p>
+</div>
+<div id="notice" role="status" aria-live="polite"></div>
+<section class="panel" id="login">
+<h2>登入 CITYMUS Studio</h2>
+<p class="muted">使用 Email 驗證連結登入；首次登入可自動建立帳號。</p>
+<form id="login-form">
+<label for="email">電子郵件</label>
+<input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+<p><button class="primary" type="submit">寄送登入連結</button></p>
+</form>
+</section>
+<section id="workspace" hidden>
+<div class="row" style="margin:20px 0"><span class="muted" id="who"></span><span class="spacer"></span><button id="refresh" class="secondary">重新整理資料</button></div>
+<div class="layout">
+<div class="stack">
+<section class="panel">
+<h2>我的播放清單</h2>
+<p class="muted">選取一份播放清單編輯，或新增一份供網站嵌入。</p>
+<div id="playlists"></div>
+<p><button id="new-playlist" class="secondary">＋ 新增播放清單</button></p>
+</section>
+<section class="panel">
+<h2>我的網站授權</h2>
+<p class="muted">登入後將網站與指定播放清單綁定。共用 API Key 不提供管理權限，每個網站可獨立撤銷授權。</p>
+<div id="keys"></div>
+</section>
+</div>
+<div class="stack">
+<section class="panel">
+<h2 id="playlist-heading">建立播放清單</h2>
+<form id="playlist-form">
+<label for="playlist-name">播放清單名稱</label>
+<input id="playlist-name" maxlength="90" placeholder="臺北深夜散步" required>
+<label for="playlist-description">介紹</label>
+<input id="playlist-description" maxlength="400" placeholder="城市音樂的日常片刻">
+<label for="playlist-tracks">音軌（一行一首）</label>
+<textarea id="playlist-tracks" spellcheck="false" placeholder="歌曲名稱 | 藝人 | https://example.com/song.mp3&#10;另一首歌 | 藝人 | https://example.com/song2.ogg"></textarea>
+<p class="muted">音檔必須是公開 HTTPS 直連 mp3、m4a、ogg 等格式，且須由你持有使用權或取得授權；不支援直接輸入 YouTube／Spotify 網址。每份最多 40 首。</p>
+<div class="row"><button class="primary" type="submit">儲存播放清單</button><button id="delete-playlist" class="danger" type="button" hidden>刪除清單</button></div>
+</form>
+</section>
+<section class="panel">
+<h2>綁定網站授權</h2>
+<p class="muted">所有網站使用相同的公開 API Key；每位會員最多 10 個網站授權。</p>
+<form id="key-form">
+<label for="key-name">授權名稱</label>
+<input id="key-name" maxlength="80" placeholder="我的部落格" required>
+<label for="key-playlist">指定播放清單</label>
+<select id="key-playlist" required></select>
+<label for="key-origins">要使用 CITYMUS 的網站網址（必填）</label>
+<textarea id="key-origins" rows="2" required style="min-height:80px" placeholder="https://example.com&#10;https://www.example.com"></textarea>
+<p class="muted">每行填入一個完整的 HTTPS 網站來源（不含路徑）。網站綁定限制瀏覽器嵌入，不能代替私密驗證；公開音樂資料可被直接讀取。</p>
+<p class="muted"><strong>必要來源聲明：</strong>使用 CITYMUS 播放器或 API 的網站，必須在播放器旁或明顯位置標示「Powered by CITYMUS」並連結至 <a href="https://easylearnfromtw.github.io/musictown/" target="_blank" rel="noopener noreferrer">CITYMUS 官方網站</a>；不得移除或遮蔽播放器中的標示，音源仍須遵守原有授權。</p>
+<label class="checkline" for="agree"><input type="checkbox" id="agree" required><span>我同意上述 CITYMUS 來源標示與音樂授權聲明。</span></label>
+<button class="primary" type="submit">同意條款並綁定網站</button>
+</form>
+<div id="issued" aria-live="polite">
+<h3>網站授權綁定完成</h3>
+<p class="muted">共用 API Key 對所有會員都相同；下方嵌入程式碼包含這個網站專用的授權綁定 ID。</p>
+<div class="mini">CITYMUS 全站共用公開 API Key</div><pre id="new-key"></pre>
+<div class="row"><button id="copy-key" class="secondary">複製金鑰</button></div>
+<label>網站嵌入程式碼</label><pre id="embed-code"></pre>
+<div class="row"><button id="copy-embed" class="secondary">複製嵌入程式碼</button></div>
+<label>讀取播放清單的 API</label><pre id="api-url"></pre>
+<div class="row"><button id="copy-api" class="secondary">複製 API 網址</button></div>
+<iframe id="preview" title="CITYMUS player preview" loading="lazy"></iframe>
+</div>
+</section>
+</div>
+</div>
+</section>
+</main>
+<footer>© CITYMUS · 第三方網站掛用時，必須明顯標示 Powered by CITYMUS 並附官方連結。</footer>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.10';
+const $ = id => document.getElementById(id);
+const login = $('login'), workspace = $('workspace'), notice = $('notice');
+let supabase, session = null, playlists = [], integrations = [], editing = null, sharedApiKey = null;
+const base = location.origin;
+function inform(message, bad=false) {
+  notice.textContent = message; notice.classList.toggle('error', bad); notice.style.display = 'block';
+}
+function clearNotice(){ notice.style.display = 'none'; }
+async function get(path, options={}) {
+  if (!session?.access_token) throw Error('請先登入');
+  const response = await fetch(base + path, {
+    ...options,
+    headers: { 'Authorization': 'Bearer ' + session.access_token,
+      'Content-Type':'application/json', ...(options.headers || {}) },
+    cache:'no-store'
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw Error(body.error || 'API 錯誤 ' + response.status);
+  return body;
+}
+async function copy(value) {
+  try { await navigator.clipboard.writeText(value); inform('已複製到剪貼簿'); }
+  catch (_) { inform('瀏覽器不允許複製，請手動選取文字', true); }
+}
+function blankEditor() {
+  editing = null; $('playlist-heading').textContent = '建立播放清單';
+  $('playlist-form').reset(); $('delete-playlist').hidden = true;
+}
+function editPlaylist(row) {
+  editing = row.id; $('playlist-heading').textContent = '編輯播放清單';
+  $('playlist-name').value = row.name;
+  $('playlist-description').value = row.description || '';
+  $('playlist-tracks').value = (row.tracks || []).map(x =>
+    [x.title, x.artist || '', x.url].join(' | ')).join('\n');
+  $('delete-playlist').hidden = false;
+  $('playlist-name').focus();
+}
+function trackLines() {
+  return $('playlist-tracks').value.split(/\r?\n/).filter(s => s.trim()).map(line => {
+    const parts = line.split('|').map(x => x.trim());
+    if (parts.length !== 3 || !parts[0] || !parts[2]) throw Error('每首音樂請使用「歌名 | 藝人 | HTTPS 音檔」格式');
+    return { title:parts[0], artist:parts[1], url:parts[2] };
+  });
+}
+function renderLists() {
+  $('playlists').replaceChildren();
+  for (const row of playlists) {
+    const item = document.createElement('div'); item.className='item';
+    const box = document.createElement('div'); box.className='grow';
+    const title = document.createElement('strong'); title.textContent=row.name;
+    const count = document.createElement('small'); count.textContent=(row.tracks || []).length + ' 首音樂';
+    const button = document.createElement('button'); button.className='secondary'; button.textContent='編輯';
+    button.addEventListener('click',()=> editPlaylist(row));
+    box.append(title,count);item.append(box,button);$('playlists').append(item);
+  }
+  if (!playlists.length) {
+    const p=document.createElement('p');p.className='muted';p.textContent='尚無播放清單。';$('playlists').append(p);
+  }
+  const select=$('key-playlist');select.replaceChildren();
+  for(const row of playlists){
+    const option=document.createElement('option');option.value=row.id;option.textContent=row.name;select.append(option);
+  }
+  $('keys').replaceChildren();
+  for(const row of integrations) {
+    const item=document.createElement('div');item.className='item';
+    const box=document.createElement('div');box.className='grow';
+    const title=document.createElement('strong');title.textContent=row.name;
+    const masked=document.createElement('small');masked.textContent='綁定網站：' + (row.allowed_domains || []).join(', ');
+    const button=document.createElement('button');button.className='danger';button.textContent='撤銷';
+    button.addEventListener('click',async()=>{
+      if(!confirm('確定撤銷這個網站授權？該網站的播放器會停止運作，但不會影響其他網站。'))return;
+      try { await get('/api/integrations?id='+encodeURIComponent(row.id),{method:'DELETE'});
+        inform('已撤銷網站授權');await reload(); } catch(e){inform(e.message,true);}
+    });
+    box.append(title,masked);item.append(box,button);$('keys').append(item);
+  }
+  if(!integrations.length){
+    const p=document.createElement('p');p.className='muted';p.textContent='尚未綁定網站。';$('keys').append(p);
+  }
+}
+async function reload() {
+  const [a,b]=await Promise.all([get('/api/playlists'),get('/api/integrations')]);
+  playlists=a.playlists || []; integrations=b.integrations || [];sharedApiKey=b.sharedApiKey || sharedApiKey;renderLists();
+  if (editing){const selected=playlists.find(x=>x.id===editing);selected ? editPlaylist(selected) : blankEditor();}
+}
+async function changeAuth() {
+  const ok=!!session?.access_token;
+  login.hidden=ok;workspace.hidden=!ok;$('logout').hidden=!ok;
+  if(ok) { $('who').textContent='會員：'+(session.user?.email || '已登入');
+    try{await reload();}catch(e){inform(e.message,true);}
+  } else {playlists=[];integrations=[];blankEditor();}
+}
+async function init() {
+  try {
+    const res=await fetch('/api/config',{cache:'no-store'});
+    const cfg=await res.json();
+    if (!res.ok) throw Error(cfg.error || '缺少 API 設定');
+    sharedApiKey=cfg.sharedApiKey;
+    supabase=createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
+    const {data,error}=await supabase.auth.getSession();
+    if(error)throw error;
+    session=data.session;await changeAuth();
+    supabase.auth.onAuthStateChange((_event,nextSession)=>{
+      session=nextSession;
+      setTimeout(()=>{changeAuth().catch(e=>inform(e.message,true));},0);
+    });
+  } catch(e) {
+    inform('會員後台尚未完成雲端設定：'+e.message+'。請先部署 Vercel 並設定 Supabase 環境變數。',true);
+    $('login-form').querySelector('button').disabled=true;
+  }
+}
+$('login-form').addEventListener('submit',async event=>{
+  event.preventDefault();clearNotice();
+  const button=event.currentTarget.querySelector('button');button.disabled=true;
+  try{
+    const {error}=await supabase.auth.signInWithOtp({
+      email:$('email').value.trim(),
+      options:{emailRedirectTo:base+'/studio/'}
+    });
+    if(error)throw error;
+    inform('驗證連結已寄出，請到 Email 收信完成登入。');
+  }catch(e){inform(e.message,true);}finally{button.disabled=false;}
+});
+$('logout').addEventListener('click',async()=>{
+  if(supabase)await supabase.auth.signOut();session=null;await changeAuth();inform('已登出');
+});
+$('refresh').addEventListener('click',()=>reload().then(()=>inform('資料已更新')).catch(e=>inform(e.message,true)));
+$('new-playlist').addEventListener('click',blankEditor);
+$('playlist-form').addEventListener('submit',async event=>{
+  event.preventDefault();clearNotice();
+  const button=event.currentTarget.querySelector('button');button.disabled=true;
+  try{
+    const payload={
+      name:$('playlist-name').value.trim(),
+      description:$('playlist-description').value.trim(),
+      tracks:trackLines()
+    };
+    const path='/api/playlists'+(editing?'?id='+encodeURIComponent(editing):'');
+    await get(path,{method:editing?'PATCH':'POST',body:JSON.stringify(payload)});
+    blankEditor();await reload();inform('播放清單已儲存');
+  }catch(e){inform(e.message,true);}finally{button.disabled=false;}
+});
+$('delete-playlist').addEventListener('click',async()=>{
+  if(!editing || !confirm('確定刪除播放清單？相關 API 金鑰也將失效。'))return;
+  try{
+    await get('/api/playlists?id='+encodeURIComponent(editing),{method:'DELETE'});
+    blankEditor();await reload();inform('播放清單已刪除');
+  }catch(e){inform(e.message,true);}
+});
+$('key-form').addEventListener('submit',async event=>{
+  event.preventDefault();clearNotice();
+  const button=event.currentTarget.querySelector('button');button.disabled=true;
+  try{
+    if(!$('key-playlist').value)throw Error('請先建立播放清單');
+    const domains=$('key-origins').value.split(/\r?\n|,/).map(x=>x.trim()).filter(Boolean);
+    if(!domains.length)throw Error('請至少填入一個 HTTPS 網站');
+    if(!$('agree').checked)throw Error('請先同意 CITYMUS 來源標示條款');
+    const result=await get('/api/integrations',{method:'POST',body:JSON.stringify({
+      name:$('key-name').value.trim(),
+      playlist_id:$('key-playlist').value,
+      allowed_domains:domains,
+      accept_attribution:true
+    })});
+    sharedApiKey=result.sharedApiKey;
+    const args='api_key='+encodeURIComponent(sharedApiKey)+'&integration='+encodeURIComponent(result.id);
+    const endpoint=base+'/api/public-playlist?'+args;
+    const embedUrl=base+'/api/embed?'+args;
+    const htmlUrl=embedUrl.replaceAll('&','&amp;');
+    const embed='<div class="citymus-music"><iframe src="'+htmlUrl+'" title="CITYMUS Music Player" width="100%" height="340" loading="lazy" style="border:0;border-radius:18px" allow="autoplay"></iframe>\n'
+      +'<a href="https://easylearnfromtw.github.io/musictown/" target="_blank" rel="noopener noreferrer">Powered by CITYMUS</a></div>';
+    $('new-key').textContent=sharedApiKey;
+    $('embed-code').textContent=embed;
+    $('api-url').textContent=endpoint;
+    $('preview').src=embedUrl;
+    $('issued').style.display='block';
+    await reload();inform('網站已授權綁定，請在掛用網站保留 CITYMUS 來源標示');
+  }catch(e){inform(e.message,true);}finally{button.disabled=false;}
+});
+$('copy-key').addEventListener('click',()=>copy(sharedApiKey || ''));
+$('copy-embed').addEventListener('click',()=>copy($('embed-code').textContent));
+$('copy-api').addEventListener('click',()=>copy($('api-url').textContent));
+init();
+</script>
+</body></html>
