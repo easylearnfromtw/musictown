@@ -37,4 +37,4 @@ jobs:
           node --check studio/embed-player.js
           node --check tests/citymus-backend.test.js
       - name: Run backend tests
-        run: node --test tests/citymus-backend.test.js
+        run: node --test tests/*.test.js
