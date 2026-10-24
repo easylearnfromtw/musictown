@@ -1,0 +1,65 @@
+name: CITYMUS Production HTTP Smoke Test
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/citymus-production-smoke.yml'
+      - 'api/**'
+      - 'lib/citymus-backend.js'
+      - 'studio/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify CITYMUS public endpoints and unauthorized access
+        shell: bash
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const base = 'https://citymus-production.vercel.app';
+          async function get(path) {
+            const r = await fetch(base + path, {
+              headers:{ 'Accept':'application/json, text/html' },
+              signal:AbortSignal.timeout(15000),
+              redirect:'follow'
+            });
+            return {status:r.status,body:await r.text(),contentType:r.headers.get('content-type')};
+          }
+          async function check() {
+            const config=await get('/api/config');
+            assert.equal(config.status,200,'/api/config status '+config.status+' '+config.body.slice(0,100));
+            const value=JSON.parse(config.body);
+            assert.equal(value.sharedApiKey,'cm_public_v1');
+            assert.equal(value.attribution.label,'Powered by CITYMUS');
+            assert.equal(value.supabaseUrl,'https://dlnejllwollwpuanhicf.supabase.co');
+            console.log('PASS config: member auth public configuration');
+
+            const studio=await get('/studio/');
+            assert.equal(studio.status,200,'/studio/ status '+studio.status);
+            assert.match(studio.body,/CITYMUS Studio/);
+            assert.match(studio.body,/Powered by CITYMUS/);
+            console.log('PASS studio: member dashboard HTML');
+
+            const privateApi=await get('/api/integrations');
+            assert.equal(privateApi.status,401,'/api/integrations should require member login');
+            console.log('PASS private API: anonymous session rejected');
+
+            const missing=await get('/api/public-playlist?api_key=cm_public_v1&integration=00000000-0000-0000-0000-000000000000');
+            assert.equal(missing.status,404,'missing integration should return 404: '+missing.status+' '+missing.body.slice(0,120));
+            console.log('PASS public API: revoked or unknown binding blocked');
+
+            const invalid=await get('/api/embed?api_key=invalid&integration=00000000-0000-0000-0000-000000000000');
+            assert.equal(invalid.status,401,'bad public identifier should return 401');
+            console.log('PASS embed: invalid identifier blocked');
+          }
+          (async()=>{
+            for(let attempt=1;attempt<=4;attempt++){
+              try{await check();return;}
+              catch(e){console.error('Attempt '+attempt+': '+e.message);if(attempt===4)throw e;await new Promise(r=>setTimeout(r,9000));}
+            }
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          NODE
