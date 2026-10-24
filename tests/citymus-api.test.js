@@ -127,3 +127,31 @@ test('Studio inline module syntax and explicit attribution confirmation are vali
   assert.match(markup,/Powered by CITYMUS/);
   assert.doesNotMatch(markup,/api\/keys\?/);
 });
+
+test('CITYMUS recovers an unused Supabase magic link without following localhost redirect', async()=>{
+  const { parseCitymusAuthRecoveryLink }=await import('../studio/auth-recovery.mjs');
+  const project='https://dlnejllwollwpuanhicf.supabase.co';
+  const token='a'.repeat(64);
+  assert.deepEqual(parseCitymusAuthRecoveryLink(
+    project+'/auth/v1/verify?token='+token+'&type=magiclink&redirect_to=http%3A%2F%2Flocalhost%3A3000',project),
+  { method:'verify', token_hash:token, type:'magiclink' });
+  assert.deepEqual(parseCitymusAuthRecoveryLink(
+    project+'/auth/v1/verify?token_hash='+token+'&type=email',project),
+  { method:'verify', token_hash:token, type:'email' });
+  assert.throws(()=>parseCitymusAuthRecoveryLink(
+    'https://fake.example/auth/v1/verify?token='+token+'&type=magiclink',project));
+  assert.throws(()=>parseCitymusAuthRecoveryLink(
+    'javascript:alert(1)',project));
+  assert.throws(()=>parseCitymusAuthRecoveryLink(
+    project+'/auth/v1/verify?token='+token+'&type=recovery',project));
+});
+test('CITYMUS recovers existing redirected browser session tokens, but rejects incomplete localhost URL',async()=>{
+  const { parseCitymusAuthRecoveryLink }=await import('../studio/auth-recovery.mjs');
+  const origin='https://dlnejllwollwpuanhicf.supabase.co';
+  const link='http://localhost:3000/#access_token=ey.abc.def&refresh_token=opaque-refresh';
+  assert.deepEqual(parseCitymusAuthRecoveryLink(link,origin),{
+    method:'session',access_token:'ey.abc.def',refresh_token:'opaque-refresh'
+  });
+  assert.throws(()=>parseCitymusAuthRecoveryLink('http://localhost:3000/',origin));
+  assert.throws(()=>parseCitymusAuthRecoveryLink('http://other.example:3000/#access_token=ey.abc.def&refresh_token=x',origin));
+});
