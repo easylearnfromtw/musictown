@@ -26,7 +26,7 @@ textarea{min-height:140px;resize:vertical;line-height:1.8;font-size:13px}
 button.primary{border:0;border-radius:12px;padding:12px 18px;background:#242e53;color:#fff;font-weight:750}
 button.secondary{border:1px solid #dee3ef;background:#fff;border-radius:11px;color:#465273;padding:10px 14px;font-weight:650}
 button.danger{border:1px solid #f1cdd2;background:#fff9f9;color:#a94656;border-radius:10px;padding:8px 11px}
-button:disabled{opacity:.5;cursor:not-allowed}.checkline{display:flex;gap:10px;align-items:flex-start;font-weight:500;line-height:1.6;color:#43506d}.checkline input{width:auto;margin:4px 0 0;flex:0 0 auto}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+button:disabled{opacity:.5;cursor:not-allowed}.recover{margin-top:22px;border-top:1px solid #e6eaf3;padding-top:19px}.recover summary{font-weight:700;font-size:14px;cursor:pointer;color:#384b80}.recover p{margin:12px 0;color:#717d99;line-height:1.75;font-size:12px}.recover input{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px}.checkline{display:flex;gap:10px;align-items:flex-start;font-weight:500;line-height:1.6;color:#43506d}.checkline input{width:auto;margin:4px 0 0;flex:0 0 auto}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .spacer{flex:1}.layout{display:grid;grid-template-columns:minmax(280px,.88fr) minmax(0,1.12fr);gap:20px}
 .stack{display:grid;gap:20px}.item{border:1px solid #e6eaf3;padding:13px 14px;border-radius:14px;margin-top:9px;display:flex;align-items:center;gap:10px}
 .item strong{font-size:14px;display:block;overflow-wrap:anywhere}.item small{display:block;color:#8b94a9;margin-top:4px}
@@ -58,6 +58,16 @@ footer{max-width:1120px;margin:auto;padding:0 22px 50px;color:#9ba2b3;font-size:
 <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
 <p><button class="primary" type="submit">寄送登入連結</button></p>
 </form>
+<details class="recover" open>
+<summary>驗證信打開後跑到 localhost:3000？在這裡完成登入</summary>
+<p>從 Gmail <strong>長按驗證信中的登入按鈕 → 複製連結</strong>，不要直接點開。若已跳到 localhost，也可以複製該頁完整網址（須包含 # 後的登入資訊）。將網址貼在下方，只會在此頁面送往 Supabase 驗證；請勿傳給其他人。</p>
+<form id="recover-form">
+<label for="recover-link">驗證信連結或 localhost 完整網址</label>
+<input id="recover-link" type="password" autocomplete="off" spellcheck="false" placeholder="貼上網址，登入資訊會隱藏" required>
+<p><button class="secondary" id="recover-button" type="submit" disabled>使用驗證連結完成登入</button></p>
+</form>
+<p>若複製的 localhost 網址不含登入資訊，請重新寄送驗證信，這次先長按複製連結。驗證連結只能使用一次。</p>
+</details>
 </section>
 <section id="workspace" hidden>
 <div class="row" style="margin:20px 0"><span class="muted" id="who"></span><span class="spacer"></span><button id="refresh" class="secondary">重新整理資料</button></div>
@@ -123,6 +133,7 @@ footer{max-width:1120px;margin:auto;padding:0 22px 50px;color:#9ba2b3;font-size:
 <footer>© CITYMUS · 第三方網站掛用時，必須明顯標示 Powered by CITYMUS 並附官方連結。</footer>
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.10';
+import { parseCitymusAuthRecoveryLink } from './auth-recovery.mjs';
 const $ = id => document.getElementById(id);
 const login = $('login'), workspace = $('workspace'), notice = $('notice');
 let supabase, session = null, playlists = [], integrations = [], editing = null, sharedApiKey = null;
@@ -222,6 +233,7 @@ async function init() {
     if (!res.ok) throw Error(cfg.error || '缺少 API 設定');
     sharedApiKey=cfg.sharedApiKey;
     supabase=createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
+    $('recover-button').disabled = false;
     const {data,error}=await supabase.auth.getSession();
     if(error)throw error;
     session=data.session;await changeAuth();
@@ -245,6 +257,35 @@ $('login-form').addEventListener('submit',async event=>{
     if(error)throw error;
     inform('驗證連結已寄出，請到 Email 收信完成登入。');
   }catch(e){inform(e.message,true);}finally{button.disabled=false;}
+});
+$('recover-form').addEventListener('submit',async event=>{
+  event.preventDefault();clearNotice();
+  const input=$('recover-link'), button=$('recover-button');
+  button.disabled=true;
+  try{
+    const recovery=parseCitymusAuthRecoveryLink(input.value,supabase.supabaseUrl);
+    input.value='';
+    let data,error;
+    if(recovery.method==='session'){
+      ({data,error}=await supabase.auth.setSession({
+        access_token:recovery.access_token,
+        refresh_token:recovery.refresh_token
+      }));
+    }else{
+      ({data,error}=await supabase.auth.verifyOtp({
+        token_hash:recovery.token_hash,
+        type:recovery.type
+      }));
+    }
+    if(error)throw error;
+    session=data.session || (await supabase.auth.getSession()).data.session;
+    if(!session)throw Error('驗證成功但無法建立登入狀態，請重新寄送登入信');
+    await changeAuth();
+    inform('已成功登入 CITYMUS Studio');
+  }catch(e){
+    input.value='';
+    inform('登入連結無法使用：'+e.message+'。請重新寄送登入信，並長按複製連結。',true);
+  }finally{button.disabled=false;}
 });
 $('logout').addEventListener('click',async()=>{
   if(supabase)await supabase.auth.signOut();session=null;await changeAuth();inform('已登出');
