@@ -4,6 +4,10 @@
     "api/audio.js": {
       "includeFiles": "data/legal_music_library.json",
       "maxDuration": 60
+    },
+    "api/search.js": {
+      "includeFiles": "data/legal_music_library.json",
+      "maxDuration": 15
     }
   }
 }
