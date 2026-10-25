@@ -181,3 +181,16 @@ test('recovery accepts official redirected session but rejects credential-less c
   assert.throws(()=>parseCitymusAuthRecoveryLink('https://citymus-production.vercel.app/studio/',supa),/不是驗證信/);
   assert.throws(()=>parseCitymusAuthRecoveryLink('http://localhost:3000/',supa),/沒有登入資訊/);
 });
+
+test('CITYMUS Studio signs in with front-end 6-digit Email OTP and exposes shared API identifier',()=>{
+  const markup=fs.readFileSync(path.join(__dirname,'../studio/index.html'),'utf8');
+  assert.match(markup,/id="otp-form" hidden/);
+  assert.match(markup,/id="otp" type="text" inputmode="numeric" autocomplete="one-time-code"/);
+  assert.match(markup,/pattern="\[0-9\]\{6\}"/);
+  assert.match(markup,/supabase\.auth\.signInWithOtp\(\{email\}\)/);
+  assert.match(markup,/supabase\.auth\.verifyOtp\(\{ email, token, type:'email' \}\)/);
+  assert.match(markup,/id="shared-key-display">cm_public_v1/);
+  assert.match(markup,/id="copy-shared-key"/);
+  assert.doesNotMatch(markup,/id="recover-form"/);
+  assert.doesNotMatch(markup,/emailRedirectTo:base/);
+});

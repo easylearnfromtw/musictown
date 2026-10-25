@@ -52,26 +52,28 @@ footer{max-width:1120px;margin:auto;padding:0 22px 50px;color:#9ba2b3;font-size:
 <div id="notice" role="status" aria-live="polite"></div>
 <section class="panel" id="login">
 <h2>登入 CITYMUS Studio</h2>
-<p class="muted">使用 Email 驗證連結登入；首次登入可自動建立帳號。</p>
+<p class="muted">輸入 Email，直接在這個畫面輸入六位數驗證碼，即可登入並取得 CITYMUS 網站授權。無須開啟驗證連結。</p>
 <form id="login-form">
 <label for="email">電子郵件</label>
 <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-<p><button class="primary" type="submit">寄送登入連結</button></p>
+<p><button class="primary" type="submit" id="send-otp">寄送六位數驗證碼</button></p>
 </form>
-<details class="recover" open>
-<summary>驗證信打開後跑到 localhost:3000？在這裡完成登入</summary>
-<p>從 Gmail 或其他 Email App <strong>長按信中的「登入」按鈕 → 複製連結</strong>，不要先點開。新版也能辨識 Gmail、Google、Outlook 常見的轉址包裝。網址只在本頁解析並交由 Supabase 驗證，不會交給 CITYMUS 伺服器儲存。</p>
-<form id="recover-form">
-<label for="recover-link">驗證信連結或 localhost 完整網址</label>
-<input id="recover-link" type="password" autocomplete="off" spellcheck="false" placeholder="貼上網址，登入資訊會隱藏" required>
-<p><button class="secondary" id="recover-button" type="submit" disabled>使用驗證連結完成登入</button></p>
+<form id="otp-form" hidden>
+<p class="muted">驗證碼已寄送到 <strong id="otp-email"></strong>。請查看新收到的信件，在下方輸入六位數字。</p>
+<label for="otp">Email 六位數驗證碼</label>
+<input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" enterkeyhint="done" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required>
+<p><button class="primary" type="submit">驗證並登入</button></p>
+<div class="row"><button id="otp-resend" type="button" class="secondary">重新寄送驗證碼</button><button id="otp-edit" type="button" class="secondary">更換 Email</button></div>
 </form>
-<p>若你貼的是 Gmail「信件頁面」或已經開過的舊連結，就無法登入。請重新寄送一封信，再長按<strong>信件內的登入按鈕</strong>複製連結。正式的一鍵登入仍需 Supabase 管理員修正 Site URL 與 Redirect URLs。</p>
-<p><a href="https://supabase.com/dashboard/project/dlnejllwollwpuanhicf/auth/url-configuration" target="_blank" rel="noopener noreferrer">修正管理員回跳網址設定 ↗</a></p>
-</details>
+<p class="muted" style="margin-top:14px">驗證成功後即可在此建立播放清單、綁定網站並複製全站共用 API Key。請勿將驗證碼交給其他人。</p>
 </section>
 <section id="workspace" hidden>
 <div class="row" style="margin:20px 0"><span class="muted" id="who"></span><span class="spacer"></span><button id="refresh" class="secondary">重新整理資料</button></div>
+<section class="panel" style="margin-bottom:20px">
+<h2>全站共用 API Key</h2>
+<p class="muted">每位會員使用相同的公開識別碼。真正的網站授權需要先選擇播放清單、綁定 HTTPS 網域，系統會另外產生網站專用授權 ID。</p>
+<div class="row"><code id="shared-key-display">cm_public_v1</code><button id="copy-shared-key" type="button" class="secondary">複製 API Key</button></div>
+</section>
 <div class="layout">
 <div class="stack">
 <section class="panel">
@@ -134,10 +136,10 @@ footer{max-width:1120px;margin:auto;padding:0 22px 50px;color:#9ba2b3;font-size:
 <footer>© CITYMUS · 第三方網站掛用時，必須明顯標示 Powered by CITYMUS 並附官方連結。</footer>
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.10';
-import { parseCitymusAuthRecoveryLink } from './auth-recovery.mjs';
 const $ = id => document.getElementById(id);
 const login = $('login'), workspace = $('workspace'), notice = $('notice');
 let supabase, session = null, playlists = [], integrations = [], editing = null, sharedApiKey = null;
+let pendingEmail = '', lastEmailSent = 0;
 const base = location.origin;
 function inform(message, bad=false) {
   notice.textContent = message; notice.classList.toggle('error', bad); notice.style.display = 'block';
@@ -217,7 +219,8 @@ function renderLists() {
 }
 async function reload() {
   const [a,b]=await Promise.all([get('/api/playlists'),get('/api/integrations')]);
-  playlists=a.playlists || []; integrations=b.integrations || [];sharedApiKey=b.sharedApiKey || sharedApiKey;renderLists();
+  playlists=a.playlists || []; integrations=b.integrations || [];sharedApiKey=b.sharedApiKey || sharedApiKey;
+  $('shared-key-display').textContent=sharedApiKey || 'cm_public_v1';renderLists();
   if (editing){const selected=playlists.find(x=>x.id===editing);selected ? editPlaylist(selected) : blankEditor();}
 }
 async function changeAuth() {
@@ -233,8 +236,8 @@ async function init() {
     const cfg=await res.json();
     if (!res.ok) throw Error(cfg.error || '缺少 API 設定');
     sharedApiKey=cfg.sharedApiKey;
+    $('shared-key-display').textContent=sharedApiKey || 'cm_public_v1';
     supabase=createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
-    $('recover-button').disabled = false;
     const {data,error}=await supabase.auth.getSession();
     if(error)throw error;
     session=data.session;await changeAuth();
@@ -247,47 +250,69 @@ async function init() {
     $('login-form').querySelector('button').disabled=true;
   }
 }
+function friendlyAuthError(error) {
+  const msg=String(error?.message || error || '驗證失敗');
+  if (error?.status===429 || /rate.limit|too many|email rate/i.test(msg))
+    return '寄送過於頻繁，請稍後再試。';
+  if (/otp_expired|expired|invalid|token/i.test(msg))
+    return '驗證碼不正確或已過期。請確認最新的六位數驗證碼，必要時重新寄送。';
+  return msg;
+}
+async function sendEmailCode(email) {
+  if(!supabase)throw Error('登入服務尚未載入');
+  const now=Date.now();
+  if(lastEmailSent && now-lastEmailSent<60000)
+    throw Error('請等待至少 60 秒再重新寄送驗證碼。');
+  const {error}=await supabase.auth.signInWithOtp({email});
+  if(error)throw error;
+  lastEmailSent=now;
+  pendingEmail=email;
+  $('otp-email').textContent=email;
+  $('otp-form').hidden=false;
+  $('otp').value='';
+  $('otp').focus();
+  inform('驗證碼已寄送，請在這個頁面輸入 Email 中的六位數字。');
+}
 $('login-form').addEventListener('submit',async event=>{
   event.preventDefault();clearNotice();
-  const button=event.currentTarget.querySelector('button');button.disabled=true;
-  try{
-    const {error}=await supabase.auth.signInWithOtp({
-      email:$('email').value.trim(),
-      options:{emailRedirectTo:base+'/studio/'}
-    });
-    if(error)throw error;
-    inform('驗證連結已寄出，請到 Email 收信完成登入。');
-  }catch(e){inform(e.message,true);}finally{button.disabled=false;}
+  const button=$('send-otp');button.disabled=true;
+  try {
+    const email=$('email').value.trim().toLowerCase();
+    if(!email || !$('email').checkValidity())throw Error('請輸入有效的電子郵件');
+    await sendEmailCode(email);
+  }catch(e){inform(friendlyAuthError(e),true);}finally{button.disabled=false;}
 });
-$('recover-form').addEventListener('submit',async event=>{
+$('otp-form').addEventListener('submit',async event=>{
   event.preventDefault();clearNotice();
-  const input=$('recover-link'), button=$('recover-button');
+  const button=event.currentTarget.querySelector('button[type="submit"]');
   button.disabled=true;
-  try{
-    const recovery=parseCitymusAuthRecoveryLink(input.value,supabase.supabaseUrl);
-    input.value='';
-    let data,error;
-    if(recovery.method==='session'){
-      ({data,error}=await supabase.auth.setSession({
-        access_token:recovery.access_token,
-        refresh_token:recovery.refresh_token
-      }));
-    }else{
-      ({data,error}=await supabase.auth.verifyOtp({
-        token_hash:recovery.token_hash,
-        type:recovery.type
-      }));
-    }
+  try {
+    const email=pendingEmail, token=$('otp').value.trim();
+    if(!email || !/^[0-9]{6}$/.test(token))throw Error('請輸入 Email 中的六位數驗證碼');
+    const {data,error}=await supabase.auth.verifyOtp({ email, token, type:'email' });
     if(error)throw error;
-    session=data.session || (await supabase.auth.getSession()).data.session;
-    if(!session)throw Error('驗證成功但無法建立登入狀態，請重新寄送登入信');
+    session=data?.session || (await supabase.auth.getSession()).data.session;
+    if(!session)throw Error('驗證完成但無法建立登入狀態，請重新驗證');
+    $('otp').value='';
+    pendingEmail='';
+    $('otp-form').hidden=true;
     await changeAuth();
-    inform('已成功登入 CITYMUS Studio');
-  }catch(e){
-    input.value='';
-    inform('登入連結無法使用：'+e.message,true);
-  }finally{button.disabled=false;}
+    inform('驗證成功，已登入 CITYMUS Studio。你現在可以綁定網站並取得 API。');
+  }catch(e){inform(friendlyAuthError(e),true);}finally{button.disabled=false;}
 });
+$('otp-resend').addEventListener('click',async()=>{
+  clearNotice();
+  const button=$('otp-resend');button.disabled=true;
+  try {
+    if(!pendingEmail)throw Error('請先填寫 Email');
+    await sendEmailCode(pendingEmail);
+  }catch(e){inform(friendlyAuthError(e),true);}finally{button.disabled=false;}
+});
+$('otp-edit').addEventListener('click',()=>{
+  pendingEmail='';lastEmailSent=0;$('otp').value='';
+  $('otp-form').hidden=true;$('email').focus();clearNotice();
+});
+$('copy-shared-key').addEventListener('click',()=>copy(sharedApiKey || 'cm_public_v1'));
 $('logout').addEventListener('click',async()=>{
   if(supabase)await supabase.auth.signOut();session=null;await changeAuth();inform('已登出');
 });
