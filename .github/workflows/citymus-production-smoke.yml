@@ -55,6 +55,22 @@ jobs:
             const invalid=await get('/api/embed?api_key=invalid&integration=00000000-0000-0000-0000-000000000000');
             assert.equal(invalid.status,401,'bad public identifier should return 401');
             console.log('PASS embed: invalid identifier blocked');
+
+            const music=await get('/api/search?q=jazz&limit=6');
+            assert.equal(music.status,200,'CITYMUS search failed: '+music.status+' '+music.body.slice(0,120));
+            const catalog=JSON.parse(music.body);
+            assert.ok(catalog.total>=2500,'licensed catalog unexpectedly small');
+            assert.equal(catalog.attribution.label,'Powered by CITYMUS');
+            assert.ok(Array.isArray(catalog.tracks));
+            assert.ok(catalog.tracks.length>0,'expected jazz results');
+            assert.ok(catalog.tracks.every(t=>t.title&&t.artist&&t.provider==='CITYMUS'));
+            console.log('PASS music: live catalog search, artist attribution and real tracks');
+
+            const none=await get('/api/search?q=definitely_nonexistent_song_zzzz987654321');
+            assert.equal(none.status,200,'no-match query should be successful');
+            assert.equal(JSON.parse(none.body).tracks.length,0,'no invented tracks for a specific miss');
+            console.log('PASS music: no invented unmatched tracks');
+
           }
           (async()=>{
             for(let attempt=1;attempt<=4;attempt++){
