@@ -155,3 +155,29 @@ test('CITYMUS recovers existing redirected browser session tokens, but rejects i
   assert.throws(()=>parseCitymusAuthRecoveryLink('http://localhost:3000/',origin));
   assert.throws(()=>parseCitymusAuthRecoveryLink('http://other.example:3000/#access_token=ey.abc.def&refresh_token=x',origin));
 });
+
+test('recovery parses Google email wrapper without fetching or revealing login tokens', async () => {
+  const { parseCitymusAuthRecoveryLink }=await import('../studio/auth-recovery.mjs');
+  const supa='https://dlnejllwollwpuanhicf.supabase.co';
+  const token='b'.repeat(64);
+  const direct=supa+'/auth/v1/verify?token='+token+'&type=magiclink&redirect_to=http%3A%2F%2Flocalhost%3A3000';
+  const google='https://www.google.com/url?q='+encodeURIComponent(direct)+'&sa=D';
+  const outlook='https://nam01.safelinks.protection.outlook.com/?url='+encodeURIComponent(direct)+'&data=xyz';
+  const nested='https://example.org/click?u='+encodeURIComponent(google);
+  for(const input of [direct,google,outlook,nested,'<'+direct.replaceAll('&','&amp;')+'>']){
+    assert.deepEqual(parseCitymusAuthRecoveryLink(input,supa),{
+      method:'verify',token_hash:token,type:'magiclink'
+    });
+  }
+  assert.throws(()=>parseCitymusAuthRecoveryLink('https://mail.google.com/mail/u/0/#inbox/123',supa),/信件頁面/);
+  assert.throws(()=>parseCitymusAuthRecoveryLink('https://example.org/evil?link=https%3A%2F%2Fevil.example%2Fverify',supa),/不是 CITYMUS 驗證連結/);
+});
+test('recovery accepts official redirected session but rejects credential-less callbacks', async () => {
+  const {parseCitymusAuthRecoveryLink}=await import('../studio/auth-recovery.mjs');
+  const supa='https://dlnejllwollwpuanhicf.supabase.co';
+  assert.deepEqual(parseCitymusAuthRecoveryLink('https://citymus-production.vercel.app/studio/#access_token=ey.abc.def&refresh_token=xyz',supa),{
+    method:'session',access_token:'ey.abc.def',refresh_token:'xyz'
+  });
+  assert.throws(()=>parseCitymusAuthRecoveryLink('https://citymus-production.vercel.app/studio/',supa),/不是驗證信/);
+  assert.throws(()=>parseCitymusAuthRecoveryLink('http://localhost:3000/',supa),/沒有登入資訊/);
+});

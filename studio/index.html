@@ -60,13 +60,14 @@ footer{max-width:1120px;margin:auto;padding:0 22px 50px;color:#9ba2b3;font-size:
 </form>
 <details class="recover" open>
 <summary>驗證信打開後跑到 localhost:3000？在這裡完成登入</summary>
-<p>從 Gmail <strong>長按驗證信中的登入按鈕 → 複製連結</strong>，不要直接點開。若已跳到 localhost，也可以複製該頁完整網址（須包含 # 後的登入資訊）。將網址貼在下方，只會在此頁面送往 Supabase 驗證；請勿傳給其他人。</p>
+<p>從 Gmail 或其他 Email App <strong>長按信中的「登入」按鈕 → 複製連結</strong>，不要先點開。新版也能辨識 Gmail、Google、Outlook 常見的轉址包裝。網址只在本頁解析並交由 Supabase 驗證，不會交給 CITYMUS 伺服器儲存。</p>
 <form id="recover-form">
 <label for="recover-link">驗證信連結或 localhost 完整網址</label>
 <input id="recover-link" type="password" autocomplete="off" spellcheck="false" placeholder="貼上網址，登入資訊會隱藏" required>
 <p><button class="secondary" id="recover-button" type="submit" disabled>使用驗證連結完成登入</button></p>
 </form>
-<p>若複製的 localhost 網址不含登入資訊，請重新寄送驗證信，這次先長按複製連結。驗證連結只能使用一次。</p>
+<p>若你貼的是 Gmail「信件頁面」或已經開過的舊連結，就無法登入。請重新寄送一封信，再長按<strong>信件內的登入按鈕</strong>複製連結。正式的一鍵登入仍需 Supabase 管理員修正 Site URL 與 Redirect URLs。</p>
+<p><a href="https://supabase.com/dashboard/project/dlnejllwollwpuanhicf/auth/url-configuration" target="_blank" rel="noopener noreferrer">修正管理員回跳網址設定 ↗</a></p>
 </details>
 </section>
 <section id="workspace" hidden>
@@ -284,7 +285,7 @@ $('recover-form').addEventListener('submit',async event=>{
     inform('已成功登入 CITYMUS Studio');
   }catch(e){
     input.value='';
-    inform('登入連結無法使用：'+e.message+'。請重新寄送登入信，並長按複製連結。',true);
+    inform('登入連結無法使用：'+e.message,true);
   }finally{button.disabled=false;}
 });
 $('logout').addEventListener('click',async()=>{
